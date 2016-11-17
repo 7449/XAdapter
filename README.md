@@ -8,6 +8,9 @@ Support for the pull-down refresh loading and the addition of multiple header an
 
 [https://github.com/7449/XAdapter/blob/master/xadapter.gif](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
 
+
+[中文文档](https://github.com/7449/XAdapter/blob/master/README-zh.md)
+
 ###gradle
 
 >compile 'com.xadapter:xadapter:0.0.1'
