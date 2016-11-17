@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_height"
+        android:paddingTop="@dimen/header_paddingTop"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/refresh_status_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/listview_header_hint_normal"
+            tools:ignore="RelativeOverlap" />
+
+
+        <ImageView
+            android:id="@+id/listview_header_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/header_iv_marginRight"
+            android:layout_toLeftOf="@id/refresh_status_textview"
+            android:src="@drawable/ic_pull_refresh_arrow"
+            tools:ignore="ContentDescription,RtlHardcoded" />
+
+        <com.xadapter.widget.SimpleViewSwitcher
+            android:id="@+id/listview_header_progressbar"
+            android:layout_width="@dimen/header_switch"
+            android:layout_height="@dimen/header_switch"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/header_iv_marginRight"
+            android:layout_toLeftOf="@id/refresh_status_textview"
+            android:visibility="invisible"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+
+</LinearLayout>

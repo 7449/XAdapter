@@ -1,0 +1,7 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="image_detail_margin">6dp</dimen>
+    <dimen name="image_list_padding">5dp</dimen>
+    <dimen name="news_image_width">100dp</dimen>
+    <dimen name="news_image_height">100dp</dimen>
+</resources>
