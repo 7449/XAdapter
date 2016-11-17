@@ -12,6 +12,48 @@
 
 >compile 'com.xadapter:xadapter:0.0.1'
 
+##完整示例
+
+
+        recyclerView.setAdapter(
+                xRecyclerViewAdapter
+                        .initXData(mainBeen)
+                        .addRecyclerView(recyclerView)
+                        .setLayoutId(R.layout.item)
+                        .setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader)
+                        .setLoadingMoreProgressStyle(ProgressStyle.BallRotate)
+                        .setImageView(R.drawable.iconfont_downgrey)
+                        .setHeaderBackgroundColor(R.color.colorBlack)
+                        .setFooterBackgroundColor(R.color.colorBlack)
+                        .setHeaderTextColor(R.color.textColor)
+                        .setFooterTextColor(R.color.textColor)
+                        .setPullRefreshEnabled(true)
+                        .setLoadingMoreEnabled(true)
+                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_2, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_3, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_2, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_3, (ViewGroup) findViewById(android.R.id.content), false))
+                        .onXBind(this)
+                        .setOnLongClickListener(this)
+                        .setOnItemClickListener(this)
+                        .setLoadingListener(this)
+                        .setFooterListener(this)
+                        .setRefreshing(true)
+        );
+
+onXBind  
+这里进行数据的展示
+
+    @Override
+    public void onXBind(XViewHolder holder, int position, MainBean mainBean) {
+        holder.setTextView(R.id.tv_name, mainBean.getName());
+        holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
+    }
+
+
+
 ##下拉刷新和上拉加载
 
 默认不打开，如果有必要，请手动打开，并调用addRecyclerView

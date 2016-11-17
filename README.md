@@ -2,6 +2,8 @@
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
 
 
+
+
 #Screenshots
 
 ![](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
@@ -14,6 +16,46 @@ Support for the pull-down refresh loading and the addition of multiple header an
 ###gradle
 
 >compile 'com.xadapter:xadapter:0.0.1'
+
+##Full example
+
+        recyclerView.setAdapter(
+                xRecyclerViewAdapter
+                        .initXData(mainBeen)
+                        .addRecyclerView(recyclerView)
+                        .setLayoutId(R.layout.item)
+                        .setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader)
+                        .setLoadingMoreProgressStyle(ProgressStyle.BallRotate)
+                        .setImageView(R.drawable.iconfont_downgrey)
+                        .setHeaderBackgroundColor(R.color.colorBlack)
+                        .setFooterBackgroundColor(R.color.colorBlack)
+                        .setHeaderTextColor(R.color.textColor)
+                        .setFooterTextColor(R.color.textColor)
+                        .setPullRefreshEnabled(true)
+                        .setLoadingMoreEnabled(true)
+                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_2, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_3, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_2, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_3, (ViewGroup) findViewById(android.R.id.content), false))
+                        .onXBind(this)
+                        .setOnLongClickListener(this)
+                        .setOnItemClickListener(this)
+                        .setLoadingListener(this)
+                        .setFooterListener(this)
+                        .setRefreshing(true)
+        );
+
+onXBind  
+Achieve data display
+
+    @Override
+    public void onXBind(XViewHolder holder, int position, MainBean mainBean) {
+        holder.setTextView(R.id.tv_name, mainBean.getName());
+        holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
+    }
+
 
 ##pull to refresh and load more
 
