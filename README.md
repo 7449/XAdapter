@@ -2,6 +2,9 @@
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
 
 
+Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/Android_XAdapter/)
+
+
 
 
 #Screenshots
