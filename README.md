@@ -15,7 +15,13 @@ Support for the pull-down refresh loading and the addition of multiple header an
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.1'
+>compile 'com.xadapter:xadapter:0.0.2'
+
+###Update log
+
+	0.0.2 : add xAdapter.setEmptyView(View view);
+	
+	0.0.1 : Basic functions
 
 ##Full example
 
@@ -56,6 +62,25 @@ Achieve data display
         holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
     }
 
+##emptyView
+
+>setEmptyView must be called before addRecyclerView, otherwise invalid, please see simple
+	
+	 recyclerView.setAdapter(
+	                xRecyclerViewAdapter
+	                        .initXData(mainBean)
+	                        .setEmptyView(findViewById(R.id.emptyView))
+	                        .addRecyclerView(recyclerView)
+	                        .setLayoutId(R.layout.item)
+	                        .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
+	                            @Override
+	                            public void onXEmptyViewClick(View view) {
+	                                Toast.makeText(EmptyViewActivity.this, "emptyView", Toast.LENGTH_SHORT).show();
+	                            }
+	                        })
+	        );
+
+Click events can write their own, but it is recommended to use XRecyclerViewAdapter onXEmptyViewListener
 
 ##pull to refresh and load more
 

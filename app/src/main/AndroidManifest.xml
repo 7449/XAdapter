@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xadaptersimple">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -21,6 +22,7 @@
         <activity android:name=".StaggeredGridLayoutManagerActivity" />
         <activity android:name=".NetWorkActivity" />
         <activity android:name=".CollapsingToolbarLayoutActivity" />
+        <activity android:name=".EmptyViewActivity" />
     </application>
 
 </manifest>

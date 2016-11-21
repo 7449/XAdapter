@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.GridLayout).setOnClickListener(this);
         findViewById(R.id.StaggeredGridLayout).setOnClickListener(this);
         findViewById(R.id.collapsingToolbar).setOnClickListener(this);
+        findViewById(R.id.emptyView).setOnClickListener(this);
     }
 
     @Override
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.collapsingToolbar:
                 startActivity(CollapsingToolbarLayoutActivity.class);
+                break;
+            case R.id.emptyView:
+                startActivity(EmptyViewActivity.class);
                 break;
         }
     }

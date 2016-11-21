@@ -1,6 +1,8 @@
 package com.xadapter.adapter;
 
 import android.annotation.SuppressLint;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.xadapter.holder.XViewHolder;
@@ -35,11 +37,42 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
         return this;
     }
 
+    /**
+     * @param recyclerView this is recyclerView
+     */
+    public XRecyclerViewAdapter<T> addRecyclerView(RecyclerView recyclerView) {
+        linkRecyclerView(recyclerView);
+        updateEmptyStatus(isShowEmptyView());
+        return this;
+    }
+
+    /**
+     * Sets the view to show if the adapter is empty
+     * Called after addRecyclerView
+     *
+     * @param view this is emptyView
+     */
+    public XRecyclerViewAdapter<T> setEmptyView(View view) {
+        mEmptyView = view;
+        if (view != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnEmptyViewListener != null) {
+                        mOnEmptyViewListener.onXEmptyViewClick(view);
+                    }
+                }
+            });
+        }
+        return this;
+    }
+
     public void addAllData(List<T> mDatas) {
         if (isDataEmpty()) {
             this.mDatas.addAll(mDatas);
             notifyDataSetChanged();
         }
+        updateEmptyStatus(isShowEmptyView());
     }
 
     public void addData(T mData) {
@@ -47,6 +80,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             this.mDatas.add(mData);
             notifyDataSetChanged();
         }
+        updateEmptyStatus(isShowEmptyView());
     }
 
     public void remove(int position) {
@@ -54,6 +88,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             mDatas.remove(position);
             notifyDataSetChanged();
         }
+        updateEmptyStatus(isShowEmptyView());
     }
 
     public void removeAll() {
@@ -135,6 +170,11 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             tempPosition = 0;
         }
         return mDatas.size() + tempPosition;
+    }
+
+
+    private boolean isShowEmptyView() {
+        return mDatas == null || mDatas.isEmpty();
     }
 
     /**

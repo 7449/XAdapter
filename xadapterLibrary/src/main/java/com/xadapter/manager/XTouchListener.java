@@ -47,7 +47,7 @@ public class XTouchListener implements View.OnTouchListener {
                 rawY = motionEvent.getRawY();
                 if (isTop() && isRefreshHeader && state == AppBarStateChangeListener.State.EXPANDED) {
                     mRefreshHeaderLayout.onMove(deltaY / DAMP);
-                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < BaseRefreshHeader.STATE_REFRESHING) {
+                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < BaseRefreshHeader.STATE_DONE) {
                         return true;
                     }
                 }

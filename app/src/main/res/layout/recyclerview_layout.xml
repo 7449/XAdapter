@@ -9,6 +9,7 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:id="@+id/emptyView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"

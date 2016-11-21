@@ -36,8 +36,8 @@ public class StaggeredGridLayoutManagerActivity extends AppCompatActivity {
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBeen)
-                        .setLayoutId(R.layout.item)
                         .addRecyclerView(recyclerView)
+                        .setLayoutId(R.layout.item)
                         .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
                         .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
                         .onXBind(new XBaseAdapter.OnXBindListener<MainBean>() {

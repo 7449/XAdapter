@@ -10,7 +10,13 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.1'
+>compile 'com.xadapter:xadapter:0.0.2'
+
+###更新日志
+
+	0.0.2 : XAdapter 添加setEmptyView功能。
+	
+	0.0.1 : 添加完整示例以及项目
 
 ##完整示例
 
@@ -52,7 +58,25 @@ onXBind
         holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
     }
 
+##emptyView
 
+>setEmptyView一定要在addRecyclerView之前调用，否则无效，具体的内容可以看simple以及源码
+
+	 recyclerView.setAdapter(
+	                xRecyclerViewAdapter
+	                        .initXData(mainBean)
+	                        .setEmptyView(findViewById(R.id.emptyView))
+	                        .addRecyclerView(recyclerView)
+	                        .setLayoutId(R.layout.item)
+	                        .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
+	                            @Override
+	                            public void onXEmptyViewClick(View view) {
+	                                Toast.makeText(EmptyViewActivity.this, "emptyView", Toast.LENGTH_SHORT).show();
+	                            }
+	                        })
+	        );
+
+点击事件可以自己用emptyView实现，但是建议使用XRecyclerViewAdapter 的 onXEmptyViewListener来实现emptyView的点击事件
 
 ##下拉刷新和上拉加载
 

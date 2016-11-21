@@ -39,7 +39,12 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     final int viewType = 100000; // Here the number set big point, avoid and users of the item conflict
     private int mRefreshProgressStyle = ProgressStyle.SysProgress;
     private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
-    private View mEmptyView = null;
+    View mEmptyView = null;
+
+    /**
+     * The listener that receives notifications when an emptyView is clicked
+     */
+    OnXEmptyViewListener mOnEmptyViewListener = null;
 
     /**
      * The listener that receives notifications when an item is clicked.
@@ -69,7 +74,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * The recyclerview gets the sliding state and sets the emptyView
      */
-    private RecyclerView recyclerView = null;
+    RecyclerView recyclerView = null;
     /**
      * Whether to open the drop-down refresh,The default is off
      */
@@ -93,6 +98,20 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     static final int TYPE_REFRESH_HEADER = 0;
     static final int TYPE_LOADMORE_FOOTER = 1;
 
+    /**
+     * This is the emptyView click-callback event
+     */
+    public interface OnXEmptyViewListener {
+        void onXEmptyViewClick(View view);
+    }
+
+    /**
+     * @param mOnEmptyViewListener The callback this will be invoked
+     */
+    public XBaseAdapter<T> setOnXEmptyViewListener(OnXEmptyViewListener mOnEmptyViewListener) {
+        this.mOnEmptyViewListener = mOnEmptyViewListener;
+        return this;
+    }
 
     /**
      * This is the FooterLayout click-callback event
@@ -230,7 +249,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      *
      * @param recyclerView recyclerview
      */
-    public XBaseAdapter<T> addRecyclerView(final RecyclerView recyclerView) {
+    XBaseAdapter<T> linkRecyclerView(final RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
@@ -537,22 +556,14 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
     /**
-     * Sets the view to show if the adapter is empty
-     * Called after addRecyclerView
-     *
-     * @param view this is emptyView
-     */
-    public XBaseAdapter<T> setEmptyView(View view) {
-        mEmptyView = view;
-        return this;
-    }
-
-    /**
      * Update the status of the list based on the empty parameter.  If empty is true and
      * we have an empty view, display it.  In all the other cases, make sure that the listview
      * is VISIBLE and that the empty view is GONE (if it's not null).
      */
     void updateEmptyStatus(boolean empty) {
+        if (recyclerView == null) {
+            throw new NullPointerException("The emptyView needs recyclerView, call addRecyclerView");
+        }
         if (empty) {
             if (mEmptyView != null) {
                 mEmptyView.setVisibility(View.VISIBLE);

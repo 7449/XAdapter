@@ -38,8 +38,8 @@ public class GridLayoutManagerActivity extends AppCompatActivity {
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBean)
-                        .setLayoutId(R.layout.item)
                         .addRecyclerView(recyclerView)
+                        .setLayoutId(R.layout.item)
                         .setPullRefreshEnabled(true)
                         .setLoadingMoreEnabled(true)
                         .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))

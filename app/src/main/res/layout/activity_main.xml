@@ -34,4 +34,10 @@
         android:layout_height="wrap_content"
         android:text="collapsingToolbarLayout" />
 
+    <Button
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="emptyView" />
+
 </LinearLayout>

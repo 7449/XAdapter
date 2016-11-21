@@ -43,8 +43,8 @@ public class NetWorkActivity extends AppCompatActivity
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setAdapter(xRecyclerViewAdapter
                 .initXData(new ArrayList<NetWorkBean.TngouBean>())
-                .setLayoutId(R.layout.network_item)
                 .addRecyclerView(recyclerView)
+                .setLayoutId(R.layout.network_item)
                 .onXBind(this)
                 .setPullRefreshEnabled(true)
                 .setLoadingMoreEnabled(true)
