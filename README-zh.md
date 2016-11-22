@@ -10,9 +10,11 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.3'
+>compile 'com.xadapter:xadapter:0.0.4'
 
 ###更新日志
+
+	0.0.4 : 修复EmptyView一些使用问题
 
 	0.0.3 ：minSdkVersion降低至14
 

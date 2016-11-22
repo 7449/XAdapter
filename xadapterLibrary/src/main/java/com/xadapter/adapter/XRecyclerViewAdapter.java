@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.manager.XScrollBottom;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +19,6 @@ import java.util.List;
 public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
         implements XScrollBottom {
 
-    private List<T> mDatas = new LinkedList<>();
 
     public XRecyclerViewAdapter() {
     }
@@ -31,9 +29,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
      * @param mDatas mDatas
      */
     public XRecyclerViewAdapter<T> initXData(List<T> mDatas) {
-        if (isDataEmpty()) {
-            this.mDatas = mDatas;
-        }
+        this.mDatas = mDatas;
         return this;
     }
 
@@ -42,7 +38,6 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
      */
     public XRecyclerViewAdapter<T> addRecyclerView(RecyclerView recyclerView) {
         linkRecyclerView(recyclerView);
-        updateEmptyStatus(isShowEmptyView());
         return this;
     }
 
@@ -67,12 +62,17 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
         return this;
     }
 
+    @Override
+    public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+        super.registerAdapterDataObserver(observer);
+        updateEmptyStatus(isShowEmptyView());
+    }
+
     public void addAllData(List<T> mDatas) {
         if (isDataEmpty()) {
             this.mDatas.addAll(mDatas);
             notifyDataSetChanged();
         }
-        updateEmptyStatus(isShowEmptyView());
     }
 
     public void addData(T mData) {
@@ -80,7 +80,6 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             this.mDatas.add(mData);
             notifyDataSetChanged();
         }
-        updateEmptyStatus(isShowEmptyView());
     }
 
     public void remove(int position) {
@@ -88,7 +87,6 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             mDatas.remove(position);
             notifyDataSetChanged();
         }
-        updateEmptyStatus(isShowEmptyView());
     }
 
     public void removeAll() {

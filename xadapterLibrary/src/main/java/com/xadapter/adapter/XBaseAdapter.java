@@ -23,6 +23,8 @@ import com.xadapter.widget.XFooterLayout;
 import com.xadapter.widget.XHeaderLayout;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * by y on 2016/11/15
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  */
 public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         implements XScrollBottom, XTouchListener.RefreshInterface, XFooterLayout.FooterLayoutInterface {
-
+    List<T> mDatas = new LinkedList<>();
     final ArrayList<View> mHeaderViews = new ArrayList<>();
     final ArrayList<View> mFooterViews = new ArrayList<>();
     final ArrayList<Integer> mHeaderViewType = new ArrayList<>();
@@ -498,6 +500,10 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      */
     public XBaseAdapter<T> setRefreshing(boolean refreshing) {
         if (refreshing && pullRefreshEnabled && mLoadingListener != null) {
+            if (mEmptyView != null) {
+                mEmptyView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
             mHeaderLayout.setState(BaseRefreshHeader.STATE_REFRESHING);
             mHeaderLayout.onMove(mHeaderLayout.getMeasuredHeight());
             mLoadingListener.onRefresh();
@@ -564,17 +570,12 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         if (recyclerView == null) {
             throw new NullPointerException("The emptyView needs recyclerView, call addRecyclerView");
         }
-        if (empty) {
-            if (mEmptyView != null) {
+        if (mEmptyView != null) {
+            if (empty) {
                 mEmptyView.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
             } else {
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (mEmptyView != null) {
                 mEmptyView.setVisibility(View.GONE);
-            } else {
                 recyclerView.setVisibility(View.VISIBLE);
             }
         }

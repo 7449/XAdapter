@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xadapter.adapter.XBaseAdapter;
@@ -42,14 +44,22 @@ public class NetWorkActivity extends AppCompatActivity
 
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setAdapter(xRecyclerViewAdapter
-                .initXData(new ArrayList<NetWorkBean.TngouBean>())
-                .addRecyclerView(recyclerView)
-                .setLayoutId(R.layout.network_item)
-                .onXBind(this)
-                .setPullRefreshEnabled(true)
-                .setLoadingMoreEnabled(true)
-                .setLoadingListener(this)
-                .setRefreshing(true)
+                        .initXData(new ArrayList<NetWorkBean.TngouBean>())
+                        .setEmptyView(findViewById(R.id.emptyView))
+                        .addRecyclerView(recyclerView)
+                        .setLayoutId(R.layout.network_item)
+                        .onXBind(this)
+                        .setPullRefreshEnabled(true)
+                        .setLoadingMoreEnabled(true)
+                        .setLoadingListener(this)
+//                      .setRefreshing(true)
+                        .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
+                            @Override
+                            public void onXEmptyViewClick(View view) {
+                                Toast.makeText(getApplicationContext(), "emptyView", Toast.LENGTH_SHORT).show();
+                                xRecyclerViewAdapter.setRefreshing(true);
+                            }
+                        })
         );
     }
 
@@ -72,7 +82,6 @@ public class NetWorkActivity extends AppCompatActivity
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NetWorkBean>() {
-
                     @Override
                     public void onCompleted() {
                         xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
@@ -80,6 +89,7 @@ public class NetWorkActivity extends AppCompatActivity
 
                     @Override
                     public void onError(Throwable e) {
+                        Toast.makeText(getApplicationContext(), "error network", Toast.LENGTH_SHORT).show();
                         xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_NORMAL);
                     }
 

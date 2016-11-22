@@ -31,7 +31,7 @@ public class XViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    private <T extends View> T getView(int id) {
+    public <T extends View> T getView(int id) {
         @SuppressWarnings("unchecked") SparseArray<View> viewSparseArray = (SparseArray<View>) itemView.getTag();
         if (null == viewSparseArray) {
             viewSparseArray = new SparseArray<>();
