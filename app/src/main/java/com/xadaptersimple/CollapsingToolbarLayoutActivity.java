@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.xadapter.adapter.XBaseAdapter;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
+import com.xadapter.widget.BaseRefreshHeader;
 import com.xadapter.widget.XFooterLayout;
 
 import java.util.ArrayList;
@@ -55,12 +56,12 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
                         .setLoadingListener(new XBaseAdapter.LoadingListener() {
                             @Override
                             public void onRefresh() {
-//                                new Handler().postDelayed(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
-//                                    }
-//                                }, 1500);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
+                                    }
+                                }, 1500);
                             }
 
                             @Override

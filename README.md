@@ -18,9 +18,11 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/Android_X
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.4'
+>compile 'com.xadapter:xadapter:0.0.5'
 
 ###Update log
+
+	0.0.5 ：Whether to display EmptyView is determined by the user
 
 	0.0.4 : fix EmptyView some problems
 
@@ -72,6 +74,7 @@ Achieve data display
 ##emptyView
 
 >setEmptyView must be called before addRecyclerView, otherwise invalid, please see simple
+>Whether to display manually determined by the user's own network exceptions or data is empty when the call xRecyclerViewAdapter.isShowEmptyView (); specific examples of simple
 	
 	 recyclerView.setAdapter(
 	                xRecyclerViewAdapter

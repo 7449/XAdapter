@@ -42,7 +42,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     private int mRefreshProgressStyle = ProgressStyle.SysProgress;
     private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
     View mEmptyView = null;
-
     /**
      * The listener that receives notifications when an emptyView is clicked
      */
@@ -297,7 +296,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
 
                 }
             });
-
         }
         return this;
     }
@@ -338,6 +336,9 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
          *The recyclerview is now at the bottom and can be loaded up
          */
         if (mLoadingListener != null) {
+            if (mHeaderLayout != null && mHeaderLayout.getState() <= BaseRefreshHeader.STATE_REFRESHING) {
+                return;
+            }
             if (mFooterLayout != null) {
                 mFooterLayout.setVisibility(View.VISIBLE);
             }
@@ -560,27 +561,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         }
         return this;
     }
-
-    /**
-     * Update the status of the list based on the empty parameter.  If empty is true and
-     * we have an empty view, display it.  In all the other cases, make sure that the listview
-     * is VISIBLE and that the empty view is GONE (if it's not null).
-     */
-    void updateEmptyStatus(boolean empty) {
-        if (recyclerView == null) {
-            throw new NullPointerException("The emptyView needs recyclerView, call addRecyclerView");
-        }
-        if (mEmptyView != null) {
-            if (empty) {
-                mEmptyView.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-            } else {
-                mEmptyView.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

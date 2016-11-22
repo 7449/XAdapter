@@ -26,10 +26,10 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
     /**
      * You must call this method to initialize the data
      *
-     * @param mDatas mDatas
+     * @param data mDatas
      */
-    public XRecyclerViewAdapter<T> initXData(List<T> mDatas) {
-        this.mDatas = mDatas;
+    public XRecyclerViewAdapter<T> initXData(List<T> data) {
+        mDatas = data;
         return this;
     }
 
@@ -62,22 +62,17 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
         return this;
     }
 
-    @Override
-    public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
-        super.registerAdapterDataObserver(observer);
-        updateEmptyStatus(isShowEmptyView());
-    }
 
-    public void addAllData(List<T> mDatas) {
+    public void addAllData(List<T> data) {
         if (isDataEmpty()) {
-            this.mDatas.addAll(mDatas);
+            mDatas.addAll(data);
             notifyDataSetChanged();
         }
     }
 
-    public void addData(T mData) {
+    public void addData(T data) {
         if (isDataEmpty()) {
-            this.mDatas.add(mData);
+            mDatas.add(data);
             notifyDataSetChanged();
         }
     }
@@ -95,6 +90,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             notifyDataSetChanged();
         }
     }
+
 
     @Override
     public XViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -170,11 +166,6 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
         return mDatas.size() + tempPosition;
     }
 
-
-    private boolean isShowEmptyView() {
-        return mDatas == null || mDatas.isEmpty();
-    }
-
     /**
      * mDatas is null?
      */
@@ -219,4 +210,35 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
         }
         return position - getHeaderViewCount();
     }
+
+    /**
+     * Whether to display emptyView requires the user to manually invoke it
+     */
+    public void isShowEmptyView() {
+//        mDatas.isEmpty()
+        if (mDatas.size() == 0) {
+            showEmptyView();
+        } else {
+            hideEmptyView();
+        }
+    }
+
+    public void showEmptyView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideEmptyView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

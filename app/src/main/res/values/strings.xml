@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">XAdapter</string>
+    <string name="emptyView">没有数据</string>
 </resources>

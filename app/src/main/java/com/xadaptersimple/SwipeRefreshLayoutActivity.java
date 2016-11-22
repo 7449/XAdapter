@@ -2,6 +2,7 @@ package com.xadaptersimple;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,94 +13,60 @@ import com.bumptech.glide.Glide;
 import com.xadapter.adapter.XBaseAdapter;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.BaseRefreshHeader;
 
 import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.xadaptersimple.NetWorkActivity.initRetrofit;
+
 /**
- * by y on 2016/11/17
+ * by y on 2016/11/22
  */
-public class NetWorkActivity extends AppCompatActivity
-        implements XBaseAdapter.LoadingListener, XBaseAdapter.OnXBindListener<NetWorkBean.TngouBean> {
+
+public class SwipeRefreshLayoutActivity extends AppCompatActivity
+        implements SwipeRefreshLayout.OnRefreshListener, XBaseAdapter.OnXBindListener<NetWorkBean.TngouBean> {
 
     private XRecyclerViewAdapter<NetWorkBean.TngouBean> xRecyclerViewAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recyclerview_layout);
+        setContentView(R.layout.activity_swipe);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.srf_layout);
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                onRefresh();
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(xRecyclerViewAdapter
-                .initXData(new ArrayList<NetWorkBean.TngouBean>())
                 .setEmptyView(findViewById(R.id.emptyView))
+                .initXData(new ArrayList<NetWorkBean.TngouBean>())
                 .addRecyclerView(recyclerView)
                 .setLayoutId(R.layout.network_item)
                 .onXBind(this)
-                .setPullRefreshEnabled(true)
-                .setLoadingMoreEnabled(true)
-                .setLoadingListener(this)
-                .setRefreshing(true)
                 .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
                     @Override
                     public void onXEmptyViewClick(View view) {
-                        xRecyclerViewAdapter.setRefreshing(true);
+                        onRefresh();
                     }
                 })
         );
     }
 
-
     @Override
     public void onRefresh() {
         xRecyclerViewAdapter.removeAll();
         netWork();
-    }
-
-    @Override
-    public void onLoadMore() {
-        netWork();
-    }
-
-    private void netWork() {
-        initRetrofit()
-                .create(NewsService.class)
-                .getNewsList(1, 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NetWorkBean>() {
-                    @Override
-                    public void onCompleted() {
-                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
-                        xRecyclerViewAdapter.isShowEmptyView();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(getApplicationContext(), "error network", Toast.LENGTH_SHORT).show();
-                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_ERROR);
-                        xRecyclerViewAdapter.isShowEmptyView();
-                    }
-
-                    @Override
-                    public void onNext(NetWorkBean netWorkBean) {
-//                        netWorkBean.getTngou().clear();
-                        xRecyclerViewAdapter.addAllData(netWorkBean.getTngou());
-                    }
-                });
     }
 
     @Override
@@ -109,17 +76,38 @@ public class NetWorkActivity extends AppCompatActivity
                 .error(R.mipmap.ic_launcher).centerCrop().into(holder.getImageView(R.id.image));
     }
 
-    public interface NewsService {
-        @GET("api/top/list")
-        Observable<NetWorkBean> getNewsList(@Query("id") int id, @Query("page") int page);
-    }
+    private void netWork() {
+        initRetrofit()
+                .create(NetWorkActivity.NewsService.class)
+                .getNewsList(1, 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NetWorkBean>() {
 
-    public static Retrofit initRetrofit() {
-        return new Retrofit.Builder()
-                .client(new OkHttpClient())
-                .baseUrl("http://www.tngou.net/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        xRecyclerViewAdapter.hideEmptyView();
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        xRecyclerViewAdapter.isShowEmptyView();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        xRecyclerViewAdapter.isShowEmptyView();
+                        Toast.makeText(getApplicationContext(), "error network", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(NetWorkBean netWorkBean) {
+                        xRecyclerViewAdapter.addAllData(netWorkBean.getTngou());
+                    }
+                });
     }
 }

@@ -33,7 +33,6 @@ public class EmptyViewActivity extends AppCompatActivity {
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBean)
-                        .setEmptyView(findViewById(R.id.emptyView))
                         .addRecyclerView(recyclerView)
                         .setLayoutId(R.layout.item)
                         .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {

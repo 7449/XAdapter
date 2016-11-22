@@ -40,4 +40,10 @@
         android:layout_height="wrap_content"
         android:text="emptyView" />
 
+    <Button
+        android:id="@+id/SwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SwipeRefreshLayout" />
+
 </LinearLayout>

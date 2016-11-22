@@ -23,6 +23,7 @@
         <activity android:name=".NetWorkActivity" />
         <activity android:name=".CollapsingToolbarLayoutActivity" />
         <activity android:name=".EmptyViewActivity" />
+        <activity android:name=".SwipeRefreshLayoutActivity" />
     </application>
 
 </manifest>
