@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -32,7 +32,7 @@ publish {
     userOrg = 'ydevelop'    //bintray.com用户名
     groupId = 'com.xadapter'    //jcenter上的路径
     artifactId = 'xadapter' //项目名称
-    publishVersion = '0.0.2'    //版本号
+    publishVersion = '0.0.3'    //版本号
     desc = 'this is XAdapter'   //描述
     website = 'https://github.com/7449/XAdapter'//网站
 }

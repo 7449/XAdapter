@@ -10,9 +10,11 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.2'
+>compile 'com.xadapter:xadapter:0.0.3'
 
 ###更新日志
+
+	0.0.3 ：minSdkVersion降低至14
 
 	0.0.2 : XAdapter 添加setEmptyView功能。
 	

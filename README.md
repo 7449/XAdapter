@@ -18,9 +18,11 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/Android_X
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.2'
+>compile 'com.xadapter:xadapter:0.0.3'
 
 ###Update log
+
+	0.0.3 ：minSdkVersion 14
 
 	0.0.2 : add xAdapter.setEmptyView(View view);
 	
