@@ -18,9 +18,11 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/Android_X
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.5'
+>compile 'com.xadapter:xadapter:0.0.6'
 
 ###Update log
+
+	0.0.6 ： fix bugs that can not be loaded
 
 	0.0.5 ：Whether to display EmptyView is determined by the user
 

@@ -34,6 +34,7 @@ public class EmptyViewActivity extends AppCompatActivity {
                 xRecyclerViewAdapter
                         .initXData(mainBean)
                         .addRecyclerView(recyclerView)
+                        .setEmptyView(findViewById(R.id.emptyView))
                         .setLayoutId(R.layout.item)
                         .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
                             @Override
@@ -42,5 +43,9 @@ public class EmptyViewActivity extends AppCompatActivity {
                             }
                         })
         );
+
+        if (mainBean.isEmpty()) {
+            xRecyclerViewAdapter.isShowEmptyView();
+        }
     }
 }

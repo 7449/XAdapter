@@ -336,7 +336,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
          *The recyclerview is now at the bottom and can be loaded up
          */
         if (mLoadingListener != null) {
-            if (mHeaderLayout != null && mHeaderLayout.getState() <= BaseRefreshHeader.STATE_REFRESHING) {
+            if (mHeaderLayout != null && mHeaderLayout.getState() == BaseRefreshHeader.STATE_REFRESHING) {
                 return;
             }
             if (mFooterLayout != null) {

@@ -10,9 +10,11 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.5'
+>compile 'com.xadapter:xadapter:0.0.6'
 
 ###更新日志
+	
+	0.0.6 : 修复不能上拉加载的bug
 
 	0.0.5 ：是否显示EmptyView由使用者自己决定
 
