@@ -44,8 +44,6 @@ public class EmptyViewActivity extends AppCompatActivity {
                         })
         );
 
-        if (mainBean.isEmpty()) {
-            xRecyclerViewAdapter.isShowEmptyView();
-        }
+        xRecyclerViewAdapter.isShowEmptyView();
     }
 }
