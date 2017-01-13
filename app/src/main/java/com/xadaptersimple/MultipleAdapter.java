@@ -1,7 +1,7 @@
 package com.xadaptersimple;
 
 import com.xadapter.adapter.XMultipleAdapter;
-import com.xadapter.holder.XMultipleViewHolder;
+import com.xadapter.holder.XViewHolder;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class MultipleAdapter extends XMultipleAdapter {
     }
 
     @Override
-    protected void onBindHolder(XMultipleViewHolder holder, int position, int viewType) {
+    protected void onBindHolder(XViewHolder holder, int position, int viewType) {
         switch (viewType) {
             case TYPE_1:
                 holder.setTextView(R.id.tv_multiple, strings.get(position - 1));

@@ -24,6 +24,7 @@
         <activity android:name=".CollapsingToolbarLayoutActivity" />
         <activity android:name=".EmptyViewActivity" />
         <activity android:name=".SwipeRefreshLayoutActivity" />
+        <activity android:name=".MultipleItemActivity" />
     </application>
 
 </manifest>
