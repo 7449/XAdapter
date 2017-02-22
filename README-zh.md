@@ -10,21 +10,9 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.6'
+>compile 'com.xadapter:xadapter:0.0.7'
 
-###更新日志
-	
-	0.0.6 : 修复不能上拉加载的bug
 
-	0.0.5 ：是否显示EmptyView由使用者自己决定
-
-	0.0.4 : 修复EmptyView一些使用问题
-
-	0.0.3 ：minSdkVersion降低至14
-
-	0.0.2 : XAdapter 添加setEmptyView功能。
-	
-	0.0.1 : 添加完整示例以及项目
 
 ##完整示例
 

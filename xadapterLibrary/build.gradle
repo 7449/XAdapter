@@ -29,16 +29,14 @@ android {
     }
 }
 publish {
-    userOrg = 'ydevelop'    //bintray.com用户名
-    groupId = 'com.xadapter'    //jcenter上的路径
-    artifactId = 'xadapter' //项目名称
-    publishVersion = '0.0.6'    //版本号
-    desc = 'this is XAdapter'   //描述
-    website = 'https://github.com/7449/XAdapter'//网站
+    userOrg = 'ydevelop'
+    groupId = 'com.xadapter'
+    artifactId = 'xadapter'
+    publishVersion = '0.0.7'
+    desc = 'this is XAdapter'
+    website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    //noinspection GradleDependency
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    //noinspection GradleDependency
-    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
 }

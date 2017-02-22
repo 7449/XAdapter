@@ -118,7 +118,7 @@ public class XViewHolder extends RecyclerView.ViewHolder {
         getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color));
     }
 
-    public void setTextSize(int id, int size) {
+    public void setTextSize(int id, float size) {
         getTextView(id).setTextSize(size);
     }
 
