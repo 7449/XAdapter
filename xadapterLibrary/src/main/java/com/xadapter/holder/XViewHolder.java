@@ -46,7 +46,7 @@ public class XViewHolder extends RecyclerView.ViewHolder {
         return (T) childView;
     }
 
-    private Context getContext() {
+    public Context getContext() {
         return itemView.getContext();
     }
 
