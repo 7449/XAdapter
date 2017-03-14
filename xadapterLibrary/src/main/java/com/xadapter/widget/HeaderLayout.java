@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -24,6 +25,9 @@ import com.xadapter.R;
 import com.xadapter.progressindicator.AVLoadingIndicatorView;
 import com.xadapter.progressindicator.ProgressStyle;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * by y on 2016/11/16
  */
@@ -35,6 +39,15 @@ public class HeaderLayout extends LinearLayout implements BaseRefreshHeader {
     public static final int STATE_REFRESHING = 2;
     public static final int STATE_DONE = 3;
     public static final int STATE_ERROR = 4;
+
+    @IntDef({STATE_NORMAL,
+            STATE_RELEASE_TO_REFRESH,
+            STATE_REFRESHING,
+            STATE_DONE,
+            STATE_ERROR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface RefreshState {
+    }
 
     private View mContainer;
     private ImageView mImageView;

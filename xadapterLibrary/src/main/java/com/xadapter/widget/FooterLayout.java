@@ -25,10 +25,10 @@ import java.lang.annotation.RetentionPolicy;
 
 public class FooterLayout extends LinearLayout {
 
-    @IntDef({FooterLayout.STATE_LOADING,
-            FooterLayout.STATE_COMPLETE,
-            FooterLayout.STATE_NOMORE,
-            FooterLayout.STATE_ERROR})
+    @IntDef({STATE_LOADING,
+            STATE_COMPLETE,
+            STATE_NOMORE,
+            STATE_ERROR})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoadMoreStatus {
     }

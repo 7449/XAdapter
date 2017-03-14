@@ -17,7 +17,6 @@ import com.xadapter.manager.AppBarStateChangeListener;
 import com.xadapter.manager.XScrollListener;
 import com.xadapter.manager.XTouchListener;
 import com.xadapter.progressindicator.ProgressStyle;
-import com.xadapter.widget.BaseRefreshHeader;
 import com.xadapter.widget.FooterLayout;
 import com.xadapter.widget.HeaderLayout;
 
@@ -248,6 +247,8 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
     private void initHeaderAndFooter() {
+        refreshComplete(HeaderLayout.STATE_RELEASE_TO_REFRESH);
+        loadMoreComplete(FooterLayout.STATE_LOADING);
         mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
         mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
         mFooterLayout.setVisibility(View.GONE);
@@ -268,6 +269,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
                 return;
             }
             if (mFooterLayout != null) {
+                mFooterLayout.setState(FooterLayout.STATE_LOADING);
                 mFooterLayout.setVisibility(View.VISIBLE);
             }
             mLoadingListener.onLoadMore();
@@ -551,7 +553,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         }
     }
 
-    public void refreshComplete(@BaseRefreshHeader.RefreshState int state) {
+    public void refreshComplete(@HeaderLayout.RefreshState int state) {
         if (mHeaderLayout != null) {
             mHeaderLayout.refreshComplete(state);
         }
