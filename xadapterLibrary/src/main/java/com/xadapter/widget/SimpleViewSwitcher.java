@@ -30,7 +30,6 @@ public class SimpleViewSwitcher extends ViewGroup {
         for (int i = 0; i < childCount; i++) {
             View child = this.getChildAt(i);
             this.measureChild(child, widthMeasureSpec, heightMeasureSpec);
-            // int ch = child.getMeasuredHeight();
             maxWidth = child.getMeasuredWidth();
             maxHeight = child.getMeasuredHeight();
         }

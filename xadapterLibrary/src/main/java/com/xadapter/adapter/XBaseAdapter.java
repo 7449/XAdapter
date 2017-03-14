@@ -1,26 +1,25 @@
 package com.xadapter.adapter;
 
-import android.annotation.SuppressLint;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.manager.AppBarStateChangeListener;
-import com.xadapter.manager.XScrollBottom;
 import com.xadapter.manager.XScrollListener;
 import com.xadapter.manager.XTouchListener;
 import com.xadapter.progressindicator.ProgressStyle;
 import com.xadapter.widget.BaseRefreshHeader;
-import com.xadapter.widget.XFooterLayout;
-import com.xadapter.widget.XHeaderLayout;
+import com.xadapter.widget.FooterLayout;
+import com.xadapter.widget.HeaderLayout;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,20 +31,20 @@ import java.util.List;
  * XBaseAdapter, all need to use the location of T should be sentenced to empty the deal
  */
 public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
-        implements XScrollBottom, XTouchListener.RefreshInterface, XFooterLayout.FooterLayoutInterface {
+        implements XScrollListener.XScrollBottom,
+        XTouchListener.RefreshInterface {
+
+
     List<T> mDatas = new LinkedList<>();
     final ArrayList<View> mHeaderViews = new ArrayList<>();
     final ArrayList<View> mFooterViews = new ArrayList<>();
     final ArrayList<Integer> mHeaderViewType = new ArrayList<>();
     final ArrayList<Integer> mFooterViewType = new ArrayList<>();
-    final int viewType = 100000; // Here the number set big point, avoid and users of the item conflict
+    final int viewType = 100000;
     private int mRefreshProgressStyle = ProgressStyle.SysProgress;
     private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
     View mEmptyView = null;
-    /**
-     * The listener that receives notifications when an emptyView is clicked
-     */
-    OnXEmptyViewListener mOnEmptyViewListener = null;
+
 
     /**
      * The listener that receives notifications when an item is clicked.
@@ -58,7 +57,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * Pull-down refreshes the listener that receives notification when a pull-up is loaded.
      */
-    private LoadingListener mLoadingListener = null;
+    private LoadListener mLoadingListener = null;
     /**
      * Click the callback
      */
@@ -70,7 +69,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * The subclass implements the display of the layout
      */
-    private int ITEM_LAYOUT_ID = -1;
+    int ITEM_LAYOUT_ID = -1;
 
     /**
      * The recyclerview gets the sliding state and sets the emptyView
@@ -83,7 +82,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * this is pull-up layout
      */
-    XHeaderLayout mHeaderLayout = null;
+    HeaderLayout mHeaderLayout = null;
 
     /**
      * Whether to enable pull-up,The default is off
@@ -93,26 +92,13 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * this is loadMore layout
      */
-    XFooterLayout mFooterLayout = null;
+    FooterLayout mFooterLayout = null;
+
+    private XTouchListener touchListener = null;
 
     static final int TYPE_ITEM = -1;
     static final int TYPE_REFRESH_HEADER = 0;
     static final int TYPE_LOADMORE_FOOTER = 1;
-
-    /**
-     * This is the emptyView click-callback event
-     */
-    public interface OnXEmptyViewListener {
-        void onXEmptyViewClick(View view);
-    }
-
-    /**
-     * @param mOnEmptyViewListener The callback this will be invoked
-     */
-    public XBaseAdapter<T> setOnXEmptyViewListener(OnXEmptyViewListener mOnEmptyViewListener) {
-        this.mOnEmptyViewListener = mOnEmptyViewListener;
-        return this;
-    }
 
     /**
      * This is the FooterLayout click-callback event
@@ -124,7 +110,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param footerListener The callback that will be invoked.
      */
-    public XBaseAdapter<T> setFooterListener(FooterListener footerListener) {
+    public XBaseAdapter<T> setFooterListener(@NonNull FooterListener footerListener) {
         this.mFooterListener = footerListener;
         return this;
     }
@@ -132,7 +118,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * The callback interface definition to invoke in the project
      */
-    public interface LoadingListener {
+    public interface LoadListener {
 
         /**
          * Drop-down refresh callback
@@ -151,7 +137,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      *
      * @param mLoadingListener The callback that will be invoked.
      */
-    public XBaseAdapter<T> setLoadingListener(LoadingListener mLoadingListener) {
+    public XBaseAdapter<T> setLoadListener(@NonNull LoadListener mLoadingListener) {
         this.mLoadingListener = mLoadingListener;
         return this;
     }
@@ -181,7 +167,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      *
      * @param mOnItemClickListener The callback that will be invoked.
      */
-    public XBaseAdapter<T> setOnItemClickListener(OnItemClickListener<T> mOnItemClickListener) {
+    public XBaseAdapter<T> setOnItemClickListener(@NonNull OnItemClickListener<T> mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
         return this;
     }
@@ -212,7 +198,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      *
      * @param mOnLongClickListener The callback that will run
      */
-    public XBaseAdapter<T> setOnLongClickListener(OnItemLongClickListener<T> mOnLongClickListener) {
+    public XBaseAdapter<T> setOnLongClickListener(@NonNull OnItemLongClickListener<T> mOnLongClickListener) {
         this.mOnLongClickListener = mOnLongClickListener;
         return this;
     }
@@ -229,7 +215,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param onXBindListener The callback that will run
      */
-    public XBaseAdapter<T> onXBind(OnXBindListener<T> onXBindListener) {
+    public XBaseAdapter<T> onXBind(@NonNull OnXBindListener<T> onXBindListener) {
         this.mOnXBindListener = onXBindListener;
         return this;
     }
@@ -250,93 +236,35 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      *
      * @param recyclerView recyclerview
      */
-    XBaseAdapter<T> linkRecyclerView(final RecyclerView recyclerView) {
+    XBaseAdapter<T> linkRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-            mHeaderLayout = new XHeaderLayout(recyclerView.getContext());
-            mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
-            mFooterLayout = new XFooterLayout(recyclerView.getContext(), this);
-            mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
-            mFooterLayout.setVisibility(View.GONE);
-            recyclerView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View view) {
-                    AppBarLayout appBarLayout = null;
-                    ViewParent p = recyclerView.getParent();
-                    while (p != null) {
-                        if (p instanceof CoordinatorLayout) {
-                            break;
-                        }
-                        p = p.getParent();
-                    }
-                    if (p != null) {
-                        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) p;
-                        final int childCount = coordinatorLayout.getChildCount();
-                        for (int i = childCount - 1; i >= 0; i--) {
-                            final View child = coordinatorLayout.getChildAt(i);
-                            if (child instanceof AppBarLayout) {
-                                appBarLayout = (AppBarLayout) child;
-                                break;
-                            }
-                        }
-                        if (appBarLayout != null && xTouchListener != null) {
-                            appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-                                @Override
-                                public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                                    xTouchListener.setState(state);
-                                }
-                            });
-                        }
-                    }
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View view) {
-
-                }
-            });
+            mHeaderLayout = new HeaderLayout(recyclerView.getContext());
+            mFooterLayout = new FooterLayout(recyclerView.getContext());
+            initHeaderAndFooter();
         }
         return this;
     }
 
-    private void settingScrollListener() {
-        if (recyclerView != null) {
-            recyclerView.addOnScrollListener(new XScrollListener(this));
-        } else {
-            Log("recyclerView is null,Check if addRecyclerView is used");
-        }
-    }
-
-    private XTouchListener xTouchListener = null;
-
-    private void settingTouchListener() {
-        if (recyclerView != null) {
-            xTouchListener = new XTouchListener(mHeaderLayout, pullRefreshEnabled, this);
-            recyclerView.setOnTouchListener(xTouchListener);
-        } else {
-            Log("recyclerView is null,Check if addRecyclerView is used");
-        }
-    }
-
-
-    /**
-     * get the view
-     */
-    View getView(ViewGroup viewGroup) {
-        if (ITEM_LAYOUT_ID == -1) {
-            throw new NullPointerException("Please check if your Adapter is setLayoutId");
-        }
-        return LayoutInflater.from(viewGroup.getContext()).inflate(ITEM_LAYOUT_ID, viewGroup, false);
+    private void initHeaderAndFooter() {
+        mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
+        mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
+        mFooterLayout.setVisibility(View.GONE);
+        mFooterLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFooterListener != null) {
+                    mFooterListener.onXFooterClick(v);
+                }
+            }
+        });
     }
 
     @Override
     public void onScrollBottom() {
-        /**
-         *The recyclerview is now at the bottom and can be loaded up
-         */
         if (mLoadingListener != null) {
-            if (mHeaderLayout != null && mHeaderLayout.getState() == BaseRefreshHeader.STATE_REFRESHING) {
+            if (mHeaderLayout != null && mHeaderLayout.getState() == HeaderLayout.STATE_REFRESHING) {
                 return;
             }
             if (mFooterLayout != null) {
@@ -348,9 +276,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
 
     @Override
     public void onRefresh() {
-        /**
-         *Touch the recyclerview drop-down to refresh the callback
-         */
         if (mLoadingListener != null) {
             if (mFooterLayout != null) {
                 mFooterLayout.setVisibility(View.GONE);
@@ -366,7 +291,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      * @param position this is position
      * @param t        this is adapter mDatas
      */
-    void initClickListener(XViewHolder holder, @SuppressLint("RecyclerView") final int position, final T t) {
+    void initClickListener(XViewHolder holder, final int position, final T t) {
         if (mOnItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -405,7 +330,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         }
         this.loadingMoreEnabled = loadingMoreEnabled;
         if (loadingMoreEnabled) {
-            settingScrollListener();
+            recyclerView.addOnScrollListener(new XScrollListener(this));
         }
         return this;
     }
@@ -428,7 +353,8 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         }
         this.pullRefreshEnabled = pullRefreshEnabled;
         if (pullRefreshEnabled) {
-            settingTouchListener();
+            touchListener = new XTouchListener(mHeaderLayout, true, this);
+            recyclerView.setOnTouchListener(touchListener);
         }
         return this;
     }
@@ -437,7 +363,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param view the added header view
      */
-    public XBaseAdapter<T> addHeaderView(View view) {
+    public XBaseAdapter<T> addHeaderView(@NonNull View view) {
         mHeaderViews.add(view);
         return this;
     }
@@ -452,7 +378,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param view the added footer view
      */
-    public XBaseAdapter<T> addFooterView(View view) {
+    public XBaseAdapter<T> addFooterView(@NonNull View view) {
         mFooterViews.add(view);
         return this;
     }
@@ -478,7 +404,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * The image to display when loaded
      */
-    public XBaseAdapter<T> setImageView(int resId) {
+    public XBaseAdapter<T> setImageView(@DrawableRes int resId) {
         if (mHeaderLayout != null) {
             mHeaderLayout.setImageView(resId);
         }
@@ -505,7 +431,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
                 mEmptyView.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
-            mHeaderLayout.setState(BaseRefreshHeader.STATE_REFRESHING);
+            mHeaderLayout.setState(HeaderLayout.STATE_REFRESHING);
             mHeaderLayout.onMove(mHeaderLayout.getMeasuredHeight());
             mLoadingListener.onRefresh();
         }
@@ -515,7 +441,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param color refreshHeader backgroundColor
      */
-    public XBaseAdapter<T> setHeaderBackgroundColor(int color) {
+    public XBaseAdapter<T> setHeaderBackgroundColor(@ColorRes int color) {
         if (mHeaderLayout != null) {
             mHeaderLayout.setViewBackgroundColor(color);
         }
@@ -525,7 +451,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param color refreshHeader textColor
      */
-    public XBaseAdapter<T> setHeaderTextColor(int color) {
+    public XBaseAdapter<T> setHeaderTextColor(@ColorRes int color) {
         if (mHeaderLayout != null) {
             mHeaderLayout.setTextColor(color);
         }
@@ -535,7 +461,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param color loadMoreFooter backgroundColor
      */
-    public XBaseAdapter<T> setFooterBackgroundColor(int color) {
+    public XBaseAdapter<T> setFooterBackgroundColor(@ColorRes int color) {
         if (mFooterLayout != null) {
             mFooterLayout.setViewBackgroundColor(color);
         }
@@ -545,7 +471,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * @param color loadMoreFooter textColor
      */
-    public XBaseAdapter<T> setFooterTextColor(int color) {
+    public XBaseAdapter<T> setFooterTextColor(@ColorRes int color) {
         if (mFooterLayout != null) {
             mFooterLayout.setTextColor(color);
         }
@@ -593,24 +519,47 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
                 stagger.setFullSpan(false);
             }
         }
-    }
-
-    @Override
-    public void onXFooterClick(View view) {
-        if (mFooterListener != null) {
-            mFooterListener.onXFooterClick(view);
+        if (recyclerView == null) {
+            return;
+        }
+        AppBarLayout appBarLayout = null;
+        ViewParent p = recyclerView.getParent();
+        while (p != null) {
+            if (p instanceof CoordinatorLayout) {
+                break;
+            }
+            p = p.getParent();
+        }
+        if (p != null) {
+            CoordinatorLayout coordinatorLayout = (CoordinatorLayout) p;
+            final int childCount = coordinatorLayout.getChildCount();
+            for (int i = childCount - 1; i >= 0; i--) {
+                final View child = coordinatorLayout.getChildAt(i);
+                if (child instanceof AppBarLayout) {
+                    appBarLayout = (AppBarLayout) child;
+                    break;
+                }
+            }
+            if (appBarLayout != null && touchListener != null) {
+                appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+                    @Override
+                    public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                        touchListener.setState(state);
+                    }
+                });
+            }
         }
     }
 
-    private void Log(Object o) {
-        Log.i(getClass().getSimpleName(), o.toString());
+    public void refreshComplete(@BaseRefreshHeader.RefreshState int state) {
+        if (mHeaderLayout != null) {
+            mHeaderLayout.refreshComplete(state);
+        }
     }
 
-    public void refreshComplete(int state) {
-        mHeaderLayout.refreshComplete(state);
-    }
-
-    public void loadMoreComplete(int state) {
-        mFooterLayout.setState(state);
+    public void loadMoreComplete(@FooterLayout.LoadMoreStatus int state) {
+        if (mFooterLayout != null) {
+            mFooterLayout.setState(state);
+        }
     }
 }

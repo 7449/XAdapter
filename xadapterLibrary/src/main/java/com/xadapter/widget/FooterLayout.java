@@ -1,6 +1,8 @@
 package com.xadapter.widget;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
+import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -14,11 +16,22 @@ import com.xadapter.R;
 import com.xadapter.progressindicator.AVLoadingIndicatorView;
 import com.xadapter.progressindicator.ProgressStyle;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * by y on 2016/9/29
  */
 
-public class XFooterLayout extends LinearLayout {
+public class FooterLayout extends LinearLayout {
+
+    @IntDef({FooterLayout.STATE_LOADING,
+            FooterLayout.STATE_COMPLETE,
+            FooterLayout.STATE_NOMORE,
+            FooterLayout.STATE_ERROR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LoadMoreStatus {
+    }
 
     private SimpleViewSwitcher progressCon;
     public final static int STATE_LOADING = 0;
@@ -26,19 +39,14 @@ public class XFooterLayout extends LinearLayout {
     public final static int STATE_NOMORE = 2;
     public final static int STATE_ERROR = 3;
     private TextView mText;
-    private int mState = STATE_LOADING;
-    private FooterLayoutInterface footerLayoutInterface;
-
-
     private int footerHeight = 100;
 
-    public XFooterLayout(Context context, FooterLayoutInterface footerLayoutInterface) {
+    public FooterLayout(Context context) {
         super(context);
-        this.footerLayoutInterface = footerLayoutInterface;
         initView();
     }
 
-    public XFooterLayout(Context context, AttributeSet attrs) {
+    public FooterLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
@@ -48,16 +56,6 @@ public class XFooterLayout extends LinearLayout {
         setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, footerHeight));
         initProgress();
         initText();
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mState == STATE_ERROR) {
-                    if (footerLayoutInterface != null) {
-                        footerLayoutInterface.onXFooterClick(view);
-                    }
-                }
-            }
-        });
     }
 
     private void initText() {
@@ -90,7 +88,7 @@ public class XFooterLayout extends LinearLayout {
         }
     }
 
-    public void setState(int state) {
+    public void setState(@LoadMoreStatus int state) {
         switch (state) {
             case STATE_LOADING:
                 progressCon.setVisibility(View.VISIBLE);
@@ -109,18 +107,13 @@ public class XFooterLayout extends LinearLayout {
                 progressCon.setVisibility(View.GONE);
                 break;
         }
-        mState = state;
     }
 
-    public interface FooterLayoutInterface {
-        void onXFooterClick(View view);
-    }
-
-    public void setViewBackgroundColor(int color) {
+    public void setViewBackgroundColor(@ColorRes int color) {
         this.setBackgroundColor(ContextCompat.getColor(getContext(), color));
     }
 
-    public void setTextColor(int color) {
+    public void setTextColor(@ColorRes int color) {
         mText.setTextColor(ContextCompat.getColor(getContext(), color));
     }
 

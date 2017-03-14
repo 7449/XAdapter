@@ -23,20 +23,16 @@ android {
             }
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
 }
 publish {
     userOrg = 'ydevelop'
     groupId = 'com.xadapter'
     artifactId = 'xadapter'
-    publishVersion = '0.0.9'
+    publishVersion = '0.1'
     desc = 'this is XAdapter'
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:design:25.0.0'
+    provided 'com.android.support:appcompat-v7:25.0.0'
+    provided 'com.android.support:design:25.0.0'
 }

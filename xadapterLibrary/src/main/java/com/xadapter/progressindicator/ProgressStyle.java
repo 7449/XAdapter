@@ -3,7 +3,6 @@ package com.xadapter.progressindicator;
 /**
  * by y on 15/11/23
  */
-@SuppressWarnings("ALL")
 public class ProgressStyle {
     public static final int SysProgress=-1;
     public static final int BallPulse=0;

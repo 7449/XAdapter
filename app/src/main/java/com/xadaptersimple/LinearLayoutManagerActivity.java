@@ -15,8 +15,8 @@ import com.xadapter.adapter.XBaseAdapter;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.progressindicator.ProgressStyle;
-import com.xadapter.widget.BaseRefreshHeader;
-import com.xadapter.widget.XFooterLayout;
+import com.xadapter.widget.FooterLayout;
+import com.xadapter.widget.HeaderLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class LinearLayoutManagerActivity extends AppCompatActivity
         implements XBaseAdapter.OnXBindListener<MainBean>, XBaseAdapter.OnItemLongClickListener<MainBean>,
-        XBaseAdapter.OnItemClickListener<MainBean>, XBaseAdapter.FooterListener, XBaseAdapter.LoadingListener {
+        XBaseAdapter.OnItemClickListener<MainBean>, XBaseAdapter.FooterListener, XBaseAdapter.LoadListener {
 
     private XRecyclerViewAdapter<MainBean> xRecyclerViewAdapter;
 
@@ -63,7 +63,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
                         .onXBind(this)
                         .setOnLongClickListener(this)
                         .setOnItemClickListener(this)
-                        .setLoadingListener(this)
+                        .setLoadListener(this)
                         .setFooterListener(this)
                         .setRefreshing(true)
         );
@@ -96,7 +96,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
+                xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
                 Toast.makeText(getBaseContext(), "refresh...", Toast.LENGTH_SHORT).show();
             }
         }, 1500);
@@ -107,7 +107,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.loadMoreComplete(XFooterLayout.STATE_ERROR);
+                xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_ERROR);
                 Toast.makeText(getBaseContext(), "loadMore...", Toast.LENGTH_SHORT).show();
             }
         }, 1500);

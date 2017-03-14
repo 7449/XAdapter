@@ -3,7 +3,10 @@ package com.xadapter.widget;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -25,7 +28,14 @@ import com.xadapter.progressindicator.ProgressStyle;
  * by y on 2016/11/16
  */
 
-public class XHeaderLayout extends LinearLayout implements BaseRefreshHeader {
+public class HeaderLayout extends LinearLayout implements BaseRefreshHeader {
+
+    public static final int STATE_NORMAL = 0;
+    public static final int STATE_RELEASE_TO_REFRESH = 1;
+    public static final int STATE_REFRESHING = 2;
+    public static final int STATE_DONE = 3;
+    public static final int STATE_ERROR = 4;
+
     private View mContainer;
     private ImageView mImageView;
     private SimpleViewSwitcher mProgressBar;
@@ -40,12 +50,12 @@ public class XHeaderLayout extends LinearLayout implements BaseRefreshHeader {
 
     private int mMeasuredHeight;
 
-    public XHeaderLayout(Context context) {
+    public HeaderLayout(Context context) {
         super(context);
         initView();
     }
 
-    public XHeaderLayout(Context context, AttributeSet attrs) {
+    public HeaderLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
@@ -83,9 +93,11 @@ public class XHeaderLayout extends LinearLayout implements BaseRefreshHeader {
         mContainer = LayoutInflater.from(getContext()).inflate(R.layout.listview_header, null);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, 0, 0, 0);
-        this.setLayoutParams(lp);
-        this.setPadding(0, 0, 0, 0);
-        this.setBackground(null);
+        setLayoutParams(lp);
+        setPadding(0, 0, 0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(null);
+        }
         addView(mContainer, new LayoutParams(LayoutParams.MATCH_PARENT, 0));
         setGravity(Gravity.BOTTOM);
     }
@@ -101,19 +113,19 @@ public class XHeaderLayout extends LinearLayout implements BaseRefreshHeader {
         }
     }
 
-    public void setImageView(int resid) {
+    public void setImageView(@DrawableRes int resid) {
         mImageView.setImageResource(resid);
     }
 
-    public void setTextColor(int color) {
+    public void setTextColor(@ColorRes int color) {
         mStatusTextView.setTextColor(ContextCompat.getColor(getContext(), color));
     }
 
-    public void setViewBackgroundColor(int color) {
+    public void setViewBackgroundColor(@ColorRes int color) {
         mRootView.setBackgroundColor(ContextCompat.getColor(getContext(), color));
     }
 
-    public void setState(int state) {
+    public void setState(@RefreshState int state) {
         if (state == mState) return;
 
         if (state == STATE_REFRESHING) {    // 显示进度

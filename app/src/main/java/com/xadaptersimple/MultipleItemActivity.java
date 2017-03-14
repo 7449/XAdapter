@@ -30,6 +30,5 @@ public class MultipleItemActivity extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MultipleAdapter(strings));
     }
 }

@@ -6,6 +6,8 @@ package com.xadapter.adapter.multi;
 
 public interface MultiCallBack {
 
+    int TYPE_ITEM = -11;
+
     boolean hasClick();
 
     int getItemType();

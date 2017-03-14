@@ -1,6 +1,9 @@
 package com.xadapter.adapter.multi;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import com.xadapter.holder.XViewHolder;
 
 import java.util.List;
+
 
 /**
  * by y on 2017/3/9
@@ -19,7 +23,7 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
     private OnItemClickListener<T> mOnItemClickListener;
     private OnItemLongClickListener<T> mOnLongClickListener;
 
-    public MultiAdapter(List<T> mDatas) {
+    public MultiAdapter(@NonNull List<T> mDatas) {
         this.mDatas = mDatas;
     }
 
@@ -108,14 +112,14 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
         }
     }
 
-    public void add(T t) {
+    public void add(@NonNull T t) {
         if (mDatas != null) {
             mDatas.add(t);
             notifyDataSetChanged();
         }
     }
 
-    public void addAll(List<T> t) {
+    public void addAll(@NonNull List<T> t) {
         if (mDatas != null) {
             mDatas.addAll(t);
             notifyDataSetChanged();
@@ -124,5 +128,39 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
 
     public T getData(int position) {
         return mDatas.get(position);
+    }
+
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if (manager instanceof GridLayoutManager) {
+            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (!(getItemViewType(position) == MultiCallBack.TYPE_ITEM)) {
+                        return gridManager.getSpanCount();
+                    } else {
+                        return 1;
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(XViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+            StaggeredGridLayoutManager.LayoutParams stagger = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
+            if (!(getItemViewType(holder.getLayoutPosition()) == MultiCallBack.TYPE_ITEM)) {
+                stagger.setFullSpan(true);
+            } else {
+                stagger.setFullSpan(false);
+            }
+        }
     }
 }

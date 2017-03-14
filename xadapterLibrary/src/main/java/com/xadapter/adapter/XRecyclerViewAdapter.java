@@ -1,12 +1,12 @@
 package com.xadapter.adapter;
 
-import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.manager.XScrollBottom;
 
 import java.util.List;
 
@@ -16,19 +16,14 @@ import java.util.List;
  * List Collection Data Use this Adapter
  */
 
-public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
-        implements XScrollBottom {
-
-
-    public XRecyclerViewAdapter() {
-    }
+public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
 
     /**
      * You must call this method to initialize the data
      *
      * @param data mDatas
      */
-    public XRecyclerViewAdapter<T> initXData(List<T> data) {
+    public XRecyclerViewAdapter<T> initXData(@NonNull List<T> data) {
         mDatas = data;
         return this;
     }
@@ -36,7 +31,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
     /**
      * @param recyclerView this is recyclerView
      */
-    public XRecyclerViewAdapter<T> addRecyclerView(RecyclerView recyclerView) {
+    public XRecyclerViewAdapter<T> addRecyclerView(@NonNull RecyclerView recyclerView) {
         linkRecyclerView(recyclerView);
         return this;
     }
@@ -47,30 +42,26 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
      *
      * @param view this is emptyView
      */
-    public XRecyclerViewAdapter<T> setEmptyView(View view) {
+    public XRecyclerViewAdapter<T> setEmptyView(@NonNull View view) {
         mEmptyView = view;
-        if (view != null) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mOnEmptyViewListener != null) {
-                        mOnEmptyViewListener.onXEmptyViewClick(view);
-                    }
-                }
-            });
-        }
         return this;
     }
 
+    public T previousItem(int position) {
+        if (position == 0) {
+            return mDatas.get(0);
+        }
+        return mDatas.get(position - 1);
+    }
 
-    public void addAllData(List<T> data) {
+    public void addAllData(@NonNull List<T> data) {
         if (isDataEmpty()) {
             mDatas.addAll(data);
             notifyDataSetChanged();
         }
     }
 
-    public void addData(T data) {
+    public void addData(@NonNull T data) {
         if (isDataEmpty()) {
             mDatas.add(data);
             notifyDataSetChanged();
@@ -106,12 +97,12 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
             case TYPE_LOADMORE_FOOTER:
                 return new XViewHolder(mFooterLayout);
             default:
-                return new XViewHolder(getView(parent));
+                return new XViewHolder(LayoutInflater.from(parent.getContext()).inflate(ITEM_LAYOUT_ID, parent, false));
         }
     }
 
     @Override
-    public void onBindViewHolder(XViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(XViewHolder holder, int position) {
         if (getItemViewType(position) != TYPE_ITEM) {
             return;
         }
@@ -215,30 +206,15 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T>
      * Whether to display emptyView requires the user to manually invoke it
      */
     public void isShowEmptyView() {
-//        mDatas.isEmpty()
-        if (mDatas.size() == 0) {
-            showEmptyView();
-        } else {
-            hideEmptyView();
+        if (recyclerView == null || mEmptyView == null) {
+            return;
         }
-    }
-
-    public void showEmptyView() {
-        if (mEmptyView != null) {
+        if (mDatas.size() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void hideEmptyView() {
-        if (mEmptyView != null) {
             mEmptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
         }
     }
-
 }

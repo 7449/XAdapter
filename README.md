@@ -18,7 +18,7 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.9'
+>compile 'com.xadapter:xadapter:0.1'
 
 
 
@@ -72,15 +72,8 @@ Achieve data display
 	                        .setEmptyView(findViewById(R.id.emptyView))
 	                        .addRecyclerView(recyclerView)
 	                        .setLayoutId(R.layout.item)
-	                        .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
-	                            @Override
-	                            public void onXEmptyViewClick(View view) {
-	                                Toast.makeText(EmptyViewActivity.this, "emptyView", Toast.LENGTH_SHORT).show();
-	                            }
-	                        })
-	        );
+	   );
 
-Click events can write their own, but it is recommended to use XRecyclerViewAdapter onXEmptyViewListener
 
 ##pull to refresh and load more
 
@@ -108,14 +101,14 @@ When the drop-down refresh is complete
 
 It is up to the user to choose whether the load fails or is successful
 
->xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
+>xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
 
 
 When the pull-up is complete
 
 It is up to the user to choose whether the load fails or is successful
 
->xRecyclerViewAdapter.loadMoreComplete(XFooterLayout.STATE_NOMORE);
+>xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_NOMORE);
 
 
 ###addHeader addFooter

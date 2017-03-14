@@ -5,14 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xadapter.adapter.XBaseAdapter;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.BaseRefreshHeader;
+import com.xadapter.widget.HeaderLayout;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ import rx.schedulers.Schedulers;
  * by y on 2016/11/17
  */
 public class NetWorkActivity extends AppCompatActivity
-        implements XBaseAdapter.LoadingListener, XBaseAdapter.OnXBindListener<NetWorkBean.TngouBean> {
+        implements XBaseAdapter.LoadListener, XBaseAdapter.OnXBindListener<NetWorkBean.TngouBean> {
 
     private XRecyclerViewAdapter<NetWorkBean.TngouBean> xRecyclerViewAdapter;
 
@@ -51,14 +50,8 @@ public class NetWorkActivity extends AppCompatActivity
                 .onXBind(this)
                 .setPullRefreshEnabled(true)
                 .setLoadingMoreEnabled(true)
-                .setLoadingListener(this)
+                .setLoadListener(this)
                 .setRefreshing(true)
-                .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
-                    @Override
-                    public void onXEmptyViewClick(View view) {
-                        xRecyclerViewAdapter.setRefreshing(true);
-                    }
-                })
         );
     }
 
@@ -83,20 +76,19 @@ public class NetWorkActivity extends AppCompatActivity
                 .subscribe(new Subscriber<NetWorkBean>() {
                     @Override
                     public void onCompleted() {
-                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
+                        xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
                         xRecyclerViewAdapter.isShowEmptyView();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(getApplicationContext(), "error network", Toast.LENGTH_SHORT).show();
-                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_ERROR);
+                        xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_ERROR);
                         xRecyclerViewAdapter.isShowEmptyView();
                     }
 
                     @Override
                     public void onNext(NetWorkBean netWorkBean) {
-//                        netWorkBean.getTngou().clear();
                         xRecyclerViewAdapter.addAllData(netWorkBean.getTngou());
                     }
                 });

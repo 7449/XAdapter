@@ -3,15 +3,14 @@ package com.xadapter.manager;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.xadapter.widget.BaseRefreshHeader;
-import com.xadapter.widget.XHeaderLayout;
+import com.xadapter.widget.HeaderLayout;
 
 /**
  * by y on 2016/11/15
  */
 
 public class XTouchListener implements View.OnTouchListener {
-    private XHeaderLayout mRefreshHeaderLayout = null;
+    private HeaderLayout mRefreshHeaderLayout = null;
     private boolean isRefreshHeader = false;
     private float rawY = -1;
     private RefreshInterface refreshInterface = null;
@@ -23,7 +22,10 @@ public class XTouchListener implements View.OnTouchListener {
     }
 
 
-    public XTouchListener(XHeaderLayout mRefreshHeaderLayout, boolean isRefreshHeader, RefreshInterface refreshInterface) {
+    public XTouchListener(
+            HeaderLayout mRefreshHeaderLayout,
+            boolean isRefreshHeader,
+            RefreshInterface refreshInterface) {
         this.mRefreshHeaderLayout = mRefreshHeaderLayout;
         this.isRefreshHeader = isRefreshHeader;
         this.refreshInterface = refreshInterface;
@@ -47,7 +49,7 @@ public class XTouchListener implements View.OnTouchListener {
                 rawY = motionEvent.getRawY();
                 if (isTop() && isRefreshHeader && state == AppBarStateChangeListener.State.EXPANDED) {
                     mRefreshHeaderLayout.onMove(deltaY / DAMP);
-                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < BaseRefreshHeader.STATE_DONE) {
+                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < HeaderLayout.STATE_DONE) {
                         return true;
                     }
                 }

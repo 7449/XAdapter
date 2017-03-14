@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -54,12 +53,6 @@ public class SwipeRefreshLayoutActivity extends AppCompatActivity
                 .addRecyclerView(recyclerView)
                 .setLayoutId(R.layout.network_item)
                 .onXBind(this)
-                .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
-                    @Override
-                    public void onXEmptyViewClick(View view) {
-                        onRefresh();
-                    }
-                })
         );
     }
 
@@ -87,7 +80,6 @@ public class SwipeRefreshLayoutActivity extends AppCompatActivity
                     @Override
                     public void onStart() {
                         super.onStart();
-                        xRecyclerViewAdapter.hideEmptyView();
                         swipeRefreshLayout.setRefreshing(true);
                     }
 
@@ -101,7 +93,7 @@ public class SwipeRefreshLayoutActivity extends AppCompatActivity
                     public void onError(Throwable e) {
                         swipeRefreshLayout.setRefreshing(false);
                         xRecyclerViewAdapter.isShowEmptyView();
-                        Toast.makeText(getApplicationContext(), "error network", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "error network:" + e.toString(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

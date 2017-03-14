@@ -1,6 +1,7 @@
 package com.xadapter.holder;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -32,7 +33,7 @@ public class XViewHolder extends RecyclerView.ViewHolder {
     }
 
     public <T extends View> T getView(int id) {
-        @SuppressWarnings("unchecked") SparseArray<View> viewSparseArray = (SparseArray<View>) itemView.getTag();
+        SparseArray<View> viewSparseArray = (SparseArray<View>) itemView.getTag();
         if (null == viewSparseArray) {
             viewSparseArray = new SparseArray<>();
             itemView.setTag(viewSparseArray);
@@ -42,7 +43,6 @@ public class XViewHolder extends RecyclerView.ViewHolder {
             childView = itemView.findViewById(id);
             viewSparseArray.put(id, childView);
         }
-        //noinspection unchecked
         return (T) childView;
     }
 
@@ -114,7 +114,7 @@ public class XViewHolder extends RecyclerView.ViewHolder {
         getTextView(id).setText(charSequence);
     }
 
-    public void setTextColor(int id, int color) {
+    public void setTextColor(int id, @ColorRes int color) {
         getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color));
     }
 

@@ -75,7 +75,6 @@ import com.xadapter.progressindicator.indicator.TriangleSkewSpinIndicator;
  * .SemiCircleSpin
  */
 public class AVLoadingIndicatorView extends View {
-    //indicators
     private static final int BallPulse = 0;
     private static final int BallGridPulse = 1;
     private static final int BallClipRotate = 2;

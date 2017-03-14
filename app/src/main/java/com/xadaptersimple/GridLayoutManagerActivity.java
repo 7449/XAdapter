@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import com.xadapter.adapter.XBaseAdapter;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.BaseRefreshHeader;
-import com.xadapter.widget.XFooterLayout;
+import com.xadapter.widget.FooterLayout;
+import com.xadapter.widget.HeaderLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +51,13 @@ public class GridLayoutManagerActivity extends AppCompatActivity {
                                 holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
                             }
                         })
-                        .setLoadingListener(new XBaseAdapter.LoadingListener() {
+                        .setLoadListener(new XBaseAdapter.LoadListener() {
                             @Override
                             public void onRefresh() {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
+                                        xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
                                     }
                                 }, 1500);
                             }
@@ -67,7 +67,7 @@ public class GridLayoutManagerActivity extends AppCompatActivity {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        xRecyclerViewAdapter.loadMoreComplete(XFooterLayout.STATE_NOMORE);
+                                        xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_NOMORE);
                                     }
                                 }, 1500);
                             }

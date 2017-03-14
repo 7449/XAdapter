@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(SwipeRefreshLayoutActivity.class);
                 break;
             case R.id.multiple:
-                startActivity(MultipleItemActivity.class);
+//                startActivity(MultipleItemActivity.class);
                 break;
         }
     }

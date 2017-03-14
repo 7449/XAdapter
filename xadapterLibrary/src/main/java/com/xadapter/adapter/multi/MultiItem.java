@@ -2,8 +2,6 @@ package com.xadapter.adapter.multi;
 
 /**
  * by y on 2017/3/9
- * <p>
- * 使用者可自定义Item，此Item只作为一个参考
  */
 
 public class MultiItem implements MultiCallBack {
@@ -44,6 +42,18 @@ public class MultiItem implements MultiCallBack {
         this.message = message;
         this.messageSuffix = messageSuffix;
     }
+
+    /**
+     * @param itemType      RecyclerView Type
+     * @param message       携带信息
+     * @param messageSuffix 携带的第二个信息
+     */
+    public MultiItem(int itemType, String message, String messageSuffix) {
+        this.itemType = itemType;
+        this.message = message;
+        this.messageSuffix = messageSuffix;
+    }
+
 
     /**
      * @param itemType     RecyclerView Type

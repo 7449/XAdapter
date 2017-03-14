@@ -10,7 +10,7 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.0.9'
+>compile 'com.xadapter:xadapter:0.1'
 
 
 
@@ -65,15 +65,8 @@ onXBind
 	                        .setEmptyView(findViewById(R.id.emptyView))
 	                        .addRecyclerView(recyclerView)
 	                        .setLayoutId(R.layout.item)
-	                        .setOnXEmptyViewListener(new XBaseAdapter.OnXEmptyViewListener() {
-	                            @Override
-	                            public void onXEmptyViewClick(View view) {
-	                                Toast.makeText(EmptyViewActivity.this, "emptyView", Toast.LENGTH_SHORT).show();
-	                            }
-	                        })
 	        );
 
-点击事件可以自己用emptyView实现，但是建议使用XRecyclerViewAdapter 的 onXEmptyViewListener来实现emptyView的点击事件
 
 ##下拉刷新和上拉加载
 
@@ -101,14 +94,14 @@ onXBind
 
 这取决于用户选择刷新是否失败或成功
 
->xRecyclerViewAdapter.refreshComplete(BaseRefreshHeader.STATE_DONE);
+>xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
 
 
 上拉加载完成之后
 
 这取决于用户选择加载是否失败或成功
 
->xRecyclerViewAdapter.loadMoreComplete(XFooterLayout.STATE_NOMORE);
+>xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_NOMORE);
 
 
 ###添加header和footer
