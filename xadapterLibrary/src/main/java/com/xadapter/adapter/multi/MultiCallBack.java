@@ -8,8 +8,6 @@ public interface MultiCallBack {
 
     int TYPE_ITEM = -11;
 
-    boolean hasClick();
-
     int getItemType();
 
     int getPosition();

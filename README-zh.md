@@ -10,7 +10,7 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.1.1'
+>compile 'com.xadapter:xadapter:0.1.2'
 
 
 

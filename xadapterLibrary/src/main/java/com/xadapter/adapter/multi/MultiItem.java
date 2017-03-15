@@ -89,11 +89,6 @@ public class MultiItem implements MultiCallBack {
     }
 
     @Override
-    public boolean hasClick() {
-        return itemPosition != -1;
-    }
-
-    @Override
     public int getItemType() {
         return itemType;
     }

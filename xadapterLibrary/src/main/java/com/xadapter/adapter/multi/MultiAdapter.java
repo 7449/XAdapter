@@ -19,9 +19,9 @@ import java.util.List;
 
 public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView.Adapter<XViewHolder> {
 
-    private List<T> mDatas = null;
-    private OnItemClickListener<T> mOnItemClickListener;
-    private OnItemLongClickListener<T> mOnLongClickListener;
+    protected List<T> mDatas = null;
+    protected OnItemClickListener<T> mOnItemClickListener;
+    protected OnItemLongClickListener<T> mOnLongClickListener;
 
     public MultiAdapter(@NonNull List<T> mDatas) {
         this.mDatas = mDatas;
@@ -43,7 +43,7 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
         if (t != null) {
             onBind(holder, t, t.getItemType(), t.getPosition() == -1 ? position : t.getPosition());
 
-            if (mOnItemClickListener != null && t.hasClick()) {
+            if (mOnItemClickListener != null && t.getPosition() != -1) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -52,7 +52,7 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
                 });
             }
 
-            if (mOnLongClickListener != null && t.hasClick()) {
+            if (mOnLongClickListener != null && t.getPosition() != -1) {
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
