@@ -47,6 +47,56 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
         return this;
     }
 
+    /**
+     * Sets the view to show if the adapter is empty
+     * Called after addRecyclerView
+     *
+     * @param view    this is emptyView
+     * @param isClick Whether to enable click trigger trigger drop
+     */
+    public XRecyclerViewAdapter<T> setEmptyView(@NonNull View view, boolean isClick) {
+        mEmptyView = view;
+        if (isClick)
+            mEmptyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setRefreshing(true);
+                }
+            });
+        return this;
+    }
+
+    /**
+     * Sets the view to show if the adapter is netWorkErrorView
+     * Called after addRecyclerView
+     *
+     * @param view this is netWorkErrorView
+     */
+    public XRecyclerViewAdapter<T> setNetWorkErrorView(@NonNull View view) {
+        mNetWorkErrorView = view;
+        return this;
+    }
+
+    /**
+     * Sets the view to show if the adapter is netWorkErrorView
+     * Called after addRecyclerView
+     *
+     * @param view    this is netWorkErrorView
+     * @param isClick Whether to enable click trigger trigger drop
+     */
+    public XRecyclerViewAdapter<T> setNetWorkErrorView(@NonNull View view, boolean isClick) {
+        mNetWorkErrorView = view;
+        if (isClick) {
+            mNetWorkErrorView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setRefreshing(true);
+                }
+            });
+        }
+        return this;
+    }
+
     public T previousItem(int position) {
         if (position == 0) {
             return mDatas.get(0);
@@ -55,31 +105,23 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
     }
 
     public void addAllData(@NonNull List<T> data) {
-        if (isDataEmpty()) {
-            mDatas.addAll(data);
-            notifyDataSetChanged();
-        }
+        mDatas.addAll(data);
+        notifyDataSetChanged();
     }
 
     public void addData(@NonNull T data) {
-        if (isDataEmpty()) {
-            mDatas.add(data);
-            notifyDataSetChanged();
-        }
+        mDatas.add(data);
+        notifyDataSetChanged();
     }
 
     public void remove(int position) {
-        if (isDataEmpty()) {
-            mDatas.remove(position);
-            notifyDataSetChanged();
-        }
+        mDatas.remove(position);
+        notifyDataSetChanged();
     }
 
     public void removeAll() {
-        if (isDataEmpty()) {
-            mDatas.clear();
-            notifyDataSetChanged();
-        }
+        mDatas.clear();
+        notifyDataSetChanged();
     }
 
 
@@ -142,7 +184,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
 
     @Override
     public int getItemCount() {
-        return mDatas == null ? 0 : getDataSize() + getFooterViewCount() + getHeaderViewCount();
+        return getDataSize() + getFooterViewCount() + getHeaderViewCount();
     }
 
     private int getDataSize() {
@@ -155,13 +197,6 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
             tempPosition = 0;
         }
         return mDatas.size() + tempPosition;
-    }
-
-    /**
-     * mDatas is null?
-     */
-    private boolean isDataEmpty() {
-        return mDatas != null;
     }
 
     /**
@@ -196,10 +231,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
      * gets the correct position
      */
     private int getItemPosition(int position) {
-        if (pullRefreshEnabled) {
-            position -= 1;
-        }
-        return position - getHeaderViewCount();
+        return pullRefreshEnabled ? position - 1 : position - getHeaderViewCount();
     }
 
     /**
@@ -214,6 +246,22 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
             recyclerView.setVisibility(View.GONE);
         } else {
             mEmptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Whether to display netWorkErrorView requires the user to manually invoke it
+     */
+    public void isShowNetWorkErrorView() {
+        if (recyclerView == null || mNetWorkErrorView == null) {
+            return;
+        }
+        if (mDatas.size() == 0) {
+            mNetWorkErrorView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            mNetWorkErrorView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
     }

@@ -43,7 +43,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     private int mRefreshProgressStyle = ProgressStyle.SysProgress;
     private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
     View mEmptyView = null;
-
+    View mNetWorkErrorView = null;
 
     /**
      * The listener that receives notifications when an item is clicked.
@@ -187,7 +187,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
          * @param position The position of the view in the adapter.
          * @param info     The adapter's data
          */
-        void onLongClick(View view, int position, T info);
+        boolean onLongClick(View view, int position, T info);
 
     }
 
@@ -239,14 +239,14 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         this.recyclerView = recyclerView;
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-            mHeaderLayout = new HeaderLayout(recyclerView.getContext());
-            mFooterLayout = new FooterLayout(recyclerView.getContext());
             initHeaderAndFooter();
         }
         return this;
     }
 
     private void initHeaderAndFooter() {
+        mHeaderLayout = new HeaderLayout(recyclerView.getContext());
+        mFooterLayout = new FooterLayout(recyclerView.getContext());
         refreshComplete(HeaderLayout.STATE_RELEASE_TO_REFRESH);
         loadMoreComplete(FooterLayout.STATE_LOADING);
         mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
@@ -307,8 +307,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    mOnLongClickListener.onLongClick(view, position, t);
-                    return true;
+                    return mOnLongClickListener.onLongClick(view, position, t);
                 }
             });
         }
@@ -431,8 +430,11 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         if (refreshing && pullRefreshEnabled && mLoadingListener != null) {
             if (mEmptyView != null) {
                 mEmptyView.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
             }
+            if (mNetWorkErrorView != null) {
+                mNetWorkErrorView.setVisibility(View.GONE);
+            }
+            recyclerView.setVisibility(View.VISIBLE);
             mHeaderLayout.setState(HeaderLayout.STATE_REFRESHING);
             mHeaderLayout.onMove(mHeaderLayout.getMeasuredHeight());
             mLoadingListener.onRefresh();
