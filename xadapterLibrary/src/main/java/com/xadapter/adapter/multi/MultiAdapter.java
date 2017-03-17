@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xadapter.OnItemClickListener;
+import com.xadapter.OnItemLongClickListener;
 import com.xadapter.holder.XViewHolder;
 
 import java.util.List;
@@ -56,8 +58,8 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
                 holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        mOnLongClickListener.onLongClick(v, t.getPosition() == -1 ? position : t.getPosition(), t);
-                        return true;
+                        return mOnLongClickListener.onLongClick(v, t.getPosition() == -1 ? position : t.getPosition(), t);
+
                     }
                 });
             }
@@ -88,14 +90,6 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
 
     public void setOnLongClickListener(OnItemLongClickListener<T> listener) {
         this.mOnLongClickListener = listener;
-    }
-
-    public interface OnItemClickListener<T> {
-        void onItemClick(View view, int position, T info);
-    }
-
-    public interface OnItemLongClickListener<T> {
-        void onLongClick(View view, int position, T info);
     }
 
     public void clearAll() {

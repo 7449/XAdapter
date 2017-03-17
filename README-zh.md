@@ -10,7 +10,7 @@
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.1.2'
+>compile 'com.xadapter:xadapter:0.1.3'
 
 
 
@@ -56,16 +56,18 @@ onXBind
 
 ##emptyView
 
->setEmptyView一定要在addRecyclerView之前调用，否则无效，具体的内容可以看simple以及源码
 >是否显示由用户自己手动决定，在网络异常或者数据为空的时候调用xRecyclerViewAdapter.isShowEmptyView();具体情况simple有例子
+>true 可选，自己响应点击事件，点击自动触发 下拉刷新
 
-	 recyclerView.setAdapter(
-	                xRecyclerViewAdapter
-	                        .initXData(mainBean)
-	                        .setEmptyView(findViewById(R.id.emptyView))
-	                        .addRecyclerView(recyclerView)
-	                        .setLayoutId(R.layout.item)
-	        );
+        recyclerView.setAdapter(
+                xRecyclerViewAdapter
+                        .initXData(mainBean)
+                        .addRecyclerView(recyclerView)
+                        .setEmptyView(viewById, true) 
+                        .setPullRefreshEnabled(true)
+                        .setLoadListener(this)
+                        .setLayoutId(R.layout.item)
+        );
 
 
 ##下拉刷新和上拉加载
@@ -109,6 +111,12 @@ onXBind
 		xRecyclerViewAdapter
 		 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
 		 .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
+		 
+		 
+###多种type
+
+继承 `MultiAdapter` 并且`T`必须继承`MultiCallBack`
+已经内置了一个简单的示例，详情查看 `SimpleMultiItem`
 
 ###加载动画
 

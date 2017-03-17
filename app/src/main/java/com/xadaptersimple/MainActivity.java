@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.xadaptersimple.net.NetWorkActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(SwipeRefreshLayoutActivity.class);
                 break;
             case R.id.multiple:
-//                startActivity(MultipleItemActivity.class);
+                startActivity(MultipleItemActivity.class);
                 break;
         }
     }

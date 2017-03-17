@@ -18,7 +18,7 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.1.2'
+>compile 'com.xadapter:xadapter:0.1.3'
 
 
 
@@ -63,7 +63,6 @@ Achieve data display
 
 ##emptyView
 
->setEmptyView must be called before addRecyclerView, otherwise invalid, please see simple
 >Whether to display manually determined by the user's own network exceptions or data is empty when the call xRecyclerViewAdapter.isShowEmptyView (); specific examples of simple
 	
 	 recyclerView.setAdapter(
@@ -116,6 +115,8 @@ It is up to the user to choose whether the load fails or is successful
 		xRecyclerViewAdapter
 		 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
 		 .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
+		 
+###MultipleAdapter
 
 ###Load the animation
 

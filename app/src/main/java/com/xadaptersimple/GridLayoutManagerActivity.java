@@ -9,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.xadapter.adapter.XBaseAdapter;
+import com.xadapter.LoadListener;
+import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.widget.FooterLayout;
 import com.xadapter.widget.HeaderLayout;
+import com.xadaptersimple.data.DataUtils;
+import com.xadaptersimple.data.MainBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +47,14 @@ public class GridLayoutManagerActivity extends AppCompatActivity {
                         .setLoadingMoreEnabled(true)
                         .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
                         .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
-                        .onXBind(new XBaseAdapter.OnXBindListener<MainBean>() {
+                        .onXBind(new OnXBindListener<MainBean>() {
                             @Override
                             public void onXBind(XViewHolder holder, int position, MainBean mainBean) {
                                 holder.setTextView(R.id.tv_name, mainBean.getName());
                                 holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
                             }
                         })
-                        .setLoadListener(new XBaseAdapter.LoadListener() {
+                        .setLoadListener(new LoadListener() {
                             @Override
                             public void onRefresh() {
                                 new Handler().postDelayed(new Runnable() {

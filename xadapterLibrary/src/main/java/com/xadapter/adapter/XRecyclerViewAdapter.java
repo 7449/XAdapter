@@ -44,6 +44,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
      */
     public XRecyclerViewAdapter<T> setEmptyView(@NonNull View view) {
         mEmptyView = view;
+        mEmptyView.setVisibility(View.GONE);
         return this;
     }
 
@@ -63,6 +64,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
                     setRefreshing(true);
                 }
             });
+        mEmptyView.setVisibility(View.GONE);
         return this;
     }
 
@@ -74,6 +76,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
      */
     public XRecyclerViewAdapter<T> setNetWorkErrorView(@NonNull View view) {
         mNetWorkErrorView = view;
+        mNetWorkErrorView.setVisibility(View.GONE);
         return this;
     }
 
@@ -94,6 +97,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
                 }
             });
         }
+        mNetWorkErrorView.setVisibility(View.GONE);
         return this;
     }
 
@@ -231,7 +235,10 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
      * gets the correct position
      */
     private int getItemPosition(int position) {
-        return pullRefreshEnabled ? position - 1 : position - getHeaderViewCount();
+        if (pullRefreshEnabled) {
+            position -= 1;
+        }
+        return position - getHeaderViewCount();
     }
 
     /**

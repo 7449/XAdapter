@@ -1,4 +1,4 @@
-package com.xadaptersimple;
+package com.xadaptersimple.data;
 
 
 /**

@@ -11,12 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.xadapter.adapter.XBaseAdapter;
+import com.xadapter.FooterClickListener;
+import com.xadapter.LoadListener;
+import com.xadapter.OnItemClickListener;
+import com.xadapter.OnItemLongClickListener;
+import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.progressindicator.ProgressStyle;
 import com.xadapter.widget.FooterLayout;
 import com.xadapter.widget.HeaderLayout;
+import com.xadaptersimple.data.DataUtils;
+import com.xadaptersimple.data.MainBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +32,8 @@ import java.util.List;
  */
 
 public class LinearLayoutManagerActivity extends AppCompatActivity
-        implements XBaseAdapter.OnXBindListener<MainBean>, XBaseAdapter.OnItemLongClickListener<MainBean>,
-        XBaseAdapter.OnItemClickListener<MainBean>, XBaseAdapter.FooterListener, XBaseAdapter.LoadListener {
+        implements OnXBindListener<MainBean>, OnItemLongClickListener<MainBean>,
+        OnItemClickListener<MainBean>, FooterClickListener, LoadListener {
 
     private XRecyclerViewAdapter<MainBean> xRecyclerViewAdapter;
 
@@ -82,8 +88,9 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLongClick(View view, int position, MainBean info) {
+    public boolean onLongClick(View view, int position, MainBean info) {
         Toast.makeText(getBaseContext(), "onLongClick...", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     @Override

@@ -20,7 +20,7 @@
         <activity android:name=".GridLayoutManagerActivity" />
         <activity android:name=".LinearLayoutManagerActivity" />
         <activity android:name=".StaggeredGridLayoutManagerActivity" />
-        <activity android:name=".NetWorkActivity" />
+        <activity android:name=".net.NetWorkActivity" />
         <activity android:name=".CollapsingToolbarLayoutActivity" />
         <activity android:name=".EmptyViewActivity" />
         <activity android:name=".SwipeRefreshLayoutActivity" />

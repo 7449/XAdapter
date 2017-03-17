@@ -12,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.xadapter.FooterClickListener;
+import com.xadapter.LoadListener;
+import com.xadapter.OnItemClickListener;
+import com.xadapter.OnItemLongClickListener;
+import com.xadapter.OnXBindListener;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.manager.AppBarStateChangeListener;
 import com.xadapter.manager.XScrollListener;
@@ -60,7 +65,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * Click the callback
      */
-    private FooterListener mFooterListener = null;
+    private FooterClickListener mFooterListener = null;
     /**
      * This is the callback interface to get the data
      */
@@ -100,36 +105,12 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     static final int TYPE_LOADMORE_FOOTER = 1;
 
     /**
-     * This is the FooterLayout click-callback event
-     */
-    public interface FooterListener {
-        void onXFooterClick(View view);
-    }
-
-    /**
      * @param footerListener The callback that will be invoked.
      */
-    public XBaseAdapter<T> setFooterListener(@NonNull FooterListener footerListener) {
+    public XBaseAdapter<T> setFooterListener(@NonNull FooterClickListener footerListener) {
         this.mFooterListener = footerListener;
         return this;
     }
-
-    /**
-     * The callback interface definition to invoke in the project
-     */
-    public interface LoadListener {
-
-        /**
-         * Drop-down refresh callback
-         */
-        void onRefresh();
-
-        /**
-         * The pull-up callback is loaded
-         */
-        void onLoadMore();
-    }
-
 
     /**
      * Register the refresh callback inside the XAdapter
@@ -139,25 +120,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     public XBaseAdapter<T> setLoadListener(@NonNull LoadListener mLoadingListener) {
         this.mLoadingListener = mLoadingListener;
         return this;
-    }
-
-    /**
-     * Interface definition for a callback to be invoked when an item in this
-     * XBaseAdapter has been clicked.
-     */
-    public interface OnItemClickListener<T> {
-
-        /**
-         * Callback method to be invoked when an item in this XBaseAdapter has
-         * been clicked.
-         * <p>
-         * If you use T, in order to reduce unnecessary crashes, the proposed empty sentence processing
-         *
-         * @param view     The view within the XBaseAdapter that was clicked
-         * @param position The position of the view in the adapter.
-         * @param info     The adapter's data
-         */
-        void onItemClick(View view, int position, T info);
     }
 
     /**
@@ -172,26 +134,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
     /**
-     * Interface definition for a callback to be invoked when an item in this
-     * view has been clicked and held.
-     */
-    public interface OnItemLongClickListener<T> {
-
-        /**
-         * Callback method to be invoked when an item in this view has been
-         * clicked and held.
-         * <p>
-         * If you use T, in order to reduce unnecessary crashes, the proposed empty sentence processing
-         *
-         * @param view     The view within the XBaseAdapter that was clicked
-         * @param position The position of the view in the adapter.
-         * @param info     The adapter's data
-         */
-        boolean onLongClick(View view, int position, T info);
-
-    }
-
-    /**
      * Register a callback to be invoked when an item in this XBaseAdapter has
      * been clicked and held
      *
@@ -200,15 +142,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     public XBaseAdapter<T> setOnLongClickListener(@NonNull OnItemLongClickListener<T> mOnLongClickListener) {
         this.mOnLongClickListener = mOnLongClickListener;
         return this;
-    }
-
-    /**
-     * The callback to invoke when registering data in the XBaseAdapter
-     *
-     * @param <T> this is mDatas
-     */
-    public interface OnXBindListener<T> {
-        void onXBind(XViewHolder holder, int position, T t);
     }
 
     /**
@@ -230,11 +163,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
 
-    /**
-     * get recyclerview
-     *
-     * @param recyclerView recyclerview
-     */
     XBaseAdapter<T> linkRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         if (recyclerView != null) {

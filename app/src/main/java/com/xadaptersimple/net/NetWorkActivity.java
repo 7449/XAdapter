@@ -1,4 +1,4 @@
-package com.xadaptersimple;
+package com.xadaptersimple.net;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.xadapter.adapter.XBaseAdapter;
+import com.xadapter.LoadListener;
+import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.widget.HeaderLayout;
+import com.xadaptersimple.R;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ import rx.schedulers.Schedulers;
  * by y on 2016/11/17
  */
 public class NetWorkActivity extends AppCompatActivity
-        implements XBaseAdapter.LoadListener, XBaseAdapter.OnXBindListener<NetWorkBean.TngouBean> {
+        implements LoadListener, OnXBindListener<NetWorkBean.TngouBean> {
 
     private XRecyclerViewAdapter<NetWorkBean.TngouBean> xRecyclerViewAdapter;
 

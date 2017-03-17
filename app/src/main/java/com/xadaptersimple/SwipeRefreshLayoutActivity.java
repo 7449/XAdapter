@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.xadapter.adapter.XBaseAdapter;
+import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
+import com.xadaptersimple.net.NetWorkActivity;
+import com.xadaptersimple.net.NetWorkBean;
 
 import java.util.ArrayList;
 
@@ -19,14 +21,14 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.xadaptersimple.NetWorkActivity.initRetrofit;
+import static com.xadaptersimple.net.NetWorkActivity.initRetrofit;
 
 /**
  * by y on 2016/11/22
  */
 
 public class SwipeRefreshLayoutActivity extends AppCompatActivity
-        implements SwipeRefreshLayout.OnRefreshListener, XBaseAdapter.OnXBindListener<NetWorkBean.TngouBean> {
+        implements SwipeRefreshLayout.OnRefreshListener, OnXBindListener<NetWorkBean.TngouBean> {
 
     private XRecyclerViewAdapter<NetWorkBean.TngouBean> xRecyclerViewAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
