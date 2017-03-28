@@ -102,7 +102,8 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
     public void clear(int position) {
         if (mDatas != null) {
             mDatas.remove(position);
-            notifyItemChanged(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, getItemCount());
         }
     }
 

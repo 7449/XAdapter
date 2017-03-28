@@ -120,7 +120,8 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
 
     public void remove(int position) {
         mDatas.remove(position);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
     public void removeAll() {

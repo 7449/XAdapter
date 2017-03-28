@@ -14,11 +14,11 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 [https://github.com/7449/XAdapter/blob/master/xadapter.gif](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
 
 
-[中文文档](https://github.com/7449/XAdapter/blob/master/README-zh.md)
+[中文文档](https://7449.github.io/2016/11/12/Android_XAdapter/)
 
 ###gradle
 
->compile 'com.xadapter:xadapter:0.1.3'
+>compile 'com.xadapter:xadapter:0.1.4'
 
 
 
