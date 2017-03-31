@@ -7,7 +7,7 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 
 
-#Screenshots
+# Screenshots
 
 ![](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
 
@@ -16,13 +16,15 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 [中文文档](https://7449.github.io/2016/11/12/Android_XAdapter/)
 
-###gradle
+### gradle
 
 >compile 'com.xadapter:xadapter:0.1.4'
 
+## tips
 
+It should be noted that, initXData () is not mandatory, only when the beginning of the RecyclerView need to have a data List must call initXData ()
 
-##Full example
+## Full example
 
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
@@ -61,7 +63,7 @@ Achieve data display
         holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
     }
 
-##emptyView
+## emptyView
 
 >Whether to display manually determined by the user's own network exceptions or data is empty when the call xRecyclerViewAdapter.isShowEmptyView (); specific examples of simple
 	
@@ -74,7 +76,7 @@ Achieve data display
 	   );
 
 
-##pull to refresh and load more
+## pull to refresh and load more
 
 The default is not open, if necessary, please manually open, and addRecyclerView
 
