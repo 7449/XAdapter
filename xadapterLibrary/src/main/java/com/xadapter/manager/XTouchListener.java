@@ -3,6 +3,7 @@ package com.xadapter.manager;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.xadapter.widget.FooterLayout;
 import com.xadapter.widget.HeaderLayout;
 
 /**
@@ -11,6 +12,7 @@ import com.xadapter.widget.HeaderLayout;
 
 public class XTouchListener implements View.OnTouchListener {
     private HeaderLayout mRefreshHeaderLayout = null;
+    private FooterLayout footerLayout = null;
     private boolean isRefreshHeader = false;
     private float rawY = -1;
     private RefreshInterface refreshInterface = null;
@@ -24,8 +26,9 @@ public class XTouchListener implements View.OnTouchListener {
 
     public XTouchListener(
             HeaderLayout mRefreshHeaderLayout,
-            boolean isRefreshHeader,
+            FooterLayout mFooterLayout, boolean isRefreshHeader,
             RefreshInterface refreshInterface) {
+        this.footerLayout = mFooterLayout;
         this.mRefreshHeaderLayout = mRefreshHeaderLayout;
         this.isRefreshHeader = isRefreshHeader;
         this.refreshInterface = refreshInterface;
@@ -34,7 +37,10 @@ public class XTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (null == mRefreshHeaderLayout || !isRefreshHeader) {
+        if (null == mRefreshHeaderLayout
+                || !isRefreshHeader
+                || mRefreshHeaderLayout.getState() == HeaderLayout.STATE_REFRESHING
+                || (footerLayout != null && footerLayout.getState() == FooterLayout.STATE_LOADING)) {
             return false;
         }
         if (rawY == -1) {

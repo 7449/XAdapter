@@ -176,10 +176,9 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         mHeaderLayout = new HeaderLayout(recyclerView.getContext());
         mFooterLayout = new FooterLayout(recyclerView.getContext());
         refreshComplete(HeaderLayout.STATE_RELEASE_TO_REFRESH);
-        loadMoreComplete(FooterLayout.STATE_LOADING);
+        loadMoreComplete(FooterLayout.STATE_NOT_LOAD);
         mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
         mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
-        mFooterLayout.setVisibility(View.GONE);
         mFooterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,22 +191,28 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
 
     @Override
     public void onScrollBottom() {
-        if (mLoadingListener != null) {
-            if (mHeaderLayout != null && mHeaderLayout.getState() == HeaderLayout.STATE_REFRESHING) {
+        if (mLoadingListener != null && mFooterLayout != null) {
+            if (mHeaderLayout != null && isLoadMore()) {
                 return;
             }
-            if (mFooterLayout != null) {
-                mFooterLayout.setState(FooterLayout.STATE_LOADING);
+            if (mFooterLayout.getVisibility() == View.GONE) {
                 mFooterLayout.setVisibility(View.VISIBLE);
             }
+            mFooterLayout.setState(FooterLayout.STATE_LOADING);
             mLoadingListener.onLoadMore();
         }
+    }
+
+    private boolean isLoadMore() {
+        return mHeaderLayout.getState() == HeaderLayout.STATE_REFRESHING
+                ||
+                mFooterLayout.getState() == FooterLayout.STATE_LOADING;
     }
 
     @Override
     public void onRefresh() {
         if (mLoadingListener != null) {
-            if (mFooterLayout != null) {
+            if (mFooterLayout != null && mFooterLayout.getVisibility() == View.VISIBLE) {
                 mFooterLayout.setVisibility(View.GONE);
             }
             mLoadingListener.onRefresh();
@@ -254,7 +259,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      * @param loadingMoreEnabled loadingMore status
      */
     public XBaseAdapter<T> setLoadingMoreEnabled(boolean loadingMoreEnabled) {
-        if (pullRefreshEnabled && recyclerView == null) {
+        if (loadingMoreEnabled && recyclerView == null) {
             throw new NullPointerException("Detect recyclerView is null, addRecyclerView () if using pull-down refresh or pull-up load");
         }
         this.loadingMoreEnabled = loadingMoreEnabled;
@@ -282,7 +287,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         }
         this.pullRefreshEnabled = pullRefreshEnabled;
         if (pullRefreshEnabled) {
-            touchListener = new XTouchListener(mHeaderLayout, true, this);
+            touchListener = new XTouchListener(mHeaderLayout, mFooterLayout, true, this);
             recyclerView.setOnTouchListener(touchListener);
         }
         return this;
@@ -486,6 +491,10 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     public void refreshComplete(@HeaderLayout.RefreshState int state) {
         if (mHeaderLayout != null) {
             mHeaderLayout.refreshComplete(state);
+            if (loadingMoreEnabled && mFooterLayout != null && mFooterLayout.getVisibility() == View.GONE) {
+                mFooterLayout.setVisibility(View.VISIBLE);
+                mFooterLayout.setState(FooterLayout.STATE_NOT_LOAD);
+            }
         }
     }
 

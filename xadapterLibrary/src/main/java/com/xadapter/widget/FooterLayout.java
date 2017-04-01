@@ -25,7 +25,9 @@ import java.lang.annotation.RetentionPolicy;
 
 public class FooterLayout extends LinearLayout {
 
-    @IntDef({STATE_LOADING,
+    @IntDef({STATE,
+            STATE_LOADING,
+            STATE_NOT_LOAD,
             STATE_COMPLETE,
             STATE_NOMORE,
             STATE_ERROR})
@@ -34,12 +36,19 @@ public class FooterLayout extends LinearLayout {
     }
 
     private SimpleViewSwitcher progressCon;
+    public static final int STATE = -2;
+    public final static int STATE_NOT_LOAD = -1;
     public final static int STATE_LOADING = 0;
     public final static int STATE_COMPLETE = 1;
     public final static int STATE_NOMORE = 2;
     public final static int STATE_ERROR = 3;
     private TextView mText;
     private int footerHeight = 100;
+    private int mState = STATE;
+
+    public int getState() {
+        return mState;
+    }
 
     public FooterLayout(Context context) {
         super(context);
@@ -89,6 +98,7 @@ public class FooterLayout extends LinearLayout {
     }
 
     public void setState(@LoadMoreStatus int state) {
+        if (state == mState) return;
         switch (state) {
             case STATE_LOADING:
                 progressCon.setVisibility(View.VISIBLE);
@@ -106,7 +116,14 @@ public class FooterLayout extends LinearLayout {
                 mText.setText(getContext().getText(R.string.listview_loading_error));
                 progressCon.setVisibility(View.GONE);
                 break;
+            case STATE_NOT_LOAD:
+                mText.setText(getContext().getText(R.string.listview_not_load));
+                progressCon.setVisibility(View.GONE);
+                break;
+            case STATE:
+                break;
         }
+        mState = state;
     }
 
     public void setViewBackgroundColor(@ColorRes int color) {
