@@ -14,9 +14,6 @@ import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.widget.HeaderLayout;
 import com.xadaptersimple.data.MainBean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * by y on 2016/11/17
  */
@@ -31,7 +28,6 @@ public class EmptyViewActivity extends AppCompatActivity implements LoadListener
         setContentView(R.layout.recyclerview_layout);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        List<MainBean> mainBean = new ArrayList<>();
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         View viewById = findViewById(R.id.emptyView);
@@ -43,7 +39,6 @@ public class EmptyViewActivity extends AppCompatActivity implements LoadListener
 //        });
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
-                        .initXData(mainBean)
                         .addRecyclerView(recyclerView)
                         .setEmptyView(viewById, true)
                         .setPullRefreshEnabled(true)

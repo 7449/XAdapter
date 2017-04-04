@@ -18,7 +18,12 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
->compile 'com.xadapter:xadapter:0.1.5'
+>compile 'com.xadapter:xadapter:0.1.6'
+
+
+### Dividing line
+
+Built a simple example `XDividerItemDecoration`
 
 ## tips
 

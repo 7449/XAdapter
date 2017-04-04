@@ -15,6 +15,7 @@ import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.widget.FooterLayout;
 import com.xadapter.widget.HeaderLayout;
+import com.xadapter.widget.XDividerItemDecoration;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
 
@@ -37,7 +38,7 @@ public class GridLayoutManagerActivity extends AppCompatActivity {
         DataUtils.getData(mainBean);
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
+        recyclerView.addItemDecoration(new XDividerItemDecoration(recyclerView.getContext(), XDividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBean)

@@ -15,8 +15,6 @@ import com.xadapter.holder.XViewHolder;
 import com.xadapter.widget.HeaderLayout;
 import com.xadaptersimple.R;
 
-import java.util.ArrayList;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -45,7 +43,6 @@ public class NetWorkActivity extends AppCompatActivity
 
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setAdapter(xRecyclerViewAdapter
-                .initXData(new ArrayList<NetWorkBean.TngouBean>())
                 .setEmptyView(findViewById(R.id.emptyView))
                 .addRecyclerView(recyclerView)
                 .setLayoutId(R.layout.network_item)
