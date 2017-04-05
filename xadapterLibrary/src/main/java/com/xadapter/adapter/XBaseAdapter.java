@@ -369,6 +369,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
                 mNetWorkErrorView.setVisibility(View.GONE);
             }
             recyclerView.setVisibility(View.VISIBLE);
+            hideFootLayout();
             mHeaderLayout.setState(HeaderLayout.STATE_REFRESHING);
             mHeaderLayout.onMove(mHeaderLayout.getMeasuredHeight());
             mLoadingListener.onRefresh();
