@@ -117,15 +117,17 @@ It is up to the user to choose whether the load fails or is successful
 >xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_NOMORE);
 
 
-###addHeader addFooter
+### addHeader addFooter
 
 		xRecyclerViewAdapter
 		 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
 		 .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
 		 
-###MultipleAdapter
+### MultipleAdapter
 
-###Load the animation
+see [multi](https://github.com/7449/XAdapter/tree/master/xadapterLibrary/src/main/java/com/xadapter/adapter/multi)
+
+### Load the animation
 
 XAdapter's refresh header and the bottom are derived from the [XRecyclerView](https://github.com/jianghejie/XRecyclerView), so support for [XRecyclerView](https://github.com/jianghejie/XRecyclerView) support animation, and the head and the bottom of the extension, you can set the background color, font color.
 
@@ -141,7 +143,7 @@ XAdapter's refresh header and the bottom are derived from the [XRecyclerView](ht
                         .setHeaderTextColor(R.color.textColor)
                         .setFooterTextColor(R.color.textColor)
 
-#Thanks
+# Thanks
 
 [https://github.com/jianghejie/XRecyclerView](https://github.com/jianghejie/XRecyclerView)
 
