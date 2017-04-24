@@ -19,11 +19,12 @@ import java.util.List;
  * by y on 2017/3/9
  */
 
-public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView.Adapter<XViewHolder> {
+public class MultiAdapter<T extends MultiCallBack> extends RecyclerView.Adapter<XViewHolder> {
 
     protected List<T> mDatas = null;
     protected OnItemClickListener<T> mOnItemClickListener;
     protected OnItemLongClickListener<T> mOnLongClickListener;
+    private XMultiAdapterListener<T> xMultiAdapterListener = null;
 
     public MultiAdapter(@NonNull List<T> mDatas) {
         this.mDatas = mDatas;
@@ -31,7 +32,10 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
 
     @Override
     public XViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new XViewHolder(LayoutInflater.from(parent.getContext()).inflate(getLayoutId(viewType), parent, false));
+        if (xMultiAdapterListener != null) {
+            return new XViewHolder(LayoutInflater.from(parent.getContext()).inflate(xMultiAdapterListener.multiLayoutId(viewType), parent, false));
+        }
+        throw new NullPointerException("multiLayout null !!!!");
     }
 
     @Override
@@ -43,7 +47,9 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
         final T t = mDatas.get(position);
 
         if (t != null) {
-            onBind(holder, t, t.getItemType(), t.getPosition() == -1 ? position : t.getPosition());
+            if (xMultiAdapterListener != null) {
+                xMultiAdapterListener.onXMultiBind(holder, t, t.getItemType(), t.getPosition() == -1 ? position : t.getPosition());
+            }
 
             if (mOnItemClickListener != null && t.getPosition() != -1) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +74,6 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
 
     }
 
-    protected abstract void onBind(XViewHolder holder, T mData, int itemType, int position);
-
-    protected abstract int getLayoutId(int viewType);
-
-
     @Override
     public int getItemViewType(int position) {
         return mDatas.get(position).getItemType();
@@ -83,13 +84,19 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
         return mDatas == null ? 0 : mDatas.size();
     }
 
-
-    public void setOnItemClickListener(OnItemClickListener<T> listener) {
-        this.mOnItemClickListener = listener;
+    public MultiAdapter<T> setXMultiAdapterListener(XMultiAdapterListener<T> xMultiAdapterListener) {
+        this.xMultiAdapterListener = xMultiAdapterListener;
+        return this;
     }
 
-    public void setOnLongClickListener(OnItemLongClickListener<T> listener) {
+    public MultiAdapter<T> setOnItemClickListener(OnItemClickListener<T> listener) {
+        this.mOnItemClickListener = listener;
+        return this;
+    }
+
+    public MultiAdapter<T> setOnLongClickListener(OnItemLongClickListener<T> listener) {
         this.mOnLongClickListener = listener;
+        return this;
     }
 
     public void clearAll() {
@@ -122,7 +129,7 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
     }
 
     public T getData(int position) {
-        return mDatas.get(position);
+        return mDatas == null ? null : mDatas.get(position);
     }
 
 
@@ -130,16 +137,12 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-        if (manager instanceof GridLayoutManager) {
+        if (manager instanceof GridLayoutManager && xMultiAdapterListener != null) {
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    if (!(getItemViewType(position) == MultiCallBack.TYPE_ITEM)) {
-                        return gridManager.getSpanCount();
-                    } else {
-                        return 1;
-                    }
+                    return xMultiAdapterListener.getGridLayoutManagerSpanSize(getItemViewType(position), gridManager, position);
                 }
             });
         }
@@ -149,13 +152,9 @@ public abstract class MultiAdapter<T extends MultiCallBack> extends RecyclerView
     public void onViewAttachedToWindow(XViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-        if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+        if (layoutParams != null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams && xMultiAdapterListener != null) {
             StaggeredGridLayoutManager.LayoutParams stagger = (StaggeredGridLayoutManager.LayoutParams) layoutParams;
-            if (!(getItemViewType(holder.getLayoutPosition()) == MultiCallBack.TYPE_ITEM)) {
-                stagger.setFullSpan(true);
-            } else {
-                stagger.setFullSpan(false);
-            }
+            stagger.setFullSpan(xMultiAdapterListener.getStaggeredGridLayoutManagerFullSpan(getItemViewType(holder.getLayoutPosition())));
         }
     }
 }

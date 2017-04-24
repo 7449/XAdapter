@@ -1,10 +1,10 @@
 package com.xadaptersimple;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.xadapter.OnItemClickListener;
 import com.xadapter.OnItemLongClickListener;
 import com.xadapter.adapter.multi.MultiAdapter;
+import com.xadapter.adapter.multi.MultiCallBack;
 import com.xadapter.adapter.multi.SimpleMultiItem;
+import com.xadapter.adapter.multi.XMultiAdapterListener;
 import com.xadapter.holder.XViewHolder;
 
 import java.util.ArrayList;
@@ -24,20 +26,26 @@ import java.util.List;
  * by y on 2017/1/12.
  */
 
-public class MultipleItemActivity extends AppCompatActivity implements OnItemClickListener<SimpleMultiItem>, OnItemLongClickListener<SimpleMultiItem> {
-
+public class MultipleItemActivity extends AppCompatActivity
+        implements
+        OnItemClickListener<SimpleMultiItem>,
+        OnItemLongClickListener<SimpleMultiItem>, XMultiAdapterListener<SimpleMultiItem> {
+    private static final int TYPE_LINE = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.multiple_layout);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        MyAdapter adapter = new MyAdapter(MyAdapter.initSettingData());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setOnItemClickListener(this);
-        adapter.setOnLongClickListener(this);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(adapter);
+
+        recyclerView.setAdapter(
+                new MultiAdapter<>(initSettingData())
+                        .setXMultiAdapterListener(this)
+                        .setOnItemClickListener(this)
+                        .setOnLongClickListener(this));
     }
 
     @Override
@@ -51,51 +59,55 @@ public class MultipleItemActivity extends AppCompatActivity implements OnItemCli
         return true;
     }
 
-    public static class MyAdapter extends MultiAdapter<SimpleMultiItem> {
-
-        private static final int TYPE_LINE = 1;
-
-        public MyAdapter(@NonNull List<SimpleMultiItem> mDatas) {
-            super(mDatas);
+    @Override
+    public int multiLayoutId(int viewItemType) {
+        switch (viewItemType) {
+            case TYPE_LINE:
+                return R.layout.item_line;
+            default:
+                return R.layout.item_multi;
         }
+    }
 
-        @Override
-        protected void onBind(XViewHolder holder, SimpleMultiItem mData, int itemType, int position) {
-            switch (itemType) {
-                case SimpleMultiItem.TYPE_ITEM:
-                    holder.setTextView(R.id.tv_message, mData.message);
-                    ImageView imageView = holder.getImageView(R.id.iv_icon);
-                    imageView.setImageResource(mData.icon);
-                    break;
-            }
+    @Override
+    public int getGridLayoutManagerSpanSize(int itemViewType, GridLayoutManager gridManager, int position) {
+        if (!(itemViewType == MultiCallBack.TYPE_ITEM)) {
+            return gridManager.getSpanCount();
+        } else {
+            return 1;
         }
+    }
 
-        @Override
-        protected int getLayoutId(int viewType) {
-            switch (viewType) {
-                case TYPE_LINE:
-                    return R.layout.item_line;
-                default:
-                    return R.layout.item_multi;
-            }
+    @Override
+    public boolean getStaggeredGridLayoutManagerFullSpan(int itemViewType) {
+        return itemViewType != MultiCallBack.TYPE_ITEM;
+    }
+
+    @Override
+    public void onXMultiBind(XViewHolder holder, SimpleMultiItem simpleMultiItem, int itemViewType, int position) {
+        switch (itemViewType) {
+            case SimpleMultiItem.TYPE_ITEM:
+                holder.setTextView(R.id.tv_message, simpleMultiItem.message);
+                ImageView imageView = holder.getImageView(R.id.iv_icon);
+                imageView.setImageResource(simpleMultiItem.icon);
+                break;
         }
+    }
 
-
-        public static List<SimpleMultiItem> initSettingData() {
-            List<SimpleMultiItem> list = new ArrayList<>();
-            list.add(new SimpleMultiItem(MyAdapter.TYPE_LINE));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 0, "头像", R.mipmap.ic_launcher));
-            list.add(new SimpleMultiItem(MyAdapter.TYPE_LINE));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 1, "收藏", R.mipmap.ic_launcher));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 2, "相册", R.mipmap.ic_launcher));
-            list.add(new SimpleMultiItem(MyAdapter.TYPE_LINE));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 3, "钱包", R.mipmap.ic_launcher));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 4, "卡包", R.mipmap.ic_launcher));
-            list.add(new SimpleMultiItem(MyAdapter.TYPE_LINE));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 5, "表情", R.mipmap.ic_launcher));
-            list.add(new SimpleMultiItem(MyAdapter.TYPE_LINE));
-            list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 6, "设置", R.mipmap.ic_launcher));
-            return list;
-        }
+    public static List<SimpleMultiItem> initSettingData() {
+        List<SimpleMultiItem> list = new ArrayList<>();
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 0, "头像", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 1, "收藏", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 2, "相册", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 3, "钱包", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 4, "卡包", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 5, "表情", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 6, "设置", R.mipmap.ic_launcher));
+        return list;
     }
 }
