@@ -130,6 +130,15 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
     }
 
 
+    public T getData(int position) {
+        return mDatas.get(position);
+    }
+
+    public List<T> getData() {
+        return mDatas;
+    }
+
+
     @Override
     public XViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mHeaderViewType.contains(viewType)) {

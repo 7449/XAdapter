@@ -132,6 +132,9 @@ public class MultiAdapter<T extends MultiCallBack> extends RecyclerView.Adapter<
         return mDatas == null ? null : mDatas.get(position);
     }
 
+    public List<T> getData() {
+        return mDatas;
+    }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

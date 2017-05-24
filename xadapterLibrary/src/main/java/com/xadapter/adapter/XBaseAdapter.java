@@ -40,7 +40,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         XTouchListener.RefreshInterface {
 
 
-    List<T> mDatas = new LinkedList<>();
+    protected List<T> mDatas = new LinkedList<>();
     final ArrayList<View> mHeaderViews = new ArrayList<>();
     final ArrayList<View> mFooterViews = new ArrayList<>();
     final ArrayList<Integer> mHeaderViewType = new ArrayList<>();
@@ -48,8 +48,8 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     final int viewType = 100000;
     private int mRefreshProgressStyle = ProgressStyle.SysProgress;
     private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
-    View mEmptyView = null;
-    View mNetWorkErrorView = null;
+    protected View mEmptyView = null;
+    protected View mNetWorkErrorView = null;
 
     /**
      * The listener that receives notifications when an item is clicked.
