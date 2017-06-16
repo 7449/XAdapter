@@ -6,6 +6,6 @@
     <dimen name="header_minWidth">100dp</dimen>
     <dimen name="header_text_size">12sp</dimen>
     <dimen name="header_marginTop">3dp</dimen>
-    <dimen name="header_iv_marginRight">15dp</dimen>
+    <dimen name="refresh_iv_marginRight">15dp</dimen>
     <dimen name="header_switch">30dp</dimen>
 </resources>

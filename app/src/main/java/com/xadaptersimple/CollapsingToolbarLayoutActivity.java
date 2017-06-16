@@ -13,8 +13,8 @@ import com.xadapter.LoadListener;
 import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.FooterLayout;
-import com.xadapter.widget.HeaderLayout;
+import com.xadapter.widget.LoadMore;
+import com.xadapter.widget.Refresh;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
 
@@ -62,7 +62,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
+                                        xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
                                     }
                                 }, 1500);
                             }
@@ -72,7 +72,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_NOMORE);
+                                        xRecyclerViewAdapter.loadMoreComplete(LoadMore.NOMORE);
                                     }
                                 }, 1500);
                             }

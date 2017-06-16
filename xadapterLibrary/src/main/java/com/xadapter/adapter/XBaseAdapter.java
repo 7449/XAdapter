@@ -1,6 +1,5 @@
 package com.xadapter.adapter;
 
-import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -23,8 +22,8 @@ import com.xadapter.manager.AppBarStateChangeListener;
 import com.xadapter.manager.XScrollListener;
 import com.xadapter.manager.XTouchListener;
 import com.xadapter.progressindicator.ProgressStyle;
-import com.xadapter.widget.FooterLayout;
-import com.xadapter.widget.HeaderLayout;
+import com.xadapter.widget.LoadMore;
+import com.xadapter.widget.Refresh;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -87,7 +86,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * this is pull-up layout
      */
-    HeaderLayout mHeaderLayout = null;
+    Refresh mHeaderLayout = null;
 
     /**
      * Whether to enable pull-up,The default is off
@@ -97,7 +96,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * this is loadMore layout
      */
-    FooterLayout mFooterLayout = null;
+    LoadMore mFooterLayout = null;
 
     private XTouchListener touchListener = null;
 
@@ -174,10 +173,10 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
     private void initHeaderAndFooter() {
-        mHeaderLayout = new HeaderLayout(recyclerView.getContext());
-        mFooterLayout = new FooterLayout(recyclerView.getContext());
-        refreshComplete(HeaderLayout.STATE_RELEASE_TO_REFRESH);
-        loadMoreComplete(FooterLayout.STATE_NOT_LOAD);
+        mHeaderLayout = new Refresh(recyclerView.getContext());
+        mFooterLayout = new LoadMore(recyclerView.getContext());
+        refreshComplete(Refresh.READY);
+        loadMoreComplete(LoadMore.NOT_LOAD);
         mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
         mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
         if (mFooterListener != null) {
@@ -199,15 +198,15 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             if (mFooterLayout.getVisibility() == View.GONE) {
                 showFootLayout();
             }
-            mFooterLayout.setState(FooterLayout.STATE_LOADING);
+            mFooterLayout.setState(LoadMore.LOAD);
             mLoadingListener.onLoadMore();
         }
     }
 
     private boolean isLoadMore() {
-        return mHeaderLayout.getState() == HeaderLayout.STATE_REFRESHING
+        return mHeaderLayout.getState() == Refresh.REFRESH
                 ||
-                mFooterLayout.getState() == FooterLayout.STATE_LOADING;
+                mFooterLayout.getState() == LoadMore.LOAD;
     }
 
     @Override
@@ -368,9 +367,11 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             if (mNetWorkErrorView != null) {
                 mNetWorkErrorView.setVisibility(View.GONE);
             }
-            recyclerView.setVisibility(View.VISIBLE);
+            if (recyclerView != null) {
+                recyclerView.setVisibility(View.VISIBLE);
+            }
             hideFootLayout();
-            mHeaderLayout.setState(HeaderLayout.STATE_REFRESHING);
+            mHeaderLayout.setState(Refresh.REFRESH);
             mHeaderLayout.onMove(mHeaderLayout.getMeasuredHeight());
             mLoadingListener.onRefresh();
         }
@@ -480,31 +481,28 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
                 }
             }
             if (appBarLayout != null && touchListener != null) {
-                appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-                    @Override
-                    public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                        touchListener.setState(state);
-                    }
-                });
+                appBarLayout.addOnOffsetChangedListener(
+                        new AppBarStateChangeListener() {
+                            @Override
+                            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                                touchListener.setState(state);
+                            }
+                        });
             }
         }
     }
 
-    public void refreshComplete(@HeaderLayout.RefreshState int state) {
+    public void refreshComplete(@Refresh.RefreshState int state) {
         if (mHeaderLayout != null) {
             mHeaderLayout.refreshComplete(state);
-            if (loadingMoreEnabled && mFooterLayout != null && mFooterLayout.getVisibility() == View.GONE) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        showFootLayout();
-                        mFooterLayout.setState(FooterLayout.STATE_NOT_LOAD);
-                    }
-                }, 300);
+            if (loadingMoreEnabled && mFooterLayout != null && state == Refresh.REFRESH) {
+                hideFootLayout();
+                mFooterLayout.setState(LoadMore.NOT_LOAD);
             }
         }
     }
 
-    public void loadMoreComplete(@FooterLayout.LoadMoreStatus int state) {
+    public void loadMoreComplete(@LoadMore.LoadMoreStatus int state) {
         if (mFooterLayout != null) {
             mFooterLayout.setState(state);
         }

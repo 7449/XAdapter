@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.xadapter.LoadListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
-import com.xadapter.widget.HeaderLayout;
+import com.xadapter.widget.Refresh;
 import com.xadaptersimple.data.MainBean;
 
 /**
@@ -51,11 +51,11 @@ public class EmptyViewActivity extends AppCompatActivity implements LoadListener
 
     @Override
     public void onRefresh() {
-        Toast.makeText(getApplicationContext(), "onRefresh", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
+                Toast.makeText(getApplicationContext(), "onRefresh", Toast.LENGTH_SHORT).show();
+                xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
                 xRecyclerViewAdapter.isShowEmptyView();
             }
         }, 2000);

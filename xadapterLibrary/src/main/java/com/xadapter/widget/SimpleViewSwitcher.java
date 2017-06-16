@@ -43,7 +43,6 @@ public class SimpleViewSwitcher extends ViewGroup {
             final View child = getChildAt(i);
             if (child.getVisibility() != View.GONE) {
                 child.layout(0, 0, r - l, b - t);
-
             }
         }
     }

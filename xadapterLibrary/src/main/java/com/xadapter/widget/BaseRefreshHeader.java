@@ -10,7 +10,7 @@ public interface BaseRefreshHeader {
 
     boolean releaseAction();
 
-    void refreshComplete(@HeaderLayout.RefreshState int state);
+    void refreshComplete(@Refresh.RefreshState int state);
 
 
 }

@@ -3,16 +3,16 @@ package com.xadapter.manager;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.xadapter.widget.FooterLayout;
-import com.xadapter.widget.HeaderLayout;
+import com.xadapter.widget.LoadMore;
+import com.xadapter.widget.Refresh;
 
 /**
  * by y on 2016/11/15
  */
 
 public class XTouchListener implements View.OnTouchListener {
-    private HeaderLayout mRefreshHeaderLayout = null;
-    private FooterLayout footerLayout = null;
+    private Refresh mRefreshHeaderLayout = null;
+    private LoadMore footerLayout = null;
     private boolean isRefreshHeader = false;
     private float rawY = -1;
     private RefreshInterface refreshInterface = null;
@@ -25,8 +25,8 @@ public class XTouchListener implements View.OnTouchListener {
 
 
     public XTouchListener(
-            HeaderLayout mRefreshHeaderLayout,
-            FooterLayout mFooterLayout, boolean isRefreshHeader,
+            Refresh mRefreshHeaderLayout,
+            LoadMore mFooterLayout, boolean isRefreshHeader,
             RefreshInterface refreshInterface) {
         this.footerLayout = mFooterLayout;
         this.mRefreshHeaderLayout = mRefreshHeaderLayout;
@@ -39,8 +39,8 @@ public class XTouchListener implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (null == mRefreshHeaderLayout
                 || !isRefreshHeader
-                || mRefreshHeaderLayout.getState() == HeaderLayout.STATE_REFRESHING
-                || (footerLayout != null && footerLayout.getState() == FooterLayout.STATE_LOADING)) {
+                || mRefreshHeaderLayout.getState() == Refresh.REFRESH
+                || (footerLayout != null && footerLayout.getState() == LoadMore.LOAD)) {
             return false;
         }
         if (rawY == -1) {
@@ -55,7 +55,7 @@ public class XTouchListener implements View.OnTouchListener {
                 rawY = motionEvent.getRawY();
                 if (isTop() && isRefreshHeader && state == AppBarStateChangeListener.State.EXPANDED) {
                     mRefreshHeaderLayout.onMove(deltaY / DAMP);
-                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < HeaderLayout.STATE_DONE) {
+                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < Refresh.COMPLETE) {
                         return true;
                     }
                 }

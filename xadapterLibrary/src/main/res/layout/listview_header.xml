@@ -9,35 +9,33 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/header_height"
-        android:paddingTop="@dimen/header_paddingTop"
-        tools:ignore="UselessParent">
+        android:paddingTop="@dimen/header_paddingTop">
 
-        <TextView
-            android:id="@+id/refresh_status_textview"
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/status_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/listview_header_hint_normal"
-            tools:ignore="RelativeOverlap" />
+            android:text="@string/refresh_hint_normal" />
 
 
-        <ImageView
-            android:id="@+id/listview_header_arrow"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/header_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/header_iv_marginRight"
-            android:layout_toLeftOf="@id/refresh_status_textview"
+            android:layout_marginRight="@dimen/refresh_iv_marginRight"
+            android:layout_toLeftOf="@id/status_tv"
             android:src="@drawable/ic_pull_refresh_arrow"
-            tools:ignore="ContentDescription,RtlHardcoded" />
+            tools:ignore="RtlHardcoded" />
 
         <com.xadapter.widget.SimpleViewSwitcher
-            android:id="@+id/listview_header_progressbar"
+            android:id="@+id/refresh_progressbar"
             android:layout_width="@dimen/header_switch"
             android:layout_height="@dimen/header_switch"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/header_iv_marginRight"
-            android:layout_toLeftOf="@id/refresh_status_textview"
+            android:layout_marginRight="@dimen/refresh_iv_marginRight"
+            android:layout_toLeftOf="@id/status_tv"
             android:visibility="invisible"
             tools:ignore="RtlHardcoded" />
     </RelativeLayout>

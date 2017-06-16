@@ -19,8 +19,8 @@ import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.progressindicator.ProgressStyle;
-import com.xadapter.widget.FooterLayout;
-import com.xadapter.widget.HeaderLayout;
+import com.xadapter.widget.LoadMore;
+import com.xadapter.widget.Refresh;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
 
@@ -103,7 +103,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
+                xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
                 Toast.makeText(getBaseContext(), "refresh...", Toast.LENGTH_SHORT).show();
             }
         }, 1500);
@@ -114,7 +114,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_ERROR);
+                xRecyclerViewAdapter.loadMoreComplete(LoadMore.ERROR);
                 Toast.makeText(getBaseContext(), "loadMore...", Toast.LENGTH_SHORT).show();
             }
         }, 1500);

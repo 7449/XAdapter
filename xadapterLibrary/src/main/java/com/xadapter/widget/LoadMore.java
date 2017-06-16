@@ -23,25 +23,25 @@ import java.lang.annotation.RetentionPolicy;
  * by y on 2016/9/29
  */
 
-public class FooterLayout extends LinearLayout {
+public class LoadMore extends LinearLayout {
 
     @IntDef({STATE,
-            STATE_LOADING,
-            STATE_NOT_LOAD,
-            STATE_COMPLETE,
-            STATE_NOMORE,
-            STATE_ERROR})
+            LOAD,
+            NOT_LOAD,
+            COMPLETE,
+            NOMORE,
+            ERROR})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoadMoreStatus {
     }
 
     private SimpleViewSwitcher progressCon;
     public static final int STATE = -2;
-    public final static int STATE_NOT_LOAD = -1;
-    public final static int STATE_LOADING = 0;
-    public final static int STATE_COMPLETE = 1;
-    public final static int STATE_NOMORE = 2;
-    public final static int STATE_ERROR = 3;
+    public final static int NOT_LOAD = -1;
+    public final static int LOAD = 0;
+    public final static int COMPLETE = 1;
+    public final static int NOMORE = 2;
+    public final static int ERROR = 3;
     private TextView mText;
     private int footerHeight = 100;
     private int mState = STATE;
@@ -50,12 +50,12 @@ public class FooterLayout extends LinearLayout {
         return mState;
     }
 
-    public FooterLayout(Context context) {
+    public LoadMore(Context context) {
         super(context);
         initView();
     }
 
-    public FooterLayout(Context context, AttributeSet attrs) {
+    public LoadMore(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
@@ -100,23 +100,23 @@ public class FooterLayout extends LinearLayout {
     public void setState(@LoadMoreStatus int state) {
         if (state == mState) return;
         switch (state) {
-            case STATE_LOADING:
+            case LOAD:
                 progressCon.setVisibility(View.VISIBLE);
                 mText.setText(getContext().getText(R.string.listview_loading));
                 break;
-            case STATE_COMPLETE:
+            case COMPLETE:
                 mText.setText(getContext().getText(R.string.listview_loading_success));
                 progressCon.setVisibility(View.GONE);
                 break;
-            case STATE_NOMORE:
+            case NOMORE:
                 mText.setText(getContext().getText(R.string.no_more_loading));
                 progressCon.setVisibility(View.GONE);
                 break;
-            case STATE_ERROR:
+            case ERROR:
                 mText.setText(getContext().getText(R.string.listview_loading_error));
                 progressCon.setVisibility(View.GONE);
                 break;
-            case STATE_NOT_LOAD:
+            case NOT_LOAD:
                 mText.setText(getContext().getText(R.string.listview_not_load));
                 progressCon.setVisibility(View.GONE);
                 break;
