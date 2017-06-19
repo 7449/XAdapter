@@ -1,7 +1,6 @@
 package com.xadaptersimple;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,13 +20,14 @@ import com.xadaptersimple.data.MainBean;
 public class EmptyViewActivity extends AppCompatActivity implements LoadListener {
 
     private XRecyclerViewAdapter<MainBean> xRecyclerViewAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_layout);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         View viewById = findViewById(R.id.emptyView);
@@ -51,7 +51,7 @@ public class EmptyViewActivity extends AppCompatActivity implements LoadListener
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
+        recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getApplicationContext(), "onRefresh", Toast.LENGTH_SHORT).show();

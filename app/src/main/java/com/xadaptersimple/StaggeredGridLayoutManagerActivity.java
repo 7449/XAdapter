@@ -31,7 +31,7 @@ public class StaggeredGridLayoutManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_layout);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         List<MainBean> mainBeen = new ArrayList<>();
         DataUtils.getData(mainBeen);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
@@ -53,7 +53,7 @@ public class StaggeredGridLayoutManagerActivity extends AppCompatActivity {
                         .setLoadListener(new LoadListener() {
                             @Override
                             public void onRefresh() {
-                                new Handler().postDelayed(new Runnable() {
+                                recyclerView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
@@ -63,7 +63,7 @@ public class StaggeredGridLayoutManagerActivity extends AppCompatActivity {
 
                             @Override
                             public void onLoadMore() {
-                                new Handler().postDelayed(new Runnable() {
+                                recyclerView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         xRecyclerViewAdapter.loadMoreComplete(LoadMore.NOMORE);

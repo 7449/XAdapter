@@ -14,9 +14,11 @@ import android.view.ViewParent;
 
 import com.xadapter.FooterClickListener;
 import com.xadapter.LoadListener;
+import com.xadapter.LoadMoreText;
 import com.xadapter.OnItemClickListener;
 import com.xadapter.OnItemLongClickListener;
 import com.xadapter.OnXBindListener;
+import com.xadapter.RefreshText;
 import com.xadapter.holder.XViewHolder;
 import com.xadapter.manager.AppBarStateChangeListener;
 import com.xadapter.manager.XScrollListener;
@@ -104,6 +106,21 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     static final int TYPE_REFRESH_HEADER = 0;
     static final int TYPE_LOADMORE_FOOTER = 1;
 
+
+    public XBaseAdapter<T> setLoadMoreText(@NonNull LoadMoreText loadMoreText) {
+        if (mFooterLayout != null) {
+            mFooterLayout.setLoadMoreText(loadMoreText);
+        }
+        return this;
+    }
+
+    public XBaseAdapter<T> setRefreshText(@NonNull RefreshText refreshText) {
+        if (mHeaderLayout != null) {
+            mHeaderLayout.setRefreshText(refreshText);
+        }
+        return this;
+    }
+
     /**
      * @param footerListener The callback that will be invoked.
      */
@@ -166,7 +183,6 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     XBaseAdapter<T> linkRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         if (recyclerView != null) {
-            recyclerView.setHasFixedSize(true);
             initHeaderAndFooter();
         }
         return this;
@@ -176,7 +192,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         mHeaderLayout = new Refresh(recyclerView.getContext());
         mFooterLayout = new LoadMore(recyclerView.getContext());
         refreshComplete(Refresh.READY);
-        loadMoreComplete(LoadMore.NOT_LOAD);
+        loadMoreComplete(LoadMore.NORMAL);
         mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
         mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
         if (mFooterListener != null) {
@@ -497,7 +513,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             mHeaderLayout.refreshComplete(state);
             if (loadingMoreEnabled && mFooterLayout != null && state == Refresh.REFRESH) {
                 hideFootLayout();
-                mFooterLayout.setState(LoadMore.NOT_LOAD);
+                mFooterLayout.setState(LoadMore.NORMAL);
             }
         }
     }

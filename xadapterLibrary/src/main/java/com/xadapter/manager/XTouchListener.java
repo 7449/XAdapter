@@ -26,7 +26,8 @@ public class XTouchListener implements View.OnTouchListener {
 
     public XTouchListener(
             Refresh mRefreshHeaderLayout,
-            LoadMore mFooterLayout, boolean isRefreshHeader,
+            LoadMore mFooterLayout,
+            boolean isRefreshHeader,
             RefreshInterface refreshInterface) {
         this.footerLayout = mFooterLayout;
         this.mRefreshHeaderLayout = mRefreshHeaderLayout;

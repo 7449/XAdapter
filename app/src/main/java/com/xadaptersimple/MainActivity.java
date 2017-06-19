@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.emptyView).setOnClickListener(this);
         findViewById(R.id.SwipeRefreshLayout).setOnClickListener(this);
         findViewById(R.id.multiple).setOnClickListener(this);
+        findViewById(R.id.text).setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.multiple:
                 startActivity(MultipleItemActivity.class);
+                break;
+            case R.id.text:
+                startActivity(TextActivity.class);
                 break;
         }
     }

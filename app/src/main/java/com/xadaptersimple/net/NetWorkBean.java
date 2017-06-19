@@ -11,37 +11,6 @@ public class NetWorkBean {
     private int slug;
     private Author author;
 
-    public static class Author {
-        private String profileUrl;
-        private String bio;
-        private String name;
-
-        public String getProfileUrl() {
-            return profileUrl;
-        }
-
-        public void setProfileUrl(String profileUrl) {
-            this.profileUrl = profileUrl;
-        }
-
-        public String getBio() {
-            return bio;
-        }
-
-        public void setBio(String bio) {
-            this.bio = bio;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-    }
-
     public int getSlug() {
         return slug;
     }
@@ -72,5 +41,36 @@ public class NetWorkBean {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public static class Author {
+        private String profileUrl;
+        private String bio;
+        private String name;
+
+        public String getProfileUrl() {
+            return profileUrl;
+        }
+
+        public void setProfileUrl(String profileUrl) {
+            this.profileUrl = profileUrl;
+        }
+
+        public String getBio() {
+            return bio;
+        }
+
+        public void setBio(String bio) {
+            this.bio = bio;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
     }
 }

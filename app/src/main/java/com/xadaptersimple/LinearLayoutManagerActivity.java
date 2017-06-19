@@ -1,7 +1,6 @@
 package com.xadaptersimple;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,12 +35,13 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         OnItemClickListener<MainBean>, FooterClickListener, LoadListener {
 
     private XRecyclerViewAdapter<MainBean> xRecyclerViewAdapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_layout);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         List<MainBean> mainBeen = new ArrayList<>();
         DataUtils.getData(mainBeen);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -100,7 +100,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
+        recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
@@ -111,7 +111,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
 
     @Override
     public void onLoadMore() {
-        new Handler().postDelayed(new Runnable() {
+        recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 xRecyclerViewAdapter.loadMoreComplete(LoadMore.ERROR);

@@ -32,6 +32,23 @@ public class MultipleItemActivity extends AppCompatActivity
         OnItemLongClickListener<SimpleMultiItem>, XMultiAdapterListener<SimpleMultiItem> {
     private static final int TYPE_LINE = 1;
 
+    public static List<SimpleMultiItem> initSettingData() {
+        List<SimpleMultiItem> list = new ArrayList<>();
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 0, "头像", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 1, "收藏", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 2, "相册", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 3, "钱包", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 4, "卡包", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 5, "表情", R.mipmap.ic_launcher));
+        list.add(new SimpleMultiItem(TYPE_LINE));
+        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 6, "设置", R.mipmap.ic_launcher));
+        return list;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,22 +109,5 @@ public class MultipleItemActivity extends AppCompatActivity
                 imageView.setImageResource(simpleMultiItem.icon);
                 break;
         }
-    }
-
-    public static List<SimpleMultiItem> initSettingData() {
-        List<SimpleMultiItem> list = new ArrayList<>();
-        list.add(new SimpleMultiItem(TYPE_LINE));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 0, "头像", R.mipmap.ic_launcher));
-        list.add(new SimpleMultiItem(TYPE_LINE));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 1, "收藏", R.mipmap.ic_launcher));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 2, "相册", R.mipmap.ic_launcher));
-        list.add(new SimpleMultiItem(TYPE_LINE));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 3, "钱包", R.mipmap.ic_launcher));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 4, "卡包", R.mipmap.ic_launcher));
-        list.add(new SimpleMultiItem(TYPE_LINE));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 5, "表情", R.mipmap.ic_launcher));
-        list.add(new SimpleMultiItem(TYPE_LINE));
-        list.add(new SimpleMultiItem(SimpleMultiItem.TYPE_ITEM, 6, "设置", R.mipmap.ic_launcher));
-        return list;
     }
 }

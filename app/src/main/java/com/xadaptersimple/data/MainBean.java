@@ -8,6 +8,7 @@ package com.xadaptersimple.data;
 public class MainBean {
 
     private String name;
+    private int age;
 
     public MainBean(String name, int age) {
         this.name = name;
@@ -29,7 +30,5 @@ public class MainBean {
     public void setName(String name) {
         this.name = name;
     }
-
-    private int age;
 
 }

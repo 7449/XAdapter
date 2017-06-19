@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.xadapter.R;
+import com.xadapter.RefreshText;
 import com.xadapter.progressindicator.AVLoadingIndicatorView;
 import com.xadapter.progressindicator.ProgressStyle;
 
@@ -28,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
  * by y on 2016/11/16
  */
 
-public class Refresh extends LinearLayout implements BaseRefreshHeader {
+public class Refresh extends LinearLayout {
     private int mState = NORMAL;
     public static final int NORMAL = 0; //初始状态
     public static final int READY = 1; //准备
@@ -53,6 +54,12 @@ public class Refresh extends LinearLayout implements BaseRefreshHeader {
     private Animation mRotateUpAnim;
     private Animation mRotateDownAnim;
 
+    private RefreshText refreshText = null;
+
+    public void setRefreshText(RefreshText refreshText) {
+        this.refreshText = refreshText;
+    }
+
     private static final int ROTATE_ANIM_DURATION = 180;
 
     private int mMeasuredHeight;
@@ -76,7 +83,6 @@ public class Refresh extends LinearLayout implements BaseRefreshHeader {
     private void init() {
         mContainer = View.inflate(getContext(), R.layout.listview_header, null);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        setBackgroundDrawable(null);
         addView(mContainer, new LayoutParams(LayoutParams.MATCH_PARENT, 0));
         setGravity(Gravity.BOTTOM);
     }
@@ -136,28 +142,48 @@ public class Refresh extends LinearLayout implements BaseRefreshHeader {
                 mImageView.startAnimation(mRotateDownAnim);
                 mProgressBar.setVisibility(View.GONE);
                 mImageView.setVisibility(VISIBLE);
-                mStatusTextView.setText(R.string.refresh_hint_normal);
+                if (refreshText != null) {
+                    mStatusTextView.setText(refreshText.normalText());
+                } else {
+                    mStatusTextView.setText(R.string.refresh_hint_normal);
+                }
                 break;
             case READY:
                 mImageView.startAnimation(mRotateUpAnim);
                 mProgressBar.setVisibility(View.GONE);
                 mImageView.setVisibility(VISIBLE);
-                mStatusTextView.setText(R.string.refresh_hint_release);
+                if (refreshText != null) {
+                    mStatusTextView.setText(refreshText.readyText());
+                } else {
+                    mStatusTextView.setText(R.string.refresh_hint_release);
+                }
                 break;
             case REFRESH:
                 mImageView.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
-                mStatusTextView.setText(R.string.refresh);
+                if (refreshText != null) {
+                    mStatusTextView.setText(refreshText.refreshText());
+                } else {
+                    mStatusTextView.setText(R.string.refresh);
+                }
                 break;
             case COMPLETE:
                 mImageView.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.GONE);
-                mStatusTextView.setText(R.string.refresh_done);
+                if (refreshText != null) {
+                    mStatusTextView.setText(refreshText.completeText());
+                } else {
+                    mStatusTextView.setText(R.string.refresh_done);
+                }
                 break;
             case ERROR:
                 mImageView.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.GONE);
-                mStatusTextView.setText(R.string.refresh_error);
+                if (refreshText != null) {
+                    mStatusTextView.setText(refreshText.errorText());
+                } else {
+                    mStatusTextView.setText(R.string.refresh_error);
+                }
                 break;
         }
 
@@ -168,7 +194,6 @@ public class Refresh extends LinearLayout implements BaseRefreshHeader {
         return mState;
     }
 
-    @Override
     public void refreshComplete(int state) {
         setState(state);
         postDelayed(new Runnable() {
@@ -195,7 +220,6 @@ public class Refresh extends LinearLayout implements BaseRefreshHeader {
         return lp.height;
     }
 
-    @Override
     public void onMove(float delta) {
         if (getVisibleHeight() > 0 || delta > 0) {
             setVisibleHeight((int) delta + getVisibleHeight());
@@ -209,7 +233,6 @@ public class Refresh extends LinearLayout implements BaseRefreshHeader {
         }
     }
 
-    @Override
     public boolean releaseAction() {
         boolean isOnRefresh = false;
         int height = getVisibleHeight();

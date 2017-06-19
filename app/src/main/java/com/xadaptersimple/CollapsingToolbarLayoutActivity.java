@@ -33,7 +33,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         List<MainBean> mainBeen = new ArrayList<>();
         DataUtils.getData(mainBeen);
         xRecyclerViewAdapter = new XRecyclerViewAdapter<>();
@@ -59,7 +59,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
                         .setLoadListener(new LoadListener() {
                             @Override
                             public void onRefresh() {
-                                new Handler().postDelayed(new Runnable() {
+                                recyclerView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
@@ -69,7 +69,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
 
                             @Override
                             public void onLoadMore() {
-                                new Handler().postDelayed(new Runnable() {
+                                recyclerView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         xRecyclerViewAdapter.loadMoreComplete(LoadMore.NOMORE);
