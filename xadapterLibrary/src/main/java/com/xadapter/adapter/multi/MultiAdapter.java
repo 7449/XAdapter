@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xadapter.OnItemClickListener;
-import com.xadapter.OnItemLongClickListener;
 import com.xadapter.holder.XViewHolder;
+import com.xadapter.listener.OnItemClickListener;
+import com.xadapter.listener.OnItemLongClickListener;
 
 import java.util.List;
 

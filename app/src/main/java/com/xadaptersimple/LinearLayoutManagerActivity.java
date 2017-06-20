@@ -2,7 +2,9 @@ package com.xadaptersimple;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,16 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.xadapter.FooterClickListener;
-import com.xadapter.LoadListener;
-import com.xadapter.OnItemClickListener;
-import com.xadapter.OnItemLongClickListener;
-import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.progressindicator.ProgressStyle;
-import com.xadapter.widget.LoadMore;
-import com.xadapter.widget.Refresh;
+import com.xadapter.listener.FooterClickListener;
+import com.xadapter.listener.LoadListener;
+import com.xadapter.listener.OnItemClickListener;
+import com.xadapter.listener.OnItemLongClickListener;
+import com.xadapter.listener.OnXBindListener;
+import com.xadapter.widget.SimpleLoadMore;
+import com.xadapter.widget.SimpleRefresh;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
 
@@ -51,13 +52,6 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
                         .initXData(mainBeen)
                         .addRecyclerView(recyclerView)
                         .setLayoutId(R.layout.item)
-                        .setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader)
-                        .setLoadingMoreProgressStyle(ProgressStyle.BallRotate)
-                        .setImageView(R.drawable.iconfont_downgrey)
-                        .setHeaderBackgroundColor(R.color.colorBlack)
-                        .setFooterBackgroundColor(R.color.colorBlack)
-                        .setHeaderTextColor(R.color.textColor)
-                        .setFooterTextColor(R.color.textColor)
                         .setPullRefreshEnabled(true)
                         .setLoadingMoreEnabled(true)
                         .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
@@ -71,7 +65,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
                         .setOnItemClickListener(this)
                         .setLoadListener(this)
                         .setFooterListener(this)
-                        .setRefreshing(true)
+                        .refresh()
         );
 
     }
@@ -103,7 +97,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
+                xRecyclerViewAdapter.refreshState(SimpleRefresh.SUCCESS);
                 Toast.makeText(getBaseContext(), "refresh...", Toast.LENGTH_SHORT).show();
             }
         }, 1500);
@@ -114,7 +108,7 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                xRecyclerViewAdapter.loadMoreComplete(LoadMore.ERROR);
+                xRecyclerViewAdapter.loadMoreState(SimpleLoadMore.ERROR);
                 Toast.makeText(getBaseContext(), "loadMore...", Toast.LENGTH_SHORT).show();
             }
         }, 1500);

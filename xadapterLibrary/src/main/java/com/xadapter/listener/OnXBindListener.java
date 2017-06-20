@@ -1,4 +1,4 @@
-package com.xadapter;
+package com.xadapter.listener;
 
 import com.xadapter.holder.XViewHolder;
 

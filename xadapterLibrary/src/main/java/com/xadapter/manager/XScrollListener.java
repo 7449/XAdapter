@@ -11,17 +11,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 public class XScrollListener extends RecyclerView.OnScrollListener {
 
-    private enum LAYOUT_MANAGER_TYPE {
-        LINEAR,
-        GRID,
-        STAGGERED_GRID
-    }
-
     private LAYOUT_MANAGER_TYPE layoutManagerType = null;
     private int[] lastPositions;
     private int lastVisibleItemPosition;
     private XScrollBottom scrollBottom = null;
-
     public XScrollListener(XScrollBottom loadingData) {
         this.scrollBottom = loadingData;
     }
@@ -80,6 +73,12 @@ public class XScrollListener extends RecyclerView.OnScrollListener {
             }
         }
         return max;
+    }
+
+    private enum LAYOUT_MANAGER_TYPE {
+        LINEAR,
+        GRID,
+        STAGGERED_GRID
     }
 
     public interface XScrollBottom {

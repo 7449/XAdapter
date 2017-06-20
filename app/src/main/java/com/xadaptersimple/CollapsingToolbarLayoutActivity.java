@@ -1,7 +1,6 @@
 package com.xadaptersimple;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.xadapter.LoadListener;
-import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.LoadMore;
-import com.xadapter.widget.Refresh;
+import com.xadapter.listener.LoadListener;
+import com.xadapter.listener.OnXBindListener;
+import com.xadapter.widget.SimpleLoadMore;
+import com.xadapter.widget.SimpleRefresh;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
 
@@ -62,7 +61,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
                                 recyclerView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
+                                        xRecyclerViewAdapter.refreshState(SimpleRefresh.SUCCESS);
                                     }
                                 }, 1500);
                             }
@@ -72,7 +71,7 @@ public class CollapsingToolbarLayoutActivity extends AppCompatActivity {
                                 recyclerView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        xRecyclerViewAdapter.loadMoreComplete(LoadMore.NOMORE);
+                                        xRecyclerViewAdapter.loadMoreState(SimpleLoadMore.NOMORE);
                                     }
                                 }, 1500);
                             }

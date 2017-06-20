@@ -1,19 +1,15 @@
 package com.xadaptersimple;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.xadapter.LoadListener;
-import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.LoadMore;
-import com.xadapter.widget.Refresh;
+import com.xadapter.listener.OnXBindListener;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
 
@@ -39,7 +35,6 @@ public class StaggeredGridLayoutManagerActivity extends AppCompatActivity {
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBeen)
-                        .addRecyclerView(recyclerView)
                         .setLayoutId(R.layout.item)
                         .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
                         .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
@@ -48,27 +43,6 @@ public class StaggeredGridLayoutManagerActivity extends AppCompatActivity {
                             public void onXBind(XViewHolder holder, int position, MainBean mainBean) {
                                 holder.setTextView(R.id.tv_name, mainBean.getName());
                                 holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
-                            }
-                        })
-                        .setLoadListener(new LoadListener() {
-                            @Override
-                            public void onRefresh() {
-                                recyclerView.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
-                                    }
-                                }, 1500);
-                            }
-
-                            @Override
-                            public void onLoadMore() {
-                                recyclerView.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        xRecyclerViewAdapter.loadMoreComplete(LoadMore.NOMORE);
-                                    }
-                                }, 1500);
                             }
                         })
         );

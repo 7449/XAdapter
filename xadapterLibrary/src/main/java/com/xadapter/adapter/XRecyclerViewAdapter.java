@@ -61,7 +61,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
             mEmptyView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setRefreshing(true);
+                    refresh();
                 }
             });
         mEmptyView.setVisibility(View.GONE);
@@ -93,7 +93,7 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
             mNetWorkErrorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setRefreshing(true);
+                    refresh();
                 }
             });
         }
@@ -149,9 +149,9 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
         }
         switch (viewType) {
             case TYPE_REFRESH_HEADER:
-                return new XViewHolder(mHeaderLayout);
+                return new XViewHolder(refreshView);
             case TYPE_LOADMORE_FOOTER:
-                return new XViewHolder(mFooterLayout);
+                return new XViewHolder(loadMoreView);
             default:
                 return new XViewHolder(LayoutInflater.from(parent.getContext()).inflate(ITEM_LAYOUT_ID, parent, false));
         }
@@ -213,37 +213,22 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
         return mDatas.size() + tempPosition;
     }
 
-    /**
-     * whether it is refreshHeader position
-     */
     private boolean isRefreshHeaderType(int position) {
         return pullRefreshEnabled && position == 0;
     }
 
-    /**
-     * whether it is header position
-     */
     private boolean isHeaderType(int position) {
         return getHeaderViewCount() != 0 && position < getHeaderViewCount();
     }
 
-    /**
-     * whether it is footer position
-     */
     private boolean isFooterType(int position) {
         return getFooterViewCount() != 0 && position >= mDatas.size() + getHeaderViewCount();
     }
 
-    /**
-     * Whether it is loaded position
-     */
     private boolean isLoadMoreType(int position) {
         return loadingMoreEnabled && position == getItemCount() - 1;
     }
 
-    /**
-     * gets the correct position
-     */
     private int getItemPosition(int position) {
         if (pullRefreshEnabled) {
             position -= 1;

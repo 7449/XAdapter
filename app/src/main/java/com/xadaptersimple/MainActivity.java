@@ -19,9 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.StaggeredGridLayout).setOnClickListener(this);
         findViewById(R.id.collapsingToolbar).setOnClickListener(this);
         findViewById(R.id.emptyView).setOnClickListener(this);
-        findViewById(R.id.SwipeRefreshLayout).setOnClickListener(this);
         findViewById(R.id.multiple).setOnClickListener(this);
-        findViewById(R.id.text).setOnClickListener(this);
+        findViewById(R.id.test).setOnClickListener(this);
     }
 
     @Override
@@ -45,14 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.emptyView:
                 startActivity(EmptyViewActivity.class);
                 break;
-            case R.id.SwipeRefreshLayout:
-                startActivity(SwipeRefreshLayoutActivity.class);
-                break;
             case R.id.multiple:
                 startActivity(MultipleItemActivity.class);
                 break;
-            case R.id.text:
-                startActivity(TextActivity.class);
+            case R.id.test:
+                startActivity(TestActivity.class);
                 break;
         }
     }

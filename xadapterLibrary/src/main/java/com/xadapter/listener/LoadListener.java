@@ -1,4 +1,4 @@
-package com.xadapter;
+package com.xadapter.listener;
 
 /**
  * by y on 2017/3/18.

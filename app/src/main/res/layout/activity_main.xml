@@ -41,21 +41,15 @@
         android:text="emptyView" />
 
     <Button
-        android:id="@+id/SwipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SwipeRefreshLayout" />
-
-    <Button
         android:id="@+id/multiple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="multAdapter" />
 
     <Button
-        android:id="@+id/text"
+        android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Custom refresh text" />
+        android:text="test" />
 
 </LinearLayout>

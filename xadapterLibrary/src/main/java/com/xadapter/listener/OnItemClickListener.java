@@ -1,4 +1,4 @@
-package com.xadapter;
+package com.xadapter.listener;
 
 import android.view.View;
 
@@ -6,13 +6,13 @@ import android.view.View;
  * by y on 2017/3/18.
  * <p>
  * Interface definition for a callback to be invoked when an item in this
- * view has been clicked and held.
+ * adapter has been clicked.
  */
 
-public interface OnItemLongClickListener<T> {
+public interface OnItemClickListener<T> {
     /**
-     * Callback method to be invoked when an item in this view has been
-     * clicked and held.
+     * Callback method to be invoked when an item in this XBaseAdapter has
+     * been clicked.
      * <p>
      * If you use T, in order to reduce unnecessary crashes, the proposed empty sentence processing
      *
@@ -20,6 +20,6 @@ public interface OnItemLongClickListener<T> {
      * @param position The position of the view in the adapter.
      * @param info     The adapter's data
      */
-    boolean onLongClick(View view, int position, T info);
+    void onItemClick(View view, int position, T info);
 }
 

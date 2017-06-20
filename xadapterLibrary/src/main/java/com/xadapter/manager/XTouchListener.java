@@ -3,45 +3,43 @@ package com.xadapter.manager;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.xadapter.widget.LoadMore;
-import com.xadapter.widget.Refresh;
+import com.xadapter.widget.XLoadMoreView;
+import com.xadapter.widget.XRefreshView;
 
 /**
  * by y on 2016/11/15
  */
 
 public class XTouchListener implements View.OnTouchListener {
-    private Refresh mRefreshHeaderLayout = null;
-    private LoadMore footerLayout = null;
+    private static final int DAMP = 3;
+    private XRefreshView refreshView = null;
+    private XLoadMoreView loadMoreView = null;
     private boolean isRefreshHeader = false;
     private float rawY = -1;
     private RefreshInterface refreshInterface = null;
-    private static final int DAMP = 4;
     private AppBarStateChangeListener.State state = AppBarStateChangeListener.State.EXPANDED;
+
+    public XTouchListener(
+            XRefreshView refreshView,
+            XLoadMoreView loadMoreView,
+            boolean isRefreshHeader,
+            RefreshInterface refreshInterface) {
+        this.loadMoreView = loadMoreView;
+        this.refreshView = refreshView;
+        this.isRefreshHeader = isRefreshHeader;
+        this.refreshInterface = refreshInterface;
+    }
 
     public void setState(AppBarStateChangeListener.State state) {
         this.state = state;
     }
 
-
-    public XTouchListener(
-            Refresh mRefreshHeaderLayout,
-            LoadMore mFooterLayout,
-            boolean isRefreshHeader,
-            RefreshInterface refreshInterface) {
-        this.footerLayout = mFooterLayout;
-        this.mRefreshHeaderLayout = mRefreshHeaderLayout;
-        this.isRefreshHeader = isRefreshHeader;
-        this.refreshInterface = refreshInterface;
-    }
-
-
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (null == mRefreshHeaderLayout
+        if (null == refreshView
                 || !isRefreshHeader
-                || mRefreshHeaderLayout.getState() == Refresh.REFRESH
-                || (footerLayout != null && footerLayout.getState() == LoadMore.LOAD)) {
+                || refreshView.getState() == XRefreshView.REFRESH
+                || (loadMoreView != null && loadMoreView.getState() == XLoadMoreView.LOAD)) {
             return false;
         }
         if (rawY == -1) {
@@ -55,8 +53,8 @@ public class XTouchListener implements View.OnTouchListener {
                 final float deltaY = motionEvent.getRawY() - rawY;
                 rawY = motionEvent.getRawY();
                 if (isTop() && isRefreshHeader && state == AppBarStateChangeListener.State.EXPANDED) {
-                    mRefreshHeaderLayout.onMove(deltaY / DAMP);
-                    if (mRefreshHeaderLayout.getVisibleHeight() > 0 && mRefreshHeaderLayout.getState() < Refresh.COMPLETE) {
+                    refreshView.onMove(deltaY / DAMP);
+                    if (refreshView.getVisibleHeight() > 0 && refreshView.getState() < XRefreshView.SUCCESS) {
                         return true;
                     }
                 }
@@ -64,10 +62,8 @@ public class XTouchListener implements View.OnTouchListener {
             default:
                 rawY = -1;
                 if (isTop() && isRefreshHeader && state == AppBarStateChangeListener.State.EXPANDED) {
-                    if (mRefreshHeaderLayout.releaseAction()) {
-                        if (refreshInterface != null) {
-                            refreshInterface.onRefresh();
-                        }
+                    if (refreshView.releaseAction() && refreshInterface != null) {
+                        refreshInterface.onRefresh();
                     }
                 }
                 break;
@@ -76,7 +72,7 @@ public class XTouchListener implements View.OnTouchListener {
     }
 
     private boolean isTop() {
-        return mRefreshHeaderLayout != null && mRefreshHeaderLayout.getParent() != null;
+        return refreshView != null && refreshView.getParent() != null;
     }
 
     public interface RefreshInterface {

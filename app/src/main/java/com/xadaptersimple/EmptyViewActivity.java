@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
-import com.xadapter.LoadListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
-import com.xadapter.widget.Refresh;
+import com.xadapter.listener.LoadListener;
+import com.xadapter.widget.SimpleRefresh;
 import com.xadaptersimple.data.MainBean;
 
 /**
@@ -54,8 +53,7 @@ public class EmptyViewActivity extends AppCompatActivity implements LoadListener
         recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "onRefresh", Toast.LENGTH_SHORT).show();
-                xRecyclerViewAdapter.refreshComplete(Refresh.COMPLETE);
+                xRecyclerViewAdapter.refreshState(SimpleRefresh.SUCCESS);
                 xRecyclerViewAdapter.isShowEmptyView();
             }
         }, 2000);

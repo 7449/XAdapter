@@ -5,15 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.xadapter.LoadListener;
-import com.xadapter.OnXBindListener;
 import com.xadapter.adapter.XRecyclerViewAdapter;
 import com.xadapter.holder.XViewHolder;
-import com.xadapter.widget.LoadMore;
-import com.xadapter.widget.Refresh;
+import com.xadapter.listener.LoadListener;
+import com.xadapter.listener.OnXBindListener;
+import com.xadapter.widget.SimpleLoadMore;
+import com.xadapter.widget.SimpleRefresh;
 import com.xadaptersimple.R;
 
 import java.util.List;
@@ -28,46 +27,45 @@ public class NetWorkActivity extends AppCompatActivity
         implements LoadListener, OnXBindListener<NetWorkBean>, RxNetWorkListener<List<NetWorkBean>> {
 
     private XRecyclerViewAdapter<NetWorkBean> mAdapter;
-
-    private boolean isFirstRefresh = true;
-    private RecyclerView recyclerView;
+    private int page = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_layout);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAdapter = new XRecyclerViewAdapter<>();
         recyclerView.setAdapter(
                 mAdapter
-                        .setEmptyView(findViewById(R.id.emptyView))
                         .addRecyclerView(recyclerView)
                         .setLayoutId(R.layout.network_item)
                         .onXBind(this)
                         .setPullRefreshEnabled(true)
                         .setLoadingMoreEnabled(true)
                         .setLoadListener(this)
+                        .refresh()
         );
 
 
-        //进来就进入刷新状态
-        mAdapter.setRefreshing(true);
     }
 
 
     @Override
     public void onRefresh() {
-        isFirstRefresh = true;
         mAdapter.removeAll();
         netWork();
     }
 
     @Override
     public void onLoadMore() {
-        isFirstRefresh = false;
-        netWork();
+        if (page < 1) {
+            ++page;
+            netWork();
+        } else {
+            mAdapter.loadMoreState(SimpleLoadMore.NOMORE);
+        }
     }
 
     private void netWork() {
@@ -94,27 +92,26 @@ public class NetWorkActivity extends AppCompatActivity
 
     @Override
     public void onNetWorkStart() {
-        if (!isFirstRefresh) {
-            mAdapter.loadMoreComplete(LoadMore.LOAD);
+        if (page != 0) {
+            mAdapter.loadMoreState(SimpleLoadMore.LOAD);
         }
     }
 
     @Override
     public void onNetWorkError(Throwable e) {
-        if (isFirstRefresh) {
-            mAdapter.refreshComplete(Refresh.ERROR);
+        if (page == 0) {
+            mAdapter.refreshState(SimpleRefresh.ERROR);
         } else {
-            mAdapter.loadMoreComplete(LoadMore.ERROR);
+            mAdapter.loadMoreState(SimpleLoadMore.ERROR);
         }
     }
 
     @Override
     public void onNetWorkComplete() {
-        Toast.makeText(getApplicationContext(), "DONE", Toast.LENGTH_SHORT).show();
-        if (isFirstRefresh) {
-            mAdapter.refreshComplete(Refresh.COMPLETE);
+        if (page == 0) {
+            mAdapter.refreshState(SimpleRefresh.SUCCESS);
         } else {
-            mAdapter.loadMoreComplete(LoadMore.COMPLETE);
+            mAdapter.loadMoreState(SimpleLoadMore.SUCCESS);
         }
     }
 

@@ -9,11 +9,11 @@ package com.xadapter.adapter.multi;
 
 public class SimpleMultiItem implements MultiCallBack {
 
-    private int itemType;
-    private int itemPosition = -1;
     public String message;
     public String messageSuffix;
     public int icon;
+    private int itemType;
+    private int itemPosition = -1;
 
     /**
      * @param itemType RecyclerView Type

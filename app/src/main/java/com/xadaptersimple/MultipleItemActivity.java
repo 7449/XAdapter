@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.xadapter.OnItemClickListener;
-import com.xadapter.OnItemLongClickListener;
 import com.xadapter.adapter.multi.MultiAdapter;
 import com.xadapter.adapter.multi.MultiCallBack;
 import com.xadapter.adapter.multi.SimpleMultiItem;
 import com.xadapter.adapter.multi.XMultiAdapterListener;
 import com.xadapter.holder.XViewHolder;
+import com.xadapter.listener.OnItemClickListener;
+import com.xadapter.listener.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

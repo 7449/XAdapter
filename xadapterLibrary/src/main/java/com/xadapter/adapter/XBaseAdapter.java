@@ -1,7 +1,5 @@
 package com.xadapter.adapter;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,20 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.xadapter.FooterClickListener;
-import com.xadapter.LoadListener;
-import com.xadapter.LoadMoreText;
-import com.xadapter.OnItemClickListener;
-import com.xadapter.OnItemLongClickListener;
-import com.xadapter.OnXBindListener;
-import com.xadapter.RefreshText;
 import com.xadapter.holder.XViewHolder;
+import com.xadapter.listener.FooterClickListener;
+import com.xadapter.listener.LoadListener;
+import com.xadapter.listener.OnItemClickListener;
+import com.xadapter.listener.OnItemLongClickListener;
+import com.xadapter.listener.OnXBindListener;
 import com.xadapter.manager.AppBarStateChangeListener;
 import com.xadapter.manager.XScrollListener;
 import com.xadapter.manager.XTouchListener;
-import com.xadapter.progressindicator.ProgressStyle;
-import com.xadapter.widget.LoadMore;
-import com.xadapter.widget.Refresh;
+import com.xadapter.widget.SimpleLoadMore;
+import com.xadapter.widget.SimpleRefresh;
+import com.xadapter.widget.XLoadMoreView;
+import com.xadapter.widget.XRefreshView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,17 +38,45 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         XTouchListener.RefreshInterface {
 
 
-    protected List<T> mDatas = new LinkedList<>();
+    static final int TYPE_ITEM = -1;
+    static final int TYPE_REFRESH_HEADER = 0;
+    static final int TYPE_LOADMORE_FOOTER = 1;
     final ArrayList<View> mHeaderViews = new ArrayList<>();
     final ArrayList<View> mFooterViews = new ArrayList<>();
     final ArrayList<Integer> mHeaderViewType = new ArrayList<>();
     final ArrayList<Integer> mFooterViewType = new ArrayList<>();
     final int viewType = 100000;
-    private int mRefreshProgressStyle = ProgressStyle.SysProgress;
-    private int mLoadingMoreProgressStyle = ProgressStyle.SysProgress;
+    protected List<T> mDatas = new LinkedList<>();
     protected View mEmptyView = null;
     protected View mNetWorkErrorView = null;
-
+    /**
+     * This is the callback interface to get the data
+     */
+    OnXBindListener<T> mOnXBindListener = null;
+    /**
+     * The subclass implements the display of the layout
+     */
+    int ITEM_LAYOUT_ID = -1;
+    /**
+     * The recyclerview gets the sliding state and sets the emptyView
+     */
+    RecyclerView recyclerView = null;
+    /**
+     * Whether to open the drop-down refresh,The default is off
+     */
+    boolean pullRefreshEnabled = false;
+    /**
+     * this is pull-up layout
+     */
+    XRefreshView refreshView = null;
+    /**
+     * Whether to enable pull-up,The default is off
+     */
+    boolean loadingMoreEnabled = false;
+    /**
+     * this is loadMore layout
+     */
+    XLoadMoreView loadMoreView = null;
     /**
      * The listener that receives notifications when an item is clicked.
      */
@@ -68,58 +93,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
      * Click the callback
      */
     private FooterClickListener mFooterListener = null;
-    /**
-     * This is the callback interface to get the data
-     */
-    OnXBindListener<T> mOnXBindListener = null;
-    /**
-     * The subclass implements the display of the layout
-     */
-    int ITEM_LAYOUT_ID = -1;
-
-    /**
-     * The recyclerview gets the sliding state and sets the emptyView
-     */
-    RecyclerView recyclerView = null;
-    /**
-     * Whether to open the drop-down refresh,The default is off
-     */
-    boolean pullRefreshEnabled = false;
-    /**
-     * this is pull-up layout
-     */
-    Refresh mHeaderLayout = null;
-
-    /**
-     * Whether to enable pull-up,The default is off
-     */
-    boolean loadingMoreEnabled = false;
-
-    /**
-     * this is loadMore layout
-     */
-    LoadMore mFooterLayout = null;
-
     private XTouchListener touchListener = null;
-
-    static final int TYPE_ITEM = -1;
-    static final int TYPE_REFRESH_HEADER = 0;
-    static final int TYPE_LOADMORE_FOOTER = 1;
-
-
-    public XBaseAdapter<T> setLoadMoreText(@NonNull LoadMoreText loadMoreText) {
-        if (mFooterLayout != null) {
-            mFooterLayout.setLoadMoreText(loadMoreText);
-        }
-        return this;
-    }
-
-    public XBaseAdapter<T> setRefreshText(@NonNull RefreshText refreshText) {
-        if (mHeaderLayout != null) {
-            mHeaderLayout.setRefreshText(refreshText);
-        }
-        return this;
-    }
 
     /**
      * @param footerListener The callback that will be invoked.
@@ -189,49 +163,44 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
     private void initHeaderAndFooter() {
-        mHeaderLayout = new Refresh(recyclerView.getContext());
-        mFooterLayout = new LoadMore(recyclerView.getContext());
-        refreshComplete(Refresh.READY);
-        loadMoreComplete(LoadMore.NORMAL);
-        mHeaderLayout.setProgressStyle(mRefreshProgressStyle);
-        mFooterLayout.setProgressStyle(mLoadingMoreProgressStyle);
-        if (mFooterListener != null) {
-            mFooterLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        refreshView = new SimpleRefresh(recyclerView.getContext());
+        loadMoreView = new SimpleLoadMore(recyclerView.getContext());
+        refreshView.setState(XRefreshView.NORMAL);
+        loadMoreView.setState(XLoadMoreView.NORMAL);
+        loadMoreView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFooterListener != null)
                     mFooterListener.onXFooterClick(v);
-                }
-            });
-        }
+            }
+        });
+        loadMoreView.setVisibility(View.GONE);
     }
 
     @Override
     public void onScrollBottom() {
-        if (mLoadingListener != null && mFooterLayout != null) {
-            if (mHeaderLayout != null && isLoadMore()) {
-                return;
+        if (isLoad()) {
+            if (isLoadingMoreEnabled() && refreshView.getState() != XRefreshView.REFRESH) {
+                loadMoreView.setVisibility(View.VISIBLE);
+                loadMoreView.setState(XLoadMoreView.LOAD);
+                mLoadingListener.onLoadMore();
             }
-            if (mFooterLayout.getVisibility() == View.GONE) {
-                showFootLayout();
-            }
-            mFooterLayout.setState(LoadMore.LOAD);
-            mLoadingListener.onLoadMore();
         }
     }
 
-    private boolean isLoadMore() {
-        return mHeaderLayout.getState() == Refresh.REFRESH
-                ||
-                mFooterLayout.getState() == LoadMore.LOAD;
+
+    private boolean isLoad() {
+        return mLoadingListener != null && refreshView != null && loadMoreView != null;
     }
 
     @Override
     public void onRefresh() {
-        if (mLoadingListener != null) {
-            if (mFooterLayout != null && mFooterLayout.getVisibility() == View.VISIBLE) {
-                hideFootLayout();
+        if (isLoad()) {
+            if (isPullRefreshEnabled() && loadMoreView.getState() != XLoadMoreView.LOAD) {
+                loadMoreView.setVisibility(View.GONE);
+                loadMoreView.setState(XLoadMoreView.NORMAL);
+                mLoadingListener.onRefresh();
             }
-            mLoadingListener.onRefresh();
         }
     }
 
@@ -302,10 +271,8 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             throw new NullPointerException("Detect recyclerView is null, addRecyclerView () if using pull-down refresh or pull-up load");
         }
         this.pullRefreshEnabled = pullRefreshEnabled;
-        if (pullRefreshEnabled) {
-            touchListener = new XTouchListener(mHeaderLayout, mFooterLayout, true, this);
-            recyclerView.setOnTouchListener(touchListener);
-        }
+        touchListener = new XTouchListener(refreshView, loadMoreView, pullRefreshEnabled, this);
+        recyclerView.setOnTouchListener(touchListener);
         return this;
     }
 
@@ -321,7 +288,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * gets the number of headers
      */
-    int getHeaderViewCount() {
+    public int getHeaderViewCount() {
         return mHeaderViews.size();
     }
 
@@ -336,47 +303,15 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     /**
      * gets the number of footers
      */
-    int getFooterViewCount() {
+    public int getFooterViewCount() {
         return mFooterViews.size();
-    }
-
-    /**
-     * Sets the drop-down animation to be invoked after addRecyclerView
-     */
-    public XBaseAdapter<T> setRefreshProgressStyle(int style) {
-        mRefreshProgressStyle = style;
-        if (mHeaderLayout != null) {
-            mHeaderLayout.setProgressStyle(style);
-        }
-        return this;
-    }
-
-    /**
-     * The image to display when loaded
-     */
-    public XBaseAdapter<T> setImageView(@DrawableRes int resId) {
-        if (mHeaderLayout != null) {
-            mHeaderLayout.setImageView(resId);
-        }
-        return this;
-    }
-
-    /**
-     * Sets the pull-up animation to be called after addRecyclerView
-     */
-    public XBaseAdapter<T> setLoadingMoreProgressStyle(int style) {
-        mLoadingMoreProgressStyle = style;
-        if (mFooterLayout != null) {
-            mFooterLayout.setProgressStyle(style);
-        }
-        return this;
     }
 
     /**
      * Whether it just came in to refresh
      */
-    public XBaseAdapter<T> setRefreshing(boolean refreshing) {
-        if (refreshing && pullRefreshEnabled && mLoadingListener != null) {
+    public XBaseAdapter<T> refresh() {
+        if (isLoad() && pullRefreshEnabled && mLoadingListener != null) {
             if (mEmptyView != null) {
                 mEmptyView.setVisibility(View.GONE);
             }
@@ -386,60 +321,11 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             if (recyclerView != null) {
                 recyclerView.setVisibility(View.VISIBLE);
             }
-            hideFootLayout();
-            mHeaderLayout.setState(Refresh.REFRESH);
-            mHeaderLayout.onMove(mHeaderLayout.getMeasuredHeight());
+            refreshView.setState(XRefreshView.REFRESH);
+            refreshView.onMove(refreshView.getMeasuredHeight());
             mLoadingListener.onRefresh();
-        }
-        return this;
-    }
-
-    /**
-     * @param color refreshHeader backgroundColor
-     */
-    public XBaseAdapter<T> setHeaderBackgroundColor(@ColorRes int color) {
-        if (mHeaderLayout != null) {
-            mHeaderLayout.setViewBackgroundColor(color);
-        }
-        return this;
-    }
-
-    /**
-     * @param color refreshHeader textColor
-     */
-    public XBaseAdapter<T> setHeaderTextColor(@ColorRes int color) {
-        if (mHeaderLayout != null) {
-            mHeaderLayout.setTextColor(color);
-        }
-        return this;
-    }
-
-    /**
-     * @param color loadMoreFooter backgroundColor
-     */
-    public XBaseAdapter<T> setFooterBackgroundColor(@ColorRes int color) {
-        if (mFooterLayout != null) {
-            mFooterLayout.setViewBackgroundColor(color);
-        }
-        return this;
-    }
-
-    /**
-     * @param color loadMoreFooter textColor
-     */
-    public XBaseAdapter<T> setFooterTextColor(@ColorRes int color) {
-        if (mFooterLayout != null) {
-            mFooterLayout.setTextColor(color);
-        }
-        return this;
-    }
-
-    /**
-     * @param height loadMoreFooter height
-     */
-    public XBaseAdapter<T> setFooterHeight(int height) {
-        if (mFooterLayout != null) {
-            mFooterLayout.setFooterHeight(height);
+            loadMoreView.setVisibility(View.GONE);
+            loadMoreView.setState(XLoadMoreView.NORMAL);
         }
         return this;
     }
@@ -508,31 +394,22 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
         }
     }
 
-    public void refreshComplete(@Refresh.RefreshState int state) {
-        if (mHeaderLayout != null) {
-            mHeaderLayout.refreshComplete(state);
-            if (loadingMoreEnabled && mFooterLayout != null && state == Refresh.REFRESH) {
-                hideFootLayout();
-                mFooterLayout.setState(LoadMore.NORMAL);
+    public void refreshState(@XRefreshView.RefreshState int state) {
+        if (refreshView != null) {
+            refreshView.refreshState(state);
+            if (refreshView.getState() == XRefreshView.REFRESH && loadMoreView != null) {
+                loadMoreView.setVisibility(View.GONE);
             }
         }
     }
 
-    public void loadMoreComplete(@LoadMore.LoadMoreStatus int state) {
-        if (mFooterLayout != null) {
-            mFooterLayout.setState(state);
+    public void loadMoreState(@XLoadMoreView.LoadMoreStatus int state) {
+        if (loadMoreView != null) {
+            if (loadMoreView.getVisibility() == View.GONE) {
+                loadMoreView.setVisibility(View.VISIBLE);
+            }
+            loadMoreView.setState(state);
         }
     }
 
-    public void hideFootLayout() {
-        if (mFooterLayout != null) {
-            mFooterLayout.setVisibility(View.GONE);
-        }
-    }
-
-    public void showFootLayout() {
-        if (mFooterLayout != null) {
-            mFooterLayout.setVisibility(View.VISIBLE);
-        }
-    }
 }
