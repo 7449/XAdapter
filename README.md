@@ -20,11 +20,6 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 >compile 'com.xadapter:xadapter:0.1.8'
 
-
-### Dividing line
-
-Built a simple example `XDividerItemDecoration`
-
 ## tips
 
 It should be noted that, initXData () is not mandatory, only when the beginning of the RecyclerView need to have a data List must call initXData ()
@@ -34,29 +29,20 @@ It should be noted that, initXData () is not mandatory, only when the beginning 
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBeen)
+                        .setLoadMoreView(View)
+                        .setRefreshView(View)
                         .addRecyclerView(recyclerView)
                         .setLayoutId(R.layout.item)
-                        .setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader)
-                        .setLoadingMoreProgressStyle(ProgressStyle.BallRotate)
-                        .setImageView(R.drawable.iconfont_downgrey)
-                        .setHeaderBackgroundColor(R.color.colorBlack)
-                        .setFooterBackgroundColor(R.color.colorBlack)
-                        .setHeaderTextColor(R.color.textColor)
-                        .setFooterTextColor(R.color.textColor)
                         .setPullRefreshEnabled(true)
                         .setLoadingMoreEnabled(true)
-                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
-                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_2, (ViewGroup) findViewById(android.R.id.content), false))
-                        .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_3, (ViewGroup) findViewById(android.R.id.content), false))
-                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
-                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_2, (ViewGroup) findViewById(android.R.id.content), false))
-                        .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_3, (ViewGroup) findViewById(android.R.id.content), false))
+                        .addHeaderView(View)
+                        .addFooterView(View)
                         .onXBind(this)
                         .setOnLongClickListener(this)
                         .setOnItemClickListener(this)
-                        .setLoadingListener(this)
+                        .setLoadListener(this)
                         .setFooterListener(this)
-                        .setRefreshing(true)
+                        .refresh()
         );
 
 onXBind  
@@ -107,14 +93,13 @@ When the drop-down refresh is complete
 
 It is up to the user to choose whether the load fails or is successful
 
->xRecyclerViewAdapter.refreshComplete(HeaderLayout.STATE_DONE);
-
+>xRecyclerViewAdapter.refreshState(XRefresh.SUCCESS);
 
 When the pull-up is complete
 
 It is up to the user to choose whether the load fails or is successful
 
->xRecyclerViewAdapter.loadMoreComplete(FooterLayout.STATE_NOMORE);
+>xRecyclerViewAdapter.loadMoreState(XLoadMore.ERROR);
 
 
 ### addHeader addFooter
@@ -127,25 +112,107 @@ It is up to the user to choose whether the load fails or is successful
 
 see [multi](https://github.com/7449/XAdapter/tree/master/xadapterLibrary/src/main/java/com/xadapter/adapter/multi)
 
-### Load the animation
+### RefreshView and LoadMoreView
 
-XAdapter's refresh header and the bottom are derived from the [XRecyclerView](https://github.com/jianghejie/XRecyclerView), so support for [XRecyclerView](https://github.com/jianghejie/XRecyclerView) support animation, and the head and the bottom of the extension, you can set the background color, font color.
+	public class RefreshView extends XRefreshView {
+	
+	    public RefreshView(Context context) {
+	        super(context);
+	    }
+	
+	    public RefreshView(Context context, @Nullable AttributeSet attrs) {
+	        super(context, attrs);
+	    }
+	
+	    public RefreshView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+	        super(context, attrs, defStyleAttr);
+	    }
+	
+	    @Override
+	    public void initView() {
+	    }
+	    
+	    @Override
+	    protected int getLayoutId() {
+	        return 0;
+	    }
+	
+	    @Override
+	    protected void onStart() {
+	    }
+	
+	    @Override
+	    protected void onNormal() {
+	    }
+	
+	    @Override
+	    protected void onReady() {
+	    }
+	
+	    @Override
+	    protected void onRefresh() {
+	    }
+	
+	    @Override
+	    protected void onSuccess() {
+	    }
+	
+	    @Override
+	    protected void onError() {
+	    }
+	
+	
+	}
 
-              	 xRecyclerViewAdapter
-                        .initXData(mainBeen)
-                        .addRecyclerView(recyclerView)
-                        .setLayoutId(R.layout.item)
-                        .setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader)
-                        .setLoadingMoreProgressStyle(ProgressStyle.BallRotate)
-                        .setImageView(R.drawable.iconfont_downgrey)
-                        .setHeaderBackgroundColor(R.color.colorBlack)
-                        .setFooterBackgroundColor(R.color.colorBlack)
-                        .setHeaderTextColor(R.color.textColor)
-                        .setFooterTextColor(R.color.textColor)
 
-# Thanks
-
-[https://github.com/jianghejie/XRecyclerView](https://github.com/jianghejie/XRecyclerView)
+	public class LoadMoreView extends XLoadMoreView {
+	
+	
+	    public LoadMoreView(Context context) {
+	        super(context);
+	    }
+	
+	    public LoadMoreView(Context context, @Nullable AttributeSet attrs) {
+	        super(context, attrs);
+	    }
+	
+	    public LoadMoreView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+	        super(context, attrs, defStyleAttr);
+	    }
+	
+	    @Override
+	    protected void initView() {
+	    }
+	
+	    @Override
+	    protected int getLayoutId() {
+	        return 0;
+	    }
+	
+	    @Override
+	    protected void onStart() {
+	    }
+	
+	    @Override
+	    protected void onLoad() {
+	    }
+	
+	    @Override
+	    protected void onNoMore() {
+	    }
+	
+	    @Override
+	    protected void onSuccess() {
+	    }
+	
+	    @Override
+	    protected void onError() {
+	    }
+	
+	    @Override
+	    protected void onNormal() {
+	    }
+	}
 
 
 License
