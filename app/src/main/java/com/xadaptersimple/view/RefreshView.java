@@ -1,51 +1,49 @@
-package com.xadapter.widget;
+package com.xadaptersimple.view;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.ProgressBar;
 
-import com.xadapter.R;
+import com.xadapter.widget.XRefreshView;
+import com.xadaptersimple.R;
 
 /**
- * by y on 2016/11/16
+ * by y on 2017/6/21.
  */
 
-public class SimpleRefresh extends XRefreshView {
-
-    private AppCompatImageView progressBar;
+public class RefreshView extends XRefreshView {
+    private ProgressBar progressBar;
     private AppCompatTextView mText;
-    private AnimationDrawable animationDrawable;
     private AppCompatImageView mTipsIv;
 
     private Animation mRotateUpAnim;
     private Animation mRotateDownAnim;
 
-    public SimpleRefresh(Context context) {
+    public RefreshView(Context context) {
         super(context);
     }
 
-    public SimpleRefresh(Context context, @Nullable AttributeSet attrs) {
+    public RefreshView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SimpleRefresh(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RefreshView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
     public void initView() {
-        progressBar = (AppCompatImageView) findViewById(R.id.progressbar);
-        mText = (AppCompatTextView) findViewById(R.id.tv_tips);
-        mTipsIv = (AppCompatImageView) findViewById(R.id.iv_tips);
-        animationDrawable = (AnimationDrawable) progressBar.getBackground();
+        progressBar = (ProgressBar) findViewById(com.xadapter.R.id.progressbar);
+        mText = (AppCompatTextView) findViewById(com.xadapter.R.id.tv_tips);
+        mTipsIv = (AppCompatImageView) findViewById(com.xadapter.R.id.iv_tips);
         mText.setText("下拉刷新");
-        mText.setTextColor(Color.BLACK);
+        mText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
         initAnimation();
     }
 
@@ -60,7 +58,7 @@ public class SimpleRefresh extends XRefreshView {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.simple_refresh;
+        return R.layout.layout_refresh;
     }
 
     @Override
@@ -79,7 +77,6 @@ public class SimpleRefresh extends XRefreshView {
         }
         mTipsIv.setVisibility(VISIBLE);
         progressBar.setVisibility(INVISIBLE);
-        animationDrawable.stop();
         mText.setText("下拉刷新");
     }
 
@@ -88,7 +85,6 @@ public class SimpleRefresh extends XRefreshView {
         mTipsIv.startAnimation(mRotateUpAnim);
         progressBar.setVisibility(INVISIBLE);
         mTipsIv.setVisibility(VISIBLE);
-        animationDrawable.stop();
         mText.setText("释放立即刷新");
     }
 
@@ -96,7 +92,6 @@ public class SimpleRefresh extends XRefreshView {
     protected void onRefresh() {
         progressBar.setVisibility(VISIBLE);
         mTipsIv.setVisibility(INVISIBLE);
-        animationDrawable.start();
         mText.setText("正在刷新...");
     }
 
@@ -104,7 +99,6 @@ public class SimpleRefresh extends XRefreshView {
     protected void onSuccess() {
         progressBar.setVisibility(INVISIBLE);
         mTipsIv.setVisibility(INVISIBLE);
-        animationDrawable.stop();
         mTipsIv.clearAnimation();
         mText.setText("刷新成功");
     }
@@ -113,7 +107,6 @@ public class SimpleRefresh extends XRefreshView {
     protected void onError() {
         progressBar.setVisibility(INVISIBLE);
         mTipsIv.setVisibility(INVISIBLE);
-        animationDrawable.stop();
         mTipsIv.clearAnimation();
         mText.setText("刷新失败");
     }

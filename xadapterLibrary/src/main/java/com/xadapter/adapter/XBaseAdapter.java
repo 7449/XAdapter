@@ -163,8 +163,12 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     }
 
     private void initHeaderAndFooter() {
-        refreshView = new SimpleRefresh(recyclerView.getContext());
-        loadMoreView = new SimpleLoadMore(recyclerView.getContext());
+        if (refreshView == null) {
+            refreshView = new SimpleRefresh(recyclerView.getContext());
+        }
+        if (loadMoreView == null) {
+            loadMoreView = new SimpleLoadMore(recyclerView.getContext());
+        }
         refreshView.setState(XRefreshView.NORMAL);
         loadMoreView.setState(XLoadMoreView.NORMAL);
         loadMoreView.setOnClickListener(new View.OnClickListener() {

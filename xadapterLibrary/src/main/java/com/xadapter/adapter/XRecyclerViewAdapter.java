@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xadapter.holder.XViewHolder;
+import com.xadapter.widget.XLoadMoreView;
+import com.xadapter.widget.XRefreshView;
 
 import java.util.List;
 
@@ -25,6 +27,20 @@ public class XRecyclerViewAdapter<T> extends XBaseAdapter<T> {
      */
     public XRecyclerViewAdapter<T> initXData(@NonNull List<T> data) {
         mDatas = data;
+        return this;
+    }
+
+    public XRecyclerViewAdapter<T> setRefreshView(@NonNull XRefreshView view) {
+        if (super.refreshView == null) {
+            super.refreshView = view;
+        }
+        return this;
+    }
+
+    public XRecyclerViewAdapter<T> setLoadMoreView(@NonNull XLoadMoreView view) {
+        if (super.loadMoreView == null) {
+            super.loadMoreView = view;
+        }
         return this;
     }
 

@@ -2,9 +2,7 @@ package com.xadaptersimple;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +21,8 @@ import com.xadapter.widget.SimpleLoadMore;
 import com.xadapter.widget.SimpleRefresh;
 import com.xadaptersimple.data.DataUtils;
 import com.xadaptersimple.data.MainBean;
+import com.xadaptersimple.view.LoadMoreView;
+import com.xadaptersimple.view.RefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,8 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
         recyclerView.setAdapter(
                 xRecyclerViewAdapter
                         .initXData(mainBeen)
+                        .setLoadMoreView(new LoadMoreView(getApplicationContext()))
+                        .setRefreshView(new RefreshView(getApplicationContext()))
                         .addRecyclerView(recyclerView)
                         .setLayoutId(R.layout.item)
                         .setPullRefreshEnabled(true)

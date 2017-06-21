@@ -1,91 +1,83 @@
-package com.xadapter.widget;
+package com.xadaptersimple.view;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ProgressBar;
 
-import com.xadapter.R;
+import com.xadapter.widget.XLoadMoreView;
+import com.xadaptersimple.R;
 
 /**
- * by y on 2016/9/29
+ * by y on 2017/6/21.
  */
 
-public class SimpleLoadMore extends XLoadMoreView {
+public class LoadMoreView extends XLoadMoreView {
 
-    private AppCompatImageView progressBar;
+    private ProgressBar progressBar;
     private AppCompatTextView mText;
-    private AnimationDrawable animationDrawable;
 
-    public SimpleLoadMore(Context context) {
+
+    public LoadMoreView(Context context) {
         super(context);
     }
 
-    public SimpleLoadMore(Context context, @Nullable AttributeSet attrs) {
+    public LoadMoreView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SimpleLoadMore(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LoadMoreView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-
     @Override
-    protected int getLayoutId() {
-        return R.layout.simple_load_more;
+    protected void initView() {
+        progressBar = (ProgressBar) findViewById(com.xadapter.R.id.progressbar);
+        mText = (AppCompatTextView) findViewById(com.xadapter.R.id.tv_tips);
+        mText.setText("上拉加载");
+        mText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
     }
 
     @Override
-    public void initView() {
-        progressBar = (AppCompatImageView) findViewById(R.id.progressbar);
-        mText = (AppCompatTextView) findViewById(R.id.tv_tips);
-        animationDrawable = (AnimationDrawable) progressBar.getBackground();
-        mText.setTextColor(Color.BLACK);
-        mText.setText("上拉加载");
+    protected int getLayoutId() {
+        return R.layout.layout_loadmore;
     }
 
     @Override
     protected void onStart() {
         progressBar.setVisibility(GONE);
-        animationDrawable.stop();
     }
 
     @Override
     protected void onLoad() {
         progressBar.setVisibility(View.VISIBLE);
-        animationDrawable.start();
         mText.setText("正在加载...");
     }
 
     @Override
     protected void onNoMore() {
         progressBar.setVisibility(View.GONE);
-        animationDrawable.stop();
         mText.setText("没有数据了");
     }
 
     @Override
     protected void onSuccess() {
         progressBar.setVisibility(View.GONE);
-        animationDrawable.stop();
         mText.setText("加载成功");
     }
 
     @Override
     protected void onError() {
         progressBar.setVisibility(View.GONE);
-        animationDrawable.stop();
         mText.setText("加载失败");
     }
 
     @Override
     protected void onNormal() {
         progressBar.setVisibility(View.GONE);
-        animationDrawable.stop();
         mText.setText("上拉加载");
     }
 }
