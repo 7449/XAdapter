@@ -6,6 +6,9 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 
 
+[notrefresh](https://github.com/7449/XAdapter/tree/notrefresh):分支删掉了下拉刷新和上拉加载
+
+
 
 # Screenshots
 
