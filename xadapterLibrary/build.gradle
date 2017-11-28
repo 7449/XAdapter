@@ -26,13 +26,13 @@ android {
 }
 publish {
     userOrg = 'ydevelop'
-    groupId = 'com.xadapter'
+    groupId = 'com.ydevelop'
     artifactId = 'xadapter'
-    publishVersion = '0.1.9'
+    publishVersion = '0.0.1'
     desc = 'this is XAdapter'
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    provided 'com.android.support:appcompat-v7:25.3.1'
-    provided 'com.android.support:design:25.3.1'
+    provided 'com.android.support:appcompat-v7:25.4.0'
+    provided 'com.android.support:design:25.4.0'
 }

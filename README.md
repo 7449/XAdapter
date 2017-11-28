@@ -21,7 +21,8 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
->compile 'com.xadapter:xadapter:0.1.8'
+>compile 'com.ydevelop:xadapter:0.0.1'
+
 
 ## tips
 
