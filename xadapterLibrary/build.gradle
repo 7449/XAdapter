@@ -27,7 +27,7 @@ android {
 publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
-    artifactId = 'xadapter'
+    artifactId = 'rv-adapter'
     publishVersion = '0.0.1'
     desc = 'this is XAdapter'
     website = 'https://github.com/7449/XAdapter'
