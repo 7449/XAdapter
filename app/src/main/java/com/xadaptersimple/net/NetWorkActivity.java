@@ -54,6 +54,7 @@ public class NetWorkActivity extends AppCompatActivity
 
     @Override
     public void onRefresh() {
+        page = 0;
         mAdapter.removeAll();
         netWork();
     }
@@ -61,8 +62,8 @@ public class NetWorkActivity extends AppCompatActivity
     @Override
     public void onLoadMore() {
         if (page < 1) {
-            ++page;
             netWork();
+            ++page;
         } else {
             mAdapter.loadMoreState(SimpleLoadMore.NOMORE);
         }

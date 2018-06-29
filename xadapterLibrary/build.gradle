@@ -28,7 +28,7 @@ publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
     artifactId = 'rv-adapter'
-    publishVersion = '0.0.1'
+    publishVersion = '0.0.3'
     desc = 'this is XAdapter'
     website = 'https://github.com/7449/XAdapter'
 }

@@ -67,7 +67,6 @@ public class LinearLayoutManagerActivity extends AppCompatActivity
                         .setOnItemClickListener(this)
                         .setLoadListener(this)
                         .setFooterListener(this)
-                        .refresh()
         );
 
     }

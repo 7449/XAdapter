@@ -203,6 +203,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             if (isPullRefreshEnabled() && loadMoreView.getState() != XLoadMoreView.LOAD) {
                 loadMoreView.setVisibility(View.GONE);
                 loadMoreView.setState(XLoadMoreView.NORMAL);
+                loadMoreView.setHeight(0);
                 mLoadingListener.onRefresh();
             }
         }
@@ -330,6 +331,7 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             mLoadingListener.onRefresh();
             loadMoreView.setVisibility(View.GONE);
             loadMoreView.setState(XLoadMoreView.NORMAL);
+            loadMoreView.setHeight(0);
         }
         return this;
     }
@@ -401,8 +403,12 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
     public void refreshState(@XRefreshView.RefreshState int state) {
         if (refreshView != null) {
             refreshView.refreshState(state);
+            if (refreshView.getState() == XRefreshView.SUCCESS) {
+                loadMoreView.setHeight(120);
+            }
             if (refreshView.getState() == XRefreshView.REFRESH && loadMoreView != null) {
                 loadMoreView.setVisibility(View.GONE);
+                loadMoreView.setHeight(0);
             }
         }
     }
@@ -414,6 +420,14 @@ public abstract class XBaseAdapter<T> extends RecyclerView.Adapter<XViewHolder>
             }
             loadMoreView.setState(state);
         }
+    }
+
+    public int getLoadMoreState() {
+        return loadMoreView.getState();
+    }
+
+    public int getRefreshState() {
+        return refreshView.getState();
     }
 
 }

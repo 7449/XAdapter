@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.lang.annotation.Retention;
@@ -44,6 +45,12 @@ public abstract class XLoadMoreView extends FrameLayout {
         addView(rootView);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         initView();
+    }
+
+    public void setHeight(int height) {
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        layoutParams.height = height;
+        setLayoutParams(layoutParams);
     }
 
     protected abstract void initView();
