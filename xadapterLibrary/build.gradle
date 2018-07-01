@@ -3,7 +3,7 @@ apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -28,11 +28,11 @@ publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
     artifactId = 'rv-adapter'
-    publishVersion = '0.0.3'
+    publishVersion = '0.0.4'
     desc = 'this is XAdapter'
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    provided 'com.android.support:appcompat-v7:25.4.0'
-    provided 'com.android.support:design:25.4.0'
+    compileOnly 'com.android.support:appcompat-v7:25.4.0'
+    compileOnly 'com.android.support:design:25.4.0'
 }

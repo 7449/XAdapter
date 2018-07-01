@@ -47,9 +47,10 @@ public abstract class XLoadMoreView extends FrameLayout {
         initView();
     }
 
-    public void setHeight(int height) {
+    public void hideHeight(boolean hide) {
         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-        layoutParams.height = height;
+        layoutParams.height = hide ? 0 : LayoutParams.WRAP_CONTENT;
+        layoutParams.width = LayoutParams.MATCH_PARENT;
         setLayoutParams(layoutParams);
     }
 
@@ -78,6 +79,7 @@ public abstract class XLoadMoreView extends FrameLayout {
             return;
         }
         onStart();
+        hideHeight(false);
         switch (state) {
             case LOAD:
                 onLoad();

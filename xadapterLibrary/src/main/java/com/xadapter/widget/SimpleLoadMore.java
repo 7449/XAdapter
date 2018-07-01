@@ -59,7 +59,6 @@ public class SimpleLoadMore extends XLoadMoreView {
         progressBar.setVisibility(View.VISIBLE);
         animationDrawable.start();
         mText.setText("正在加载...");
-        setHeight(120);
     }
 
     @Override
@@ -67,7 +66,6 @@ public class SimpleLoadMore extends XLoadMoreView {
         progressBar.setVisibility(View.GONE);
         animationDrawable.stop();
         mText.setText("没有数据了");
-        setHeight(120);
     }
 
     @Override
@@ -75,7 +73,6 @@ public class SimpleLoadMore extends XLoadMoreView {
         progressBar.setVisibility(View.GONE);
         animationDrawable.stop();
         mText.setText("加载成功");
-        setHeight(120);
     }
 
     @Override
@@ -83,7 +80,6 @@ public class SimpleLoadMore extends XLoadMoreView {
         progressBar.setVisibility(View.GONE);
         animationDrawable.stop();
         mText.setText("加载失败");
-        setHeight(120);
     }
 
     @Override
@@ -91,6 +87,5 @@ public class SimpleLoadMore extends XLoadMoreView {
         progressBar.setVisibility(View.GONE);
         animationDrawable.stop();
         mText.setText("上拉加载");
-        setHeight(120);
     }
 }
