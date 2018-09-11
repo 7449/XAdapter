@@ -1,15 +1,12 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '27.0.3'
-
+    compileSdkVersion 27
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 27
     }
     lintOptions {
         abortOnError false
@@ -23,16 +20,24 @@ android {
             }
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 publish {
     userOrg = 'ydevelop'
     groupId = 'com.ydevelop'
     artifactId = 'rv-adapter'
-    publishVersion = '0.0.4'
+    publishVersion = '0.0.8'
     desc = 'this is XAdapter'
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    compileOnly 'com.android.support:appcompat-v7:25.4.0'
-    compileOnly 'com.android.support:design:25.4.0'
+    compileOnly 'com.android.support:appcompat-v7:27.1.1'
+    compileOnly 'com.android.support:design:27.1.1'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

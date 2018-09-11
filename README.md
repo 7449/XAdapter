@@ -4,12 +4,6 @@ Support for the pull-down refresh loading and the addition of multiple header an
 
 Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/12/Android_XAdapter/)
 
-
-
-[notrefresh](https://github.com/7449/XAdapter/tree/notrefresh):分支删掉了下拉刷新和上拉加载
-
-
-
 # Screenshots
 
 ![](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
@@ -21,33 +15,39 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
->compile 'com.ydevelop:rv-adapter:0.0.4
+>compile 'com.ydevelop:rv-adapter:0.0.8
 
 
 ## tips
 
 It should be noted that, initXData () is not mandatory, only when the beginning of the RecyclerView need to have a data List must call initXData ()
 
-## Full example
+## example
 
-        recyclerView.setAdapter(
-                xRecyclerViewAdapter
-                        .initXData(mainBeen)
-                        .setLoadMoreView(View)
-                        .setRefreshView(View)
-                        .addRecyclerView(recyclerView)
-                        .setLayoutId(R.layout.item)
-                        .setPullRefreshEnabled(true)
-                        .setLoadingMoreEnabled(true)
-                        .addHeaderView(View)
-                        .addFooterView(View)
-                        .onXBind(this)
-                        .setOnLongClickListener(this)
-                        .setOnItemClickListener(this)
-                        .setLoadListener(this)
-                        .setFooterListener(this)
-                        .refresh()
-        );
+    xRecyclerViewAdapter.apply {
+        mDatas = mainBeen
+        loadMoreView = LoadMoreView(applicationContext)
+        refreshView = RefreshView(applicationContext)
+        recyclerView = mRecyclerView
+        itemLayoutId = R.layout.item
+        pullRefreshEnabled=true
+        loadingMoreEnabled=true
+        mHeaderViews.apply {
+            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
+            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))
+            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_3, findViewById(android.R.id.content), false))
+        }
+        mFooterViews.apply {
+            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
+            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
+            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
+        }
+        mOnXBindListener = this@LinearLayoutManagerActivity
+        mOnLongClickListener = this@LinearLayoutManagerActivity
+        mOnItemClickListener = this@LinearLayoutManagerActivity
+        mXAdapterListener = this@LinearLayoutManagerActivity
+        mOnFooterListener = this@LinearLayoutManagerActivity
+    }
 
 onXBind  
 Achieve data display
