@@ -27,19 +27,19 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
 
         mAdapter = XRecyclerViewAdapter()
-        recyclerView.adapter = mAdapter
-                .addRecyclerView(recyclerView)
-                .setOnXBind(this)
+        mRecyclerView.adapter = mAdapter
                 .apply {
+                    onXBindListener = this@NetWorkActivity
+                    recyclerView = mRecyclerView
                     itemLayoutId = R.layout.network_item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
+                    xAdapterListener = this@NetWorkActivity
                 }
-                .setOnXAdapterListener(this)
                 .refresh()
     }
 

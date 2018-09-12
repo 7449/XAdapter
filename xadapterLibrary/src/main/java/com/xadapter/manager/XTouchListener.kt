@@ -13,8 +13,8 @@ import com.xadapter.widget.XRefreshView
 class XTouchListener(
         private val refreshView: XRefreshView,
         private val loadMoreView: XLoadMoreView?,
-        private val isRefreshHeader: Boolean,
         private val refreshInterface: RefreshInterface) : View.OnTouchListener {
+
     private var rawY = -1f
     var state: AppBarStateChangeListener.State = AppBarStateChangeListener.State.EXPANDED
 
@@ -23,7 +23,7 @@ class XTouchListener(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (!isRefreshHeader || refreshView.state == XRefreshView.REFRESH || loadMoreView != null && loadMoreView.state == XLoadMoreView.LOAD) {
+        if (refreshView.state == XRefreshView.REFRESH || (loadMoreView != null && loadMoreView.state == XLoadMoreView.LOAD)) {
             return false
         }
         if (rawY == -1f) {

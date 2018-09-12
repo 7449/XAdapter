@@ -29,17 +29,17 @@ class StaggeredGridLayoutManagerActivity : AppCompatActivity() {
         recyclerView.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
         recyclerView.adapter = xRecyclerViewAdapter
-                .initXData(mainBeen)
                 .apply {
+                    dataContainer = mainBeen
                     itemLayoutId = R.layout.item
+                    onXBindListener = object : OnXBindListener<MainBean> {
+                        override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
+                            holder.setTextView(R.id.tv_name, entity.name)
+                            holder.setTextView(R.id.tv_age, entity.age.toString())
+                        }
+                    }
                 }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
-                .setOnXBind(object : OnXBindListener<MainBean> {
-                    override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-                        holder.setTextView(R.id.tv_name, entity.name)
-                        holder.setTextView(R.id.tv_age, entity.age.toString())
-                    }
-                })
     }
 }

@@ -20,21 +20,19 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
 
     init {
         swipeRefreshLayout.setOnRefreshListener {
-            if (mXAdapterListener != null && loadMoreState != XLoadMoreView.LOAD) {
+            if (xAdapterListener != null && loadMoreState != XLoadMoreView.LOAD) {
                 loadMoreView?.state = XLoadMoreView.NORMAL
-                loadMoreView?.hideHeight(true)
-                mXAdapterListener?.onXRefresh()
+                xAdapterListener?.onXRefresh()
             }
         }
     }
 
     override fun refresh() = apply {
-        goneView(mEmptyView)
+        goneView(emptyView)
         visibleView(recyclerView)
-        mXAdapterListener?.onXRefresh()
+        xAdapterListener?.onXRefresh()
         swipeRefreshLayout.isRefreshing = true
         loadMoreView?.state = XLoadMoreView.NORMAL
-        loadMoreView?.hideHeight(true)
     }
 
     override fun onScrollBottom() {
@@ -48,7 +46,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
             return
         }
         loadMoreView?.state = XLoadMoreView.LOAD
-        mXAdapterListener?.onXLoadMore()
+        xAdapterListener?.onXLoadMore()
     }
 
     fun onComplete(type: Int) {
@@ -73,14 +71,14 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
     }
 
     fun setOnLoadMoreRetry(loadMoreRetryListener: OnLoadMoreRetryListener) = apply {
-        setOnFooterListener(object : OnFooterClickListener {
+        onFooterListener = object : OnFooterClickListener {
             override fun onXFooterClick(view: View) {
                 if (loadMoreState == XLoadMoreView.ERROR) {
                     loadMoreState = XLoadMoreView.LOAD
                     loadMoreRetryListener.onXLoadMoreRetry()
                 }
             }
-        })
+        }
     }
 
 }

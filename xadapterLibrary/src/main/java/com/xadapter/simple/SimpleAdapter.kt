@@ -55,14 +55,14 @@ class SimpleAdapter<T> : XRecyclerViewAdapter<T>() {
     }
 
     fun onLoadMoreRetry(loadMoreRetryListener: OnLoadMoreRetryListener) = apply {
-        setOnFooterListener(object : OnFooterClickListener {
+        onFooterListener = object : OnFooterClickListener {
             override fun onXFooterClick(view: View) {
                 if (loadMoreState == XLoadMoreView.ERROR) {
                     loadMoreState = XLoadMoreView.LOAD
                     loadMoreRetryListener.onXLoadMoreRetry()
                 }
             }
-        })
+        }
     }
 
 }

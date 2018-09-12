@@ -18,6 +18,7 @@ public class SimpleJava {
         XRecyclerViewAdapter<Object> objectXRecyclerViewAdapter = new XRecyclerViewAdapter<>();
         objectXRecyclerViewAdapter.setOnItemClickListener(null);
         objectXRecyclerViewAdapter.setItemLayoutId(0);
+        objectXRecyclerViewAdapter.setScrollLoadMoreItemCount(10);
         objectXRecyclerViewAdapter.setOnLongClickListener(null);
     }
 

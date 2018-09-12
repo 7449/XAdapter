@@ -9,11 +9,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.listener.XMultiCallBack
 import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.OnItemClickListener
 import com.xadapter.listener.OnItemLongClickListener
 import com.xadapter.listener.OnXMultiAdapterListener
+import com.xadapter.listener.XMultiCallBack
 import com.xadapter.simple.SimpleXMultiItem
 
 /**
@@ -40,9 +40,8 @@ class MultipleItemActivity : AppCompatActivity(), OnItemClickListener<SimpleXMul
         Toast.makeText(view.context, "当前 position:  " + position + "  " + entity.message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(view: View, position: Int, entity: SimpleXMultiItem): Boolean {
+    override fun onLongClick(view: View, position: Int, entity: SimpleXMultiItem) {
         Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
-        return true
     }
 
     override fun multiLayoutId(viewItemType: Int): Int {

@@ -25,33 +25,33 @@ import java.util.*
 class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterListener {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        recyclerView = findViewById(R.id.recyclerView)
+        mRecyclerView = findViewById(R.id.recyclerView)
         val mainBeen = ArrayList<MainBean>()
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
-        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        recyclerView.adapter = xRecyclerViewAdapter
-                .initXData(mainBeen)
-                .addRecyclerView(recyclerView)
+        mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        mRecyclerView.adapter = xRecyclerViewAdapter
                 .apply {
+                    dataContainer = mainBeen
+                    recyclerView = mRecyclerView
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
-                }
-                .setOnXBind(this)
-                .setOnXAdapterListener(this)
-                .setOnItemClickListener(object : OnItemClickListener<MainBean> {
-                    override fun onItemClick(view: View, position: Int, entity: MainBean) {
-                        Log.i("onItemClick", position.toString())
-                        xRecyclerViewAdapter.remove(position)
-                    }
+                    onXBindListener = this@TestActivity
+                    xAdapterListener = this@TestActivity
+                    onItemClickListener = object : OnItemClickListener<MainBean> {
+                        override fun onItemClick(view: View, position: Int, entity: MainBean) {
+                            Log.i("onItemClick", position.toString())
+                            xRecyclerViewAdapter.remove(position)
+                        }
 
-                })
+                    }
+                }
                 .refresh()
 
     }
@@ -63,18 +63,18 @@ class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterL
 
     override fun onXRefresh() {
         xRecyclerViewAdapter.removeAll()
-        recyclerView.postDelayed({
+        mRecyclerView.postDelayed({
             xRecyclerViewAdapter.addAll(DataUtils.getTestData(ArrayList()))
             xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
-            if (xRecyclerViewAdapter.mDatas.size < 7) {
+            if (xRecyclerViewAdapter.dataContainer.size < 7) {
                 xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
             }
         }, 1500)
     }
 
     override fun onXLoadMore() {
-        recyclerView.postDelayed({
-            if (xRecyclerViewAdapter.mDatas.size < 7) {
+        mRecyclerView.postDelayed({
+            if (xRecyclerViewAdapter.dataContainer.size < 7) {
                 xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
             } else {
                 xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR

@@ -22,6 +22,6 @@ interface OnItemLongClickListener<T> {
      * @param position The position of the view in the adapter.
      * @param entity     The adapter's data
      */
-    fun onLongClick(view: View, position: Int, entity: T): Boolean
+    fun onLongClick(view: View, position: Int, entity: T)
 }
 

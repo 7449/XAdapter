@@ -17,206 +17,156 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 >compile 'com.ydevelop:rv-adapter:0.0.8
 
-
-## tips
-
-It should be noted that, initXData () is not mandatory, only when the beginning of the RecyclerView need to have a data List must call initXData ()
-
 ## example
 
-    xRecyclerViewAdapter.apply {
-        mDatas = mainBeen
+    mRecyclerView.adapter = xRecyclerViewAdapter.apply {
+        dataContainer = mainBeen
         loadMoreView = LoadMoreView(applicationContext)
         refreshView = RefreshView(applicationContext)
         recyclerView = mRecyclerView
-        itemLayoutId = R.layout.item
-        pullRefreshEnabled=true
-        loadingMoreEnabled=true
-        mHeaderViews.apply {
+        pullRefreshEnabled = true
+        loadingMoreEnabled = true
+        scrollLoadMoreItemCount = 10
+        headerViewContainer.apply {
             add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
             add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))
             add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_3, findViewById(android.R.id.content), false))
         }
-        mFooterViews.apply {
+        footerViewContainer.apply {
             add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
             add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
             add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
         }
-        mOnXBindListener = this@LinearLayoutManagerActivity
-        mOnLongClickListener = this@LinearLayoutManagerActivity
-        mOnItemClickListener = this@LinearLayoutManagerActivity
-        mXAdapterListener = this@LinearLayoutManagerActivity
-        mOnFooterListener = this@LinearLayoutManagerActivity
+        onXBindListener = this@LinearLayoutManagerActivity
+        onLongClickListener = this@LinearLayoutManagerActivity
+        onItemClickListener = this@LinearLayoutManagerActivity
+        xAdapterListener = this@LinearLayoutManagerActivity
+        onFooterListener = this@LinearLayoutManagerActivity
+        itemLayoutId = R.layout.item
     }
 
 onXBind  
 Achieve data display
 
-    @Override
-    public void onXBind(XViewHolder holder, int position, MainBean mainBean) {
-        holder.setTextView(R.id.tv_name, mainBean.getName());
-        holder.setTextView(R.id.tv_age, mainBean.getAge() + "");
+    override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
+        holder.setTextView(R.id.tv_name, entity.name)
+        holder.setTextView(R.id.tv_age, entity.age.toString() + "")
     }
 
 ## emptyView
 
 >Whether to display manually determined by the user's own network exceptions or data is empty when the call xRecyclerViewAdapter.isShowEmptyView (); specific examples of simple
 	
-	 recyclerView.setAdapter(
-	                xRecyclerViewAdapter
-	                        .initXData(mainBean)
-	                        .setEmptyView(findViewById(R.id.emptyView))
-	                        .addRecyclerView(recyclerView)
-	                        .setLayoutId(R.layout.item)
-	   );
-
+    mRecyclerView.adapter = xRecyclerViewAdapter
+            .apply {
+                emptyView = findViewById(R.id.emptyView)
+                recyclerView = mRecyclerView
+            }
 
 ## pull to refresh and load more
 
 The default is not open, if necessary, please manually open, and addRecyclerView
 
-                xRecyclerViewAdapter
-					.initXData(mainBean)
-	                .setLayoutId(R.layout.item)
-	                .addRecyclerView(recyclerView)
-	                .setPullRefreshEnabled(true)
-	                .setPullRefreshEnabled(true)
-	                .setLoadingListener(new XBaseAdapter.LoadingListener() {
-	                    @Override
-	                    public void onRefresh() {
-	                        
-	                    }
-	
-	                    @Override
-	                    public void onLoadMore() {
-	
-	                    }
-	                })
+    mRecyclerView.adapter = xRecyclerViewAdapter.apply {
+        xAdapterListener = object : OnXAdapterListener {
+            override fun onXRefresh() {
+            }
+            override fun onXLoadMore() {
+            }
+        }
+    }
 
 When the drop-down refresh is complete
 
 It is up to the user to choose whether the load fails or is successful
 
->xRecyclerViewAdapter.refreshState(XRefresh.SUCCESS);
+>xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
 
 When the pull-up is complete
 
 It is up to the user to choose whether the load fails or is successful
 
->xRecyclerViewAdapter.loadMoreState(XLoadMore.ERROR);
-
+>xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
 
 ### addHeader addFooter
 
-		xRecyclerViewAdapter
-		 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
-		 .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
+    xRecyclerViewAdapter
+     .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
+     .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
 		 
 ### MultipleAdapter
 
-see [multi](https://github.com/7449/XAdapter/tree/master/xadapterLibrary/src/main/java/com/xadapter/adapter/multi)
+see [multi](https://github.com/7449/XAdapter/tree/master/xadapterLibrary/src/main/java/com/xadapter/adapter/XMultiAdapter.kt)
 
-### RefreshView and LoadMoreView
+#### RefreshView 
 
-	public class RefreshView extends XRefreshView {
-	
-	    public RefreshView(Context context) {
-	        super(context);
-	    }
-	
-	    public RefreshView(Context context, @Nullable AttributeSet attrs) {
-	        super(context, attrs);
-	    }
-	
-	    public RefreshView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-	        super(context, attrs, defStyleAttr);
-	    }
-	
-	    @Override
-	    public void initView() {
-	    }
-	    
-	    @Override
-	    protected int getLayoutId() {
-	        return 0;
-	    }
-	
-	    @Override
-	    protected void onStart() {
-	    }
-	
-	    @Override
-	    protected void onNormal() {
-	    }
-	
-	    @Override
-	    protected void onReady() {
-	    }
-	
-	    @Override
-	    protected void onRefresh() {
-	    }
-	
-	    @Override
-	    protected void onSuccess() {
-	    }
-	
-	    @Override
-	    protected void onError() {
-	    }
-	
-	
-	}
+    class RefreshView : XRefreshView {
+    
+        constructor(context: Context) : super(context)
+    
+        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    
+        constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    
+        public override fun initView() {
+        }
+    
+        override fun getLayoutId(): Int {
+        }
+    
+        override fun onStart() {
+        }
+    
+        override fun onNormal() {
+        }
+    
+        override fun onReady() {
+        }
+    
+        override fun onRefresh() {
+        }
+    
+        override fun onSuccess() {
+        }
+    
+        override fun onError() {
+        }
+    }
 
+#### LoadMoreView
 
-	public class LoadMoreView extends XLoadMoreView {
-	
-	
-	    public LoadMoreView(Context context) {
-	        super(context);
-	    }
-	
-	    public LoadMoreView(Context context, @Nullable AttributeSet attrs) {
-	        super(context, attrs);
-	    }
-	
-	    public LoadMoreView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-	        super(context, attrs, defStyleAttr);
-	    }
-	
-	    @Override
-	    protected void initView() {
-	    }
-	
-	    @Override
-	    protected int getLayoutId() {
-	        return 0;
-	    }
-	
-	    @Override
-	    protected void onStart() {
-	    }
-	
-	    @Override
-	    protected void onLoad() {
-	    }
-	
-	    @Override
-	    protected void onNoMore() {
-	    }
-	
-	    @Override
-	    protected void onSuccess() {
-	    }
-	
-	    @Override
-	    protected void onError() {
-	    }
-	
-	    @Override
-	    protected void onNormal() {
-	    }
-	}
+    class LoadMoreView : XLoadMoreView {
+    
+        constructor(context: Context) : super(context)
+    
+        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    
+        constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    
+        override fun initView() {
+        }
+    
+        override fun getLayoutId(): Int {
+        }
+    
+        override fun onStart() {
+        }
+    
+        override fun onLoad() {
+        }
+    
+        override fun onNoMore() {
+        }
+    
+        override fun onSuccess() {
+        }
+    
+        override fun onError() {
+        }
+    
+        override fun onNormal() {
+        }
+    }
 
 
 License

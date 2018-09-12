@@ -17,29 +17,29 @@ import com.xadaptersimple.data.MainBean
 class EmptyViewActivity : AppCompatActivity(), OnXAdapterListener {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
 
-        recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
+        mRecyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
         xRecyclerViewAdapter = XRecyclerViewAdapter()
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = xRecyclerViewAdapter
-                .addRecyclerView(recyclerView)
-                .setEmptyView(findViewById(R.id.emptyView), true)
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = xRecyclerViewAdapter
                 .apply {
+                    emptyView = findViewById(R.id.emptyView)
+                    recyclerView = mRecyclerView
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
+                    xAdapterListener = this@EmptyViewActivity
                 }
-                .setOnXAdapterListener(this)
 
         xRecyclerViewAdapter.addAll(ArrayList())
     }
 
     override fun onXRefresh() {
-        recyclerView.postDelayed({
+        mRecyclerView.postDelayed({
             xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
             xRecyclerViewAdapter.addAll(ArrayList())
         }, 2000)

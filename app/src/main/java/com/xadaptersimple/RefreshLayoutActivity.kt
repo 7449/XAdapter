@@ -26,7 +26,7 @@ class RefreshLayoutActivity : AppCompatActivity(),
 
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
     private var page = 0
 
     private lateinit var mAdapter: SimpleRefreshAdapter<NetWorkBean>
@@ -35,20 +35,20 @@ class RefreshLayoutActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_swipe)
         swipeRefreshLayout = findViewById(R.id.srf_layout)
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.setHasFixedSize(true)
+        mRecyclerView = findViewById(R.id.recyclerView)
+        mRecyclerView.setHasFixedSize(true)
 
         mAdapter = SimpleRefreshAdapter(swipeRefreshLayout)
-        recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.adapter = mAdapter
+        mRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        mRecyclerView.adapter = mAdapter
                 .setOnLoadMoreRetry(this)
-                .addRecyclerView(recyclerView)
-                .setOnXBind(this)
                 .apply {
+                    onXBindListener = this@RefreshLayoutActivity
+                    recyclerView = mRecyclerView
                     itemLayoutId = R.layout.network_item
                     pullRefreshEnabled = true
+                    xAdapterListener = this@RefreshLayoutActivity
                 }
-                .setOnXAdapterListener(this)
                 .refresh()
     }
 

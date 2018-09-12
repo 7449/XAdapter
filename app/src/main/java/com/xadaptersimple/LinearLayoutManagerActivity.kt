@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -38,27 +39,28 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
         mRecyclerView.adapter = xRecyclerViewAdapter.apply {
-            mDatas = mainBeen
+            dataContainer = mainBeen
             loadMoreView = LoadMoreView(applicationContext)
             refreshView = RefreshView(applicationContext)
             recyclerView = mRecyclerView
             pullRefreshEnabled = true
             loadingMoreEnabled = true
-            mHeaderViews.apply {
+            scrollLoadMoreItemCount = 10
+            headerViewContainer.apply {
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_3, findViewById(android.R.id.content), false))
             }
-            mFooterViews.apply {
+            footerViewContainer.apply {
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
             }
-            mOnXBindListener = this@LinearLayoutManagerActivity
-            mOnLongClickListener = this@LinearLayoutManagerActivity
-            mOnItemClickListener = this@LinearLayoutManagerActivity
-            mXAdapterListener = this@LinearLayoutManagerActivity
-            mOnFooterListener = this@LinearLayoutManagerActivity
+            onXBindListener = this@LinearLayoutManagerActivity
+            onLongClickListener = this@LinearLayoutManagerActivity
+            onItemClickListener = this@LinearLayoutManagerActivity
+            xAdapterListener = this@LinearLayoutManagerActivity
+            onFooterListener = this@LinearLayoutManagerActivity
             itemLayoutId = R.layout.item
         }
     }
@@ -72,9 +74,8 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
         Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(view: View, position: Int, entity: MainBean): Boolean {
+    override fun onLongClick(view: View, position: Int, entity: MainBean) {
         Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
-        return true
     }
 
     override fun onXFooterClick(view: View) {
@@ -91,6 +92,7 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
     override fun onXLoadMore() {
         mRecyclerView.postDelayed({
             xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
+            Log.d(javaClass.simpleName, xRecyclerViewAdapter.scrollLoadMoreItemCount.toString())
             Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()
         }, 1500)
     }

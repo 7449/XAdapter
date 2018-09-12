@@ -19,7 +19,6 @@ abstract class XLoadMoreView : FrameLayout {
                 return
             }
             onStart()
-            hideHeight(false)
             when (state) {
                 LOAD -> onLoad()
                 NOMORE -> onNoMore()
