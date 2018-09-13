@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.OnXAdapterListener
@@ -62,19 +63,20 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
     private fun netWork() {
         RxNetWork.instance.cancel(javaClass.simpleName)
         RxNetWork.instance
-                .setBaseUrl(NetApi.ZL_BASE_API)
+                .apply {
+                    baseUrl = NetApi.ZL_BASE_API
+                }
                 .getApi(javaClass.simpleName,
                         RxNetWork.observable(NetApi.ZLService::class.java)
                                 .getList("daily", 20, 0), this)
     }
 
+    private var option = RequestOptions().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).centerCrop()
     override fun onXBind(holder: XViewHolder, position: Int, entity: NetWorkBean) {
         Glide
                 .with(holder.context)
                 .load(entity.titleImage)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .centerCrop()
+                .apply(option)
                 .into(holder.getImageView(R.id.list_image))
         holder.setTextView(R.id.list_tv, entity.title)
     }
