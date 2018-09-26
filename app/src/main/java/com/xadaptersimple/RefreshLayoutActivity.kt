@@ -11,7 +11,6 @@ import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.OnLoadMoreRetryListener
 import com.xadapter.listener.OnXAdapterListener
 import com.xadapter.listener.OnXBindListener
-import com.xadapter.simple.SimpleRefreshAdapter
 import com.xadaptersimple.net.NetApi
 import com.xadaptersimple.net.NetWorkBean
 import io.reactivex.network.RxNetWork

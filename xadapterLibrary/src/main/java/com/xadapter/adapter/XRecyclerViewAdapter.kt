@@ -37,6 +37,7 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     private val mHeaderViewType = ArrayList<Int>()
     private val mFooterViewType = ArrayList<Int>()
     private val adapterViewType = 100000
+
     private var xScrollListener: XScrollListener? = null
     private var touchListener: XTouchListener? = null
     open var dataContainer: ArrayList<T> = ArrayList()

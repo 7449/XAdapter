@@ -1,4 +1,4 @@
-package com.xadapter.simple
+package com.xadaptersimple
 
 import android.content.Context
 import android.graphics.Canvas

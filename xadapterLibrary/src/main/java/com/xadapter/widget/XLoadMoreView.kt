@@ -49,14 +49,6 @@ abstract class XLoadMoreView : FrameLayout {
         initView()
     }
 
-    fun hideHeight(hide: Boolean) {
-        val layoutParams = layoutParams
-        layoutParams.height = if (hide) 1 else FrameLayout.LayoutParams.WRAP_CONTENT
-        layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT
-        setLayoutParams(layoutParams)
-        visibility = if (hide) View.GONE else View.VISIBLE
-    }
-
     protected abstract fun getLayoutId(): Int
 
     protected abstract fun initView()
