@@ -11,7 +11,8 @@ import android.widget.FrameLayout
  */
 
 abstract class XLoadMoreView : FrameLayout {
-    protected lateinit var loadMoreView: View
+
+    private lateinit var loadMoreView: View
 
     var state: Int = NORMAL
         set(@XLoadMoreView.LoadMoreState state) {

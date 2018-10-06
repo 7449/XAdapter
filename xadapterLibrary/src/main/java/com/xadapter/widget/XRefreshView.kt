@@ -13,8 +13,9 @@ import android.widget.FrameLayout
  */
 
 abstract class XRefreshView : FrameLayout {
-    protected lateinit var refreshView: View
-    protected var mMeasuredHeight: Int = 0
+
+    private lateinit var refreshView: View
+    private var mMeasuredHeight: Int = 0
 
     var state: Int = NORMAL
         set(@RefreshState state) {
@@ -34,14 +35,13 @@ abstract class XRefreshView : FrameLayout {
 
     var visibleHeight: Int
         get() {
-            val lp = refreshView.layoutParams as FrameLayout.LayoutParams
-            return lp.height
+            return refreshView.layoutParams.height
         }
         private set(height) {
             if (height == 0) {
                 state = NORMAL
             }
-            val lp = refreshView.layoutParams as FrameLayout.LayoutParams
+            val lp = refreshView.layoutParams
             lp.height = if (height < 0) 0 else height
             refreshView.layoutParams = lp
         }

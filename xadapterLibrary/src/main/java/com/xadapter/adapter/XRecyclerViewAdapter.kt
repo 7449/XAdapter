@@ -38,10 +38,10 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     private val mFooterViewType = ArrayList<Int>()
     private val adapterViewType = 100000
 
-    private var xScrollListener: XScrollListener? = null
     private var touchListener: XTouchListener? = null
     open var dataContainer: ArrayList<T> = ArrayList()
 
+    open var scrollListener: RecyclerView.OnScrollListener? = null
     open var recyclerView: RecyclerView? = null
     open var refreshView: XRefreshView? = null
     open var loadMoreView: XLoadMoreView? = null
@@ -49,8 +49,8 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     open var scrollLoadMoreItemCount = 1
         set(value) {
             field = value
-            if (xScrollListener != null) {
-                xScrollListener?.scrollItemCount = value
+            if (scrollListener != null && scrollListener is XScrollListener) {
+                (scrollListener as XScrollListener).scrollItemCount = value
             }
         }
 
@@ -147,8 +147,10 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
-                xScrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
-                recyclerView?.addOnScrollListener(xScrollListener)
+                if (scrollListener == null){
+                    scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
+                }
+                recyclerView?.addOnScrollListener(scrollListener)
                 XViewHolder(loadMoreView!!)
             }
             else -> xViewHolder
