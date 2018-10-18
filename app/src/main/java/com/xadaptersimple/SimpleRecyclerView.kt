@@ -1,12 +1,12 @@
 package com.xadaptersimple
 
 import android.content.Context
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.AttributeSet
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 /**
  * by y.
@@ -73,8 +73,8 @@ class SimpleRecyclerView : RecyclerView, SwipeRefreshLayout.OnRefreshListener {
     override fun onScrollStateChanged(state: Int) {
         super.onScrollStateChanged(state)
         val layoutManagerType = layoutManager
-        val visibleItemCount = layoutManagerType.childCount
-        val totalItemCount = layoutManagerType.itemCount
+        val visibleItemCount = layoutManagerType?.childCount ?: 0
+        val totalItemCount = layoutManagerType?.itemCount ?: 0
         if (visibleItemCount > 0
                 && !swipeRefreshLayout.isRefreshing
                 && state == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition == totalItemCount - 1) {

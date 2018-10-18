@@ -1,11 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.2.61'
+    ext.kotlin_version = '1.2.71'
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.novoda:bintray-release:0.8.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -21,4 +21,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-tasks.getByPath(":xadapterLibrary:releaseAndroidJavadocs").enabled = false
+//tasks.getByPath(":xadapterLibrary:releaseAndroidJavadocs").enabled = false

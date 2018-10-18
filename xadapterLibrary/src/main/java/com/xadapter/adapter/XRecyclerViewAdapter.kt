@@ -1,15 +1,15 @@
 package com.xadapter.adapter
 
 import android.annotation.SuppressLint
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.*
 import com.xadapter.manager.AppBarStateChangeListener
@@ -147,10 +147,10 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
-                if (scrollListener == null){
+                if (scrollListener == null) {
                     scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
                 }
-                recyclerView?.addOnScrollListener(scrollListener)
+                recyclerView?.addOnScrollListener(scrollListener!!)
                 XViewHolder(loadMoreView!!)
             }
             else -> xViewHolder

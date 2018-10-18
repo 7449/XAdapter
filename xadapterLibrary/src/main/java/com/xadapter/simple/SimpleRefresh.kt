@@ -3,12 +3,12 @@ package com.xadapter.simple
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
-import android.support.v7.widget.AppCompatImageView
-import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 
 import com.xadapter.R
 import com.xadapter.widget.XRefreshView

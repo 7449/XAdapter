@@ -1,10 +1,10 @@
 package com.xadapter.widget
 
 import android.content.Context
-import android.support.annotation.IntDef
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.IntDef
 
 /**
  * by y on 2017/6/19.

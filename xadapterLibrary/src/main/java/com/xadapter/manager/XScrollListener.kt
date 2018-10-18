@@ -1,9 +1,10 @@
 package com.xadapter.manager
 
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+
 
 /**
  * by y on 2016/11/15
@@ -41,8 +42,8 @@ class XScrollListener(private val scrollBottom: XScrollBottom) : RecyclerView.On
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
         val layoutManager = recyclerView.layoutManager
-        val visibleItemCount = layoutManager.childCount
-        val totalItemCount = layoutManager.itemCount
+        val visibleItemCount = layoutManager?.childCount ?: 0
+        val totalItemCount = layoutManager?.itemCount ?: 0
         if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition >= totalItemCount - scrollItemCount) {
             scrollBottom.onScrollBottom()
         }

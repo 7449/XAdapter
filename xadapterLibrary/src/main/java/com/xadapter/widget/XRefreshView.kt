@@ -2,10 +2,10 @@ package com.xadapter.widget
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.support.annotation.IntDef
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.IntDef
 
 
 /**

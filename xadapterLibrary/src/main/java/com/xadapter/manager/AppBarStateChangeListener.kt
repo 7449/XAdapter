@@ -1,6 +1,7 @@
 package com.xadapter.manager
 
-import android.support.design.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
+
 
 /**
  * by y on 2016/11/17
