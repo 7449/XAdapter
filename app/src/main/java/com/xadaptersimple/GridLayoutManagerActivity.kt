@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.xadapter.OnXAdapterListener
+import com.xadapter.OnXBindListener
+import com.xadapter.XLoadMoreView
+import com.xadapter.XRefreshView
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
 import java.util.*

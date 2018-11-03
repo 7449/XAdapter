@@ -2,10 +2,10 @@ package com.xadaptersimple
 
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.xadapter.OnFooterClickListener
+import com.xadapter.OnLoadMoreRetryListener
+import com.xadapter.XLoadMoreView
 import com.xadapter.adapter.XRecyclerViewAdapter
-import com.xadapter.listener.OnFooterClickListener
-import com.xadapter.listener.OnLoadMoreRetryListener
-import com.xadapter.widget.XLoadMoreView
 
 /**
  * @author y

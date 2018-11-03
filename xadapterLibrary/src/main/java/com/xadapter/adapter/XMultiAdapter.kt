@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.xadapter.OnItemClickListener
+import com.xadapter.OnItemLongClickListener
+import com.xadapter.OnXMultiAdapterListener
+import com.xadapter.XMultiCallBack
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.OnItemClickListener
-import com.xadapter.listener.OnItemLongClickListener
-import com.xadapter.listener.OnXMultiAdapterListener
-import com.xadapter.listener.XMultiCallBack
 
 
 /**

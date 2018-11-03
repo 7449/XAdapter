@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.xadapter.OnItemClickListener
+import com.xadapter.OnItemLongClickListener
+import com.xadapter.OnXMultiAdapterListener
+import com.xadapter.XMultiCallBack
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.OnItemClickListener
-import com.xadapter.listener.OnItemLongClickListener
-import com.xadapter.listener.OnXMultiAdapterListener
-import com.xadapter.listener.XMultiCallBack
 import com.xadapter.simple.SimpleXMultiItem
 
 /**

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "guru.stefma.bintrayrelease"
 
 android {
     compileSdkVersion 28
@@ -25,14 +26,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-//publish {
-//    userOrg = 'ydevelop'
-//    groupId = 'com.ydevelop'
-//    artifactId = 'rv-adapter'
-//    publishVersion = '0.0.9'
-//    desc = 'this is XAdapter'
-//    website = 'https://github.com/7449/XAdapter'
-//}
+version = "0.0.9"
+group = "com.ydevelop"
+androidArtifact {
+    artifactId = "rv-adapter"
+    javadoc = false
+}
+publish {
+    userOrg = 'ydevelop'
+    desc = 'this is XAdapter'
+    website = 'https://github.com/7449/XAdapter'
+}
 dependencies {
     compileOnly 'androidx.appcompat:appcompat:1.0.0'
     compileOnly 'com.google.android.material:material:1.0.0'

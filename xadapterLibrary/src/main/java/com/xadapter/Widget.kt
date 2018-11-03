@@ -1,4 +1,4 @@
-package com.xadapter.widget
+package com.xadapter
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -7,10 +7,13 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.IntDef
 
+@IntDef(XLoadMoreView.LOAD, XLoadMoreView.NORMAL, XLoadMoreView.SUCCESS, XLoadMoreView.NOMORE, XLoadMoreView.ERROR)
+@Retention(AnnotationRetention.SOURCE)
+annotation class LoadMoreState
 
-/**
- * by y on 2017/6/19.
- */
+@IntDef(XRefreshView.NORMAL, XRefreshView.READY, XRefreshView.REFRESH, XRefreshView.SUCCESS, XRefreshView.ERROR)
+@Retention(AnnotationRetention.SOURCE)
+annotation class RefreshState
 
 abstract class XRefreshView : FrameLayout {
 
@@ -50,7 +53,6 @@ abstract class XRefreshView : FrameLayout {
     constructor(context: Context) : super(context) {
         init()
     }
-
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         init()
@@ -108,24 +110,13 @@ abstract class XRefreshView : FrameLayout {
     }
 
     protected abstract fun getLayoutId(): Int
-
     protected abstract fun initView()
-
     protected abstract fun onStart()
-
     protected abstract fun onNormal()
-
     protected abstract fun onReady()
-
     protected abstract fun onRefresh()
-
     protected abstract fun onSuccess()
-
     protected abstract fun onError()
-
-    @IntDef(NORMAL, READY, REFRESH, SUCCESS, ERROR)
-    @Retention(AnnotationRetention.SOURCE)
-    annotation class RefreshState
 
     companion object {
         const val NORMAL = 0 //初始状态
@@ -133,5 +124,61 @@ abstract class XRefreshView : FrameLayout {
         const val REFRESH = 2 //正在刷新
         const val SUCCESS = 3 // 刷新成功
         const val ERROR = 4 // 刷新失败
+    }
+}
+
+abstract class XLoadMoreView : FrameLayout {
+    private lateinit var loadMoreView: View
+
+    var state: Int = NORMAL
+        set(@LoadMoreState state) {
+            if (state == field) {
+                return
+            }
+            onStart()
+            when (state) {
+                LOAD -> onLoad()
+                NOMORE -> onNoMore()
+                SUCCESS -> onSuccess()
+                ERROR -> onError()
+                NORMAL -> onNormal()
+            }
+            field = state
+        }
+
+    constructor(context: Context) : super(context) {
+        init()
+    }
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init()
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init()
+    }
+
+    private fun init() {
+        loadMoreView = View.inflate(context, getLayoutId(), null)
+        addView(loadMoreView)
+        layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        initView()
+    }
+
+    protected abstract fun getLayoutId(): Int
+    protected abstract fun initView()
+    protected abstract fun onStart()
+    protected abstract fun onLoad()
+    protected abstract fun onNoMore()
+    protected abstract fun onSuccess()
+    protected abstract fun onError()
+    protected abstract fun onNormal()
+
+    companion object {
+        const val NORMAL = -1
+        const val LOAD = 0
+        const val SUCCESS = 1
+        const val NOMORE = 2
+        const val ERROR = 3
     }
 }

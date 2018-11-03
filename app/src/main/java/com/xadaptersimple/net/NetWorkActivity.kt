@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.xadapter.OnXAdapterListener
+import com.xadapter.OnXBindListener
+import com.xadapter.XLoadMoreView
+import com.xadapter.XRefreshView
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.R
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener

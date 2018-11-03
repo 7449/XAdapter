@@ -8,11 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.xadapter.*
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.*
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
 import com.xadaptersimple.view.LoadMoreView

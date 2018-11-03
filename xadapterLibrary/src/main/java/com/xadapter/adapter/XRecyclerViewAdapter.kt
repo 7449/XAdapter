@@ -10,15 +10,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import com.xadapter.*
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.*
 import com.xadapter.manager.AppBarStateChangeListener
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.simple.SimpleLoadMore
 import com.xadapter.simple.SimpleRefresh
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
 
 /**
  * by y on 2016/11/15
@@ -91,13 +89,13 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     open var onFooterListener: OnFooterClickListener? = null
 
     open var loadMoreState: Int
-        get() = loadMoreView!!.state
+        get() = loadMoreView?.state ?: XLoadMoreView.NORMAL
         set(value) {
             loadMoreView?.state = value
         }
 
     open var refreshState: Int
-        get() = refreshView!!.state
+        get() = refreshView?.state ?: XRefreshView.NORMAL
         set(value) {
             refreshView?.refreshState(value)
         }
@@ -111,7 +109,7 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             goneView(emptyView)
             visibleView(recyclerView)
             refreshView?.state = XRefreshView.REFRESH
-            refreshView?.onMove(refreshView!!.measuredHeight.toFloat())
+            refreshView?.onMove(refreshView?.measuredHeight?.toFloat() ?: 0f)
             xAdapterListener?.onXRefresh()
             loadMoreView?.state = XLoadMoreView.NORMAL
         }
@@ -268,7 +266,7 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             return
         }
         var appBarLayout: AppBarLayout? = null
-        var p: ViewParent? = recyclerView!!.parent
+        var p: ViewParent? = recyclerView?.parent
         while (p != null) {
             if (p is CoordinatorLayout) {
                 break
@@ -277,9 +275,9 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
         }
         if (p != null) {
             val coordinatorLayout = p as CoordinatorLayout?
-            val childCount = coordinatorLayout!!.childCount
+            val childCount = coordinatorLayout?.childCount ?: 0
             for (i in childCount - 1 downTo 0) {
-                val child = coordinatorLayout.getChildAt(i)
+                val child = coordinatorLayout?.getChildAt(i)
                 if (child is AppBarLayout) {
                     appBarLayout = child
                     break

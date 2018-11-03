@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.xadapter.widget.XLoadMoreView
+import com.xadapter.XLoadMoreView
 import com.xadaptersimple.R
 
 /**

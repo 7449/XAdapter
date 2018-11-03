@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
  * @author y
  */
 class SimpleRefreshDividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
-    private var mDivider: Drawable? = null
+    private lateinit var mDivider: Drawable
     private val mBounds = Rect()
 
     init {
         val a = context.obtainStyledAttributes(ATTRS)
-        mDivider = a.getDrawable(0)
+        mDivider = a.getDrawable(0)!!
         a.recycle()
     }
 
@@ -50,9 +50,9 @@ class SimpleRefreshDividerItemDecoration(context: Context) : RecyclerView.ItemDe
             val child = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, mBounds)
             val bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child))
-            val top = bottom - mDivider!!.intrinsicHeight
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.draw(canvas)
+            val top = bottom - mDivider.intrinsicHeight
+            mDivider.setBounds(left, top, right, bottom)
+            mDivider.draw(canvas)
         }
         canvas.restore()
     }
@@ -60,7 +60,7 @@ class SimpleRefreshDividerItemDecoration(context: Context) : RecyclerView.ItemDe
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.set(0, 0, 0, mDivider!!.intrinsicHeight)
+        outRect.set(0, 0, 0, mDivider.intrinsicHeight)
     }
 
     companion object {

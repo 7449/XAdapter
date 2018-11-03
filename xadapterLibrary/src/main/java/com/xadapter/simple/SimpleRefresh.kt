@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 
 import com.xadapter.R
-import com.xadapter.widget.XRefreshView
+import com.xadapter.XRefreshView
 
 /**
  * by y on 2016/11/16

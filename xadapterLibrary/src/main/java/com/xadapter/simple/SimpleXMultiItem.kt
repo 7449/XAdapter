@@ -1,6 +1,6 @@
 package com.xadapter.simple
 
-import com.xadapter.listener.XMultiCallBack
+import com.xadapter.XMultiCallBack
 
 /**
  * by y on 2017/3/9

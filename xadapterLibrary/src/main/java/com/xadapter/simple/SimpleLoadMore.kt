@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 
 import com.xadapter.R
-import com.xadapter.widget.XLoadMoreView
+import com.xadapter.XLoadMoreView
 
 /**
  * by y on 2016/9/29

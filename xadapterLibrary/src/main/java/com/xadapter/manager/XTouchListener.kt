@@ -3,8 +3,8 @@ package com.xadapter.manager
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
+import com.xadapter.XLoadMoreView
+import com.xadapter.XRefreshView
 
 /**
  * by y on 2016/11/15

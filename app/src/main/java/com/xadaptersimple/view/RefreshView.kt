@@ -9,7 +9,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.xadapter.widget.XRefreshView
+import com.xadapter.XRefreshView
 import com.xadaptersimple.R
 
 /**
