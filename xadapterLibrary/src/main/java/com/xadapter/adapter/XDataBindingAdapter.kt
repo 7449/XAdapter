@@ -58,20 +58,24 @@ class XDataBindingAdapter<T>(private val variableId: Int, private val executePen
                     dataContainer[getItemPosition(viewHolder.layoutPosition)])
             true
         }
-        if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && !recyclerViewInit()) {
+        if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && recyclerView == null) {
             throw NullPointerException("detect recyclerView is null")
         }
         return when (viewType) {
             XRecyclerViewAdapter.TYPE_REFRESH_HEADER -> {
-                touchListener = XTouchListener(refreshView, loadMoreView, this)
-                recyclerView.setOnTouchListener(touchListener)
-                XViewHolder(refreshView)
+                refreshView?.let {
+                    touchListener = XTouchListener(it, loadMoreView, this)
+                    recyclerView?.setOnTouchListener(touchListener)
+                    XViewHolder(it)
+                } ?: throw NullPointerException("detect refreshView is null")
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
-                loadMoreView.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
-                scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
-                recyclerView.addOnScrollListener(scrollListener)
-                XViewHolder(loadMoreView)
+                loadMoreView?.let { it ->
+                    loadMoreView?.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
+                    scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
+                    scrollListener?.let { recyclerView?.addOnScrollListener(it) }
+                    XViewHolder(it)
+                } ?: throw NullPointerException("detect loadMoreView is null")
             }
             else -> viewHolder
         }
