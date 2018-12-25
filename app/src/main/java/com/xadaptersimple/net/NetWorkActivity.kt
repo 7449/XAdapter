@@ -3,7 +3,6 @@ package com.xadaptersimple.net
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.OnXAdapterListener
@@ -15,6 +14,7 @@ import com.xadapter.holder.XViewHolder
 import com.xadaptersimple.R
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener
+import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 
 /**
@@ -28,14 +28,13 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        val mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         mAdapter = XRecyclerViewAdapter()
-        mRecyclerView.adapter = mAdapter
+        recyclerView.adapter = mAdapter
                 .apply {
                     onXBindListener = this@NetWorkActivity
-                    recyclerView = mRecyclerView
+                    recyclerView = this@NetWorkActivity.recyclerView
                     itemLayoutId = R.layout.network_item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true

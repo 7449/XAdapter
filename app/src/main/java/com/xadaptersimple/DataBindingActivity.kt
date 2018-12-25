@@ -1,44 +1,45 @@
 package com.xadaptersimple
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.*
-import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.adapter.XDataBindingAdapter
+import com.xadapter.adapter.XDataBindingAdapterFactory
 import com.xadapter.holder.XViewHolder
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
+import com.xadaptersimple.databinding.DatabindingLayoutBinding
 import com.xadaptersimple.view.LoadMoreView
 import com.xadaptersimple.view.RefreshView
-import kotlinx.android.synthetic.main.recyclerview_layout.*
-import java.util.*
 
 /**
- * by y on 2016/11/17
+ * @author y
+ * @create 2018/12/25
  */
+class DataBindingActivity : AppCompatActivity(), OnItemLongClickListener<MainBean>, OnXBindListener<MainBean>,
+        OnItemClickListener<MainBean>, OnXAdapterListener {
 
-class LinearLayoutManagerActivity : AppCompatActivity(),
-        OnXBindListener<MainBean>, OnItemLongClickListener<MainBean>,
-        OnItemClickListener<MainBean>, OnFooterClickListener, OnXAdapterListener {
-
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
+    private lateinit var binding: DatabindingLayoutBinding
+    private lateinit var xRecyclerViewAdapter: XDataBindingAdapter<MainBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.recyclerview_layout)
-        val mainBeen = ArrayList<MainBean>()
+        val mainBeen = ObservableArrayList<MainBean>()
         DataUtils.getData(mainBeen)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        xRecyclerViewAdapter = XRecyclerViewAdapter()
-        recyclerView.adapter = xRecyclerViewAdapter.apply {
-            dataContainer = mainBeen
+        binding = DataBindingUtil.setContentView(this, R.layout.databinding_layout)
+        xRecyclerViewAdapter = XDataBindingAdapterFactory(BR.entity)
+        binding.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = xRecyclerViewAdapter.apply {
             loadMoreView = LoadMoreView(applicationContext)
             refreshView = RefreshView(applicationContext)
-            recyclerView = this@LinearLayoutManagerActivity.recyclerView
+            recyclerView = binding.recyclerView
             pullRefreshEnabled = true
             loadingMoreEnabled = true
             scrollLoadMoreItemCount = 10
@@ -52,12 +53,12 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
             }
-            onXBindListener = this@LinearLayoutManagerActivity
-            onLongClickListener = this@LinearLayoutManagerActivity
-            onItemClickListener = this@LinearLayoutManagerActivity
-            xAdapterListener = this@LinearLayoutManagerActivity
-            onFooterListener = this@LinearLayoutManagerActivity
-            itemLayoutId = R.layout.item
+            onXBindListener = this@DataBindingActivity
+            onLongClickListener = this@DataBindingActivity
+            onItemClickListener = this@DataBindingActivity
+            xAdapterListener = this@DataBindingActivity
+            itemLayoutId = R.layout.item_databinding
+            addAll(mainBeen)
         }
     }
 
@@ -66,30 +67,25 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
         holder.setTextView(R.id.tv_age, entity.age.toString() + "")
     }
 
-    override fun onItemClick(view: View, position: Int, entity: MainBean) {
-        Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onLongClick(view: View, position: Int, entity: MainBean) {
-        Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onXFooterClick(view: View) {
-        Toast.makeText(baseContext, "loadMore error onClick", Toast.LENGTH_SHORT).show()
-    }
-
     override fun onXRefresh() {
-        recyclerView.postDelayed({
+        binding.recyclerView.postDelayed({
             xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
             Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
         }, 1500)
     }
 
     override fun onXLoadMore() {
-        recyclerView.postDelayed({
+        binding.recyclerView.postDelayed({
             xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
-            Log.d(javaClass.simpleName, xRecyclerViewAdapter.scrollLoadMoreItemCount.toString())
             Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()
         }, 1500)
+    }
+
+    override fun onItemClick(view: View, position: Int, entity: MainBean) {
+        Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onLongClick(view: View, position: Int, entity: MainBean) {
+        Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
     }
 }

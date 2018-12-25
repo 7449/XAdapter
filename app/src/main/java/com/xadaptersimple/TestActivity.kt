@@ -6,12 +6,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.*
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
+import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
 /**
@@ -21,20 +21,18 @@ import java.util.*
 class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterListener {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
-    private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        mRecyclerView = findViewById(R.id.recyclerView)
         val mainBeen = ArrayList<MainBean>()
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
-        mRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        mRecyclerView.adapter = xRecyclerViewAdapter
+        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recyclerView.adapter = xRecyclerViewAdapter
                 .apply {
                     dataContainer = mainBeen
-                    recyclerView = mRecyclerView
+                    recyclerView = this@TestActivity.recyclerView
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
@@ -59,7 +57,7 @@ class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterL
 
     override fun onXRefresh() {
         xRecyclerViewAdapter.removeAll()
-        mRecyclerView.postDelayed({
+        recyclerView.postDelayed({
             xRecyclerViewAdapter.addAll(DataUtils.getTestData(ArrayList()))
             xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
             if (xRecyclerViewAdapter.dataContainer.size < 7) {
@@ -69,7 +67,7 @@ class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterL
     }
 
     override fun onXLoadMore() {
-        mRecyclerView.postDelayed({
+        recyclerView.postDelayed({
             if (xRecyclerViewAdapter.dataContainer.size < 7) {
                 xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
             } else {

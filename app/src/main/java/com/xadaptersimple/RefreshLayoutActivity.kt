@@ -3,8 +3,6 @@ package com.xadaptersimple
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.OnLoadMoreRetryListener
@@ -15,6 +13,7 @@ import com.xadaptersimple.net.NetApi
 import com.xadaptersimple.net.NetWorkBean
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener
+import kotlinx.android.synthetic.main.activity_swipe.*
 
 /**
  * @author y
@@ -24,9 +23,6 @@ class RefreshLayoutActivity : AppCompatActivity(),
         OnXBindListener<NetWorkBean>,
         RxNetWorkListener<List<NetWorkBean>>, OnLoadMoreRetryListener {
 
-
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var mRecyclerView: RecyclerView
     private var page = 0
 
     private lateinit var mAdapter: SimpleRefreshAdapter<NetWorkBean>
@@ -34,17 +30,15 @@ class RefreshLayoutActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_swipe)
-        swipeRefreshLayout = findViewById(R.id.srf_layout)
-        mRecyclerView = findViewById(R.id.recyclerView)
-        mRecyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
 
-        mAdapter = SimpleRefreshAdapter(swipeRefreshLayout)
-        mRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        mRecyclerView.adapter = mAdapter
+        mAdapter = SimpleRefreshAdapter(srf_layout)
+        recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        recyclerView.adapter = mAdapter
                 .setOnLoadMoreRetry(this)
                 .apply {
                     onXBindListener = this@RefreshLayoutActivity
-                    recyclerView = mRecyclerView
+                    recyclerView = this@RefreshLayoutActivity.recyclerView
                     itemLayoutId = R.layout.network_item
                     loadingMoreEnabled = true
                     xAdapterListener = this@RefreshLayoutActivity

@@ -1,61 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/network"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="network" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/LinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LinearLayoutManager" />
+        <Button
+            android:id="@+id/network"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="network" />
 
-    <Button
-        android:id="@+id/GridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="GridLayoutManager" />
+        <Button
+            android:id="@+id/LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LinearLayoutManager" />
 
-    <Button
-        android:id="@+id/StaggeredGridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="StaggeredGridLayoutManager" />
+        <Button
+            android:id="@+id/GridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GridLayoutManager" />
 
-    <Button
-        android:id="@+id/collapsingToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="collapsingToolbarLayout" />
+        <Button
+            android:id="@+id/StaggeredGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="StaggeredGridLayoutManager" />
 
-    <Button
-        android:id="@+id/emptyView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="emptyView" />
+        <Button
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="collapsingToolbarLayout" />
 
-    <Button
-        android:id="@+id/multiple"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="multAdapter" />
+        <Button
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="emptyView" />
 
-    <Button
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="refreshLayout" />
+        <Button
+            android:id="@+id/multiple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="multAdapter" />
 
-    <Button
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test" />
+        <Button
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="refreshLayout" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/databinding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="databinding" />
+
+        <Button
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test" />
+
+    </LinearLayout>
+</ScrollView>

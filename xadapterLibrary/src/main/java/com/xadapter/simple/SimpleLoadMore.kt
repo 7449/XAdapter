@@ -3,76 +3,58 @@ package com.xadapter.simple
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
-import android.util.AttributeSet
 import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
-
 import com.xadapter.R
 import com.xadapter.XLoadMoreView
+import kotlinx.android.synthetic.main.simple_load_more.view.*
 
 /**
  * by y on 2016/9/29
  */
 
-class SimpleLoadMore : XLoadMoreView {
+class SimpleLoadMore(context: Context) : XLoadMoreView(context, R.layout.simple_load_more) {
 
-    private lateinit var progressBar: AppCompatImageView
-    private lateinit var mText: AppCompatTextView
     private lateinit var animationDrawable: AnimationDrawable
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
-
-    override fun getLayoutId(): Int {
-        return R.layout.simple_load_more
-    }
-
     public override fun initView() {
-        progressBar = findViewById(R.id.progressbar)
-        mText = findViewById(R.id.tv_tips)
-        animationDrawable = progressBar.background as AnimationDrawable
-        mText.setTextColor(Color.BLACK)
-        progressBar.visibility = View.GONE
-        mText.text = "上拉加载"
+        animationDrawable = progressbar.background as AnimationDrawable
+        tv_tips.setTextColor(Color.BLACK)
+        progressbar.visibility = View.GONE
+        tv_tips.text = "上拉加载"
     }
 
     override fun onStart() {
-        progressBar.visibility = View.GONE
+        progressbar.visibility = View.GONE
         animationDrawable.stop()
     }
 
     override fun onLoad() {
-        progressBar.visibility = View.VISIBLE
+        progressbar.visibility = View.VISIBLE
         animationDrawable.start()
-        mText.text = "正在加载..."
+        tv_tips.text = "正在加载..."
     }
 
     override fun onNoMore() {
-        progressBar.visibility = View.GONE
+        progressbar.visibility = View.GONE
         animationDrawable.stop()
-        mText.text = "没有数据了"
+        tv_tips.text = "没有数据了"
     }
 
     override fun onSuccess() {
-        progressBar.visibility = View.GONE
+        progressbar.visibility = View.GONE
         animationDrawable.stop()
-        mText.text = "加载成功"
+        tv_tips.text = "加载成功"
     }
 
     override fun onError() {
-        progressBar.visibility = View.GONE
+        progressbar.visibility = View.GONE
         animationDrawable.stop()
-        mText.text = "加载失败"
+        tv_tips.text = "加载失败"
     }
 
     override fun onNormal() {
-        progressBar.visibility = View.GONE
+        progressbar.visibility = View.GONE
         animationDrawable.stop()
-        mText.text = "上拉加载"
+        tv_tips.text = "上拉加载"
     }
 }

@@ -81,4 +81,15 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
         }
     }
 
+    fun setOnLoadMoreRetry(loadMoreRetryListener: () -> Unit) = apply {
+        onFooterListener = object : OnFooterClickListener {
+            override fun onXFooterClick(view: View) {
+                if (loadMoreState == XLoadMoreView.ERROR) {
+                    loadMoreState = XLoadMoreView.LOAD
+                    loadMoreRetryListener()
+                }
+            }
+        }
+    }
+
 }

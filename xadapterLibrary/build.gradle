@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "guru.stefma.bintrayrelease"
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -11,6 +12,9 @@ android {
     }
     lintOptions {
         abortOnError false
+    }
+    dataBinding {
+        enabled = true
     }
     allprojects {
         tasks.withType(Javadoc) {
@@ -26,7 +30,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-version = "0.0.9"
+version = "0.0.9.1"
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter"

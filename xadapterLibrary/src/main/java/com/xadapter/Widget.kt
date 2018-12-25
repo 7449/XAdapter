@@ -1,8 +1,9 @@
+@file:Suppress("LeakingThis")
+
 package com.xadapter
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.IntDef
@@ -15,9 +16,9 @@ annotation class LoadMoreState
 @Retention(AnnotationRetention.SOURCE)
 annotation class RefreshState
 
-abstract class XRefreshView : FrameLayout {
+abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context) {
 
-    private lateinit var refreshView: View
+    private var refreshView: View = View.inflate(context, layoutId, null)
     private var mMeasuredHeight: Int = 0
 
     var state: Int = NORMAL
@@ -49,21 +50,7 @@ abstract class XRefreshView : FrameLayout {
             refreshView.layoutParams = lp
         }
 
-
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
-        refreshView = View.inflate(context, getLayoutId(), null)
+    init {
         addView(refreshView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 0))
         layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
         initView()
@@ -109,7 +96,6 @@ abstract class XRefreshView : FrameLayout {
         animator.start()
     }
 
-    protected abstract fun getLayoutId(): Int
     protected abstract fun initView()
     protected abstract fun onStart()
     protected abstract fun onNormal()
@@ -127,8 +113,9 @@ abstract class XRefreshView : FrameLayout {
     }
 }
 
-abstract class XLoadMoreView : FrameLayout {
-    private lateinit var loadMoreView: View
+abstract class XLoadMoreView(context: Context, layoutId: Int) : FrameLayout(context) {
+
+    private var loadMoreView: View = View.inflate(context, layoutId, null)
 
     var state: Int = NORMAL
         set(@LoadMoreState state) {
@@ -146,26 +133,12 @@ abstract class XLoadMoreView : FrameLayout {
             field = state
         }
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
-        loadMoreView = View.inflate(context, getLayoutId(), null)
+    init {
         addView(loadMoreView)
         layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
         initView()
     }
 
-    protected abstract fun getLayoutId(): Int
     protected abstract fun initView()
     protected abstract fun onStart()
     protected abstract fun onLoad()

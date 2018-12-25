@@ -32,22 +32,24 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
 
     val headerViewContainer = ArrayList<View>()
     val footerViewContainer = ArrayList<View>()
-    private val mHeaderViewType = ArrayList<Int>()
-    private val mFooterViewType = ArrayList<Int>()
-    private val adapterViewType = 100000
 
-    private var touchListener: XTouchListener? = null
+    val mHeaderViewType = ArrayList<Int>()
+    val mFooterViewType = ArrayList<Int>()
+    val adapterViewType = 100000
+
+    var touchListener: XTouchListener? = null
     open var dataContainer: ArrayList<T> = ArrayList()
 
-    open var scrollListener: RecyclerView.OnScrollListener? = null
-    open var recyclerView: RecyclerView? = null
-    open var refreshView: XRefreshView? = null
-    open var loadMoreView: XLoadMoreView? = null
+    open lateinit var scrollListener: RecyclerView.OnScrollListener
+    open lateinit var recyclerView: RecyclerView
+    open lateinit var refreshView: XRefreshView
+    open lateinit var loadMoreView: XLoadMoreView
+    open lateinit var onXBindListener: OnXBindListener<T>
 
     open var scrollLoadMoreItemCount = 1
         set(value) {
             field = value
-            if (scrollListener != null && scrollListener is XScrollListener) {
+            if (::scrollListener.isInitialized && scrollListener is XScrollListener) {
                 (scrollListener as XScrollListener).scrollItemCount = value
             }
         }
@@ -60,23 +62,21 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
 
     open var onXEmptyListener: OnXEmptyListener? = null
 
-    open lateinit var onXBindListener: OnXBindListener<T>
-
     open var itemLayoutId = View.NO_ID
 
     open var pullRefreshEnabled = false
         set(value) {
             field = value
-            if (refreshView == null) {
-                refreshView = SimpleRefresh(recyclerView!!.context)
+            if (!::refreshView.isInitialized) {
+                refreshView = SimpleRefresh(recyclerView.context)
             }
         }
 
     open var loadingMoreEnabled = false
         set(value) {
             field = value
-            if (loadMoreView == null) {
-                loadMoreView = SimpleLoadMore(recyclerView!!.context)
+            if (!::loadMoreView.isInitialized) {
+                loadMoreView = SimpleLoadMore(recyclerView.context)
             }
         }
 
@@ -84,20 +84,20 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
 
     open var onLongClickListener: OnItemLongClickListener<T>? = null
 
-    open var xAdapterListener: OnXAdapterListener? = null
+    open lateinit var xAdapterListener: OnXAdapterListener
 
     open var onFooterListener: OnFooterClickListener? = null
 
     open var loadMoreState: Int
-        get() = loadMoreView?.state ?: XLoadMoreView.NORMAL
+        get() = loadMoreView.state
         set(value) {
-            loadMoreView?.state = value
+            loadMoreView.state = value
         }
 
     open var refreshState: Int
-        get() = refreshView?.state ?: XRefreshView.NORMAL
+        get() = refreshView.state
         set(value) {
-            refreshView?.refreshState(value)
+            refreshView.refreshState(value)
         }
 
     open fun addHeaderView(view: View) = apply { headerViewContainer.add(view) }
@@ -108,10 +108,10 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
         if (pullRefreshEnabled) {
             goneView(emptyView)
             visibleView(recyclerView)
-            refreshView?.state = XRefreshView.REFRESH
-            refreshView?.onMove(refreshView?.measuredHeight?.toFloat() ?: 0f)
-            xAdapterListener?.onXRefresh()
-            loadMoreView?.state = XLoadMoreView.NORMAL
+            refreshView.state = XRefreshView.REFRESH
+            refreshView.onMove(refreshView.measuredHeight.toFloat())
+            xAdapterListener.onXRefresh()
+            loadMoreView.state = XLoadMoreView.NORMAL
         }
     }
 
@@ -134,22 +134,20 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
                     dataContainer[getItemPosition(xViewHolder.layoutPosition)])
             true
         }
-        if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && recyclerView == null) {
+        if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && !::recyclerView.isInitialized) {
             throw NullPointerException("detect recyclerView is null")
         }
         return when (viewType) {
             XRecyclerViewAdapter.TYPE_REFRESH_HEADER -> {
-                touchListener = XTouchListener(refreshView!!, loadMoreView, this)
-                recyclerView?.setOnTouchListener(touchListener)
-                XViewHolder(refreshView!!)
+                touchListener = XTouchListener(refreshView, loadMoreView, this)
+                recyclerView.setOnTouchListener(touchListener)
+                XViewHolder(refreshView)
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
-                loadMoreView?.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
-                if (scrollListener == null) {
-                    scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
-                }
-                recyclerView?.addOnScrollListener(scrollListener!!)
-                XViewHolder(loadMoreView!!)
+                loadMoreView.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
+                scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
+                recyclerView.addOnScrollListener(scrollListener)
+                XViewHolder(loadMoreView)
             }
             else -> xViewHolder
         }
@@ -216,11 +214,12 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     }
 
     override fun getItemCount(): Int = dataSize + footerViewContainer.size + headerViewContainer.size
-    private fun isRefreshHeaderType(position: Int): Boolean = pullRefreshEnabled && position == 0
-    private fun isHeaderType(position: Int): Boolean = headerViewContainer.size != 0 && position < headerViewContainer.size
-    private fun isFooterType(position: Int): Boolean = footerViewContainer.size != 0 && position >= dataContainer.size + headerViewContainer.size
-    private fun isLoadMoreType(position: Int): Boolean = loadingMoreEnabled && !dataContainer.isEmpty() && position == itemCount - 1
-    private fun getItemPosition(position: Int): Int {
+    fun recyclerViewInit(): Boolean = ::recyclerView.isInitialized
+    fun isRefreshHeaderType(position: Int): Boolean = pullRefreshEnabled && position == 0
+    fun isHeaderType(position: Int): Boolean = headerViewContainer.size != 0 && position < headerViewContainer.size
+    fun isFooterType(position: Int): Boolean = footerViewContainer.size != 0 && position >= dataContainer.size + headerViewContainer.size
+    fun isLoadMoreType(position: Int): Boolean = loadingMoreEnabled && !dataContainer.isEmpty() && position == itemCount - 1
+    fun getItemPosition(position: Int): Int {
         var mPos = position
         if (pullRefreshEnabled) {
             mPos -= 1
@@ -262,11 +261,11 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
         if (layoutParams != null && layoutParams is StaggeredGridLayoutManager.LayoutParams) {
             layoutParams.isFullSpan = getItemViewType(holder.layoutPosition) != TYPE_ITEM
         }
-        if (recyclerView == null) {
+        if (!::recyclerView.isInitialized) {
             return
         }
         var appBarLayout: AppBarLayout? = null
-        var p: ViewParent? = recyclerView?.parent
+        var p: ViewParent? = recyclerView.parent
         while (p != null) {
             if (p is CoordinatorLayout) {
                 break
@@ -295,19 +294,19 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     }
 
     override fun onScrollBottom() {
-        if (refreshView != null && refreshView?.state == XRefreshView.REFRESH) {
+        if (::refreshView.isInitialized && refreshView.state == XRefreshView.REFRESH) {
             return
         }
-        if (loadMoreView?.state == XLoadMoreView.LOAD) {
+        if (loadMoreView.state == XLoadMoreView.LOAD) {
             return
         }
-        loadMoreView?.state = XLoadMoreView.LOAD
-        xAdapterListener?.onXLoadMore()
+        loadMoreView.state = XLoadMoreView.LOAD
+        xAdapterListener.onXLoadMore()
     }
 
     override fun onRefresh() {
-        loadMoreView?.state = XLoadMoreView.NORMAL
-        xAdapterListener?.onXRefresh()
+        loadMoreView.state = XLoadMoreView.NORMAL
+        xAdapterListener.onXRefresh()
     }
 
     fun goneView(vararg views: View?) {
@@ -325,9 +324,6 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     }
 
     private fun isShowEmptyView() {
-        if (recyclerView == null || emptyView == null) {
-            return
-        }
         if (dataContainer.isEmpty()) {
             visibleView(emptyView)
             goneView(recyclerView)
@@ -336,5 +332,4 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             goneView(emptyView)
         }
     }
-
 }

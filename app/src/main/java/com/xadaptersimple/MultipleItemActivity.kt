@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.OnItemClickListener
 import com.xadapter.OnItemLongClickListener
 import com.xadapter.OnXMultiAdapterListener
@@ -15,17 +14,16 @@ import com.xadapter.XMultiCallBack
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadapter.simple.SimpleXMultiItem
+import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 /**
  * by y on 2017/1/12.
  */
 
 class MultipleItemActivity : AppCompatActivity(), OnItemClickListener<SimpleXMultiItem>, OnItemLongClickListener<SimpleXMultiItem>, OnXMultiAdapterListener<SimpleXMultiItem> {
-    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.multiple_layout)
-        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         recyclerView.adapter = XMultiAdapter(initSettingData())

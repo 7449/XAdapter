@@ -3,43 +3,28 @@ package com.xadapter.simple
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
-import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
-
 import com.xadapter.R
 import com.xadapter.XRefreshView
+import kotlinx.android.synthetic.main.simple_refresh.view.*
 
 /**
  * by y on 2016/11/16
  */
 
-class SimpleRefresh : XRefreshView {
+class SimpleRefresh(context: Context) : XRefreshView(context, R.layout.simple_refresh) {
 
-    private lateinit var progressBar: AppCompatImageView
-    private lateinit var mText: AppCompatTextView
     private lateinit var animationDrawable: AnimationDrawable
-    private lateinit var mTipsIv: AppCompatImageView
 
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
     public override fun initView() {
-        progressBar = findViewById(R.id.progressbar)
-        mText = findViewById(R.id.tv_tips)
-        mTipsIv = findViewById(R.id.iv_tips)
-        animationDrawable = progressBar.background as AnimationDrawable
-        mText.text = "下拉刷新"
-        mText.setTextColor(Color.BLACK)
+        animationDrawable = progressbar.background as AnimationDrawable
+        tv_tips.text = "下拉刷新"
+        tv_tips.setTextColor(Color.BLACK)
         initAnimation()
     }
 
@@ -52,57 +37,53 @@ class SimpleRefresh : XRefreshView {
         mRotateDownAnim.fillAfter = true
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.simple_refresh
-    }
-
     override fun onStart() {
-        mTipsIv.clearAnimation()
-        mTipsIv.visibility = View.VISIBLE
-        progressBar.visibility = View.INVISIBLE
+        iv_tips.clearAnimation()
+        iv_tips.visibility = View.VISIBLE
+        progressbar.visibility = View.INVISIBLE
     }
 
     override fun onNormal() {
         if (state == READY) {
-            mTipsIv.startAnimation(mRotateDownAnim)
+            iv_tips.startAnimation(mRotateDownAnim)
         } else {
-            mTipsIv.clearAnimation()
+            iv_tips.clearAnimation()
         }
-        mTipsIv.visibility = View.VISIBLE
-        progressBar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.VISIBLE
+        progressbar.visibility = View.INVISIBLE
         animationDrawable.stop()
-        mText.text = "下拉刷新"
+        tv_tips.text = "下拉刷新"
     }
 
     override fun onReady() {
-        mTipsIv.startAnimation(mRotateUpAnim)
-        progressBar.visibility = View.INVISIBLE
-        mTipsIv.visibility = View.VISIBLE
+        iv_tips.startAnimation(mRotateUpAnim)
+        progressbar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.VISIBLE
         animationDrawable.stop()
-        mText.text = "释放立即刷新"
+        tv_tips.text = "释放立即刷新"
     }
 
     override fun onRefresh() {
-        progressBar.visibility = View.VISIBLE
-        mTipsIv.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
+        iv_tips.visibility = View.INVISIBLE
         animationDrawable.start()
-        mText.text = "正在刷新..."
+        tv_tips.text = "正在刷新..."
     }
 
     override fun onSuccess() {
-        progressBar.visibility = View.INVISIBLE
-        mTipsIv.visibility = View.INVISIBLE
+        progressbar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.INVISIBLE
         animationDrawable.stop()
-        mTipsIv.clearAnimation()
-        mText.text = "刷新成功"
+        iv_tips.clearAnimation()
+        tv_tips.text = "刷新成功"
     }
 
     override fun onError() {
-        progressBar.visibility = View.INVISIBLE
-        mTipsIv.visibility = View.INVISIBLE
+        progressbar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.INVISIBLE
         animationDrawable.stop()
-        mTipsIv.clearAnimation()
-        mText.text = "刷新失败"
+        iv_tips.clearAnimation()
+        tv_tips.text = "刷新失败"
     }
 
 }

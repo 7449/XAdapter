@@ -2,11 +2,8 @@ package com.xadaptersimple
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.OnXAdapterListener
 import com.xadapter.OnXBindListener
 import com.xadapter.XLoadMoreView
@@ -15,30 +12,28 @@ import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
+import kotlinx.android.synthetic.main.activity_collapsing_toolbar_layout.*
 import java.util.*
 
 class CollapsingToolbarLayoutActivity : AppCompatActivity() {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
-    private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.NoActionBar)
         setContentView(R.layout.activity_collapsing_toolbar_layout)
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         toolbar.setTitle(R.string.app_name)
 
-        mRecyclerView = findViewById(R.id.recyclerview)
         val mainBeen = ArrayList<MainBean>()
         DataUtils.getData(mainBeen)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
 
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
-        mRecyclerView.adapter = xRecyclerViewAdapter
+        recyclerview.layoutManager = LinearLayoutManager(this)
+        recyclerview.adapter = xRecyclerViewAdapter
                 .apply {
                     dataContainer = mainBeen
-                    recyclerView = mRecyclerView
+                    recyclerView = this@CollapsingToolbarLayoutActivity.recyclerview
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
@@ -50,11 +45,11 @@ class CollapsingToolbarLayoutActivity : AppCompatActivity() {
                     }
                     xAdapterListener = object : OnXAdapterListener {
                         override fun onXRefresh() {
-                            mRecyclerView.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
+                            recyclerview.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
                         }
 
                         override fun onXLoadMore() {
-                            mRecyclerView.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
+                            recyclerview.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
                         }
                     }
                 }

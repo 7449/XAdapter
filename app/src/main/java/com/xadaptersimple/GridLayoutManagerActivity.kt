@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.OnXAdapterListener
 import com.xadapter.OnXBindListener
 import com.xadapter.XLoadMoreView
@@ -14,6 +13,7 @@ import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
+import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
 /**
@@ -22,20 +22,18 @@ import java.util.*
 
 class GridLayoutManagerActivity : AppCompatActivity() {
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
-    private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        mRecyclerView = findViewById(R.id.recyclerView)
         val mainBean = ArrayList<MainBean>()
         DataUtils.getData(mainBean)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
-        mRecyclerView.layoutManager = GridLayoutManager(this, 2)
-        mRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
-        mRecyclerView.adapter = xRecyclerViewAdapter.apply {
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
+        recyclerView.adapter = xRecyclerViewAdapter.apply {
             dataContainer = mainBean
-            recyclerView = mRecyclerView
+            recyclerView = this@GridLayoutManagerActivity.recyclerView
             itemLayoutId = R.layout.item
             pullRefreshEnabled = true
             loadingMoreEnabled = true
@@ -47,11 +45,11 @@ class GridLayoutManagerActivity : AppCompatActivity() {
             }
             xAdapterListener = object : OnXAdapterListener {
                 override fun onXRefresh() {
-                    mRecyclerView.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
+                    this@GridLayoutManagerActivity.recyclerView.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
                 }
 
                 override fun onXLoadMore() {
-                    mRecyclerView.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
+                    this@GridLayoutManagerActivity.recyclerView.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
                 }
             }
         }

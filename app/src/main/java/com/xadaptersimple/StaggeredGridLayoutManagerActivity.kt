@@ -3,13 +3,13 @@ package com.xadaptersimple
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.OnXBindListener
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
+import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
 /**
@@ -18,12 +18,10 @@ import java.util.*
 
 class StaggeredGridLayoutManagerActivity : AppCompatActivity() {
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
-    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        recyclerView = findViewById(R.id.recyclerView)
         val mainBeen = ArrayList<MainBean>()
         DataUtils.getData(mainBeen)
         recyclerView.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
