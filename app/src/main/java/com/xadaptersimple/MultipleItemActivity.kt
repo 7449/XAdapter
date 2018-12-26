@@ -75,18 +75,18 @@ class MultipleItemActivity : AppCompatActivity(), OnItemClickListener<SimpleXMul
         private const val TYPE_LINE = 1
         fun initSettingData(): MutableList<SimpleXMultiItem> {
             return ArrayList<SimpleXMultiItem>().apply {
-                add(SimpleXMultiItem(TYPE_LINE))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 0, "头像", R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(TYPE_LINE))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 1, "收藏", R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 2, "相册", R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(TYPE_LINE))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 3, "钱包", R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 4, "卡包", R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(TYPE_LINE))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 5, "表情", R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(TYPE_LINE))
-                add(SimpleXMultiItem(XMultiCallBack.TYPE_ITEM, 6, "设置", R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 0, message = "头像", icon = R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 1, message = "收藏", icon = R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 2, message = "相册", icon = R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 3, message = "钱包", icon = R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 4, message = "卡包", icon = R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 5, message = "表情", icon = R.mipmap.ic_launcher))
+                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
+                add(SimpleXMultiItem(itemMultiType = XMultiCallBack.TYPE_ITEM, itemMultiPosition = 6, message = "设置", icon = R.mipmap.ic_launcher))
             }
         }
     }
