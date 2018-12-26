@@ -199,6 +199,32 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
         } else dataContainer[position - 1]
     }
 
+    open fun removeHeader(index: Int) {
+        headerViewContainer.removeAt(index)
+        notifyDataSetChanged()
+    }
+
+    open fun removeHeader(view: View) {
+        headerViewContainer.remove(view)
+        notifyDataSetChanged()
+    }
+
+    open fun removeFooter(index: Int) {
+        footerViewContainer.removeAt(index)
+        notifyDataSetChanged()
+    }
+
+    open fun removeFooter(view: View) {
+        footerViewContainer.remove(view)
+        notifyDataSetChanged()
+    }
+
+    open fun removeAllNoItemView() {
+        headerViewContainer.clear()
+        footerViewContainer.clear()
+        notifyDataSetChanged()
+    }
+
     open fun getData(position: Int): T = dataContainer[position]
 
     override fun getItemViewType(position: Int): Int {
