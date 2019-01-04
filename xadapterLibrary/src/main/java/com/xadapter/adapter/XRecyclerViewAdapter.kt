@@ -25,16 +25,16 @@ import com.xadapter.simple.SimpleRefresh
 open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrollListener.XScrollBottom, XTouchListener.RefreshInterface {
 
     companion object {
-        internal const val TYPE_ITEM = -1
-        internal const val TYPE_REFRESH_HEADER = 0
-        internal const val TYPE_LOAD_MORE_FOOTER = 1
+        private const val TYPE_ITEM = -1
+        private const val TYPE_REFRESH_HEADER = 0
+        private const val TYPE_LOAD_MORE_FOOTER = 1
     }
 
     val headerViewContainer = ArrayList<View>()
     val footerViewContainer = ArrayList<View>()
 
-    val mHeaderViewType = ArrayList<Int>()
-    val mFooterViewType = ArrayList<Int>()
+    val headerViewType = ArrayList<Int>()
+    val footerViewType = ArrayList<Int>()
     val adapterViewType = 100000
 
     var touchListener: XTouchListener? = null
@@ -122,10 +122,10 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
-        if (mHeaderViewType.contains(viewType)) {
+        if (headerViewType.contains(viewType)) {
             return XViewHolder(headerViewContainer[viewType / adapterViewType])
         }
-        if (mFooterViewType.contains(viewType)) {
+        if (footerViewType.contains(viewType)) {
             return XViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
         val xViewHolder = XViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false))
@@ -239,11 +239,11 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             mPos -= 1
         }
         if (isHeaderType(mPos)) {
-            mHeaderViewType.add(mPos * adapterViewType)
+            headerViewType.add(mPos * adapterViewType)
             return mPos * adapterViewType
         }
         if (isFooterType(mPos)) {
-            mFooterViewType.add(mPos * adapterViewType)
+            footerViewType.add(mPos * adapterViewType)
             return mPos * adapterViewType
         }
         return XRecyclerViewAdapter.TYPE_ITEM

@@ -40,10 +40,10 @@ class XDataBindingAdapter<T>(private val variableId: Int, private val executePen
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
-        if (mHeaderViewType.contains(viewType)) {
+        if (headerViewType.contains(viewType)) {
             return XViewHolder(headerViewContainer[viewType / adapterViewType])
         }
-        if (mFooterViewType.contains(viewType)) {
+        if (footerViewType.contains(viewType)) {
             return XViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
         val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false))
