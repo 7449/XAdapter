@@ -25,9 +25,9 @@ import com.xadapter.simple.SimpleRefresh
 open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrollListener.XScrollBottom, XTouchListener.RefreshInterface {
 
     companion object {
-        private const val TYPE_ITEM = -1
-        private const val TYPE_REFRESH_HEADER = 0
-        private const val TYPE_LOAD_MORE_FOOTER = 1
+        const val TYPE_ITEM = -1
+        const val TYPE_REFRESH_HEADER = 0
+        const val TYPE_LOAD_MORE_FOOTER = 1
     }
 
     val headerViewContainer = ArrayList<View>()
