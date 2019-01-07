@@ -16,7 +16,7 @@ import com.xadapter.holder.XViewHolder
  * by y on 2017/3/9
  */
 
-class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList<T>) : RecyclerView.Adapter<XViewHolder>() {
+open class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList<T>) : RecyclerView.Adapter<XViewHolder>() {
 
     var onItemClickListener: OnItemClickListener<T>? = null
     var onLongClickListener: OnItemLongClickListener<T>? = null

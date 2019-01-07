@@ -25,7 +25,7 @@ fun <T> XDataBindingAdapterFactory(variableId: Int): XDataBindingAdapter<T> {
  * @create 2018/12/25
  */
 @SuppressLint("ClickableViewAccessibility")
-class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XRecyclerViewAdapter<T>() {
+open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XRecyclerViewAdapter<T>() {
 
     private var mData: ObservableArrayList<T> = ObservableArrayList()
 
