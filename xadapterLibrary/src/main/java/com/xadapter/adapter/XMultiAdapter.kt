@@ -25,29 +25,22 @@ open class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
         val xViewHolder = XViewHolder(LayoutInflater.from(parent.context).inflate(onXMultiAdapterListener.multiLayoutId(viewType), parent, false))
+
         xViewHolder.itemView.setOnClickListener { view ->
-            if (mMultiData[xViewHolder.layoutPosition].position == -1) return@setOnClickListener
-            onItemClickListener?.onItemClick(view,
-                    if (mMultiData[xViewHolder.layoutPosition].position == -1) xViewHolder.layoutPosition
-                    else mMultiData[xViewHolder.layoutPosition].position,
-                    mMultiData[xViewHolder.layoutPosition])
+            if (mMultiData[xViewHolder.layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
+            onItemClickListener?.onItemClick(view, xViewHolder.layoutPosition, mMultiData[xViewHolder.layoutPosition])
         }
         xViewHolder.itemView.setOnLongClickListener { view ->
-            if (mMultiData[xViewHolder.layoutPosition].position == -1) {
-                return@setOnLongClickListener false
-            }
-            onLongClickListener?.onLongClick(view,
-                    if (mMultiData[xViewHolder.layoutPosition].position == -1) xViewHolder.layoutPosition
-                    else mMultiData[xViewHolder.layoutPosition].position,
-                    mMultiData[xViewHolder.layoutPosition])
-            true
+            if (mMultiData[xViewHolder.layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
+            return@setOnLongClickListener onLongClickListener?.onLongClick(view, xViewHolder.layoutPosition, mMultiData[xViewHolder.layoutPosition])
+                    ?: false
         }
         return xViewHolder
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
         val t = getItem(position)
-        onXMultiAdapterListener.onXMultiBind(holder, t, t.itemType, if (t.position == -1) position else t.position)
+        onXMultiAdapterListener.onXMultiBind(holder, t, getItemViewType(position), position)
     }
 
     fun removeAll() {

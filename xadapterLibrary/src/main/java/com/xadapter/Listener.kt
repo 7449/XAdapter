@@ -48,7 +48,7 @@ interface OnItemLongClickListener<T> {
      * @param position The position of the view in the adapter.
      * @param entity     The adapter's data
      */
-    fun onLongClick(view: View, position: Int, entity: T)
+    fun onLongClick(view: View, position: Int, entity: T): Boolean
 }
 
 interface OnFooterClickListener {
@@ -66,11 +66,10 @@ interface OnXEmptyListener {
 interface XMultiCallBack {
 
     val itemType: Int
-
     val position: Int
 
     companion object {
-        const val TYPE_ITEM = -11
+        const val NO_CLICK_POSITION = -10001
     }
 }
 

@@ -85,7 +85,8 @@ class DataBindingActivity : AppCompatActivity(), OnItemLongClickListener<MainBea
         Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(view: View, position: Int, entity: MainBean) {
+    override fun onLongClick(view: View, position: Int, entity: MainBean): Boolean {
         Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
+        return true
     }
 }
