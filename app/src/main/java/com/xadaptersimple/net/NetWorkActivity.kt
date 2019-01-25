@@ -20,9 +20,9 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
 /**
  * by y on 2016/11/17
  */
-class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener<NetWorkBean>, RxNetWorkListener<List<NetWorkBean>> {
+class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener<DataModel>, RxNetWorkListener<NetWorkBean> {
 
-    private lateinit var mAdapter: XRecyclerViewAdapter<NetWorkBean>
+    private lateinit var mAdapter: XRecyclerViewAdapter<DataModel>
     private var page = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,6 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
                 .refresh()
     }
 
-
     override fun onXRefresh() {
         page = 0
         mAdapter.removeAll()
@@ -62,19 +61,16 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
     private fun netWork() {
         RxNetWork.instance.cancel(javaClass.simpleName)
         RxNetWork.instance
-                .apply {
-                    baseUrl = NetApi.ZL_BASE_API
-                }
                 .getApi(javaClass.simpleName,
                         RxNetWork.observable(NetApi.ZLService::class.java)
                                 .getList("daily", 20, 0), this)
     }
 
     private var option = RequestOptions().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).centerCrop()
-    override fun onXBind(holder: XViewHolder, position: Int, entity: NetWorkBean) {
+    override fun onXBind(holder: XViewHolder, position: Int, entity: DataModel) {
         Glide
                 .with(holder.context)
-                .load(entity.titleImage)
+                .load(entity.title_image)
                 .apply(option)
                 .into(holder.getImageView(R.id.list_image))
         holder.setTextView(R.id.list_tv, entity.title)
@@ -102,8 +98,8 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
         }
     }
 
-    override fun onNetWorkSuccess(data: List<NetWorkBean>) {
-        mAdapter.addAll(data)
+    override fun onNetWorkSuccess(data: NetWorkBean) {
+        mAdapter.addAll(data.data)
     }
 
     override fun onDestroy() {

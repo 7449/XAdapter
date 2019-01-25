@@ -12,10 +12,10 @@ import retrofit2.http.Query
 object NetApi {
     const val ZL_BASE_API = "https://zhuanlan.zhihu.com/api/"
 
-    internal interface ZLService {
+    interface ZLService {
         @GET("columns/" + "{suffix}/posts")
         fun getList(@Path("suffix") suffix: String,
                     @Query("limit") limit: Int,
-                    @Query("offset") offset: Int): Observable<List<NetWorkBean>>
+                    @Query("offset") offset: Int): Observable<NetWorkBean>
     }
 }

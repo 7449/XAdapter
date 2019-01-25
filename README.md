@@ -15,7 +15,8 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
->implementation 'com.ydevelop:rv-adapter:0.0.9.2
+    implementation 'com.ydevelop:rv-adapter:0.0.9.3
+    implementation 'com.google.android.material:material:1.0.0'
 
 ## example
 
@@ -45,7 +46,8 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
         itemLayoutId = R.layout.item
     }
 
-onXBind  
+onXBind
+
 Achieve data display
 
     override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {

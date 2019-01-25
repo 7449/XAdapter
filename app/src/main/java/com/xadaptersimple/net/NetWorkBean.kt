@@ -5,15 +5,10 @@ package com.xadaptersimple.net
  */
 
 class NetWorkBean {
+    lateinit var data: List<DataModel>
+}
 
-    var title = ""
-    var titleImage = ""
-    var slug: Int = 0
-    lateinit var author: Author
-
-    class Author {
-        var profileUrl = ""
-        var bio = ""
-        var name = ""
-    }
+class DataModel {
+    var title: String = ""
+    var title_image: String = ""
 }

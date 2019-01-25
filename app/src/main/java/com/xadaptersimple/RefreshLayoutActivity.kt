@@ -9,6 +9,7 @@ import com.xadapter.OnLoadMoreRetryListener
 import com.xadapter.OnXAdapterListener
 import com.xadapter.OnXBindListener
 import com.xadapter.holder.XViewHolder
+import com.xadaptersimple.net.DataModel
 import com.xadaptersimple.net.NetApi
 import com.xadaptersimple.net.NetWorkBean
 import io.reactivex.network.RxNetWork
@@ -20,12 +21,12 @@ import kotlinx.android.synthetic.main.activity_swipe.*
  */
 class RefreshLayoutActivity : AppCompatActivity(),
         OnXAdapterListener,
-        OnXBindListener<NetWorkBean>,
-        RxNetWorkListener<List<NetWorkBean>>, OnLoadMoreRetryListener {
+        OnXBindListener<DataModel>,
+        RxNetWorkListener<NetWorkBean>, OnLoadMoreRetryListener {
 
     private var page = 0
 
-    private lateinit var mAdapter: SimpleRefreshAdapter<NetWorkBean>
+    private lateinit var mAdapter: SimpleRefreshAdapter<DataModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,16 +73,16 @@ class RefreshLayoutActivity : AppCompatActivity(),
         mAdapter.onError(if (page == 0) SimpleRefreshAdapter.TYPE_REFRESH else SimpleRefreshAdapter.TYPE_LOAD_MORE)
     }
 
-    override fun onNetWorkSuccess(data: List<NetWorkBean>) {
-        mAdapter.addAll(data)
+    override fun onNetWorkSuccess(data: NetWorkBean) {
+        mAdapter.addAll(data.data)
     }
 
     private var option = RequestOptions().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).centerCrop()
 
-    override fun onXBind(holder: XViewHolder, position: Int, entity: NetWorkBean) {
+    override fun onXBind(holder: XViewHolder, position: Int, entity: DataModel) {
         Glide
                 .with(holder.context)
-                .load(entity.titleImage)
+                .load(entity.title_image)
                 .apply(option)
                 .into(holder.getImageView(R.id.list_image))
         holder.setTextView(R.id.list_tv, entity.title)
@@ -89,9 +90,6 @@ class RefreshLayoutActivity : AppCompatActivity(),
 
     private fun netWork() {
         RxNetWork.instance
-                .apply {
-                    baseUrl = NetApi.ZL_BASE_API
-                }
                 .getApi(javaClass.simpleName,
                         RxNetWork.observable(NetApi.ZLService::class.java)
                                 .getList("daily", 20, 0), this)
