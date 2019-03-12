@@ -5,21 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.xadapter.OnItemClickListener
-import com.xadapter.OnItemLongClickListener
-import com.xadapter.OnXMultiAdapterListener
-import com.xadapter.XMultiCallBack
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.OnXItemClickListener
+import com.xadapter.listener.OnXItemLongClickListener
+import com.xadapter.listener.OnXMultiAdapterListener
+import com.xadapter.listener.XMultiCallBack
 
 
 /**
  * by y on 2017/3/9
  */
 
-open class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList<T>) : RecyclerView.Adapter<XViewHolder>() {
+class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList<T>) : RecyclerView.Adapter<XViewHolder>() {
 
-    var onItemClickListener: OnItemClickListener<T>? = null
-    var onLongClickListener: OnItemLongClickListener<T>? = null
+    var onXItemClickListener: OnXItemClickListener<T>? = null
+    var onXLongClickListener: OnXItemLongClickListener<T>? = null
     lateinit var onXMultiAdapterListener: OnXMultiAdapterListener<T>
     val data: List<T> get() = mMultiData
 
@@ -28,11 +28,11 @@ open class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList
 
         xViewHolder.itemView.setOnClickListener { view ->
             if (mMultiData[xViewHolder.layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
-            onItemClickListener?.onItemClick(view, xViewHolder.layoutPosition, mMultiData[xViewHolder.layoutPosition])
+            onXItemClickListener?.onXItemClick(view, xViewHolder.layoutPosition, mMultiData[xViewHolder.layoutPosition])
         }
         xViewHolder.itemView.setOnLongClickListener { view ->
             if (mMultiData[xViewHolder.layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
-            return@setOnLongClickListener onLongClickListener?.onLongClick(view, xViewHolder.layoutPosition, mMultiData[xViewHolder.layoutPosition])
+            return@setOnLongClickListener onXLongClickListener?.onXItemLongClick(view, xViewHolder.layoutPosition, mMultiData[xViewHolder.layoutPosition])
                     ?: false
         }
         return xViewHolder
@@ -70,6 +70,7 @@ open class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList
 
     override fun getItemViewType(position: Int): Int = mMultiData[position].itemType
     override fun getItemCount(): Int = mMultiData.size
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         val manager = recyclerView.layoutManager
@@ -85,7 +86,7 @@ open class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList
     override fun onViewAttachedToWindow(holder: XViewHolder) {
         super.onViewAttachedToWindow(holder)
         val layoutParams = holder.itemView.layoutParams
-        if (layoutParams != null && layoutParams is StaggeredGridLayoutManager.LayoutParams) {
+        if (layoutParams is StaggeredGridLayoutManager.LayoutParams) {
             layoutParams.isFullSpan = onXMultiAdapterListener.getStaggeredGridLayoutManagerFullSpan(getItemViewType(holder.layoutPosition))
         }
     }

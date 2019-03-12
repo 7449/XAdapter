@@ -3,8 +3,8 @@ package com.xadapter.manager
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
+import com.xadapter.widget.XLoadMoreView
+import com.xadapter.widget.XRefreshView
 
 /**
  * by y on 2016/11/15
@@ -23,7 +23,7 @@ class XTouchListener(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (refreshView.state == XRefreshView.REFRESH || (loadMoreView != null && loadMoreView.state == XLoadMoreView.LOAD)) {
+        if (refreshView.state == XRefreshView.REFRESH || loadMoreView?.state == XLoadMoreView.LOAD) {
             return false
         }
         if (rawY == -1f) {

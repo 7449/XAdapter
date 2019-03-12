@@ -2,10 +2,10 @@ package com.xadaptersimple
 
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.xadapter.OnFooterClickListener
-import com.xadapter.OnLoadMoreRetryListener
-import com.xadapter.XLoadMoreView
 import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.listener.OnXFooterClickListener
+import com.xadapter.listener.OnXLoadMoreRetryListener
+import com.xadapter.widget.XLoadMoreView
 
 /**
  * @author y
@@ -70,19 +70,19 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
         loadMoreState = XLoadMoreView.NOMORE
     }
 
-    fun setOnLoadMoreRetry(loadMoreRetryListener: OnLoadMoreRetryListener) = apply {
-        onFooterListener = object : OnFooterClickListener {
+    fun setOnLoadMoreRetry(XLoadMoreRetryListener: OnXLoadMoreRetryListener) = apply {
+        onXFooterListener = object : OnXFooterClickListener {
             override fun onXFooterClick(view: View) {
                 if (loadMoreState == XLoadMoreView.ERROR) {
                     loadMoreState = XLoadMoreView.LOAD
-                    loadMoreRetryListener.onXLoadMoreRetry()
+                    XLoadMoreRetryListener.onXLoadMoreRetry()
                 }
             }
         }
     }
 
     fun setOnLoadMoreRetry(loadMoreRetryListener: () -> Unit) = apply {
-        onFooterListener = object : OnFooterClickListener {
+        onXFooterListener = object : OnXFooterClickListener {
             override fun onXFooterClick(view: View) {
                 if (loadMoreState == XLoadMoreView.ERROR) {
                     loadMoreState = XLoadMoreView.LOAD

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.xadapter.XLoadMoreView
+import com.xadapter.widget.XLoadMoreView
 import com.xadaptersimple.R
 import kotlinx.android.synthetic.main.layout_loadmore.view.*
 

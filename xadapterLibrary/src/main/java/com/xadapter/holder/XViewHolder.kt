@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
+
 package com.xadapter.holder
 
 import android.content.Context
@@ -10,17 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  * by y on 2016/9/29
- *
- *
- * A ViewHolder, inherited from RecyclerViewHolder, with sparseArray for the view optimization
  */
-
 open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    val context: Context
-        get() = itemView.context
+    val context: Context = itemView.context
 
-    @Suppress("UNCHECKED_CAST")
     fun <T : View> getView(id: Int): T {
         var viewSparseArray: SparseArray<View>? = itemView.tag as SparseArray<View>?
         if (null == viewSparseArray) {
@@ -40,7 +36,10 @@ open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun getFrameLayout(id: Int): FrameLayout = run { getView(id) }
     fun getButton(id: Int): Button = run { getView(id) }
     fun setButtonText(id: Int, text: String) = run { getButton(id).text = text }
-    fun setButtonColor(id: Int, color: Int) { getButton(id).setTextColor(ContextCompat.getColor(context, color)) }
+    fun setButtonColor(id: Int, color: Int) {
+        getButton(id).setTextColor(ContextCompat.getColor(context, color))
+    }
+
     fun getRadioButton(id: Int): RadioButton = run { getView(id) }
     fun getCheckBox(id: Int): CheckBox = run { getView(id) }
     fun getProgressBar(id: Int): ProgressBar = run { getView(id) }

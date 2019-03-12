@@ -5,7 +5,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
-import com.xadapter.XRefreshView
+import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.R
 import kotlinx.android.synthetic.main.layout_refresh.view.*
 

@@ -1,8 +1,7 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "ClickableViewAccessibility")
 
 package com.xadapter.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,19 +11,11 @@ import com.xadapter.holder.XViewHolder
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 
-fun <T> XDataBindingAdapterExecutePendingBindingsFactory(variableId: Int): XDataBindingAdapter<T> {
-    return XDataBindingAdapter(variableId, true)
-}
-
-fun <T> XDataBindingAdapterFactory(variableId: Int): XDataBindingAdapter<T> {
-    return XDataBindingAdapter(variableId, false)
-}
 
 /**
  * @author y
  * @create 2018/12/25
  */
-@SuppressLint("ClickableViewAccessibility")
 open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XRecyclerViewAdapter<T>() {
 
     private var mData: ObservableArrayList<T> = ObservableArrayList()
@@ -48,12 +39,12 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
         }
         val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false))
         viewHolder.itemView.setOnClickListener { view ->
-            onItemClickListener?.onItemClick(view,
+            onXItemClickListener?.onXItemClick(view,
                     getItemPosition(viewHolder.layoutPosition),
                     dataContainer[getItemPosition(viewHolder.layoutPosition)])
         }
         viewHolder.itemView.setOnLongClickListener { view ->
-            onLongClickListener?.onLongClick(view,
+            onXLongClickListener?.onXItemLongClick(view,
                     getItemPosition(viewHolder.layoutPosition),
                     dataContainer[getItemPosition(viewHolder.layoutPosition)])
             true
@@ -71,7 +62,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let { it ->
-                    loadMoreView?.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
+                    loadMoreView?.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
                     scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
                     scrollListener?.let { recyclerView?.addOnScrollListener(it) }
                     XViewHolder(it)

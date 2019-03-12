@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.xadapter.OnXBindListener
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.OnXBindListener
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.recyclerview_layout.*

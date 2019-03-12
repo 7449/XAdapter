@@ -3,9 +3,9 @@ package com.xadaptersimple
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.xadapter.OnXAdapterListener
-import com.xadapter.XRefreshView
 import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.listener.OnXAdapterListener
+import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 

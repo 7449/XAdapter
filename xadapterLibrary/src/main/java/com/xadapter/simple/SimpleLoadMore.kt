@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.view.View
 import com.xadapter.R
-import com.xadapter.XLoadMoreView
+import com.xadapter.widget.XLoadMoreView
 import kotlinx.android.synthetic.main.simple_load_more.view.*
 
 /**

@@ -10,13 +10,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.xadapter.*
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.*
 import com.xadapter.manager.AppBarStateChangeListener
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.simple.SimpleLoadMore
 import com.xadapter.simple.SimpleRefresh
+import com.xadapter.widget.XLoadMoreView
+import com.xadapter.widget.XRefreshView
 
 /**
  * by y on 2016/11/15
@@ -37,7 +39,7 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     val footerViewType = ArrayList<Int>()
     val adapterViewType = 100000
 
-    var touchListener: XTouchListener? = null
+    var touchListener: View.OnTouchListener? = null
     open var dataContainer: ArrayList<T> = ArrayList()
 
     open var scrollListener: RecyclerView.OnScrollListener? = null
@@ -51,7 +53,7 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
     open var scrollLoadMoreItemCount = 1
         set(value) {
             field = value
-            if (scrollListener != null && scrollListener is XScrollListener) {
+            if (scrollListener is XScrollListener) {
                 (scrollListener as XScrollListener).scrollItemCount = value
             }
         }
@@ -86,13 +88,13 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             }
         }
 
-    open var onItemClickListener: OnItemClickListener<T>? = null
+    open var onXItemClickListener: OnXItemClickListener<T>? = null
 
-    open var onLongClickListener: OnItemLongClickListener<T>? = null
+    open var onXLongClickListener: OnXItemLongClickListener<T>? = null
 
     open lateinit var xAdapterListener: OnXAdapterListener
 
-    open var onFooterListener: OnFooterClickListener? = null
+    open var onXFooterListener: OnXFooterClickListener? = null
 
     open var loadMoreState: Int
         get() = loadMoreView?.state ?: XLoadMoreView.NORMAL
@@ -130,12 +132,12 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
         }
         val xViewHolder = XViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false))
         xViewHolder.itemView.setOnClickListener { view ->
-            onItemClickListener?.onItemClick(view,
+            onXItemClickListener?.onXItemClick(view,
                     getItemPosition(xViewHolder.layoutPosition),
                     dataContainer[getItemPosition(xViewHolder.layoutPosition)])
         }
         xViewHolder.itemView.setOnLongClickListener { view ->
-            onLongClickListener?.onLongClick(view,
+            onXLongClickListener?.onXItemLongClick(view,
                     getItemPosition(xViewHolder.layoutPosition),
                     dataContainer[getItemPosition(xViewHolder.layoutPosition)])
             true
@@ -153,7 +155,7 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let { it ->
-                    loadMoreView?.setOnClickListener { v -> onFooterListener?.onXFooterClick(v) }
+                    loadMoreView?.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
                     scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
                     scrollListener?.let { recyclerView?.addOnScrollListener(it) }
                     XViewHolder(it)
@@ -317,11 +319,11 @@ open class XRecyclerViewAdapter<T> : RecyclerView.Adapter<XViewHolder>(), XScrol
                     break
                 }
             }
-            if (appBarLayout != null && touchListener != null) {
+            if (appBarLayout != null && touchListener is XTouchListener) {
                 appBarLayout.addOnOffsetChangedListener(
                         object : AppBarStateChangeListener() {
                             public override fun onStateChanged(appBarLayout: AppBarLayout, state: AppBarStateChangeListener.State) {
-                                touchListener?.state = state
+                                (touchListener as XTouchListener).state = state
                             }
                         })
             }

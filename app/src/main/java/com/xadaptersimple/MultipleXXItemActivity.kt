@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.xadapter.OnItemClickListener
-import com.xadapter.OnItemLongClickListener
-import com.xadapter.OnXMultiAdapterListener
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.OnXItemClickListener
+import com.xadapter.listener.OnXItemLongClickListener
+import com.xadapter.listener.OnXMultiAdapterListener
 import com.xadapter.simple.SimpleXMultiItem
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 
@@ -19,8 +19,8 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
  * by y on 2017/1/12.
  */
 
-class MultipleItemActivity : AppCompatActivity(), OnItemClickListener<SimpleXMultiItem>,
-        OnItemLongClickListener<SimpleXMultiItem>,
+class MultipleXXItemActivity : AppCompatActivity(), OnXItemClickListener<SimpleXMultiItem>,
+        OnXItemLongClickListener<SimpleXMultiItem>,
         OnXMultiAdapterListener<SimpleXMultiItem> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +30,17 @@ class MultipleItemActivity : AppCompatActivity(), OnItemClickListener<SimpleXMul
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         recyclerView.adapter = XMultiAdapter(initSettingData())
                 .apply {
-                    onXMultiAdapterListener = this@MultipleItemActivity
-                    onItemClickListener = this@MultipleItemActivity
-                    onLongClickListener = this@MultipleItemActivity
+                    onXMultiAdapterListener = this@MultipleXXItemActivity
+                    onXItemClickListener = this@MultipleXXItemActivity
+                    onXLongClickListener = this@MultipleXXItemActivity
                 }
     }
 
-    override fun onItemClick(view: View, position: Int, entity: SimpleXMultiItem) {
+    override fun onXItemClick(view: View, position: Int, entity: SimpleXMultiItem) {
         Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(view: View, position: Int, entity: SimpleXMultiItem): Boolean {
+    override fun onXItemLongClick(view: View, position: Int, entity: SimpleXMultiItem): Boolean {
         Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
         return true
     }

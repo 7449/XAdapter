@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.xadapter.OnLoadMoreRetryListener
-import com.xadapter.OnXAdapterListener
-import com.xadapter.OnXBindListener
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.OnXLoadMoreRetryListener
+import com.xadapter.listener.OnXAdapterListener
+import com.xadapter.listener.OnXBindListener
 import com.xadaptersimple.net.DataModel
 import com.xadaptersimple.net.NetApi
 import com.xadaptersimple.net.NetWorkBean
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_swipe.*
 class RefreshLayoutActivity : AppCompatActivity(),
         OnXAdapterListener,
         OnXBindListener<DataModel>,
-        RxNetWorkListener<NetWorkBean>, OnLoadMoreRetryListener {
+        RxNetWorkListener<NetWorkBean>, OnXLoadMoreRetryListener {
 
     private var page = 0
 

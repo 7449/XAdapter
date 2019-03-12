@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.xadapter.OnXAdapterListener
-import com.xadapter.OnXBindListener
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.OnXAdapterListener
+import com.xadapter.listener.OnXBindListener
+import com.xadapter.widget.XLoadMoreView
+import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.activity_collapsing_toolbar_layout.*

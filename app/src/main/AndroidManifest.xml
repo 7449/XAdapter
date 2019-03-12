@@ -25,7 +25,7 @@
         <activity android:name=".net.NetWorkActivity" />
         <activity android:name=".CollapsingToolbarLayoutActivity" />
         <activity android:name=".EmptyViewActivity" />
-        <activity android:name=".MultipleItemActivity" />
+        <activity android:name=".MultipleXXItemActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".RefreshLayoutActivity" />
         <activity android:name=".DataBindingActivity" />

@@ -8,7 +8,7 @@ object DataUtils {
 
 
     fun getData(mainBeen: MutableList<MainBean>) {
-        for (i in 0..29) {
+        for (i in 0..1000) {
             mainBeen.add(MainBean("$i: this is name", i))
         }
     }

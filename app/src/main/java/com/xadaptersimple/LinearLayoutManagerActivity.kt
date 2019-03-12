@@ -7,9 +7,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.xadapter.*
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.listener.*
+import com.xadapter.widget.XLoadMoreView
+import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
 import com.xadaptersimple.view.LoadMoreView
@@ -22,8 +24,8 @@ import java.util.*
  */
 
 class LinearLayoutManagerActivity : AppCompatActivity(),
-        OnXBindListener<MainBean>, OnItemLongClickListener<MainBean>,
-        OnItemClickListener<MainBean>, OnFooterClickListener, OnXAdapterListener {
+        OnXBindListener<MainBean>, OnXItemLongClickListener<MainBean>,
+        OnXItemClickListener<MainBean>, OnXFooterClickListener, OnXAdapterListener {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
 
@@ -53,10 +55,10 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
             }
             onXBindListener = this@LinearLayoutManagerActivity
-            onLongClickListener = this@LinearLayoutManagerActivity
-            onItemClickListener = this@LinearLayoutManagerActivity
+            onXLongClickListener = this@LinearLayoutManagerActivity
+            onXItemClickListener = this@LinearLayoutManagerActivity
             xAdapterListener = this@LinearLayoutManagerActivity
-            onFooterListener = this@LinearLayoutManagerActivity
+            onXFooterListener = this@LinearLayoutManagerActivity
             itemLayoutId = R.layout.item
         }
     }
@@ -66,11 +68,11 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
         holder.setTextView(R.id.tv_age, entity.age.toString() + "")
     }
 
-    override fun onItemClick(view: View, position: Int, entity: MainBean) {
+    override fun onXItemClick(view: View, position: Int, entity: MainBean) {
         Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onLongClick(view: View, position: Int, entity: MainBean): Boolean {
+    override fun onXItemLongClick(view: View, position: Int, entity: MainBean): Boolean {
         Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
         return true
     }
