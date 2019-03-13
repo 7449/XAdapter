@@ -22,7 +22,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
             if (loadMoreState != XLoadMoreView.LOAD) {
                 loadMoreView?.state = XLoadMoreView.NORMAL
-                xAdapterListener.onXRefresh()
+                xAdapterListener?.onXRefresh()
             }
         }
     }
@@ -30,7 +30,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
     override fun refresh() = apply {
         goneView(emptyView)
         visibleView(recyclerView)
-        xAdapterListener.onXRefresh()
+        xAdapterListener?.onXRefresh()
         swipeRefreshLayout.isRefreshing = true
         loadMoreView?.state = XLoadMoreView.NORMAL
     }
@@ -46,7 +46,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
             return
         }
         loadMoreView?.state = XLoadMoreView.LOAD
-        xAdapterListener.onXLoadMore()
+        xAdapterListener?.onXLoadMore()
     }
 
     fun onComplete(type: Int) {

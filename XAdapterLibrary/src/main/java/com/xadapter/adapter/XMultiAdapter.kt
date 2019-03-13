@@ -20,7 +20,9 @@ class XMultiAdapter<T : XMultiCallBack>(private val mMultiData: MutableList<T>) 
 
     var onXItemClickListener: OnXItemClickListener<T>? = null
     var onXLongClickListener: OnXItemLongClickListener<T>? = null
+
     lateinit var onXMultiAdapterListener: OnXMultiAdapterListener<T>
+
     val data: List<T> get() = mMultiData
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {

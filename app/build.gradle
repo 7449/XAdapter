@@ -33,5 +33,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(':xadapterLibrary')
+    implementation project(':XAdapterLibrary')
 }

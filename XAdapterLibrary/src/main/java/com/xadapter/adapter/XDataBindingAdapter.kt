@@ -61,10 +61,12 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
                 } ?: throw NullPointerException("detect refreshView is null")
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
-                loadMoreView?.let { it ->
+                loadMoreView?.let {
                     loadMoreView?.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
-                    scrollListener = XScrollListener(this).apply { scrollItemCount = scrollLoadMoreItemCount }
-                    scrollListener?.let { recyclerView?.addOnScrollListener(it) }
+                    scrollListener = XScrollListener(this).apply {
+                        scrollItemCount = scrollLoadMoreItemCount
+                        recyclerView?.addOnScrollListener(this)
+                    }
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect loadMoreView is null")
             }
