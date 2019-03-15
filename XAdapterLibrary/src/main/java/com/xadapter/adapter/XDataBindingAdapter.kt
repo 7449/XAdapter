@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
+import com.xadapter.currentItemPosition
+import com.xadapter.holder.SuperViewHolder
 import com.xadapter.holder.XDataBindingHolder
 import com.xadapter.holder.XViewHolder
 import com.xadapter.manager.XScrollListener
@@ -18,35 +20,31 @@ import com.xadapter.manager.XTouchListener
  */
 open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XRecyclerViewAdapter<T>() {
 
-    private var mData: ObservableArrayList<T> = ObservableArrayList()
+    var mData: ObservableArrayList<T> = ObservableArrayList()
 
     override var dataContainer: ArrayList<T>
-        get() = super.dataContainer
+        get() = mData
         set(value) {
             mData.addAll(value)
         }
 
-    fun observableArrayList(): ObservableArrayList<T> {
-        return dataContainer as ObservableArrayList
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
         if (headerViewType.contains(viewType)) {
-            return XViewHolder(headerViewContainer[viewType / adapterViewType])
+            return SuperViewHolder(headerViewContainer[viewType / adapterViewType])
         }
         if (footerViewType.contains(viewType)) {
-            return XViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
+            return SuperViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
         val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false))
         viewHolder.itemView.setOnClickListener { view ->
             onXItemClickListener?.onXItemClick(view,
-                    getItemPosition(viewHolder.layoutPosition),
-                    dataContainer[getItemPosition(viewHolder.layoutPosition)])
+                    currentItemPosition(viewHolder.layoutPosition),
+                    dataContainer[currentItemPosition(viewHolder.layoutPosition)])
         }
         viewHolder.itemView.setOnLongClickListener { view ->
             onXLongClickListener?.onXItemLongClick(view,
-                    getItemPosition(viewHolder.layoutPosition),
-                    dataContainer[getItemPosition(viewHolder.layoutPosition)])
+                    currentItemPosition(viewHolder.layoutPosition),
+                    dataContainer[currentItemPosition(viewHolder.layoutPosition)])
             true
         }
         if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && recyclerView == null) {
@@ -62,7 +60,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             }
             XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let {
-                    loadMoreView?.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
+                    it.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
                     scrollListener = XScrollListener(this).apply {
                         scrollItemCount = scrollLoadMoreItemCount
                         recyclerView?.addOnScrollListener(this)
@@ -78,7 +76,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
         if (getItemViewType(position) != XRecyclerViewAdapter.TYPE_ITEM) {
             return
         }
-        val pos = getItemPosition(position)
+        val pos = currentItemPosition(position)
         val t = dataContainer[pos] ?: return
         holder as XDataBindingHolder
         holder.viewDataBinding.setVariable(variableId, t)

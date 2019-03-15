@@ -6,9 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.addAll
 import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.getContext
+import com.xadapter.holder.getImageView
+import com.xadapter.holder.setText
 import com.xadapter.listener.OnXAdapterListener
 import com.xadapter.listener.OnXBindListener
+import com.xadapter.refresh
+import com.xadapter.removeAll
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.R
@@ -69,11 +75,11 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
     private var option = RequestOptions().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).centerCrop()
     override fun onXBind(holder: XViewHolder, position: Int, entity: DataModel) {
         Glide
-                .with(holder.context)
+                .with(holder.getContext())
                 .load(entity.title_image)
                 .apply(option)
                 .into(holder.getImageView(R.id.list_image))
-        holder.setTextView(R.id.list_tv, entity.title)
+        holder.setText(R.id.list_tv, entity.title)
     }
 
     override fun onNetWorkStart() {

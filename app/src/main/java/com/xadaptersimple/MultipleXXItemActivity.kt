@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.getImageView
+import com.xadapter.holder.setText
 import com.xadapter.listener.OnXItemClickListener
 import com.xadapter.listener.OnXItemLongClickListener
 import com.xadapter.listener.OnXMultiAdapterListener
@@ -67,7 +69,7 @@ class MultipleXXItemActivity : AppCompatActivity(), OnXItemClickListener<SimpleX
     override fun onXMultiBind(holder: XViewHolder, entity: SimpleXMultiItem, itemViewType: Int, position: Int) {
         when (itemViewType) {
             TYPE_ITEM -> {
-                holder.setTextView(R.id.tv_message, entity.message)
+                holder.setText(R.id.tv_message, entity.message)
                 val imageView = holder.getImageView(R.id.iv_icon)
                 imageView.setImageResource(entity.icon)
             }

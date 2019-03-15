@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.addAll
 import com.xadapter.listener.OnXAdapterListener
 import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.MainBean

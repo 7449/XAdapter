@@ -1,6 +1,7 @@
 package com.xadaptersimple
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.*
 import com.xadapter.adapter.XDataBindingAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.setText
 import com.xadapter.listener.OnXItemClickListener
 import com.xadapter.listener.OnXItemLongClickListener
 import com.xadapter.listener.OnXAdapterListener
@@ -65,11 +67,13 @@ class DataBindingActivity : AppCompatActivity(), OnXItemLongClickListener<MainBe
             itemLayoutId = R.layout.item_databinding
             addAll(mainBeen)
         }
+
+        Log.d("DataBindingActivity",xRecyclerViewAdapter.observableArrayList()::class.java.simpleName)
     }
 
     override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-        holder.setTextView(R.id.tv_name, entity.name)
-        holder.setTextView(R.id.tv_age, entity.age.toString() + "")
+        holder.setText(R.id.tv_name, entity.name)
+        holder.setText(R.id.tv_age, entity.age.toString() + "")
     }
 
     override fun onXRefresh() {

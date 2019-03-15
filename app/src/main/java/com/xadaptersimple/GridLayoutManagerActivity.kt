@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.addFooterView
+import com.xadapter.addHeaderView
 import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.setText
 import com.xadapter.listener.OnXAdapterListener
 import com.xadapter.listener.OnXBindListener
 import com.xadapter.widget.XLoadMoreView
@@ -39,8 +42,8 @@ class GridLayoutManagerActivity : AppCompatActivity() {
             loadingMoreEnabled = true
             onXBindListener = object : OnXBindListener<MainBean> {
                 override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-                    holder.setTextView(R.id.tv_name, entity.name)
-                    holder.setTextView(R.id.tv_age, entity.age.toString())
+                    holder.setText(R.id.tv_name, entity.name)
+                    holder.setText(R.id.tv_age, entity.age.toString())
                 }
             }
             xAdapterListener = object : OnXAdapterListener {

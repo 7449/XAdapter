@@ -5,10 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.xadapter.addAll
 import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.getContext
+import com.xadapter.holder.getImageView
+import com.xadapter.holder.setText
 import com.xadapter.listener.OnXLoadMoreRetryListener
 import com.xadapter.listener.OnXAdapterListener
 import com.xadapter.listener.OnXBindListener
+import com.xadapter.removeAll
 import com.xadaptersimple.net.DataModel
 import com.xadaptersimple.net.NetApi
 import com.xadaptersimple.net.NetWorkBean
@@ -81,11 +86,11 @@ class RefreshLayoutActivity : AppCompatActivity(),
 
     override fun onXBind(holder: XViewHolder, position: Int, entity: DataModel) {
         Glide
-                .with(holder.context)
+                .with(holder.getContext())
                 .load(entity.title_image)
                 .apply(option)
                 .into(holder.getImageView(R.id.list_image))
-        holder.setTextView(R.id.list_tv, entity.title)
+        holder.setText(R.id.list_tv, entity.title)
     }
 
     private fun netWork() {

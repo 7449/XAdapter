@@ -3,6 +3,8 @@ package com.xadaptersimple
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.adapter.goneView
+import com.xadapter.adapter.visibleView
 import com.xadapter.listener.OnXFooterClickListener
 import com.xadapter.listener.OnXLoadMoreRetryListener
 import com.xadapter.widget.XLoadMoreView
@@ -27,7 +29,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
         }
     }
 
-    override fun refresh() = apply {
+    fun refresh() = apply {
         goneView(emptyView)
         visibleView(recyclerView)
         xAdapterListener?.onXRefresh()

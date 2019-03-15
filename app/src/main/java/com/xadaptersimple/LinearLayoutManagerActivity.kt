@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.setText
 import com.xadapter.listener.*
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
@@ -64,8 +65,8 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
     }
 
     override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-        holder.setTextView(R.id.tv_name, entity.name)
-        holder.setTextView(R.id.tv_age, entity.age.toString() + "")
+        holder.setText(R.id.tv_name, entity.name)
+        holder.setText(R.id.tv_age, entity.age.toString() + "")
     }
 
     override fun onXItemClick(view: View, position: Int, entity: MainBean) {
