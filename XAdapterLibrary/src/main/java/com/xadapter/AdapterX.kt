@@ -105,7 +105,7 @@ fun <T> XRecyclerViewAdapter<T>.removeAllNoItemView() {
     notifyDataSetChanged()
 }
 
-fun <T> XRecyclerViewAdapter<T>.getData(position: Int): T = dataContainer[position]
+fun <T> XRecyclerViewAdapter<T>.getItem(position: Int): T = dataContainer[position]
 
 fun <T> XRecyclerViewAdapter<T>.refresh() = apply {
     if (pullRefreshEnabled) {
