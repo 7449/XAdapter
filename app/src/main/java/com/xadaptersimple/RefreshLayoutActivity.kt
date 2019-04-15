@@ -6,13 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.addAll
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.getContext
 import com.xadapter.holder.getImageView
 import com.xadapter.holder.setText
-import com.xadapter.listener.OnXLoadMoreRetryListener
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
 import com.xadapter.removeAll
 import com.xadaptersimple.net.DataModel
 import com.xadaptersimple.net.NetApi
@@ -24,10 +20,7 @@ import kotlinx.android.synthetic.main.activity_swipe.*
 /**
  * @author y
  */
-class RefreshLayoutActivity : AppCompatActivity(),
-        OnXAdapterListener,
-        OnXBindListener<DataModel>,
-        RxNetWorkListener<NetWorkBean>, OnXLoadMoreRetryListener {
+class RefreshLayoutActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
 
     private var page = 0
 
@@ -41,29 +34,29 @@ class RefreshLayoutActivity : AppCompatActivity(),
         mAdapter = SimpleRefreshAdapter(srf_layout)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = mAdapter
-                .setOnLoadMoreRetry(this)
+                .setOnLoadMoreRetry { netWork() }
                 .apply {
-                    onXBindListener = this@RefreshLayoutActivity
+                    onXBindListener = { holder, position, entity ->
+                        Glide
+                                .with(holder.getContext())
+                                .load(entity.title_image)
+                                .apply(option)
+                                .into(holder.getImageView(R.id.list_image))
+                        holder.setText(R.id.list_tv, entity.title)
+                    }
                     recyclerView = this@RefreshLayoutActivity.recyclerView
                     itemLayoutId = R.layout.network_item
                     loadingMoreEnabled = true
-                    xAdapterListener = this@RefreshLayoutActivity
+                    xRefreshListener = {
+                        page = 0
+                        mAdapter.removeAll()
+                        netWork()
+                    }
+                    xLoadMoreListener = {
+                        netWork()
+                    }
                 }
                 .refresh()
-    }
-
-    override fun onXRefresh() {
-        page = 0
-        mAdapter.removeAll()
-        netWork()
-    }
-
-    override fun onXLoadMore() {
-        netWork()
-    }
-
-    override fun onXLoadMoreRetry() {
-        onXLoadMore()
     }
 
     override fun onNetWorkStart() {
@@ -83,15 +76,6 @@ class RefreshLayoutActivity : AppCompatActivity(),
     }
 
     private var option = RequestOptions().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).centerCrop()
-
-    override fun onXBind(holder: XViewHolder, position: Int, entity: DataModel) {
-        Glide
-                .with(holder.getContext())
-                .load(entity.title_image)
-                .apply(option)
-                .into(holder.getImageView(R.id.list_image))
-        holder.setText(R.id.list_tv, entity.title)
-    }
 
     private fun netWork() {
         RxNetWork.instance

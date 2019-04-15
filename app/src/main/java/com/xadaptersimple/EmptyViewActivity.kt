@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addAll
-import com.xadapter.listener.OnXAdapterListener
 import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.recyclerview_layout.*
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
  * by y on 2016/11/17
  */
 
-class EmptyViewActivity : AppCompatActivity(), OnXAdapterListener {
+class EmptyViewActivity : AppCompatActivity() {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
 
@@ -29,20 +28,17 @@ class EmptyViewActivity : AppCompatActivity(), OnXAdapterListener {
                     recyclerView = this@EmptyViewActivity.recyclerView
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
-                    xAdapterListener = this@EmptyViewActivity
+                    xRefreshListener = {
+                        this@EmptyViewActivity.recyclerView.postDelayed({
+                            xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
+                            xRecyclerViewAdapter.addAll(ArrayList())
+                        }, 2000)
+                    }
+                    xLoadMoreListener = {
+
+                    }
                 }
 
         xRecyclerViewAdapter.addAll(ArrayList())
-    }
-
-    override fun onXRefresh() {
-        recyclerView.postDelayed({
-            xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
-            xRecyclerViewAdapter.addAll(ArrayList())
-        }, 2000)
-    }
-
-    override fun onXLoadMore() {
-
     }
 }

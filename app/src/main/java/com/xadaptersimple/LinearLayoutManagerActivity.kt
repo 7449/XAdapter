@@ -3,14 +3,11 @@ package com.xadaptersimple
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.setText
-import com.xadapter.listener.*
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.DataUtils
@@ -24,9 +21,7 @@ import java.util.*
  * by y on 2016/11/17
  */
 
-class LinearLayoutManagerActivity : AppCompatActivity(),
-        OnXBindListener<MainBean>, OnXItemLongClickListener<MainBean>,
-        OnXItemClickListener<MainBean>, OnXFooterClickListener, OnXAdapterListener {
+class LinearLayoutManagerActivity : AppCompatActivity() {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
 
@@ -55,45 +50,34 @@ class LinearLayoutManagerActivity : AppCompatActivity(),
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
             }
-            onXBindListener = this@LinearLayoutManagerActivity
-            onXLongClickListener = this@LinearLayoutManagerActivity
-            onXItemClickListener = this@LinearLayoutManagerActivity
-            xAdapterListener = this@LinearLayoutManagerActivity
-            onXFooterListener = this@LinearLayoutManagerActivity
+            onXBindListener = { holder, position, entity ->
+                holder.setText(R.id.tv_name, entity.name)
+                holder.setText(R.id.tv_age, entity.age.toString() + "")
+            }
+            onXLongClickListener = { _, _, _ ->
+                Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
+                true
+            }
+            onXItemClickListener = { _, position, entity ->
+                Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
+            }
+            onXFooterListener = {
+                Toast.makeText(baseContext, "loadMore error onClick", Toast.LENGTH_SHORT).show()
+            }
+            xRefreshListener = {
+                this@LinearLayoutManagerActivity.recyclerView.postDelayed({
+                    xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
+                    Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
+                }, 1500)
+            }
+            xLoadMoreListener = {
+                this@LinearLayoutManagerActivity.recyclerView.postDelayed({
+                    xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
+                    Log.d(javaClass.simpleName, xRecyclerViewAdapter.scrollLoadMoreItemCount.toString())
+                    Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()
+                }, 1500)
+            }
             itemLayoutId = R.layout.item
         }
-    }
-
-    override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-        holder.setText(R.id.tv_name, entity.name)
-        holder.setText(R.id.tv_age, entity.age.toString() + "")
-    }
-
-    override fun onXItemClick(view: View, position: Int, entity: MainBean) {
-        Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onXItemLongClick(view: View, position: Int, entity: MainBean): Boolean {
-        Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
-        return true
-    }
-
-    override fun onXFooterClick(view: View) {
-        Toast.makeText(baseContext, "loadMore error onClick", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onXRefresh() {
-        recyclerView.postDelayed({
-            xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
-            Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
-        }, 1500)
-    }
-
-    override fun onXLoadMore() {
-        recyclerView.postDelayed({
-            xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
-            Log.d(javaClass.simpleName, xRecyclerViewAdapter.scrollLoadMoreItemCount.toString())
-            Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()
-        }, 1500)
     }
 }

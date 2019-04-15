@@ -1,13 +1,13 @@
 package com.xadapter.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.getItem
 import com.xadapter.holder.MultiViewHolderClick
 import com.xadapter.holder.MultiViewHolderLongClick
 import com.xadapter.holder.SuperViewHolder
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.OnXMultiAdapterListener
 import com.xadapter.listener.XMultiCallBack
 
 /**
@@ -16,11 +16,17 @@ import com.xadapter.listener.XMultiCallBack
 
 class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : XBaseAdapter<T>() {
 
-    lateinit var onXMultiAdapterListener: OnXMultiAdapterListener<T>
+    lateinit var itemLayoutId: ((itemViewType: Int) -> Int)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder = SuperViewHolder(parent, onXMultiAdapterListener.multiLayoutId(viewType)).apply { MultiViewHolderClick(this@XMultiAdapter).apply { MultiViewHolderLongClick(this@XMultiAdapter) } }
+    lateinit var xMultiBind: ((holder: XViewHolder, entity: T, itemViewType: Int, position: Int) -> Unit)
 
-    override fun onBindViewHolder(holder: XViewHolder, position: Int) = onXMultiAdapterListener.onXMultiBind(holder, getItem(position), getItemViewType(position), position)
+    var gridLayoutManagerSpanSize: ((Int, GridLayoutManager, Int) -> Int)? = null
+
+    var staggeredGridLayoutManagerFullSpan: ((itemViewType: Int) -> Boolean)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder = SuperViewHolder(parent, itemLayoutId.invoke(viewType)).apply { MultiViewHolderClick(this@XMultiAdapter).apply { MultiViewHolderLongClick(this@XMultiAdapter) } }
+
+    override fun onBindViewHolder(holder: XViewHolder, position: Int) = xMultiBind(holder, getItem(position), getItemViewType(position), position)
 
     override fun getItemViewType(position: Int): Int = getItem(position).itemType
 

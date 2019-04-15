@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
  * by y on 2016/11/15
  */
 
-class XScrollListener(private val scrollBottom: XScrollBottom) : RecyclerView.OnScrollListener() {
+class XScrollListener(private val scrollBottom: (() -> Unit)) : RecyclerView.OnScrollListener() {
 
     private var layoutManagerType: LayoutManagerType? = null
     private lateinit var lastPositions: IntArray
@@ -29,9 +29,9 @@ class XScrollListener(private val scrollBottom: XScrollBottom) : RecyclerView.On
             }
         }
         when (layoutManagerType) {
-            XScrollListener.LayoutManagerType.LINEAR -> lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-            XScrollListener.LayoutManagerType.GRID -> lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
-            XScrollListener.LayoutManagerType.STAGGERED_GRID -> {
+            LayoutManagerType.LINEAR -> lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            LayoutManagerType.GRID -> lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+            LayoutManagerType.STAGGERED_GRID -> {
                 val staggeredGridLayoutManager = layoutManager as StaggeredGridLayoutManager
                 staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions)
                 lastVisibleItemPosition = findMax(lastPositions)
@@ -45,7 +45,7 @@ class XScrollListener(private val scrollBottom: XScrollBottom) : RecyclerView.On
         val visibleItemCount = layoutManager?.childCount ?: 0
         val totalItemCount = layoutManager?.itemCount ?: 0
         if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition >= totalItemCount - scrollItemCount) {
-            scrollBottom.onScrollBottom()
+            scrollBottom.invoke()
         }
     }
 
@@ -63,9 +63,5 @@ class XScrollListener(private val scrollBottom: XScrollBottom) : RecyclerView.On
         LINEAR,
         GRID,
         STAGGERED_GRID
-    }
-
-    interface XScrollBottom {
-        fun onScrollBottom()
     }
 }

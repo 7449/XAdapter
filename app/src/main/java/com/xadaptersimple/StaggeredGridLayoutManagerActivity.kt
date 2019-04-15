@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.setText
-import com.xadapter.listener.OnXBindListener
 import com.xadaptersimple.data.DataUtils
 import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.recyclerview_layout.*
@@ -33,11 +31,9 @@ class StaggeredGridLayoutManagerActivity : AppCompatActivity() {
                 .apply {
                     dataContainer = mainBeen
                     itemLayoutId = R.layout.item
-                    onXBindListener = object : OnXBindListener<MainBean> {
-                        override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-                            holder.setText(R.id.tv_name, entity.name)
-                            holder.setText(R.id.tv_age, entity.age.toString())
-                        }
+                    onXBindListener = { holder, position, entity ->
+                        holder.setText(R.id.tv_name, entity.name)
+                        holder.setText(R.id.tv_age, entity.age.toString())
                     }
                 }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))

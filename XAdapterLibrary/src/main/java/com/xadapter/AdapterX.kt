@@ -113,7 +113,7 @@ fun <T> XRecyclerViewAdapter<T>.refresh() = apply {
         visibleView(recyclerView)
         refreshView?.state = XRefreshView.REFRESH
         refreshView?.onMove(refreshView?.measuredHeight?.toFloat() ?: 0F)
-        xAdapterListener?.onXRefresh()
+        xRefreshListener?.invoke()
         loadMoreView?.state = XLoadMoreView.NORMAL
     }
 }

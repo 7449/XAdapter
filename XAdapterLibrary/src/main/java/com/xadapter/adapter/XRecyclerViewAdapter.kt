@@ -10,10 +10,6 @@ import com.xadapter.holder.SuperViewHolder
 import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.XViewHolderClick
 import com.xadapter.holder.XViewHolderLongClick
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
-import com.xadapter.listener.OnXEmptyListener
-import com.xadapter.listener.OnXFooterClickListener
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.simple.SimpleLoadMore
@@ -24,7 +20,7 @@ import com.xadapter.widget.XRefreshView
 /**
  * by y on 2016/11/15
  */
-open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollBottom, XTouchListener.RefreshInterface {
+open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
 
     companion object {
         const val TYPE_ITEM = -1
@@ -44,9 +40,11 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
 
     var touchListener: View.OnTouchListener? = null
 
-    var xAdapterListener: OnXAdapterListener? = null
+    var xRefreshListener: (() -> Unit)? = null
 
-    var onXFooterListener: OnXFooterClickListener? = null
+    var xLoadMoreListener: (() -> Unit)? = null
+
+    var onXFooterListener: ((view: View) -> Unit)? = null
 
     var scrollListener: RecyclerView.OnScrollListener? = null
 
@@ -56,9 +54,9 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
 
     var loadMoreView: XLoadMoreView? = null
 
-    var onXEmptyListener: OnXEmptyListener? = null
+    var onXEmptyListener: ((view: View) -> Unit)? = null
 
-    lateinit var onXBindListener: OnXBindListener<T>
+    lateinit var onXBindListener: ((holder: XViewHolder, position: Int, entity: T) -> Unit)
 
     var scrollLoadMoreItemCount = 1
         set(value) {
@@ -71,7 +69,7 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
     var emptyView: View? = null
         set(value) {
             field = value
-            field?.setOnClickListener { view -> onXEmptyListener?.onXEmptyClick(view) }
+            field?.setOnClickListener { view -> onXEmptyListener?.invoke(view) }
         }
 
     var pullRefreshEnabled = false
@@ -122,17 +120,17 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
         }
 
         return when (viewType) {
-            XRecyclerViewAdapter.TYPE_REFRESH_HEADER -> {
+            TYPE_REFRESH_HEADER -> {
                 refreshView?.let {
-                    touchListener = XTouchListener(it, loadMoreView, this)
+                    touchListener = XTouchListener(it, loadMoreView) { onRefresh() }
                     recyclerView?.setOnTouchListener(touchListener)
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect refreshView is null")
             }
-            XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
+            TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let {
-                    it.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
-                    scrollListener = XScrollListener(this).apply {
+                    it.setOnClickListener { v -> onXFooterListener?.invoke(v) }
+                    scrollListener = XScrollListener() { onScrollBottom() }.apply {
                         scrollItemCount = scrollLoadMoreItemCount
                         recyclerView?.addOnScrollListener(this)
                     }
@@ -144,12 +142,12 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
-        if (getItemViewType(position) != XRecyclerViewAdapter.TYPE_ITEM) {
+        if (getItemViewType(position) != TYPE_ITEM) {
             return
         }
         val pos = currentItemPosition(position)
         val t = dataContainer[pos] ?: return
-        onXBindListener.onXBind(holder, pos, t)
+        onXBindListener(holder, pos, t)
     }
 
     override fun getItemViewType(position: Int): Int = internalGetItemViewType(position)
@@ -168,7 +166,7 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
 
     override fun onViewAttachedToWindow(holder: XViewHolder) = internalOnViewAttachedToWindow(holder)
 
-    override fun onScrollBottom() {
+    open fun onScrollBottom() {
         if (recyclerView != null && refreshView?.state == XRefreshView.REFRESH) {
             return
         }
@@ -176,11 +174,11 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>(), XScrollListener.XScrollB
             return
         }
         loadMoreView?.state = XLoadMoreView.LOAD
-        xAdapterListener?.onXLoadMore()
+        xLoadMoreListener?.invoke()
     }
 
-    override fun onRefresh() {
+    open fun onRefresh() {
         loadMoreView?.state = XLoadMoreView.NORMAL
-        xAdapterListener?.onXRefresh()
+        xRefreshListener?.invoke()
     }
 }

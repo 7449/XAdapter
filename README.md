@@ -15,45 +15,16 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.6'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.7'
     implementation 'com.google.android.material:material:1.0.0'
-
-## example
-
-    mRecyclerView.adapter = xRecyclerViewAdapter.apply {
-        dataContainer = mainBeen
-        loadMoreView = LoadMoreView(applicationContext)
-        refreshView = RefreshView(applicationContext)
-        recyclerView = mRecyclerView
-        pullRefreshEnabled = true
-        loadingMoreEnabled = true
-        scrollLoadMoreItemCount = 10
-        headerViewContainer.apply {
-            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
-            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))
-            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_3, findViewById(android.R.id.content), false))
-        }
-        footerViewContainer.apply {
-            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
-            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
-            add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
-        }
-        onXBindListener = this@LinearLayoutManagerActivity
-        onLongClickListener = this@LinearLayoutManagerActivity
-        onItemClickListener = this@LinearLayoutManagerActivity
-        xAdapterListener = this@LinearLayoutManagerActivity
-        onFooterListener = this@LinearLayoutManagerActivity
-        itemLayoutId = R.layout.item
-    }
 
 onXBind
 
 Achieve data display
 
-    override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-        holder.setTextView(R.id.tv_name, entity.name)
-        holder.setTextView(R.id.tv_age, entity.age.toString() + "")
-    }
+        adapter.onXBindListener = { holder, position, entity ->
+            
+        }
 
 ## emptyView
 
@@ -69,14 +40,12 @@ Achieve data display
 
 The default is not open, if necessary, please manually open, and addRecyclerView
 
-    mRecyclerView.adapter = xRecyclerViewAdapter.apply {
-        xAdapterListener = object : OnXAdapterListener {
-            override fun onXRefresh() {
-            }
-            override fun onXLoadMore() {
-            }
+        adapter.xRefreshListener = {
+
         }
-    }
+        adapter.xLoadMoreListener = {
+            
+        }
 
 When the drop-down refresh is complete
 

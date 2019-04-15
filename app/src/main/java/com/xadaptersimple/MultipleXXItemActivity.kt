@@ -1,19 +1,14 @@
 package com.xadaptersimple
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.getImageView
 import com.xadapter.holder.setText
-import com.xadapter.listener.OnXItemClickListener
-import com.xadapter.listener.OnXItemLongClickListener
-import com.xadapter.listener.OnXMultiAdapterListener
+import com.xadapter.multiAdapter
 import com.xadapter.simple.SimpleXMultiItem
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 
@@ -21,9 +16,7 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
  * by y on 2017/1/12.
  */
 
-class MultipleXXItemActivity : AppCompatActivity(), OnXItemClickListener<SimpleXMultiItem>,
-        OnXItemLongClickListener<SimpleXMultiItem>,
-        OnXMultiAdapterListener<SimpleXMultiItem> {
+class MultipleXXItemActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,46 +25,37 @@ class MultipleXXItemActivity : AppCompatActivity(), OnXItemClickListener<SimpleX
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         recyclerView.adapter = XMultiAdapter(initSettingData())
                 .apply {
-                    onXMultiAdapterListener = this@MultipleXXItemActivity
-                    onXItemClickListener = this@MultipleXXItemActivity
-                    onXLongClickListener = this@MultipleXXItemActivity
+                    onXLongClickListener = { view, _, entity ->
+                        Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    onXItemClickListener = { view, _, entity ->
+                        Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
-    }
-
-    override fun onXItemClick(view: View, position: Int, entity: SimpleXMultiItem) {
-        Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onXItemLongClick(view: View, position: Int, entity: SimpleXMultiItem): Boolean {
-        Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
-        return true
-    }
-
-    override fun multiLayoutId(viewItemType: Int): Int {
-        return when (viewItemType) {
-            TYPE_LINE -> R.layout.item_line
-            else -> R.layout.item_multi
+        val multiAdapter = recyclerView.multiAdapter<SimpleXMultiItem>()
+        multiAdapter.itemLayoutId = {
+            when (it) {
+                TYPE_LINE -> R.layout.item_line
+                else -> R.layout.item_multi
+            }
         }
-    }
-
-    override fun getGridLayoutManagerSpanSize(itemViewType: Int, gridManager: GridLayoutManager, position: Int): Int {
-        return if (itemViewType != TYPE_ITEM) {
-            gridManager.spanCount
-        } else {
-            1
+        multiAdapter.gridLayoutManagerSpanSize = { itemViewType, gridManager, position ->
+            if (itemViewType != TYPE_ITEM) {
+                gridManager.spanCount
+            } else {
+                1
+            }
         }
-    }
+        multiAdapter.staggeredGridLayoutManagerFullSpan = { itemViewType -> itemViewType != TYPE_ITEM }
 
-    override fun getStaggeredGridLayoutManagerFullSpan(itemViewType: Int): Boolean {
-        return itemViewType != TYPE_ITEM
-    }
-
-    override fun onXMultiBind(holder: XViewHolder, entity: SimpleXMultiItem, itemViewType: Int, position: Int) {
-        when (itemViewType) {
-            TYPE_ITEM -> {
-                holder.setText(R.id.tv_message, entity.message)
-                val imageView = holder.getImageView(R.id.iv_icon)
-                imageView.setImageResource(entity.icon)
+        multiAdapter.xMultiBind = { holder, entity, itemViewType, position ->
+            when (itemViewType) {
+                TYPE_ITEM -> {
+                    holder.setText(R.id.tv_message, entity.message)
+                    val imageView = holder.getImageView(R.id.iv_icon)
+                    imageView.setImageResource(entity.icon)
+                }
             }
         }
     }

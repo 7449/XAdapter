@@ -1,12 +1,9 @@
 package com.xadaptersimple
 
-import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.adapter.goneView
 import com.xadapter.adapter.visibleView
-import com.xadapter.listener.OnXFooterClickListener
-import com.xadapter.listener.OnXLoadMoreRetryListener
 import com.xadapter.widget.XLoadMoreView
 
 /**
@@ -24,7 +21,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
             if (loadMoreState != XLoadMoreView.LOAD) {
                 loadMoreView?.state = XLoadMoreView.NORMAL
-                xAdapterListener?.onXRefresh()
+                xRefreshListener?.invoke()
             }
         }
     }
@@ -32,7 +29,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
     fun refresh() = apply {
         goneView(emptyView)
         visibleView(recyclerView)
-        xAdapterListener?.onXRefresh()
+        xRefreshListener?.invoke()
         swipeRefreshLayout.isRefreshing = true
         loadMoreView?.state = XLoadMoreView.NORMAL
     }
@@ -48,7 +45,7 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
             return
         }
         loadMoreView?.state = XLoadMoreView.LOAD
-        xAdapterListener?.onXLoadMore()
+        xLoadMoreListener?.invoke()
     }
 
     fun onComplete(type: Int) {
@@ -72,24 +69,11 @@ class SimpleRefreshAdapter<T>(private val swipeRefreshLayout: SwipeRefreshLayout
         loadMoreState = XLoadMoreView.NOMORE
     }
 
-    fun setOnLoadMoreRetry(XLoadMoreRetryListener: OnXLoadMoreRetryListener) = apply {
-        onXFooterListener = object : OnXFooterClickListener {
-            override fun onXFooterClick(view: View) {
-                if (loadMoreState == XLoadMoreView.ERROR) {
-                    loadMoreState = XLoadMoreView.LOAD
-                    XLoadMoreRetryListener.onXLoadMoreRetry()
-                }
-            }
-        }
-    }
-
     fun setOnLoadMoreRetry(loadMoreRetryListener: () -> Unit) = apply {
-        onXFooterListener = object : OnXFooterClickListener {
-            override fun onXFooterClick(view: View) {
-                if (loadMoreState == XLoadMoreView.ERROR) {
-                    loadMoreState = XLoadMoreView.LOAD
-                    loadMoreRetryListener()
-                }
+        onXFooterListener = {
+            if (loadMoreState == XLoadMoreView.ERROR) {
+                loadMoreState = XLoadMoreView.LOAD
+                loadMoreRetryListener()
             }
         }
     }

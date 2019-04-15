@@ -11,7 +11,7 @@ import com.xadapter.listener.XMultiCallBack
  *
  * 简单的MultiItem，使用者可继承[XMultiCallBack] 自己定制
  */
-class SimpleXMultiItem(
+data class SimpleXMultiItem(
         var message: String = "",
         var messageSuffix: String = "",
         var icon: Int = 0,

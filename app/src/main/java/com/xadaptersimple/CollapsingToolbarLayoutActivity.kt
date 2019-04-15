@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.setText
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
 import com.xadaptersimple.data.DataUtils
@@ -40,20 +37,15 @@ class CollapsingToolbarLayoutActivity : AppCompatActivity() {
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
-                    onXBindListener = object : OnXBindListener<MainBean> {
-                        override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-                            holder.setText(R.id.tv_name, entity.name)
-                            holder.setText(R.id.tv_age, entity.age.toString())
-                        }
+                    onXBindListener = { holder, position, entity ->
+                        holder.setText(R.id.tv_name, entity.name)
+                        holder.setText(R.id.tv_age, entity.age.toString())
                     }
-                    xAdapterListener = object : OnXAdapterListener {
-                        override fun onXRefresh() {
-                            recyclerview.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
-                        }
-
-                        override fun onXLoadMore() {
-                            recyclerview.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
-                        }
+                    xRefreshListener = {
+                        recyclerview.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
+                    }
+                    xLoadMoreListener = {
+                        recyclerview.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
                     }
                 }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))

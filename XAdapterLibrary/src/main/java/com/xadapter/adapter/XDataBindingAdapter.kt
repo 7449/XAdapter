@@ -36,32 +36,26 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             return SuperViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
         val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false))
-        viewHolder.itemView.setOnClickListener { view ->
-            onXItemClickListener?.onXItemClick(view,
-                    currentItemPosition(viewHolder.layoutPosition),
-                    dataContainer[currentItemPosition(viewHolder.layoutPosition)])
-        }
+        viewHolder.itemView.setOnClickListener { view -> onXItemClickListener?.invoke(view, currentItemPosition(viewHolder.layoutPosition), dataContainer[currentItemPosition(viewHolder.layoutPosition)]) }
         viewHolder.itemView.setOnLongClickListener { view ->
-            onXLongClickListener?.onXItemLongClick(view,
-                    currentItemPosition(viewHolder.layoutPosition),
-                    dataContainer[currentItemPosition(viewHolder.layoutPosition)])
-            true
+            val invoke = onXLongClickListener?.invoke(view, currentItemPosition(viewHolder.layoutPosition), dataContainer[currentItemPosition(viewHolder.layoutPosition)]) ?: false
+            invoke
         }
         if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && recyclerView == null) {
             throw NullPointerException("detect recyclerView is null")
         }
         return when (viewType) {
-            XRecyclerViewAdapter.TYPE_REFRESH_HEADER -> {
+            TYPE_REFRESH_HEADER -> {
                 refreshView?.let {
-                    touchListener = XTouchListener(it, loadMoreView, this)
+                    touchListener = XTouchListener(it, loadMoreView) { onRefresh() }
                     recyclerView?.setOnTouchListener(touchListener)
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect refreshView is null")
             }
-            XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER -> {
+            TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let {
-                    it.setOnClickListener { v -> onXFooterListener?.onXFooterClick(v) }
-                    scrollListener = XScrollListener(this).apply {
+                    it.setOnClickListener { v -> onXFooterListener?.invoke(v) }
+                    scrollListener = XScrollListener { onScrollBottom() }.apply {
                         scrollItemCount = scrollLoadMoreItemCount
                         recyclerView?.addOnScrollListener(this)
                     }
@@ -73,7 +67,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
-        if (getItemViewType(position) != XRecyclerViewAdapter.TYPE_ITEM) {
+        if (getItemViewType(position) != TYPE_ITEM) {
             return
         }
         val pos = currentItemPosition(position)

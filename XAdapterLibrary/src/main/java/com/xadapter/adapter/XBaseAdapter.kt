@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.xadapter.holder.XViewHolder
-import com.xadapter.listener.OnXItemClickListener
-import com.xadapter.listener.OnXItemLongClickListener
 import com.xadapter.listener.XMultiCallBack
 import com.xadapter.manager.AppBarStateChangeListener
 import com.xadapter.manager.XTouchListener
@@ -22,9 +20,9 @@ import com.xadapter.manager.XTouchListener
  */
 abstract class XBaseAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
-    var onXItemClickListener: OnXItemClickListener<T>? = null
+    var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
 
-    var onXLongClickListener: OnXItemLongClickListener<T>? = null
+    var onXLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
 
 }
 
@@ -36,7 +34,8 @@ internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnAttachedToRecyclerV
     if (manager is GridLayoutManager) {
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return onXMultiAdapterListener.getGridLayoutManagerSpanSize(getItemViewType(position), manager, position)
+                return gridLayoutManagerSpanSize?.invoke(getItemViewType(position), manager, position)
+                        ?: 0
             }
         }
     }
@@ -48,7 +47,8 @@ internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnAttachedToRecyclerV
 internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
     val layoutParams = viewHolder.itemView.layoutParams
     if (layoutParams is StaggeredGridLayoutManager.LayoutParams) {
-        layoutParams.isFullSpan = onXMultiAdapterListener.getStaggeredGridLayoutManagerFullSpan(getItemViewType(viewHolder.layoutPosition))
+        layoutParams.isFullSpan = staggeredGridLayoutManagerFullSpan?.invoke(getItemViewType(viewHolder.layoutPosition))
+                ?: false
     }
 }
 
@@ -96,7 +96,7 @@ internal fun <T> XRecyclerViewAdapter<T>.internalOnViewAttachedToWindow(viewHold
         if (appBarLayout != null && touchListener is XTouchListener) {
             appBarLayout.addOnOffsetChangedListener(
                     object : AppBarStateChangeListener() {
-                        public override fun onStateChanged(appBarLayout: AppBarLayout, state: AppBarStateChangeListener.State) {
+                        public override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
                             (touchListener as XTouchListener).state = state
                         }
                     })

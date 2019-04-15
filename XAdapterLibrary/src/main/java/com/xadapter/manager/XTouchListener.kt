@@ -13,7 +13,7 @@ import com.xadapter.widget.XRefreshView
 class XTouchListener(
         private val refreshView: XRefreshView,
         private val loadMoreView: XLoadMoreView?,
-        private val refreshInterface: RefreshInterface) : View.OnTouchListener {
+        private val refreshInterface: (() -> Unit)) : View.OnTouchListener {
 
     private var rawY = -1f
     var state: AppBarStateChangeListener.State = AppBarStateChangeListener.State.EXPANDED
@@ -45,16 +45,12 @@ class XTouchListener(
                 rawY = -1f
                 if (isTop && state === AppBarStateChangeListener.State.EXPANDED) {
                     if (refreshView.releaseAction()) {
-                        refreshInterface.onRefresh()
+                        refreshInterface.invoke()
                     }
                 }
             }
         }
         return false
-    }
-
-    interface RefreshInterface {
-        fun onRefresh()
     }
 
     companion object {

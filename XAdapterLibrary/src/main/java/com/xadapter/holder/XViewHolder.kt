@@ -38,7 +38,7 @@ internal fun <T : View> XViewHolder.getView(id: Int): T {
 internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderClick(xMultiAdapter: XMultiAdapter<T>): XViewHolder {
     itemView.setOnClickListener {
         if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
-        xMultiAdapter.onXItemClickListener?.onXItemClick(it, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+        xMultiAdapter.onXItemClickListener?.invoke(it, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
     }
     return this
 }
@@ -46,14 +46,14 @@ internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderClick(xMultiAdapter
 internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderLongClick(xMultiAdapter: XMultiAdapter<T>) {
     itemView.setOnLongClickListener {
         if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
-        return@setOnLongClickListener xMultiAdapter.onXLongClickListener?.onXItemLongClick(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+        return@setOnLongClickListener xMultiAdapter.onXLongClickListener?.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
                 ?: false
     }
 }
 
 internal fun <T> XViewHolder.XViewHolderClick(adapter: XRecyclerViewAdapter<T>): XViewHolder {
     itemView.setOnClickListener { view ->
-        adapter.onXItemClickListener?.onXItemClick(view,
+        adapter.onXItemClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
                 adapter.dataContainer[adapter.currentItemPosition(layoutPosition)])
     }
@@ -62,9 +62,9 @@ internal fun <T> XViewHolder.XViewHolderClick(adapter: XRecyclerViewAdapter<T>):
 
 internal fun <T> XViewHolder.XViewHolderLongClick(adapter: XRecyclerViewAdapter<T>) {
     itemView.setOnLongClickListener { view ->
-        adapter.onXLongClickListener?.onXItemLongClick(view,
+        val invoke = adapter.onXLongClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
-                adapter.dataContainer[adapter.currentItemPosition(layoutPosition)])
-        true
+                adapter.dataContainer[adapter.currentItemPosition(layoutPosition)]) ?: false
+        invoke
     }
 }

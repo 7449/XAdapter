@@ -1,20 +1,13 @@
 package com.xadaptersimple
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addAll
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.setText
-import com.xadapter.listener.OnXItemClickListener
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
 import com.xadapter.refresh
-import com.xadapter.remove
 import com.xadapter.removeAll
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
@@ -27,7 +20,7 @@ import java.util.*
  * by y on 2017/6/20.
  */
 
-class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterListener {
+class TestActivity : AppCompatActivity() {
 
     private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
 
@@ -45,43 +38,31 @@ class TestActivity : AppCompatActivity(), OnXBindListener<MainBean>, OnXAdapterL
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
-                    onXBindListener = this@TestActivity
-                    xAdapterListener = this@TestActivity
-                    onXItemClickListener = object : OnXItemClickListener<MainBean> {
-                        override fun onXItemClick(view: View, position: Int, entity: MainBean) {
-                            Log.i("onItemClick", position.toString())
-                            xRecyclerViewAdapter.remove(position)
-                        }
-
+                    onXBindListener = { holder, position, entity ->
+                        holder.setText(R.id.tv_name, entity.name)
+                        holder.setText(R.id.tv_age, entity.age.toString() + "")
+                    }
+                    xRefreshListener = {
+                        xRecyclerViewAdapter.removeAll()
+                        this@TestActivity.recyclerView.postDelayed({
+                            xRecyclerViewAdapter.addAll(DataUtils.getTestData(ArrayList()))
+                            xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
+                            if (xRecyclerViewAdapter.dataContainer.size < 7) {
+                                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
+                            }
+                        }, 1500)
+                    }
+                    xLoadMoreListener = {
+                        this@TestActivity.recyclerView.postDelayed({
+                            if (xRecyclerViewAdapter.dataContainer.size < 7) {
+                                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
+                            } else {
+                                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
+                            }
+                        }, 1500)
                     }
                 }
                 .refresh()
 
-    }
-
-    override fun onXBind(holder: XViewHolder, position: Int, entity: MainBean) {
-        holder.setText(R.id.tv_name, entity.name)
-        holder.setText(R.id.tv_age, entity.age.toString() + "")
-    }
-
-    override fun onXRefresh() {
-        xRecyclerViewAdapter.removeAll()
-        recyclerView.postDelayed({
-            xRecyclerViewAdapter.addAll(DataUtils.getTestData(ArrayList()))
-            xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
-            if (xRecyclerViewAdapter.dataContainer.size < 7) {
-                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
-            }
-        }, 1500)
-    }
-
-    override fun onXLoadMore() {
-        recyclerView.postDelayed({
-            if (xRecyclerViewAdapter.dataContainer.size < 7) {
-                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
-            } else {
-                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
-            }
-        }, 1500)
     }
 }

@@ -7,12 +7,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addAll
-import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.getContext
 import com.xadapter.holder.getImageView
 import com.xadapter.holder.setText
-import com.xadapter.listener.OnXAdapterListener
-import com.xadapter.listener.OnXBindListener
 import com.xadapter.refresh
 import com.xadapter.removeAll
 import com.xadapter.widget.XLoadMoreView
@@ -26,7 +23,7 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
 /**
  * by y on 2016/11/17
  */
-class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener<DataModel>, RxNetWorkListener<NetWorkBean> {
+class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
 
     private lateinit var mAdapter: XRecyclerViewAdapter<DataModel>
     private var page = 0
@@ -39,29 +36,33 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
         mAdapter = XRecyclerViewAdapter()
         recyclerView.adapter = mAdapter
                 .apply {
-                    onXBindListener = this@NetWorkActivity
+                    onXBindListener = { holder, position, entity ->
+                        Glide
+                                .with(holder.getContext())
+                                .load(entity.title_image)
+                                .apply(option)
+                                .into(holder.getImageView(R.id.list_image))
+                        holder.setText(R.id.list_tv, entity.title)
+                    }
                     recyclerView = this@NetWorkActivity.recyclerView
                     itemLayoutId = R.layout.network_item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
-                    xAdapterListener = this@NetWorkActivity
+                    xRefreshListener = {
+                        page = 0
+                        mAdapter.removeAll()
+                        netWork()
+                    }
+                    xLoadMoreListener = {
+                        if (page < 1) {
+                            netWork()
+                            ++page
+                        } else {
+                            mAdapter.loadMoreState = XLoadMoreView.NOMORE
+                        }
+                    }
                 }
                 .refresh()
-    }
-
-    override fun onXRefresh() {
-        page = 0
-        mAdapter.removeAll()
-        netWork()
-    }
-
-    override fun onXLoadMore() {
-        if (page < 1) {
-            netWork()
-            ++page
-        } else {
-            mAdapter.loadMoreState = XLoadMoreView.NOMORE
-        }
     }
 
     private fun netWork() {
@@ -73,14 +74,6 @@ class NetWorkActivity : AppCompatActivity(), OnXAdapterListener, OnXBindListener
     }
 
     private var option = RequestOptions().error(R.mipmap.ic_launcher).placeholder(R.mipmap.ic_launcher).centerCrop()
-    override fun onXBind(holder: XViewHolder, position: Int, entity: DataModel) {
-        Glide
-                .with(holder.getContext())
-                .load(entity.title_image)
-                .apply(option)
-                .into(holder.getImageView(R.id.list_image))
-        holder.setText(R.id.list_tv, entity.title)
-    }
 
     override fun onNetWorkStart() {
         if (page != 0) {
