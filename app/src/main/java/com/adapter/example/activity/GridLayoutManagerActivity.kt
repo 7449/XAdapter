@@ -1,18 +1,19 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import com.adapter.example.R
+import com.adapter.example.data.DataUtils
+import com.adapter.example.data.ExampleBean
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
 import com.xadapter.holder.setText
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
-import com.xadaptersimple.data.DataUtils
-import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
@@ -21,12 +22,12 @@ import java.util.*
  */
 
 class GridLayoutManagerActivity : AppCompatActivity() {
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
+    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        val mainBean = ArrayList<MainBean>()
+        val mainBean = ArrayList<ExampleBean>()
         DataUtils.getData(mainBean)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
         recyclerView.layoutManager = GridLayoutManager(this, 2)

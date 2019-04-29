@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.xadaptersimple">
+    package="com.adapter.example">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,16 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GridLayoutManagerActivity" />
-        <activity android:name=".LinearLayoutManagerActivity" />
-        <activity android:name=".StaggeredGridLayoutManagerActivity" />
+        <activity android:name=".activity.GridLayoutManagerActivity" />
+        <activity android:name=".activity.LinearLayoutManagerActivity" />
+        <activity android:name=".activity.StaggeredGridLayoutManagerActivity" />
         <activity android:name=".net.NetWorkActivity" />
-        <activity android:name=".CollapsingToolbarLayoutActivity" />
-        <activity android:name=".EmptyViewActivity" />
-        <activity android:name=".MultipleXXItemActivity" />
-        <activity android:name=".TestActivity" />
-        <activity android:name=".RefreshLayoutActivity" />
-        <activity android:name=".DataBindingActivity" />
+        <activity android:name=".activity.CollapsingToolbarLayoutActivity" />
+        <activity android:name=".activity.EmptyViewActivity" />
+        <activity android:name=".activity.MultipleXXItemActivity" />
+        <activity android:name=".activity.RefreshLayoutActivity" />
+        <activity android:name=".activity.DataBindingActivity" />
     </application>
 
 </manifest>

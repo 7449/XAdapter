@@ -1,23 +1,24 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
+import com.adapter.example.data.DataUtils
+import com.adapter.example.data.ExampleBean
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
 import com.xadapter.holder.setText
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
-import com.xadaptersimple.data.DataUtils
-import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.activity_collapsing_toolbar_layout.*
 import java.util.*
 
 class CollapsingToolbarLayoutActivity : AppCompatActivity() {
 
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
+    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,7 @@ class CollapsingToolbarLayoutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_collapsing_toolbar_layout)
         toolbar.setTitle(R.string.app_name)
 
-        val mainBeen = ArrayList<MainBean>()
+        val mainBeen = ArrayList<ExampleBean>()
         DataUtils.getData(mainBeen)
         xRecyclerViewAdapter = XRecyclerViewAdapter()
 

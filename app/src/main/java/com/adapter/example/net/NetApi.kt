@@ -1,4 +1,4 @@
-package com.xadaptersimple.net
+package com.adapter.example.net
 
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -10,6 +10,7 @@ import retrofit2.http.Query
  */
 
 object NetApi {
+
     const val ZL_BASE_API = "https://zhuanlan.zhihu.com/api/"
 
     interface ZLService {

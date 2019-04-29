@@ -1,4 +1,4 @@
-package com.xadaptersimple
+package com.adapter.example
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.xadapter.adapter.XRecyclerViewAdapter

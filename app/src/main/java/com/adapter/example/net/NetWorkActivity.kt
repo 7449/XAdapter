@@ -1,8 +1,9 @@
-package com.xadaptersimple.net
+package com.adapter.example.net
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.adapter.XRecyclerViewAdapter
@@ -14,7 +15,6 @@ import com.xadapter.refresh
 import com.xadapter.removeAll
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
-import com.xadaptersimple.R
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener
 import kotlinx.android.synthetic.main.recyclerview_layout.*

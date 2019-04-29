@@ -1,8 +1,13 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
+import com.adapter.example.SimpleRefreshAdapter
+import com.adapter.example.net.DataModel
+import com.adapter.example.net.NetApi
+import com.adapter.example.net.NetWorkBean
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.addAll
@@ -10,9 +15,6 @@ import com.xadapter.holder.getContext
 import com.xadapter.holder.getImageView
 import com.xadapter.holder.setText
 import com.xadapter.removeAll
-import com.xadaptersimple.net.DataModel
-import com.xadaptersimple.net.NetApi
-import com.xadaptersimple.net.NetWorkBean
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener
 import kotlinx.android.synthetic.main.activity_swipe.*

@@ -1,10 +1,11 @@
-package com.xadaptersimple
+package com.adapter.example
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.xadaptersimple.net.NetApi
-import com.xadaptersimple.net.NetWorkActivity
+import com.adapter.example.activity.*
+import com.adapter.example.net.NetApi
+import com.adapter.example.net.NetWorkActivity
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.SimpleRxNetOptionFactory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         collapsingToolbar.setOnClickListener { startActivity(CollapsingToolbarLayoutActivity::class.java) }
         emptyView.setOnClickListener { startActivity(EmptyViewActivity::class.java) }
         multiple.setOnClickListener { startActivity(MultipleXXItemActivity::class.java) }
-        test.setOnClickListener { startActivity(TestActivity::class.java) }
         refreshLayout.setOnClickListener { startActivity(RefreshLayoutActivity::class.java) }
         databinding.setOnClickListener { startActivity(DataBindingActivity::class.java) }
     }

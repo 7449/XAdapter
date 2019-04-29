@@ -1,4 +1,4 @@
-package com.xadaptersimple.net
+package com.adapter.example.net
 
 /**
  * by y on 2016/11/17

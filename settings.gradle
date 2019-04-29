@@ -1,1 +1,1 @@
-include ':app', ':XAdapterLibrary'
+include ':app', ':library'

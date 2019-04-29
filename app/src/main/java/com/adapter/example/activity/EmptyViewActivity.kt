@@ -1,12 +1,13 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
+import com.adapter.example.data.ExampleBean
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.addAll
 import com.xadapter.widget.XRefreshView
-import com.xadaptersimple.data.MainBean
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 /**
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 class EmptyViewActivity : AppCompatActivity() {
 
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
+    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

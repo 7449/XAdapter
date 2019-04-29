@@ -1,4 +1,4 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import android.util.Log
@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
+import com.adapter.example.data.DataUtils
+import com.adapter.example.data.ExampleBean
+import com.adapter.example.view.LoadMoreView
+import com.adapter.example.view.RefreshView
 import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.holder.setText
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
-import com.xadaptersimple.data.DataUtils
-import com.xadaptersimple.data.MainBean
-import com.xadaptersimple.view.LoadMoreView
-import com.xadaptersimple.view.RefreshView
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
@@ -23,12 +24,12 @@ import java.util.*
 
 class LinearLayoutManagerActivity : AppCompatActivity() {
 
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<MainBean>
+    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recyclerview_layout)
-        val mainBeen = ArrayList<MainBean>()
+        val mainBeen = ArrayList<ExampleBean>()
         DataUtils.getData(mainBeen)
         recyclerView.layoutManager = LinearLayoutManager(this)
         xRecyclerViewAdapter = XRecyclerViewAdapter()

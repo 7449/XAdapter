@@ -1,4 +1,4 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import android.util.Log
@@ -9,19 +9,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
+import com.adapter.example.data.DataUtils
+import com.adapter.example.data.ExampleBean
+import com.adapter.example.databinding.DatabindingLayoutBinding
+import com.adapter.example.view.LoadMoreView
+import com.adapter.example.view.RefreshView
 import com.xadapter.XDataBindingAdapterFactory
 import com.xadapter.adapter.XDataBindingAdapter
 import com.xadapter.addAll
 import com.xadapter.defaultAdapter
-import com.xadapter.holder.setText
 import com.xadapter.observableArrayList
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
-import com.xadaptersimple.data.DataUtils
-import com.xadaptersimple.data.MainBean
-import com.xadaptersimple.databinding.DatabindingLayoutBinding
-import com.xadaptersimple.view.LoadMoreView
-import com.xadaptersimple.view.RefreshView
 
 /**
  * @author y
@@ -30,11 +30,11 @@ import com.xadaptersimple.view.RefreshView
 class DataBindingActivity : AppCompatActivity() {
 
     private lateinit var binding: DatabindingLayoutBinding
-    private lateinit var xRecyclerViewAdapter: XDataBindingAdapter<MainBean>
+    private lateinit var xRecyclerViewAdapter: XDataBindingAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val mainBeen = ObservableArrayList<MainBean>()
+        val mainBeen = ObservableArrayList<ExampleBean>()
         DataUtils.getData(mainBeen)
         binding = DataBindingUtil.setContentView(this, R.layout.databinding_layout)
         xRecyclerViewAdapter = XDataBindingAdapterFactory(BR.entity)
@@ -56,8 +56,7 @@ class DataBindingActivity : AppCompatActivity() {
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
             }
-            onXBindListener = {
-                xViewHolder, i, mainBean ->
+            onXBindListener = { xViewHolder, i, mainBean ->
             }
             onXLongClickListener = { _, _, _ ->
                 Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
@@ -72,13 +71,13 @@ class DataBindingActivity : AppCompatActivity() {
 
         Log.d("DataBindingActivity", xRecyclerViewAdapter.observableArrayList()::class.java.simpleName)
 
-        binding.recyclerView.defaultAdapter<MainBean>().xRefreshListener = {
+        binding.recyclerView.defaultAdapter<ExampleBean>().xRefreshListener = {
             binding.recyclerView.postDelayed({
                 xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
                 Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
             }, 1500)
         }
-        binding.recyclerView.defaultAdapter<MainBean>().xLoadMoreListener = {
+        binding.recyclerView.defaultAdapter<ExampleBean>().xLoadMoreListener = {
             binding.recyclerView.postDelayed({
                 xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
                 Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()

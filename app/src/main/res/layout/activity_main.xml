@@ -6,68 +6,71 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/network"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="network" />
+            android:text="NetWork"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LinearLayoutManager" />
+            android:text="LinearLayoutManager"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/GridLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GridLayoutManager" />
+            android:text="GridLayoutManager"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/StaggeredGridLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="StaggeredGridLayoutManager" />
+            android:text="StaggeredGridLayoutManager"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="collapsingToolbarLayout" />
+            android:text="CollapsingToolbarLayout"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/emptyView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="emptyView" />
+            android:text="EmptyView"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/multiple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="multAdapter" />
+            android:text="MultiAdapter"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="refreshLayout" />
+            android:text="RefreshLayout"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/databinding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="databinding" />
-
-        <Button
-            android:id="@+id/test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test" />
+            android:text="DataBinding"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 </ScrollView>

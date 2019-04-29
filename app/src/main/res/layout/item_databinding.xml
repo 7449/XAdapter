@@ -5,7 +5,7 @@
 
         <variable
             name="entity"
-            type="com.xadaptersimple.data.MainBean" />
+            type="com.adapter.example.data.ExampleBean" />
 
         <import type="java.lang.String" />
     </data>

@@ -1,11 +1,11 @@
-package com.xadaptersimple.view
+package com.adapter.example.view
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.adapter.example.R
 import com.xadapter.widget.XLoadMoreView
-import com.xadaptersimple.R
 import kotlinx.android.synthetic.main.layout_loadmore.view.*
 
 /**

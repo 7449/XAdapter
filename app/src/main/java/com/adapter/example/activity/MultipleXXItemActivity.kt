@@ -1,10 +1,11 @@
-package com.xadaptersimple
+package com.adapter.example.activity
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adapter.example.R
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.getImageView
 import com.xadapter.holder.setText
