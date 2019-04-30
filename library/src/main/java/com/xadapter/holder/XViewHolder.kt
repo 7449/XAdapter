@@ -13,9 +13,13 @@ import com.xadapter.adapter.XRecyclerViewAdapter
 import com.xadapter.currentItemPosition
 import com.xadapter.listener.XMultiCallBack
 
-class XDataBindingHolder(var viewDataBinding: ViewDataBinding) : XViewHolder(viewDataBinding.root)
-
+/**
+ * BaseViewHolder
+ * [RecyclerView.ViewHolder]
+ */
 open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+class XDataBindingHolder(var viewDataBinding: ViewDataBinding) : XViewHolder(viewDataBinding.root)
 
 internal fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.SuperViewHolder(parent: ViewGroup, layoutId: Int) = XViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
 
@@ -46,7 +50,7 @@ internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderClick(xMultiAdapter
 internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderLongClick(xMultiAdapter: XMultiAdapter<T>) {
     itemView.setOnLongClickListener {
         if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
-        return@setOnLongClickListener xMultiAdapter.onXLongClickListener?.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+        return@setOnLongClickListener xMultiAdapter.onXItemLongClickListener?.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
                 ?: false
     }
 }
@@ -62,7 +66,7 @@ internal fun <T> XViewHolder.XViewHolderClick(adapter: XRecyclerViewAdapter<T>):
 
 internal fun <T> XViewHolder.XViewHolderLongClick(adapter: XRecyclerViewAdapter<T>) {
     itemView.setOnLongClickListener { view ->
-        val invoke = adapter.onXLongClickListener?.invoke(view,
+        val invoke = adapter.onXItemLongClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
                 adapter.dataContainer[adapter.currentItemPosition(layoutPosition)]) ?: false
         invoke

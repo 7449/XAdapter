@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         collapsingToolbar.setOnClickListener { startActivity(CollapsingToolbarLayoutActivity::class.java) }
         emptyView.setOnClickListener { startActivity(EmptyViewActivity::class.java) }
         multiple.setOnClickListener { startActivity(MultipleXXItemActivity::class.java) }
-        refreshLayout.setOnClickListener { startActivity(RefreshLayoutActivity::class.java) }
         databinding.setOnClickListener { startActivity(DataBindingActivity::class.java) }
     }
 

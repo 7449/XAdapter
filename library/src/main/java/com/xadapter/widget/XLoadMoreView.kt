@@ -1,5 +1,3 @@
-@file:Suppress("LeakingThis")
-
 package com.xadapter.widget
 
 import android.content.Context
@@ -16,7 +14,7 @@ abstract class XLoadMoreView(context: Context, layoutId: Int) : FrameLayout(cont
         const val NORMAL = -1
         const val LOAD = 0
         const val SUCCESS = 1
-        const val NOMORE = 2
+        const val NO_MORE = 2
         const val ERROR = 3
     }
 
@@ -30,7 +28,7 @@ abstract class XLoadMoreView(context: Context, layoutId: Int) : FrameLayout(cont
             onStart()
             when (state) {
                 LOAD -> onLoad()
-                NOMORE -> onNoMore()
+                NO_MORE -> onNoMore()
                 SUCCESS -> onSuccess()
                 ERROR -> onError()
                 NORMAL -> onNormal()
@@ -40,7 +38,7 @@ abstract class XLoadMoreView(context: Context, layoutId: Int) : FrameLayout(cont
 
     init {
         addView(loadMoreView)
-        layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         initView()
     }
 

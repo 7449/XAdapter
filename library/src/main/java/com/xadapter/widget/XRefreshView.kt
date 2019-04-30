@@ -1,5 +1,3 @@
-@file:Suppress("LeakingThis")
-
 package com.xadapter.widget
 
 import android.animation.ValueAnimator
@@ -15,15 +13,16 @@ import android.widget.FrameLayout
 abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context) {
 
     companion object {
-        const val NORMAL = 0 //初始状态
-        const val READY = 1 //准备
-        const val REFRESH = 2 //正在刷新
-        const val SUCCESS = 3 // 刷新成功
-        const val ERROR = 4 // 刷新失败
+        const val NORMAL = 0
+        const val READY = 1
+        const val REFRESH = 2
+        const val SUCCESS = 3
+        const val ERROR = 4
     }
 
     private var refreshView: View = View.inflate(context, layoutId, null)
     private var mMeasuredHeight: Int = 0
+    private val animator: ValueAnimator = ValueAnimator.ofInt().setDuration(300)
 
     var state: Int = NORMAL
         set(state) {
@@ -55,11 +54,12 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         }
 
     init {
-        addView(refreshView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 0))
-        layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        addView(refreshView, LayoutParams(LayoutParams.MATCH_PARENT, 0))
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         initView()
-        measure(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         mMeasuredHeight = measuredHeight
+        animator.addUpdateListener { animation -> visibleHeight = animation.animatedValue as Int }
     }
 
     fun refreshState(mState: Int) {
@@ -71,11 +71,7 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         if (visibleHeight > 0 || delta > 0) {
             visibleHeight += delta.toInt()
             if (state < REFRESH) {
-                state = if (visibleHeight > mMeasuredHeight) {
-                    READY
-                } else {
-                    NORMAL
-                }
+                state = if (visibleHeight > mMeasuredHeight) READY else NORMAL
             }
         }
     }
@@ -95,8 +91,7 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
     }
 
     private fun smoothScrollTo(destHeight: Int) {
-        val animator = ValueAnimator.ofInt(visibleHeight, destHeight).setDuration(300)
-        animator.addUpdateListener { animation -> visibleHeight = animation.animatedValue as Int }
+        animator.setIntValues(visibleHeight, destHeight)
         animator.start()
     }
 

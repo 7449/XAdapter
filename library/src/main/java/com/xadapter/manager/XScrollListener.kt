@@ -10,9 +10,16 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
  * by y on 2016/11/15
  */
 
-class XScrollListener(private val scrollBottom: (() -> Unit)) : RecyclerView.OnScrollListener() {
+internal class XScrollListener(private val scrollBottom: () -> Unit) : RecyclerView.OnScrollListener() {
 
-    private var layoutManagerType: LayoutManagerType? = null
+    companion object {
+        const val NO_MANAGER = -1
+        const val LINEAR = 0
+        const val GRID = 1
+        const val STAGGERED_GRID = 2
+    }
+
+    private var layoutManagerType: Int = LINEAR
     private lateinit var lastPositions: IntArray
     private var lastVisibleItemPosition: Int = 0
     var scrollItemCount: Int = 1
@@ -20,18 +27,18 @@ class XScrollListener(private val scrollBottom: (() -> Unit)) : RecyclerView.OnS
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         val layoutManager = recyclerView.layoutManager
-        if (layoutManagerType == null) {
+        if (layoutManagerType == NO_MANAGER) {
             layoutManagerType = when (layoutManager) {
-                is GridLayoutManager -> LayoutManagerType.GRID
-                is LinearLayoutManager -> LayoutManagerType.LINEAR
-                is StaggeredGridLayoutManager -> LayoutManagerType.STAGGERED_GRID
+                is GridLayoutManager -> GRID
+                is LinearLayoutManager -> LINEAR
+                is StaggeredGridLayoutManager -> STAGGERED_GRID
                 else -> throw RuntimeException("Unsupported LayoutManager used. Valid ones are LinearLayoutManager, GridLayoutManager and StaggeredGridLayoutManager")
             }
         }
         when (layoutManagerType) {
-            LayoutManagerType.LINEAR -> lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-            LayoutManagerType.GRID -> lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
-            LayoutManagerType.STAGGERED_GRID -> {
+            LINEAR -> lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            GRID -> lastVisibleItemPosition = (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+            STAGGERED_GRID -> {
                 val staggeredGridLayoutManager = layoutManager as StaggeredGridLayoutManager
                 staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions)
                 lastVisibleItemPosition = findMax(lastPositions)
@@ -45,7 +52,7 @@ class XScrollListener(private val scrollBottom: (() -> Unit)) : RecyclerView.OnS
         val visibleItemCount = layoutManager?.childCount ?: 0
         val totalItemCount = layoutManager?.itemCount ?: 0
         if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition >= totalItemCount - scrollItemCount) {
-            scrollBottom.invoke()
+            scrollBottom()
         }
     }
 
@@ -57,11 +64,5 @@ class XScrollListener(private val scrollBottom: (() -> Unit)) : RecyclerView.OnS
             }
         }
         return max
-    }
-
-    private enum class LayoutManagerType {
-        LINEAR,
-        GRID,
-        STAGGERED_GRID
     }
 }

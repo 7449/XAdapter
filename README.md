@@ -15,7 +15,7 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.7'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8'
     implementation 'com.google.android.material:material:1.0.0'
 
 onXBind
@@ -67,7 +67,7 @@ It is up to the user to choose whether the load fails or is successful
 		 
 ### MultipleAdapter
 
-see [multi](https://github.com/7449/XAdapter/tree/master/xadapterLibrary/src/main/java/com/xadapter/adapter/XMultiAdapter.kt)
+see [multi](https://github.com/7449/XAdapter/tree/master/library/src/main/java/com/xadapter/adapter/XMultiAdapter.kt)
 
 #### RefreshView 
 

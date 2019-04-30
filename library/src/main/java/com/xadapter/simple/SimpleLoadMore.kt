@@ -20,41 +20,42 @@ class SimpleLoadMore(context: Context) : XLoadMoreView(context, R.layout.simple_
         animationDrawable = progressbar.background as AnimationDrawable
         tv_tips.setTextColor(Color.BLACK)
         progressbar.visibility = View.GONE
-        tv_tips.text = "上拉加载"
+        tv_tips.text = context.getString(R.string.load_more_init)
     }
 
     override fun onStart() {
         progressbar.visibility = View.GONE
         animationDrawable.stop()
+        tv_tips.text = context.getString(R.string.load_more_start)
     }
 
     override fun onLoad() {
         progressbar.visibility = View.VISIBLE
         animationDrawable.start()
-        tv_tips.text = "正在加载..."
+        tv_tips.text = context.getString(R.string.load_more_load)
     }
 
     override fun onNoMore() {
         progressbar.visibility = View.GONE
         animationDrawable.stop()
-        tv_tips.text = "没有数据了"
+        tv_tips.text = context.getString(R.string.load_more_no_more)
     }
 
     override fun onSuccess() {
         progressbar.visibility = View.GONE
         animationDrawable.stop()
-        tv_tips.text = "加载成功"
+        tv_tips.text = context.getString(R.string.load_more_success)
     }
 
     override fun onError() {
         progressbar.visibility = View.GONE
         animationDrawable.stop()
-        tv_tips.text = "加载失败"
+        tv_tips.text = context.getString(R.string.load_more_error)
     }
 
     override fun onNormal() {
         progressbar.visibility = View.GONE
         animationDrawable.stop()
-        tv_tips.text = "上拉加载"
+        tv_tips.text = context.getString(R.string.load_more_normal)
     }
 }

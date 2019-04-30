@@ -59,13 +59,6 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/refreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RefreshLayout"
-            android:textAllCaps="false" />
-
-        <Button
             android:id="@+id/databinding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -26,7 +26,6 @@
         <activity android:name=".activity.CollapsingToolbarLayoutActivity" />
         <activity android:name=".activity.EmptyViewActivity" />
         <activity android:name=".activity.MultipleXXItemActivity" />
-        <activity android:name=".activity.RefreshLayoutActivity" />
         <activity android:name=".activity.DataBindingActivity" />
     </application>
 

@@ -20,11 +20,11 @@ class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : XBaseA
 
     lateinit var xMultiBind: ((holder: XViewHolder, entity: T, itemViewType: Int, position: Int) -> Unit)
 
-    var gridLayoutManagerSpanSize: ((Int, GridLayoutManager, Int) -> Int)? = null
+    var gridLayoutManagerSpanSize: ((itemViewType: Int, manager: GridLayoutManager, position: Int) -> Int)? = null
 
     var staggeredGridLayoutManagerFullSpan: ((itemViewType: Int) -> Boolean)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder = SuperViewHolder(parent, itemLayoutId.invoke(viewType)).apply { MultiViewHolderClick(this@XMultiAdapter).apply { MultiViewHolderLongClick(this@XMultiAdapter) } }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder = SuperViewHolder(parent, itemLayoutId(viewType)).apply { MultiViewHolderClick(this@XMultiAdapter).apply { MultiViewHolderLongClick(this@XMultiAdapter) } }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) = xMultiBind(holder, getItem(position), getItemViewType(position), position)
 

@@ -5,10 +5,10 @@ package com.adapter.example.net
  */
 
 class NetWorkBean {
-    lateinit var data: List<DataModel>
+    lateinit var top_stories: List<DataModel>
 }
 
 class DataModel {
     var title: String = ""
-    var title_image: String = ""
+    var image: String = ""
 }

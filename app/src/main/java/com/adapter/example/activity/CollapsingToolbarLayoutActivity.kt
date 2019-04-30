@@ -34,7 +34,6 @@ class CollapsingToolbarLayoutActivity : AppCompatActivity() {
         recyclerview.adapter = xRecyclerViewAdapter
                 .apply {
                     dataContainer = mainBeen
-                    recyclerView = this@CollapsingToolbarLayoutActivity.recyclerview
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     loadingMoreEnabled = true
@@ -46,7 +45,7 @@ class CollapsingToolbarLayoutActivity : AppCompatActivity() {
                         recyclerview.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
                     }
                     xLoadMoreListener = {
-                        recyclerview.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
+                        recyclerview.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NO_MORE }, 1500)
                     }
                 }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))

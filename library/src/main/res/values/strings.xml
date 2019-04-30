@@ -1,0 +1,17 @@
+<resources>
+    <string name="load_more_init">上拉加载…</string>
+    <string name="load_more_start">开始加载…</string>
+    <string name="load_more_load">正在加载…</string>
+    <string name="load_more_no_more">没有数据了…</string>
+    <string name="load_more_success">加载成功…</string>
+    <string name="load_more_error">加载失败…</string>
+    <string name="load_more_normal">上拉加载…</string>
+
+    <string name="refresh_more_init">下拉刷新…</string>
+    <string name="refresh_more_start">开始刷新…</string>
+    <string name="refresh_more_ready">释放立即刷新…</string>
+    <string name="refresh_more_refresh">正在刷新…</string>
+    <string name="refresh_more_success">刷新成功…</string>
+    <string name="refresh_more_error">刷新失败…</string>
+    <string name="refresh_more_normal">下拉刷新…</string>
+</resources>

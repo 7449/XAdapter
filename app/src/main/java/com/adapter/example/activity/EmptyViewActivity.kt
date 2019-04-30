@@ -26,7 +26,6 @@ class EmptyViewActivity : AppCompatActivity() {
         recyclerView.adapter = xRecyclerViewAdapter
                 .apply {
                     emptyView = this@EmptyViewActivity.emptyView
-                    recyclerView = this@EmptyViewActivity.recyclerView
                     itemLayoutId = R.layout.item
                     pullRefreshEnabled = true
                     xRefreshListener = {

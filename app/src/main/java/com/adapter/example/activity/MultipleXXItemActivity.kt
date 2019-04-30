@@ -6,10 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.example.R
+import com.adapter.example.data.DataUtils
+import com.xadapter.*
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.getImageView
 import com.xadapter.holder.setText
-import com.xadapter.multiAdapter
 import com.xadapter.simple.SimpleXMultiItem
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 
@@ -19,66 +20,52 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 class MultipleXXItemActivity : AppCompatActivity() {
 
+    companion object {
+        const val TYPE_LINE = 1
+        const val TYPE_ITEM = -11
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        title = "XMultiple Example"
         setContentView(R.layout.multiple_layout)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        recyclerView.adapter = XMultiAdapter(initSettingData())
-                .apply {
-                    onXLongClickListener = { view, _, entity ->
-                        Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    onXItemClickListener = { view, _, entity ->
-                        Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
+        recyclerView.adapter = XMultiAdapter(DataUtils.multipleData())
+
+        recyclerView
+                .multiAdapter<SimpleXMultiItem>()
+                .setItemLayoutId { viewType ->
+                    when (viewType) {
+                        TYPE_LINE -> R.layout.item_line
+                        else -> R.layout.item_multi
                     }
                 }
-        val multiAdapter = recyclerView.multiAdapter<SimpleXMultiItem>()
-        multiAdapter.itemLayoutId = {
-            when (it) {
-                TYPE_LINE -> R.layout.item_line
-                else -> R.layout.item_multi
-            }
-        }
-        multiAdapter.gridLayoutManagerSpanSize = { itemViewType, gridManager, position ->
-            if (itemViewType != TYPE_ITEM) {
-                gridManager.spanCount
-            } else {
-                1
-            }
-        }
-        multiAdapter.staggeredGridLayoutManagerFullSpan = { itemViewType -> itemViewType != TYPE_ITEM }
-
-        multiAdapter.xMultiBind = { holder, entity, itemViewType, position ->
-            when (itemViewType) {
-                TYPE_ITEM -> {
-                    holder.setText(R.id.tv_message, entity.message)
-                    val imageView = holder.getImageView(R.id.iv_icon)
-                    imageView.setImageResource(entity.icon)
+                .setMultiBind { holder, entity, itemViewType, _ ->
+                    when (itemViewType) {
+                        TYPE_ITEM -> {
+                            holder.setText(R.id.tv_message, entity.message)
+                            val imageView = holder.getImageView(R.id.iv_icon)
+                            imageView.setImageResource(entity.icon)
+                        }
+                    }
                 }
-            }
-        }
-    }
-
-    companion object {
-        private const val TYPE_LINE = 1
-        private const val TYPE_ITEM = -11
-        fun initSettingData(): MutableList<SimpleXMultiItem> {
-            return ArrayList<SimpleXMultiItem>().apply {
-                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 0, message = "头像", icon = R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 1, message = "收藏", icon = R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 2, message = "相册", icon = R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 3, message = "钱包", icon = R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 4, message = "卡包", icon = R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 5, message = "表情", icon = R.mipmap.ic_launcher))
-                add(SimpleXMultiItem(itemMultiType = TYPE_LINE))
-                add(SimpleXMultiItem(itemMultiType = TYPE_ITEM, itemMultiPosition = 6, message = "设置", icon = R.mipmap.ic_launcher))
-            }
-        }
+                .gridLayoutManagerSpanSize { itemViewType, manager, _ ->
+                    if (itemViewType != TYPE_ITEM) {
+                        manager.spanCount
+                    } else {
+                        1
+                    }
+                }
+                .staggeredGridLayoutManagerFullSpan {
+                    it != TYPE_ITEM
+                }
+                .setOnItemClickListener { view, _, entity ->
+                    Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
+                }
+                .setOnItemLongClickListener { view, _, entity ->
+                    Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
+                    true
+                }
     }
 }

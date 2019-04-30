@@ -17,7 +17,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-version = "0.0.9.7"
+version = "0.0.9.8"
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter"

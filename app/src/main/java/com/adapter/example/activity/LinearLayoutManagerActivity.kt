@@ -37,7 +37,6 @@ class LinearLayoutManagerActivity : AppCompatActivity() {
             dataContainer = mainBeen
             loadMoreView = LoadMoreView(applicationContext)
             refreshView = RefreshView(applicationContext)
-            recyclerView = this@LinearLayoutManagerActivity.recyclerView
             pullRefreshEnabled = true
             loadingMoreEnabled = true
             scrollLoadMoreItemCount = 10
@@ -51,11 +50,11 @@ class LinearLayoutManagerActivity : AppCompatActivity() {
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
                 add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
             }
-            onXBindListener = { holder, position, entity ->
+            onXBindListener = { holder, _, entity ->
                 holder.setText(R.id.tv_name, entity.name)
                 holder.setText(R.id.tv_age, entity.age.toString() + "")
             }
-            onXLongClickListener = { _, _, _ ->
+            onXItemLongClickListener = { _, _, _ ->
                 Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
                 true
             }

@@ -9,38 +9,38 @@ import com.google.android.material.appbar.AppBarLayout
 
 abstract class AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener {
 
-    private var mCurrentState = State.IDLE
+    private var mCurrentState = IDLE
+
+    companion object {
+        const val EXPANDED = 0
+        const val COLLAPSED = 1
+        const val IDLE = 2
+    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, i: Int) {
         when {
             i == 0 -> {
-                if (mCurrentState != State.EXPANDED) {
-                    onStateChanged(appBarLayout, State.EXPANDED)
+                if (mCurrentState != EXPANDED) {
+                    onStateChanged(appBarLayout, EXPANDED)
                 }
-                mCurrentState = State.EXPANDED
+                mCurrentState = EXPANDED
             }
             Math.abs(i) >= appBarLayout.totalScrollRange -> {
-                if (mCurrentState != State.COLLAPSED) {
-                    onStateChanged(appBarLayout, State.COLLAPSED)
+                if (mCurrentState != COLLAPSED) {
+                    onStateChanged(appBarLayout, COLLAPSED)
                 }
-                mCurrentState = State.COLLAPSED
+                mCurrentState = COLLAPSED
             }
             else -> {
-                if (mCurrentState != State.IDLE) {
-                    onStateChanged(appBarLayout, State.IDLE)
+                if (mCurrentState != IDLE) {
+                    onStateChanged(appBarLayout, IDLE)
                 }
-                mCurrentState = State.IDLE
+                mCurrentState = IDLE
             }
         }
     }
 
-    protected abstract fun onStateChanged(appBarLayout: AppBarLayout, state: State)
-
-    enum class State {
-        EXPANDED,
-        COLLAPSED,
-        IDLE
-    }
+    protected abstract fun onStateChanged(appBarLayout: AppBarLayout, state: Int)
 }
 
 

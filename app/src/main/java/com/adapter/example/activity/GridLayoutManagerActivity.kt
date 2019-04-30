@@ -34,7 +34,6 @@ class GridLayoutManagerActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = xRecyclerViewAdapter.apply {
             dataContainer = mainBean
-            recyclerView = this@GridLayoutManagerActivity.recyclerView
             itemLayoutId = R.layout.item
             pullRefreshEnabled = true
             loadingMoreEnabled = true
@@ -46,7 +45,7 @@ class GridLayoutManagerActivity : AppCompatActivity() {
                 this@GridLayoutManagerActivity.recyclerView.postDelayed({ xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS }, 1500)
             }
             xLoadMoreListener = {
-                this@GridLayoutManagerActivity.recyclerView.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE }, 1500)
+                this@GridLayoutManagerActivity.recyclerView.postDelayed({ xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NO_MORE }, 1500)
             }
         }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))

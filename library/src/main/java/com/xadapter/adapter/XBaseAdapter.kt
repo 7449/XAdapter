@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "CAST_NEVER_SUCCEEDS")
 
 package com.xadapter.adapter
 
@@ -22,7 +22,7 @@ abstract class XBaseAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
 
-    var onXLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
+    var onXItemLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
 
 }
 
@@ -73,7 +73,7 @@ internal fun <T> XRecyclerViewAdapter<T>.internalOnViewAttachedToWindow(viewHold
         layoutParams.isFullSpan = getItemViewType(viewHolder.layoutPosition) != XRecyclerViewAdapter.TYPE_ITEM
     }
     if (recyclerView == null) {
-        return
+        recyclerView = viewHolder.itemView.parent as RecyclerView
     }
     var appBarLayout: AppBarLayout? = null
     var p: ViewParent? = recyclerView?.parent
@@ -94,12 +94,11 @@ internal fun <T> XRecyclerViewAdapter<T>.internalOnViewAttachedToWindow(viewHold
             }
         }
         if (appBarLayout != null && touchListener is XTouchListener) {
-            appBarLayout.addOnOffsetChangedListener(
-                    object : AppBarStateChangeListener() {
-                        public override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
-                            (touchListener as XTouchListener).state = state
-                        }
-                    })
+            appBarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+                public override fun onStateChanged(appBarLayout: AppBarLayout, state: Int) {
+                    (touchListener as XTouchListener).state = state
+                }
+            })
         }
     }
 }
@@ -119,11 +118,17 @@ internal fun <T> XRecyclerViewAdapter<T>.internalGetItemViewType(position: Int):
         mPos -= 1
     }
     if (isHeaderType(mPos)) {
-        headerViewType.add(mPos * adapterViewType)
+        val headerType = mPos * adapterViewType
+        if (!headerViewType.contains(headerType)) {
+            headerViewType.add(headerType)
+        }
         return mPos * adapterViewType
     }
     if (isFooterType(mPos)) {
-        footerViewType.add(mPos * adapterViewType)
+        val footerType = mPos * adapterViewType
+        if (!footerViewType.contains(footerType)) {
+            footerViewType.add(footerType)
+        }
         return mPos * adapterViewType
     }
     return XRecyclerViewAdapter.TYPE_ITEM
@@ -133,9 +138,9 @@ internal fun <T> XRecyclerViewAdapter<T>.internalGetItemViewType(position: Int):
  * [XRecyclerViewAdapter]的 总数据个数
  */
 internal fun <T> XRecyclerViewAdapter<T>.dataSize(): Int {
-    return dataContainer.size + if ((loadingMoreEnabled && !dataContainer.isEmpty()) && pullRefreshEnabled) {
+    return dataContainer.size + if ((loadingMoreEnabled && dataContainer.isNotEmpty()) && pullRefreshEnabled) {
         2
-    } else if ((loadingMoreEnabled && !dataContainer.isEmpty()) || pullRefreshEnabled) {
+    } else if ((loadingMoreEnabled && dataContainer.isNotEmpty()) || pullRefreshEnabled) {
         1
     } else {
         0
@@ -145,10 +150,7 @@ internal fun <T> XRecyclerViewAdapter<T>.dataSize(): Int {
 /**
  * 是否显示EmptyView
  */
-internal fun <T> XRecyclerViewAdapter<T>.isShowEmptyView() {
-    if (recyclerView == null) {
-        return
-    }
+fun <T> XRecyclerViewAdapter<T>.isShowEmptyView() {
     if (dataContainer.isEmpty()) {
         visibleView(emptyView)
         goneView(recyclerView)
@@ -156,6 +158,11 @@ internal fun <T> XRecyclerViewAdapter<T>.isShowEmptyView() {
         visibleView(recyclerView)
         goneView(emptyView)
     }
+}
+
+fun <T> XRecyclerViewAdapter<T>.showParent(recyclerView: RecyclerView) {
+    this.recyclerView = recyclerView
+    visibleView(recyclerView)
 }
 
 fun goneView(vararg views: View?) {

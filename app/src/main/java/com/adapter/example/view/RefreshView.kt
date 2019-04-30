@@ -54,7 +54,7 @@ class RefreshView(context: Context) : XRefreshView(context, R.layout.layout_refr
         iv_tips.startAnimation(mRotateUpAnim)
         progressbar.visibility = View.INVISIBLE
         iv_tips.visibility = View.VISIBLE
-        tv_tips.text = "释放立即刷新"
+        tv_tips.text = "释放立即刷新-example"
     }
 
     override fun onRefresh() {

@@ -16,9 +16,9 @@ import com.adapter.example.databinding.DatabindingLayoutBinding
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
 import com.xadapter.XDataBindingAdapterFactory
+import com.xadapter.adapter
 import com.xadapter.adapter.XDataBindingAdapter
 import com.xadapter.addAll
-import com.xadapter.defaultAdapter
 import com.xadapter.observableArrayList
 import com.xadapter.widget.XLoadMoreView
 import com.xadapter.widget.XRefreshView
@@ -42,7 +42,6 @@ class DataBindingActivity : AppCompatActivity() {
         binding.recyclerView.adapter = xRecyclerViewAdapter.apply {
             loadMoreView = LoadMoreView(applicationContext)
             refreshView = RefreshView(applicationContext)
-            recyclerView = binding.recyclerView
             pullRefreshEnabled = true
             loadingMoreEnabled = true
             scrollLoadMoreItemCount = 10
@@ -58,7 +57,7 @@ class DataBindingActivity : AppCompatActivity() {
             }
             onXBindListener = { xViewHolder, i, mainBean ->
             }
-            onXLongClickListener = { _, _, _ ->
+            onXItemLongClickListener = { _, _, _ ->
                 Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
                 true
             }
@@ -71,13 +70,13 @@ class DataBindingActivity : AppCompatActivity() {
 
         Log.d("DataBindingActivity", xRecyclerViewAdapter.observableArrayList()::class.java.simpleName)
 
-        binding.recyclerView.defaultAdapter<ExampleBean>().xRefreshListener = {
+        binding.recyclerView.adapter<ExampleBean>().xRefreshListener = {
             binding.recyclerView.postDelayed({
                 xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
                 Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
             }, 1500)
         }
-        binding.recyclerView.defaultAdapter<ExampleBean>().xLoadMoreListener = {
+        binding.recyclerView.adapter<ExampleBean>().xLoadMoreListener = {
             binding.recyclerView.postDelayed({
                 xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
                 Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()

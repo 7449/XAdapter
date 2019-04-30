@@ -23,8 +23,8 @@ class SimpleRefresh(context: Context) : XRefreshView(context, R.layout.simple_re
 
     public override fun initView() {
         animationDrawable = progressbar.background as AnimationDrawable
-        tv_tips.text = "下拉刷新"
         tv_tips.setTextColor(Color.BLACK)
+        tv_tips.text = context.getString(R.string.refresh_more_init)
         initAnimation()
     }
 
@@ -41,6 +41,38 @@ class SimpleRefresh(context: Context) : XRefreshView(context, R.layout.simple_re
         iv_tips.clearAnimation()
         iv_tips.visibility = View.VISIBLE
         progressbar.visibility = View.INVISIBLE
+        tv_tips.text = context.getString(R.string.refresh_more_start)
+    }
+
+    override fun onReady() {
+        iv_tips.startAnimation(mRotateUpAnim)
+        progressbar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.VISIBLE
+        animationDrawable.stop()
+        tv_tips.text = context.getString(R.string.refresh_more_ready)
+    }
+
+    override fun onRefresh() {
+        progressbar.visibility = View.VISIBLE
+        iv_tips.visibility = View.INVISIBLE
+        animationDrawable.start()
+        tv_tips.text = context.getString(R.string.refresh_more_refresh)
+    }
+
+    override fun onSuccess() {
+        progressbar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.INVISIBLE
+        animationDrawable.stop()
+        iv_tips.clearAnimation()
+        tv_tips.text = context.getString(R.string.refresh_more_success)
+    }
+
+    override fun onError() {
+        progressbar.visibility = View.INVISIBLE
+        iv_tips.visibility = View.INVISIBLE
+        animationDrawable.stop()
+        iv_tips.clearAnimation()
+        tv_tips.text = context.getString(R.string.refresh_more_error)
     }
 
     override fun onNormal() {
@@ -52,38 +84,7 @@ class SimpleRefresh(context: Context) : XRefreshView(context, R.layout.simple_re
         iv_tips.visibility = View.VISIBLE
         progressbar.visibility = View.INVISIBLE
         animationDrawable.stop()
-        tv_tips.text = "下拉刷新"
-    }
-
-    override fun onReady() {
-        iv_tips.startAnimation(mRotateUpAnim)
-        progressbar.visibility = View.INVISIBLE
-        iv_tips.visibility = View.VISIBLE
-        animationDrawable.stop()
-        tv_tips.text = "释放立即刷新"
-    }
-
-    override fun onRefresh() {
-        progressbar.visibility = View.VISIBLE
-        iv_tips.visibility = View.INVISIBLE
-        animationDrawable.start()
-        tv_tips.text = "正在刷新..."
-    }
-
-    override fun onSuccess() {
-        progressbar.visibility = View.INVISIBLE
-        iv_tips.visibility = View.INVISIBLE
-        animationDrawable.stop()
-        iv_tips.clearAnimation()
-        tv_tips.text = "刷新成功"
-    }
-
-    override fun onError() {
-        progressbar.visibility = View.INVISIBLE
-        iv_tips.visibility = View.INVISIBLE
-        animationDrawable.stop()
-        iv_tips.clearAnimation()
-        tv_tips.text = "刷新失败"
+        tv_tips.text = context.getString(R.string.refresh_more_normal)
     }
 
 }

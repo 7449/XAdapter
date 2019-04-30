@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.currentItemPosition
-import com.xadapter.holder.SuperViewHolder
-import com.xadapter.holder.XDataBindingHolder
-import com.xadapter.holder.XViewHolder
-import com.xadapter.manager.XScrollListener
-import com.xadapter.manager.XTouchListener
+import com.xadapter.holder.*
 
 
 /**
@@ -29,36 +26,29 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
+        if (recyclerView == null) {
+            recyclerView = parent as RecyclerView
+        }
         if (headerViewType.contains(viewType)) {
             return SuperViewHolder(headerViewContainer[viewType / adapterViewType])
         }
         if (footerViewType.contains(viewType)) {
             return SuperViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
-        val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false))
-        viewHolder.itemView.setOnClickListener { view -> onXItemClickListener?.invoke(view, currentItemPosition(viewHolder.layoutPosition), dataContainer[currentItemPosition(viewHolder.layoutPosition)]) }
-        viewHolder.itemView.setOnLongClickListener { view ->
-            val invoke = onXLongClickListener?.invoke(view, currentItemPosition(viewHolder.layoutPosition), dataContainer[currentItemPosition(viewHolder.layoutPosition)]) ?: false
-            invoke
-        }
-        if ((viewType == TYPE_REFRESH_HEADER || viewType == TYPE_LOAD_MORE_FOOTER) && recyclerView == null) {
-            throw NullPointerException("detect recyclerView is null")
-        }
+
+        val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).apply { XViewHolderClick(this@XDataBindingAdapter).apply { XViewHolderLongClick(this@XDataBindingAdapter) } }
+
         return when (viewType) {
             TYPE_REFRESH_HEADER -> {
                 refreshView?.let {
-                    touchListener = XTouchListener(it, loadMoreView) { onRefresh() }
                     recyclerView?.setOnTouchListener(touchListener)
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect refreshView is null")
             }
             TYPE_LOAD_MORE_FOOTER -> {
-                loadMoreView?.let {
+                loadMoreView?.let { it ->
                     it.setOnClickListener { v -> onXFooterListener?.invoke(v) }
-                    scrollListener = XScrollListener { onScrollBottom() }.apply {
-                        scrollItemCount = scrollLoadMoreItemCount
-                        recyclerView?.addOnScrollListener(this)
-                    }
+                    scrollListener?.let { recyclerView?.addOnScrollListener(it) }
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect loadMoreView is null")
             }
