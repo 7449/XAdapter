@@ -15,7 +15,7 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.1'
     implementation 'com.google.android.material:material:1.0.0'
 
 onXBind
