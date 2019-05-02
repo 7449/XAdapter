@@ -156,6 +156,10 @@ inline fun <T> XRecyclerViewAdapter<T>.setOnEmptyClickListener(noinline action: 
 
 inline fun <T> XRecyclerViewAdapter<T>.setOnBind(noinline action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also { this.onXBindListener = action }
 
+inline fun <T> XRecyclerViewAdapter<T>.setOnItemClickListener(noinline action: (view: View, position: Int, entity: T) -> Unit) = also { onXItemClickListener = action }
+
+inline fun <T> XRecyclerViewAdapter<T>.setOnItemLongClickListener(noinline action: (view: View, position: Int, entity: T) -> Boolean) = also { onXItemLongClickListener = action }
+
 inline fun <T> XRecyclerViewAdapter<T>.addAll(data: List<T>) {
     if (this is XDataBindingAdapter) {
         throw IllegalAccessError()
