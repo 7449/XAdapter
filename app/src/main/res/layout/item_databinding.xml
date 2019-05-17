@@ -6,8 +6,6 @@
         <variable
             name="entity"
             type="com.adapter.example.data.ExampleBean" />
-
-        <import type="java.lang.String" />
     </data>
 
 
