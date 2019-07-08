@@ -15,7 +15,7 @@ import com.xadapter.holder.*
  * @author y
  * @create 2018/12/25
  */
-open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XRecyclerViewAdapter<T>() {
+open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XAdapter<T>() {
 
     var mData: ObservableArrayList<T> = ObservableArrayList()
 

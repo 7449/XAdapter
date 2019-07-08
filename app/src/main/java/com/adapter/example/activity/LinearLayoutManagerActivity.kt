@@ -11,10 +11,10 @@ import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
-import com.xadapter.adapter.XRecyclerViewAdapter
-import com.xadapter.holder.setText
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
+import com.xadapter.XLoadMoreView
+import com.xadapter.XRefreshView
+import com.xadapter.adapter.XAdapter
+import com.xadapter.setText
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
@@ -24,7 +24,7 @@ import java.util.*
 
 class LinearLayoutManagerActivity : AppCompatActivity() {
 
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<ExampleBean>
+    private lateinit var xRecyclerViewAdapter: XAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class LinearLayoutManagerActivity : AppCompatActivity() {
         val mainBeen = ArrayList<ExampleBean>()
         DataUtils.getData(mainBeen)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        xRecyclerViewAdapter = XRecyclerViewAdapter()
+        xRecyclerViewAdapter = XAdapter()
         recyclerView.adapter = xRecyclerViewAdapter.apply {
             dataContainer = mainBeen
             loadMoreView = LoadMoreView(applicationContext)

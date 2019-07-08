@@ -15,13 +15,8 @@ import com.adapter.example.data.ExampleBean
 import com.adapter.example.databinding.DatabindingLayoutBinding
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
-import com.xadapter.XDataBindingAdapterFactory
-import com.xadapter.adapter
+import com.xadapter.*
 import com.xadapter.adapter.XDataBindingAdapter
-import com.xadapter.addAll
-import com.xadapter.observableArrayList
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
 
 /**
  * @author y

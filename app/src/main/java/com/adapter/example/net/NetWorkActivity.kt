@@ -7,12 +7,7 @@ import com.adapter.example.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.*
-import com.xadapter.adapter.XRecyclerViewAdapter
-import com.xadapter.holder.getContext
-import com.xadapter.holder.getImageView
-import com.xadapter.holder.setText
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
+import com.xadapter.adapter.XAdapter
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener
 import io.reactivex.network.getApi
@@ -24,7 +19,7 @@ import kotlinx.android.synthetic.main.recyclerview_layout.*
  */
 class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
 
-    private lateinit var mAdapter: XRecyclerViewAdapter<DataModel>
+    private lateinit var mAdapter: XAdapter<DataModel>
     private var page = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +28,7 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
         setContentView(R.layout.recyclerview_layout)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        mAdapter = XRecyclerViewAdapter()
+        mAdapter = XAdapter()
         recyclerView.adapter = mAdapter
         recyclerView.adapter<DataModel>()
                 .openLoadingMore()
@@ -60,7 +55,8 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
                         mAdapter.loadMoreState = XLoadMoreView.NO_MORE
                     }
                 }
-                .refresh(recyclerView)
+                .attach(recyclerView)
+                .refresh()
 
     }
 

@@ -1,11 +1,13 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.xadapter.holder
+package com.xadapter
 
 import android.view.View
 import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import com.xadapter.holder.XViewHolder
+import com.xadapter.holder.getView
 
 /**
  * @author y

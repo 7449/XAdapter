@@ -9,7 +9,7 @@ import com.xadapter.listener.XMultiCallBack
  *
  *
  *
- * 简单的MultiItem，使用者可继承[XMultiCallBack] 自己定制
+ * 简单的MultiItem，使用者可继承[XMultiCallBack] 定制
  */
 data class SimpleXMultiItem(
         var message: String = "",

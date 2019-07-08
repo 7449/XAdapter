@@ -9,8 +9,8 @@ import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.xadapter.*
 import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.holder.getImageView
-import com.xadapter.holder.setText
+import com.xadapter.getImageView
+import com.xadapter.setText
 import com.xadapter.simple.SimpleXMultiItem
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 

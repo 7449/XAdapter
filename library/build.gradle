@@ -4,10 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "guru.stefma.bintrayrelease"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
     }
     dataBinding {
         enabled = true
@@ -18,7 +18,7 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter"]
     }
 }
-version = "0.0.9.8.2"
+version = "0.0.9.8.3"
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter"

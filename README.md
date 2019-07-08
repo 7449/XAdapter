@@ -10,12 +10,9 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 [https://github.com/7449/XAdapter/blob/master/xadapter.gif](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
 
-
-[中文文档](https://7449.github.io/2016/11/12/Android_XAdapter/)
-
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.2'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.3'
     implementation 'com.google.android.material:material:1.0.0'
 
 onXBind

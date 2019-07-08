@@ -7,7 +7,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import com.xadapter.R
-import com.xadapter.widget.XRefreshView
+import com.xadapter.XRefreshView
 import kotlinx.android.synthetic.main.simple_refresh.view.*
 
 /**

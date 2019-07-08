@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
-import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.adapter.XAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
-import com.xadapter.holder.setText
+import com.xadapter.setText
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 
@@ -19,7 +19,7 @@ import java.util.*
  */
 
 class StaggeredGridLayoutManagerActivity : AppCompatActivity() {
-    private lateinit var xRecyclerViewAdapter: XRecyclerViewAdapter<ExampleBean>
+    private lateinit var xRecyclerViewAdapter: XAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class StaggeredGridLayoutManagerActivity : AppCompatActivity() {
         val mainBeen = ArrayList<ExampleBean>()
         DataUtils.getData(mainBeen)
         recyclerView.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        xRecyclerViewAdapter = XRecyclerViewAdapter()
+        xRecyclerViewAdapter = XAdapter()
         recyclerView.adapter = xRecyclerViewAdapter
                 .apply {
                     dataContainer = mainBeen

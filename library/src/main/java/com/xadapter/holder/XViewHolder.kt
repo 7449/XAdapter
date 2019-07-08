@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.adapter.XRecyclerViewAdapter
+import com.xadapter.adapter.XAdapter
 import com.xadapter.currentItemPosition
 import com.xadapter.listener.XMultiCallBack
 
@@ -55,7 +55,7 @@ internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderLongClick(xMultiAda
     }
 }
 
-internal fun <T> XViewHolder.XViewHolderClick(adapter: XRecyclerViewAdapter<T>): XViewHolder {
+internal fun <T> XViewHolder.XViewHolderClick(adapter: XAdapter<T>): XViewHolder {
     itemView.setOnClickListener { view ->
         adapter.onXItemClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
@@ -64,7 +64,7 @@ internal fun <T> XViewHolder.XViewHolderClick(adapter: XRecyclerViewAdapter<T>):
     return this
 }
 
-internal fun <T> XViewHolder.XViewHolderLongClick(adapter: XRecyclerViewAdapter<T>) {
+internal fun <T> XViewHolder.XViewHolderLongClick(adapter: XAdapter<T>) {
     itemView.setOnLongClickListener { view ->
         val invoke = adapter.onXItemLongClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),

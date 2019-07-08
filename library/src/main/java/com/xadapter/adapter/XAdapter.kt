@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.xadapter.XLoadMoreView
+import com.xadapter.XRefreshView
 import com.xadapter.currentItemPosition
+import com.xadapter.gone
 import com.xadapter.holder.SuperViewHolder
 import com.xadapter.holder.XViewHolder
 import com.xadapter.holder.XViewHolderClick
@@ -14,13 +17,11 @@ import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.simple.SimpleLoadMore
 import com.xadapter.simple.SimpleRefresh
-import com.xadapter.widget.XLoadMoreView
-import com.xadapter.widget.XRefreshView
 
 /**
  * by y on 2016/11/15
  */
-open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
+open class XAdapter<T> : XBaseAdapter<T>() {
 
     companion object {
         internal const val TYPE_ITEM = -1
@@ -28,7 +29,7 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
         internal const val TYPE_LOAD_MORE_FOOTER = 1
     }
 
-    internal var recyclerView: RecyclerView? = null
+    var recyclerView: RecyclerView? = null
         set(value) {
             if (value == null) {
                 return
@@ -53,6 +54,7 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
     val adapterViewType = 100000
 
     var touchListener: View.OnTouchListener? = null
+        private set
         get() {
             refreshView?.let {
                 if (field == null) {
@@ -62,7 +64,8 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
             return field
         }
 
-    var scrollListener: RecyclerView.OnScrollListener? = null
+    internal var scrollListener: XScrollListener? = null
+        private set
         get() {
             if (field == null) {
                 field = XScrollListener { onScrollBottom() }.apply { scrollItemCount = scrollLoadMoreItemCount }
@@ -87,9 +90,7 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
     var scrollLoadMoreItemCount = 1
         set(value) {
             field = value
-            if (scrollListener is XScrollListener) {
-                (scrollListener as XScrollListener).scrollItemCount = value
-            }
+            scrollListener?.scrollItemCount = value
         }
 
     var emptyView: View? = null
@@ -126,7 +127,7 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
             return SuperViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
 
-        val xViewHolder = SuperViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)).apply { XViewHolderClick(this@XRecyclerViewAdapter).apply { XViewHolderLongClick(this@XRecyclerViewAdapter) } }
+        val xViewHolder = SuperViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)).apply { XViewHolderClick(this@XAdapter).apply { XViewHolderLongClick(this@XAdapter) } }
 
         return when (viewType) {
             TYPE_REFRESH_HEADER -> {
@@ -185,6 +186,6 @@ open class XRecyclerViewAdapter<T> : XBaseAdapter<T>() {
     open fun onRefresh() {
         loadMoreView?.state = XLoadMoreView.NORMAL
         xRefreshListener?.invoke()
-        goneView(emptyView)
+        emptyView?.gone()
     }
 }

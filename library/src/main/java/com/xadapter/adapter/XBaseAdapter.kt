@@ -53,24 +53,24 @@ internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnViewAttachedToWindo
 }
 
 /**
- * 接管[XRecyclerViewAdapter]在[GridLayoutManager]下的显示效果
+ * 接管[XAdapter]在[GridLayoutManager]下的显示效果
  */
-internal fun <T> XRecyclerViewAdapter<T>.internalOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+internal fun <T> XAdapter<T>.internalOnAttachedToRecyclerView(recyclerView: RecyclerView) {
     val manager = recyclerView.layoutManager
     if (manager is GridLayoutManager) {
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int = if (getItemViewType(position) != XRecyclerViewAdapter.TYPE_ITEM) manager.spanCount else 1
+            override fun getSpanSize(position: Int): Int = if (getItemViewType(position) != XAdapter.TYPE_ITEM) manager.spanCount else 1
         }
     }
 }
 
 /**
- * 处理[XRecyclerViewAdapter]在[AppBarLayout]下的滑动冲突
+ * 处理[XAdapter]在[AppBarLayout]下的滑动冲突
  */
-internal fun <T> XRecyclerViewAdapter<T>.internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
+internal fun <T> XAdapter<T>.internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
     val layoutParams = viewHolder.itemView.layoutParams
     if (layoutParams != null && layoutParams is StaggeredGridLayoutManager.LayoutParams) {
-        layoutParams.isFullSpan = getItemViewType(viewHolder.layoutPosition) != XRecyclerViewAdapter.TYPE_ITEM
+        layoutParams.isFullSpan = getItemViewType(viewHolder.layoutPosition) != XAdapter.TYPE_ITEM
     }
     if (recyclerView == null) {
         recyclerView = viewHolder.itemView.parent as RecyclerView
@@ -104,15 +104,15 @@ internal fun <T> XRecyclerViewAdapter<T>.internalOnViewAttachedToWindow(viewHold
 }
 
 /**
- * [XRecyclerViewAdapter]的 viewType
+ * [XAdapter]的 viewType
  */
-internal fun <T> XRecyclerViewAdapter<T>.internalGetItemViewType(position: Int): Int {
+internal fun <T> XAdapter<T>.internalGetItemViewType(position: Int): Int {
     var mPos = position
     if (isRefreshHeaderType(mPos)) {
-        return XRecyclerViewAdapter.TYPE_REFRESH_HEADER
+        return XAdapter.TYPE_REFRESH_HEADER
     }
     if (isLoadMoreType(mPos)) {
-        return XRecyclerViewAdapter.TYPE_LOAD_MORE_FOOTER
+        return XAdapter.TYPE_LOAD_MORE_FOOTER
     }
     if (pullRefreshEnabled) {
         mPos -= 1
@@ -131,50 +131,18 @@ internal fun <T> XRecyclerViewAdapter<T>.internalGetItemViewType(position: Int):
         }
         return mPos * adapterViewType
     }
-    return XRecyclerViewAdapter.TYPE_ITEM
+    return XAdapter.TYPE_ITEM
 }
 
 /**
- * [XRecyclerViewAdapter]的 总数据个数
+ * [XAdapter]的 总数据个数
  */
-internal fun <T> XRecyclerViewAdapter<T>.dataSize(): Int {
+internal fun <T> XAdapter<T>.dataSize(): Int {
     return dataContainer.size + if ((loadingMoreEnabled && dataContainer.isNotEmpty()) && pullRefreshEnabled) {
         2
     } else if ((loadingMoreEnabled && dataContainer.isNotEmpty()) || pullRefreshEnabled) {
         1
     } else {
         0
-    }
-}
-
-/**
- * 是否显示EmptyView
- */
-fun <T> XRecyclerViewAdapter<T>.isShowEmptyView() {
-    if (dataContainer.isEmpty()) {
-        visibleView(emptyView)
-        goneView(recyclerView)
-    } else {
-        visibleView(recyclerView)
-        goneView(emptyView)
-    }
-}
-
-fun <T> XRecyclerViewAdapter<T>.showParent(recyclerView: RecyclerView) {
-    this.recyclerView = recyclerView
-    visibleView(recyclerView)
-}
-
-fun goneView(vararg views: View?) {
-    for (view in views) {
-        if (view != null && view.visibility != View.GONE)
-            view.visibility = View.GONE
-    }
-}
-
-fun visibleView(vararg views: View?) {
-    for (view in views) {
-        if (view != null && view.visibility != View.VISIBLE)
-            view.visibility = View.VISIBLE
     }
 }
