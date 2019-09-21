@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package com.xadapter
 
 import android.view.View
@@ -13,37 +11,36 @@ import com.xadapter.holder.getView
  * @author y
  * @create 2019/3/15
  */
-
 fun <T : View> XViewHolder.findById(id: Int) = getView<T>(id)
 
-inline fun XViewHolder.getContext() = itemView.context
+fun XViewHolder.getContext() = itemView.context
 
-inline fun XViewHolder.getRelativeLayout(id: Int) = findById<RelativeLayout>(id)
+fun XViewHolder.getRelativeLayout(id: Int) = findById<RelativeLayout>(id)
 
-inline fun XViewHolder.getLinearLayout(id: Int) = findById<LinearLayout>(id)
+fun XViewHolder.getLinearLayout(id: Int) = findById<LinearLayout>(id)
 
-inline fun XViewHolder.getFrameLayout(id: Int) = findById<FrameLayout>(id)
+fun XViewHolder.getFrameLayout(id: Int) = findById<FrameLayout>(id)
 
-inline fun XViewHolder.getButton(id: Int) = findById<Button>(id)
+fun XViewHolder.getButton(id: Int) = findById<Button>(id)
 
-inline fun XViewHolder.getRadioButton(id: Int) = findById<RadioButton>(id)
+fun XViewHolder.getRadioButton(id: Int) = findById<RadioButton>(id)
 
-inline fun XViewHolder.getCheckBox(id: Int) = findById<CheckBox>(id)
+fun XViewHolder.getCheckBox(id: Int) = findById<CheckBox>(id)
 
-inline fun XViewHolder.getProgressBar(id: Int) = findById<ProgressBar>(id)
+fun XViewHolder.getProgressBar(id: Int) = findById<ProgressBar>(id)
 
-inline fun XViewHolder.getSeekBar(id: Int) = findById<SeekBar>(id)
+fun XViewHolder.getSeekBar(id: Int) = findById<SeekBar>(id)
 
-inline fun XViewHolder.getRatingBar(id: Int) = findById<RatingBar>(id)
+fun XViewHolder.getRatingBar(id: Int) = findById<RatingBar>(id)
 
-inline fun XViewHolder.getGridLayout(id: Int) = findById<GridLayout>(id)
+fun XViewHolder.getGridLayout(id: Int) = findById<GridLayout>(id)
 
-inline fun XViewHolder.getImageView(id: Int) = findById<ImageView>(id)
+fun XViewHolder.getImageView(id: Int) = findById<ImageView>(id)
 
-inline fun XViewHolder.getTextView(id: Int) = findById<TextView>(id)
+fun XViewHolder.getTextView(id: Int) = findById<TextView>(id)
 
-inline fun XViewHolder.setText(id: Int, charSequence: CharSequence) = run { getTextView(id).text = charSequence }
+fun XViewHolder.setText(id: Int, charSequence: CharSequence) = run { getTextView(id).text = charSequence }
 
-inline fun XViewHolder.setTextColor(id: Int, @ColorRes color: Int) = run { getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color)) }
+fun XViewHolder.setTextColor(id: Int, @ColorRes color: Int) = run { getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color)) }
 
-inline fun XViewHolder.setTextSize(id: Int, size: Float) = run { getTextView(id).textSize = size }
+fun XViewHolder.setTextSize(id: Int, size: Float) = run { getTextView(id).textSize = size }

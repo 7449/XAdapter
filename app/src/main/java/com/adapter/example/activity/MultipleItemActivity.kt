@@ -9,16 +9,12 @@ import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.xadapter.*
 import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.getImageView
-import com.xadapter.setText
-import com.xadapter.simple.SimpleXMultiItem
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 /**
  * by y on 2017/1/12.
  */
-
-class MultipleXXItemActivity : AppCompatActivity() {
+class MultipleItemActivity : AppCompatActivity() {
 
     companion object {
         const val TYPE_LINE = 1
@@ -31,10 +27,9 @@ class MultipleXXItemActivity : AppCompatActivity() {
         setContentView(R.layout.multiple_layout)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        recyclerView.adapter = XMultiAdapter(DataUtils.multipleData())
 
         recyclerView
-                .multiAdapter<SimpleXMultiItem>()
+                .attachMultiAdapter(XMultiAdapter(DataUtils.multipleData()))
                 .setItemLayoutId { viewType ->
                     when (viewType) {
                         TYPE_LINE -> R.layout.item_line

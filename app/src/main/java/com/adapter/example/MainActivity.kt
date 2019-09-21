@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity() {
         GridLayout.setOnClickListener { startActivity(GridLayoutManagerActivity::class.java) }
         StaggeredGridLayout.setOnClickListener { startActivity(StaggeredGridLayoutManagerActivity::class.java) }
         collapsingToolbar.setOnClickListener { startActivity(CollapsingToolbarLayoutActivity::class.java) }
-        emptyView.setOnClickListener { startActivity(EmptyViewActivity::class.java) }
-        multiple.setOnClickListener { startActivity(MultipleXXItemActivity::class.java) }
+        multiple.setOnClickListener { startActivity(MultipleItemActivity::class.java) }
         databinding.setOnClickListener { startActivity(DataBindingActivity::class.java) }
     }
 

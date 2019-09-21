@@ -1,7 +1,6 @@
 package com.adapter.example.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +15,6 @@ import com.adapter.example.databinding.DatabindingLayoutBinding
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
 import com.xadapter.*
-import com.xadapter.adapter.XDataBindingAdapter
 
 /**
  * @author y
@@ -25,57 +23,49 @@ import com.xadapter.adapter.XDataBindingAdapter
 class DataBindingActivity : AppCompatActivity() {
 
     private lateinit var binding: DatabindingLayoutBinding
-    private lateinit var xRecyclerViewAdapter: XDataBindingAdapter<ExampleBean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val mainBeen = ObservableArrayList<ExampleBean>()
         DataUtils.getData(mainBeen)
         binding = DataBindingUtil.setContentView(this, R.layout.databinding_layout)
-        xRecyclerViewAdapter = XDataBindingAdapterFactory(BR.entity)
         binding.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = xRecyclerViewAdapter.apply {
-            loadMoreView = LoadMoreView(applicationContext)
-            refreshView = RefreshView(applicationContext)
-            pullRefreshEnabled = true
-            loadingMoreEnabled = true
-            scrollLoadMoreItemCount = 10
-            headerViewContainer.apply {
-                add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
-                add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))
-                add(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_3, findViewById(android.R.id.content), false))
-            }
-            footerViewContainer.apply {
-                add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
-                add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
-                add(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
-            }
-            onXBindListener = { xViewHolder, i, mainBean ->
-            }
-            onXItemLongClickListener = { _, _, _ ->
-                Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
-                true
-            }
-            onXItemClickListener = { _, position, entity ->
-                Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
-            }
-            itemLayoutId = R.layout.item_databinding
-            addAll(mainBeen)
-        }
-
-        Log.d("DataBindingActivity", xRecyclerViewAdapter.observableArrayList()::class.java.simpleName)
-
-        binding.recyclerView.adapter<ExampleBean>().xRefreshListener = {
-            binding.recyclerView.postDelayed({
-                xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
-                Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
-            }, 1500)
-        }
-        binding.recyclerView.adapter<ExampleBean>().xLoadMoreListener = {
-            binding.recyclerView.postDelayed({
-                xRecyclerViewAdapter.loadMoreState = XLoadMoreView.ERROR
-                Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()
-            }, 1500)
-        }
+        binding.recyclerView
+                .attachDataBindingAdapter(XDataBindingAdapterFactory<ExampleBean>(BR.entity))
+                .setItemLayoutId(R.layout.item_databinding)
+                .customLoadMoreView(LoadMoreView(applicationContext))
+                .customRefreshView(RefreshView(applicationContext))
+                .setScrollLoadMoreItemCount(10)
+                .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
+                .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))
+                .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_3, findViewById(android.R.id.content), false))
+                .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_1, findViewById(android.R.id.content), false))
+                .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_2, findViewById(android.R.id.content), false))
+                .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
+                .openPullRefresh()
+                .openLoadingMore()
+                .setOnItemClickListener { _, position, entity ->
+                    Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
+                }
+                .setOnItemLongClickListener { _, _, _ ->
+                    Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                .setRefreshListener {
+                    binding.recyclerView.postDelayed({
+                        binding.recyclerView.adapter<ExampleBean>().setRefreshState(XRefreshView.SUCCESS)
+                        Toast.makeText(baseContext, "refresh...", Toast.LENGTH_SHORT).show()
+                    }, 1500)
+                }
+                .setLoadMoreListener {
+                    binding.recyclerView.postDelayed({
+                        binding.recyclerView.adapter<ExampleBean>().setLoadMoreState(XLoadMoreView.ERROR)
+                        Toast.makeText(baseContext, "loadMore...", Toast.LENGTH_SHORT).show()
+                    }, 1500)
+                }
+                .setFooterListener { _, adapter ->
+                    Toast.makeText(baseContext, adapter.loadMoreState.toString(), Toast.LENGTH_SHORT).show()
+                }
+                .addAll(mainBeen)
     }
 }

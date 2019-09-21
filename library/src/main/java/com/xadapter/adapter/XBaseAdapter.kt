@@ -72,9 +72,6 @@ internal fun <T> XAdapter<T>.internalOnViewAttachedToWindow(viewHolder: Recycler
     if (layoutParams != null && layoutParams is StaggeredGridLayoutManager.LayoutParams) {
         layoutParams.isFullSpan = getItemViewType(viewHolder.layoutPosition) != XAdapter.TYPE_ITEM
     }
-    if (recyclerView == null) {
-        recyclerView = viewHolder.itemView.parent as RecyclerView
-    }
     var appBarLayout: AppBarLayout? = null
     var p: ViewParent? = recyclerView?.parent
     while (p != null) {

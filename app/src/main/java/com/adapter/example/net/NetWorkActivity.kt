@@ -27,10 +27,9 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
         title = "NetWork Example"
         setContentView(R.layout.recyclerview_layout)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         mAdapter = XAdapter()
-        recyclerView.adapter = mAdapter
-        recyclerView.adapter<DataModel>()
+        recyclerView
+                .attachAdapter(mAdapter)
                 .openLoadingMore()
                 .openPullRefresh()
                 .setItemLayoutId(R.layout.network_item)
@@ -55,13 +54,11 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
                         mAdapter.loadMoreState = XLoadMoreView.NO_MORE
                     }
                 }
-                .attach(recyclerView)
-                .refresh()
-
+                .refresh(recyclerView)
     }
 
     private fun netWork() {
-        RxNetWork.cancelX(javaClass.simpleName)
+        RxNetWork.cancelTag(javaClass.simpleName)
         RxNetWork.observable(NetApi.ZLService::class.java)
                 .getList()
                 .getApi(javaClass.simpleName, this)
@@ -97,6 +94,6 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
 
     override fun onDestroy() {
         super.onDestroy()
-        RxNetWork.cancelX(javaClass.simpleName)
+        RxNetWork.cancelTag(javaClass.simpleName)
     }
 }

@@ -1,6 +1,5 @@
 package com.xadapter.manager
 
-import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import com.xadapter.XLoadMoreView
@@ -20,7 +19,6 @@ internal class XTouchListener(
     private val isTop: Boolean
         get() = refreshView.parent != null
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         if (refreshView.state == XRefreshView.REFRESH || loadMoreView?.state == XLoadMoreView.LOAD) {
             return false

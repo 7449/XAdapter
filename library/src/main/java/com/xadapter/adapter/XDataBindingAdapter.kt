@@ -1,5 +1,3 @@
-@file:Suppress("FunctionName", "ClickableViewAccessibility")
-
 package com.xadapter.adapter
 
 import android.view.LayoutInflater
@@ -7,9 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
-import com.xadapter.currentItemPosition
 import com.xadapter.holder.*
-
 
 /**
  * @author y
@@ -30,14 +26,12 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             recyclerView = parent as RecyclerView
         }
         if (headerViewType.contains(viewType)) {
-            return SuperViewHolder(headerViewContainer[viewType / adapterViewType])
+            return superViewHolder(headerViewContainer[viewType / adapterViewType])
         }
         if (footerViewType.contains(viewType)) {
-            return SuperViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
+            return superViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
-
-        val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).apply { XViewHolderClick(this@XDataBindingAdapter).apply { XViewHolderLongClick(this@XDataBindingAdapter) } }
-
+        val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).apply { viewHolderClick(this@XDataBindingAdapter).viewHolderLongClick(this@XDataBindingAdapter) }
         return when (viewType) {
             TYPE_REFRESH_HEADER -> {
                 refreshView?.let {
@@ -47,7 +41,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             }
             TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let { it ->
-                    it.setOnClickListener { v -> onXFooterListener?.invoke(v) }
+                    it.setOnClickListener { v -> onXFooterListener?.invoke(v, this) }
                     scrollListener?.let { recyclerView?.addOnScrollListener(it) }
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect loadMoreView is null")

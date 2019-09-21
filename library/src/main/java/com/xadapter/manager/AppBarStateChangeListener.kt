@@ -7,7 +7,6 @@ import kotlin.math.abs
 /**
  * by y on 2016/11/17
  */
-
 abstract class AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener {
 
     private var mCurrentState = IDLE

@@ -40,7 +40,7 @@ class RefreshView(context: Context) : XRefreshView(context, R.layout.layout_refr
     }
 
     override fun onNormal() {
-        if (state == XRefreshView.READY) {
+        if (state == READY) {
             iv_tips.startAnimation(mRotateDownAnim)
         } else {
             iv_tips.clearAnimation()

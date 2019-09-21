@@ -1,7 +1,6 @@
 # XAdapter
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
 
-
 Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/12/Android_XAdapter/)
 
 # Screenshots
@@ -12,7 +11,7 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.3'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.4'
     implementation 'com.google.android.material:material:1.0.0'
 
 onXBind
@@ -22,16 +21,6 @@ Achieve data display
         adapter.onXBindListener = { holder, position, entity ->
             
         }
-
-## emptyView
-
->Whether to display manually determined by the user's own network exceptions or data is empty when the call xRecyclerViewAdapter.isShowEmptyView (); specific examples of simple
-	
-    mRecyclerView.adapter = xRecyclerViewAdapter
-            .apply {
-                emptyView = findViewById(R.id.emptyView)
-                recyclerView = mRecyclerView
-            }
 
 ## pull to refresh and load more
 

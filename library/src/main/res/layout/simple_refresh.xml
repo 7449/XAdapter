@@ -7,41 +7,39 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="@dimen/simple_refresh_height"
+        android:padding="@dimen/simple_refresh_padding"
+        tools:ignore="UselessParent">
 
-        <RelativeLayout
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="@dimen/simple_refresh_progressbar"
+            android:layout_height="@dimen/simple_refresh_progressbar"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/simple_refresh_progressbar_right"
+            android:layout_marginRight="@dimen/simple_refresh_progressbar_right"
+            android:layout_toStartOf="@+id/tv_tips"
+            android:layout_toLeftOf="@+id/tv_tips"
+            android:visibility="invisible" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/simple_refresh_progressbar_right"
+            android:layout_marginRight="@dimen/simple_refresh_progressbar_right"
+            android:layout_toStartOf="@+id/tv_tips"
             android:layout_toLeftOf="@+id/tv_tips"
-            tools:ignore="RtlHardcoded">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/progressbar"
-                android:visibility="invisible" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_tips"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/ic_loading" />
-
-
-        </RelativeLayout>
-
+            android:background="@drawable/ic_refresh_action" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            tools:ignore="RelativeOverlap"
+            tools:text="tips" />
     </RelativeLayout>
-
 
 </LinearLayout>

@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.adapter.example">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -24,9 +22,12 @@
         <activity android:name=".activity.StaggeredGridLayoutManagerActivity" />
         <activity android:name=".net.NetWorkActivity" />
         <activity android:name=".activity.CollapsingToolbarLayoutActivity" />
-        <activity android:name=".activity.EmptyViewActivity" />
-        <activity android:name=".activity.MultipleXXItemActivity" />
+        <activity android:name=".activity.MultipleItemActivity" />
         <activity android:name=".activity.DataBindingActivity" />
     </application>
+
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        tools:ignore="ManifestOrder" />
 
 </manifest>

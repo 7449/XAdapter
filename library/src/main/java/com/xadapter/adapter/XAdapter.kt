@@ -7,12 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.XLoadMoreView
 import com.xadapter.XRefreshView
-import com.xadapter.currentItemPosition
-import com.xadapter.gone
-import com.xadapter.holder.SuperViewHolder
-import com.xadapter.holder.XViewHolder
-import com.xadapter.holder.XViewHolderClick
-import com.xadapter.holder.XViewHolderLongClick
+import com.xadapter.holder.*
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.simple.SimpleLoadMore
@@ -29,7 +24,7 @@ open class XAdapter<T> : XBaseAdapter<T>() {
         internal const val TYPE_LOAD_MORE_FOOTER = 1
     }
 
-    var recyclerView: RecyclerView? = null
+    internal var recyclerView: RecyclerView? = null
         set(value) {
             if (value == null) {
                 return
@@ -43,15 +38,23 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             }
         }
 
-    var itemLayoutId = View.NO_ID
+    internal var scrollListener: XScrollListener? = null
+        private set
+        get() {
+            if (field == null) {
+                field = XScrollListener { onScrollBottom() }.apply { scrollItemCount = scrollLoadMoreItemCount }
+            }
+            return field
+        }
 
+    var itemLayoutId = View.NO_ID
+    val adapterViewType = 100000
     val headerViewContainer = ArrayList<View>()
     val footerViewContainer = ArrayList<View>()
-    open var dataContainer: ArrayList<T> = ArrayList()
-
     val headerViewType = ArrayList<Int>()
     val footerViewType = ArrayList<Int>()
-    val adapterViewType = 100000
+
+    open var dataContainer: ArrayList<T> = ArrayList()
 
     var touchListener: View.OnTouchListener? = null
         private set
@@ -64,26 +67,15 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             return field
         }
 
-    internal var scrollListener: XScrollListener? = null
-        private set
-        get() {
-            if (field == null) {
-                field = XScrollListener { onScrollBottom() }.apply { scrollItemCount = scrollLoadMoreItemCount }
-            }
-            return field
-        }
-
     var xRefreshListener: (() -> Unit)? = null
 
     var xLoadMoreListener: (() -> Unit)? = null
 
-    var onXFooterListener: ((view: View) -> Unit)? = null
+    var onXFooterListener: ((view: View, adapter: XAdapter<T>) -> Unit)? = null
 
     var refreshView: XRefreshView? = null
 
     var loadMoreView: XLoadMoreView? = null
-
-    var onXEmptyListener: ((view: View) -> Unit)? = null
 
     lateinit var onXBindListener: ((holder: XViewHolder, position: Int, entity: T) -> Unit)
 
@@ -91,12 +83,6 @@ open class XAdapter<T> : XBaseAdapter<T>() {
         set(value) {
             field = value
             scrollListener?.scrollItemCount = value
-        }
-
-    var emptyView: View? = null
-        set(value) {
-            field = value
-            field?.setOnClickListener { view -> onXEmptyListener?.invoke(view) }
         }
 
     var pullRefreshEnabled = false
@@ -121,14 +107,12 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             recyclerView = parent as RecyclerView
         }
         if (headerViewType.contains(viewType)) {
-            return SuperViewHolder(headerViewContainer[viewType / adapterViewType])
+            return superViewHolder(headerViewContainer[viewType / adapterViewType])
         }
         if (footerViewType.contains(viewType)) {
-            return SuperViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
+            return superViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
-
-        val xViewHolder = SuperViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)).apply { XViewHolderClick(this@XAdapter).apply { XViewHolderLongClick(this@XAdapter) } }
-
+        val xViewHolder = superViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)).apply { viewHolderClick(this@XAdapter).viewHolderLongClick(this@XAdapter) }
         return when (viewType) {
             TYPE_REFRESH_HEADER -> {
                 refreshView?.let {
@@ -138,7 +122,7 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             }
             TYPE_LOAD_MORE_FOOTER -> {
                 loadMoreView?.let { it ->
-                    it.setOnClickListener { v -> onXFooterListener?.invoke(v) }
+                    it.setOnClickListener { v -> onXFooterListener?.invoke(v, this) }
                     scrollListener?.let { recyclerView?.addOnScrollListener(it) }
                     XViewHolder(it)
                 } ?: throw NullPointerException("detect loadMoreView is null")
@@ -186,6 +170,5 @@ open class XAdapter<T> : XBaseAdapter<T>() {
     open fun onRefresh() {
         loadMoreView?.state = XLoadMoreView.NORMAL
         xRefreshListener?.invoke()
-        emptyView?.gone()
     }
 }

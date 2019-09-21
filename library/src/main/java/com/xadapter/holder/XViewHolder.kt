@@ -1,4 +1,4 @@
-@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate", "unused", "FunctionName")
+@file:Suppress("UNCHECKED_CAST")
 
 package com.xadapter.holder
 
@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.adapter.XAdapter
-import com.xadapter.currentItemPosition
-import com.xadapter.listener.XMultiCallBack
 
 /**
  * BaseViewHolder
@@ -21,9 +18,9 @@ open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 class XDataBindingHolder(var viewDataBinding: ViewDataBinding) : XViewHolder(viewDataBinding.root)
 
-internal fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.SuperViewHolder(parent: ViewGroup, layoutId: Int) = XViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
+internal fun superViewHolder(parent: ViewGroup, layoutId: Int) = XViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
 
-internal fun <VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.SuperViewHolder(view: View) = XViewHolder(view)
+internal fun superViewHolder(view: View) = XViewHolder(view)
 
 internal fun <T : View> XViewHolder.getView(id: Int): T {
     var viewSparseArray: SparseArray<View>? = itemView.tag as SparseArray<View>?
@@ -39,23 +36,7 @@ internal fun <T : View> XViewHolder.getView(id: Int): T {
     return childView as T
 }
 
-internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderClick(xMultiAdapter: XMultiAdapter<T>): XViewHolder {
-    itemView.setOnClickListener {
-        if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
-        xMultiAdapter.onXItemClickListener?.invoke(it, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
-    }
-    return this
-}
-
-internal fun <T : XMultiCallBack> XViewHolder.MultiViewHolderLongClick(xMultiAdapter: XMultiAdapter<T>) {
-    itemView.setOnLongClickListener {
-        if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
-        return@setOnLongClickListener xMultiAdapter.onXItemLongClickListener?.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
-                ?: false
-    }
-}
-
-internal fun <T> XViewHolder.XViewHolderClick(adapter: XAdapter<T>): XViewHolder {
+internal fun <T> XViewHolder.viewHolderClick(adapter: XAdapter<T>): XViewHolder {
     itemView.setOnClickListener { view ->
         adapter.onXItemClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
@@ -64,11 +45,19 @@ internal fun <T> XViewHolder.XViewHolderClick(adapter: XAdapter<T>): XViewHolder
     return this
 }
 
-internal fun <T> XViewHolder.XViewHolderLongClick(adapter: XAdapter<T>) {
+internal fun <T> XViewHolder.viewHolderLongClick(adapter: XAdapter<T>) {
     itemView.setOnLongClickListener { view ->
         val invoke = adapter.onXItemLongClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
                 adapter.dataContainer[adapter.currentItemPosition(layoutPosition)]) ?: false
         invoke
     }
+}
+
+internal fun <T> XAdapter<T>.currentItemPosition(position: Int): Int {
+    var mPos = position
+    if (pullRefreshEnabled) {
+        mPos -= 1
+    }
+    return mPos - headerViewContainer.size
 }

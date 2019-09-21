@@ -3,24 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="@dimen/simple_load_more_padding">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ProgressBar
         android:id="@+id/progressbar"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_centerInParent="true"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/tv_tips"
-        android:background="@drawable/progressbar"
-        tools:ignore="RtlHardcoded" />
-
+        android:layout_width="@dimen/simple_load_more_progressbar"
+        android:layout_height="@dimen/simple_load_more_progressbar"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/simple_load_more_progressbar_right"
+        android:layout_marginRight="@dimen/simple_load_more_progressbar_right"
+        android:layout_toStartOf="@+id/tv_tips"
+        android:layout_toLeftOf="@+id/tv_tips" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        tools:ignore="RelativeOverlap"
         tools:text="tips" />
 
 </RelativeLayout>

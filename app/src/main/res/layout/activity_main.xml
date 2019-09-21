@@ -45,13 +45,6 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/emptyView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="EmptyView"
-            android:textAllCaps="false" />
-
-        <Button
             android:id="@+id/multiple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

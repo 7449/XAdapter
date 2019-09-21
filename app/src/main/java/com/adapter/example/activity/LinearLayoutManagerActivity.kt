@@ -21,7 +21,6 @@ import java.util.*
 /**
  * by y on 2016/11/17
  */
-
 class LinearLayoutManagerActivity : AppCompatActivity() {
 
     private lateinit var xRecyclerViewAdapter: XAdapter<ExampleBean>
@@ -60,9 +59,6 @@ class LinearLayoutManagerActivity : AppCompatActivity() {
             }
             onXItemClickListener = { _, position, entity ->
                 Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
-            }
-            onXFooterListener = {
-                Toast.makeText(baseContext, "loadMore error onClick", Toast.LENGTH_SHORT).show()
             }
             xRefreshListener = {
                 this@LinearLayoutManagerActivity.recyclerView.postDelayed({
