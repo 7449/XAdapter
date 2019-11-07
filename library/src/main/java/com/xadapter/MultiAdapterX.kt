@@ -2,26 +2,9 @@ package com.xadapter
 
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XMultiAdapter
 import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.XMultiCallBack
-
-@Suppress("UNCHECKED_CAST")
-fun <T : XMultiCallBack> RecyclerView.multiAdapter() = adapter as XMultiAdapter<T>
-
-fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter(adapter: XMultiAdapter<T>) = also { setAdapter(adapter) }.multiAdapter<T>()
-
-//fun <T : XMultiCallBack> RecyclerView.multiRemoveAll() = multiAdapter<T>().removeAll()
-//
-//fun <T : XMultiCallBack> RecyclerView.multiRemove(position: Int) = multiAdapter<T>().remove(position)
-//
-//fun <T : XMultiCallBack> RecyclerView.multiAddAll(entity: List<T>) = multiAdapter<T>().addAll(entity)
-//
-//fun <T : XMultiCallBack> RecyclerView.multiAdd(item: T) = multiAdapter<T>().add(item)
-//
-//fun <T : XMultiCallBack> RecyclerView.multiItem(position: Int) = multiAdapter<T>().getItem(position)
-
 
 fun <T : XMultiCallBack> XMultiAdapter(): XMultiAdapter<T> = XMultiAdapter(ArrayList())
 

@@ -5,7 +5,7 @@ package com.adapter.example.net
  */
 
 class NetWorkBean {
-    lateinit var top_stories: List<DataModel>
+    lateinit var top_stories: ArrayList<DataModel>
 }
 
 class DataModel {

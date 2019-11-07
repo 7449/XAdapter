@@ -2,38 +2,34 @@ package com.adapter.example.net
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.example.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.xadapter.*
-import com.xadapter.adapter.XAdapter
 import io.reactivex.network.RxNetWork
 import io.reactivex.network.RxNetWorkListener
+import io.reactivex.network.cancelTag
 import io.reactivex.network.getApi
 import kotlinx.android.synthetic.main.recyclerview_layout.*
-
 
 /**
  * by y on 2016/11/17
  */
 class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
 
-    private lateinit var mAdapter: XAdapter<DataModel>
     private var page = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "NetWork Example"
         setContentView(R.layout.recyclerview_layout)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        mAdapter = XAdapter()
         recyclerView
-                .attachAdapter(mAdapter)
+                .linearLayoutManager()
+                .attachAdapter<DataModel>()
                 .openLoadingMore()
                 .openPullRefresh()
                 .setItemLayoutId(R.layout.network_item)
-                .setOnBind { holder, _, entity ->
+                .setOnBind<DataModel> { holder, _, entity ->
                     Glide
                             .with(holder.getContext())
                             .load(entity.image)
@@ -43,7 +39,7 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
                 }
                 .setRefreshListener {
                     page = 0
-                    mAdapter.removeAll()
+                    recyclerView.removeAll()
                     netWork()
                 }
                 .setLoadMoreListener {
@@ -51,16 +47,17 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
                         netWork()
                         ++page
                     } else {
-                        mAdapter.loadMoreState = XLoadMoreView.NO_MORE
+                        recyclerView.setLoadMoreState(XLoadMoreView.NO_MORE)
                     }
                 }
-                .refresh(recyclerView)
+                .refresh()
     }
 
     private fun netWork() {
-        RxNetWork.cancelTag(javaClass.simpleName)
-        RxNetWork.observable(NetApi.ZLService::class.java)
+        RxNetWork
+                .observable(NetApi.ZLService::class.java)
                 .getList()
+                .cancelTag(javaClass.simpleName)
                 .getApi(javaClass.simpleName, this)
     }
 
@@ -68,28 +65,28 @@ class NetWorkActivity : AppCompatActivity(), RxNetWorkListener<NetWorkBean> {
 
     override fun onNetWorkStart() {
         if (page != 0) {
-            mAdapter.loadMoreState = XLoadMoreView.LOAD
+            recyclerView.setLoadMoreState(XLoadMoreView.LOAD)
         }
     }
 
     override fun onNetWorkError(e: Throwable) {
         if (page == 0) {
-            mAdapter.refreshState = XRefreshView.ERROR
+            recyclerView.setRefreshState(XLoadMoreView.ERROR)
         } else {
-            mAdapter.loadMoreState = XLoadMoreView.ERROR
+            recyclerView.setLoadMoreState(XLoadMoreView.ERROR)
         }
     }
 
     override fun onNetWorkComplete() {
         if (page == 0) {
-            mAdapter.refreshState = XRefreshView.SUCCESS
+            recyclerView.setRefreshState(XLoadMoreView.SUCCESS)
         } else {
-            mAdapter.loadMoreState = XLoadMoreView.SUCCESS
+            recyclerView.setLoadMoreState(XLoadMoreView.SUCCESS)
         }
     }
 
     override fun onNetWorkSuccess(data: NetWorkBean) {
-        mAdapter.addAll(data.top_stories)
+        recyclerView.addAll(data.top_stories)
     }
 
     override fun onDestroy() {

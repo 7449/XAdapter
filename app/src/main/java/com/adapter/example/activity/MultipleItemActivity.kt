@@ -9,6 +9,7 @@ import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.xadapter.*
 import com.xadapter.adapter.XMultiAdapter
+import com.xadapter.simple.SimpleXMultiItem
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 
 /**
@@ -30,13 +31,13 @@ class MultipleItemActivity : AppCompatActivity() {
 
         recyclerView
                 .attachMultiAdapter(XMultiAdapter(DataUtils.multipleData()))
-                .setItemLayoutId { viewType ->
+                .multiSetItemLayoutId { viewType ->
                     when (viewType) {
                         TYPE_LINE -> R.layout.item_line
                         else -> R.layout.item_multi
                     }
                 }
-                .setMultiBind { holder, entity, itemViewType, _ ->
+                .multiSetBind<SimpleXMultiItem> { holder, entity, itemViewType, _ ->
                     when (itemViewType) {
                         TYPE_ITEM -> {
                             holder.setText(R.id.tv_message, entity.message)
@@ -45,20 +46,20 @@ class MultipleItemActivity : AppCompatActivity() {
                         }
                     }
                 }
-                .gridLayoutManagerSpanSize { itemViewType, manager, _ ->
+                .multiGridLayoutManagerSpanSize { itemViewType, manager, _ ->
                     if (itemViewType != TYPE_ITEM) {
                         manager.spanCount
                     } else {
                         1
                     }
                 }
-                .staggeredGridLayoutManagerFullSpan {
+                .multiStaggeredGridLayoutManagerFullSpan {
                     it != TYPE_ITEM
                 }
-                .setOnItemClickListener { view, _, entity ->
+                .multiSetOnItemClickListener<SimpleXMultiItem> { view, _, entity ->
                     Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
                 }
-                .setOnItemLongClickListener { view, _, entity ->
+                .multiSetOnItemLongClickListener<SimpleXMultiItem> { view, _, entity ->
                     Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
                     true
                 }

@@ -44,10 +44,10 @@ class DataBindingActivity : AppCompatActivity() {
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.item_footer_3, findViewById(android.R.id.content), false))
                 .openPullRefresh()
                 .openLoadingMore()
-                .setOnItemClickListener { _, position, entity ->
+                .setOnItemClickListener<ExampleBean> { _, position, entity ->
                     Toast.makeText(baseContext, "name:  $entity.name  age:  $entity.age  position:  $position", Toast.LENGTH_SHORT).show()
                 }
-                .setOnItemLongClickListener { _, _, _ ->
+                .setOnItemLongClickListener<ExampleBean> { _, _, _ ->
                     Toast.makeText(baseContext, "onLongClick...", Toast.LENGTH_SHORT).show()
                     true
                 }

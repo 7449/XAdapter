@@ -10,20 +10,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GridLayoutManagerActivity" />
-        <activity android:name=".activity.LinearLayoutManagerActivity" />
-        <activity android:name=".activity.StaggeredGridLayoutManagerActivity" />
-        <activity android:name=".net.NetWorkActivity" />
-        <activity android:name=".activity.CollapsingToolbarLayoutActivity" />
-        <activity android:name=".activity.MultipleItemActivity" />
-        <activity android:name=".activity.DataBindingActivity" />
+        <activity
+            android:name=".activity.GridLayoutManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LinearLayoutManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StaggeredGridLayoutManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".net.NetWorkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CollapsingToolbarLayoutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MultipleItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DataBindingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
     <uses-permission

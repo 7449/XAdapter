@@ -67,9 +67,9 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             return field
         }
 
-    var xRefreshListener: (() -> Unit)? = null
+    var xRefreshListener: ((adapter: XAdapter<T>) -> Unit)? = null
 
-    var xLoadMoreListener: (() -> Unit)? = null
+    var xLoadMoreListener: ((adapter: XAdapter<T>) -> Unit)? = null
 
     var onXFooterListener: ((view: View, adapter: XAdapter<T>) -> Unit)? = null
 
@@ -164,11 +164,11 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             return
         }
         loadMoreView?.state = XLoadMoreView.LOAD
-        xLoadMoreListener?.invoke()
+        xLoadMoreListener?.invoke(this)
     }
 
     open fun onRefresh() {
         loadMoreView?.state = XLoadMoreView.NORMAL
-        xRefreshListener?.invoke()
+        xRefreshListener?.invoke(this)
     }
 }

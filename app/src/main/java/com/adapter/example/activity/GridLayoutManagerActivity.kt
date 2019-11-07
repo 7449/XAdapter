@@ -30,7 +30,7 @@ class GridLayoutManagerActivity : AppCompatActivity() {
                 .setItemLayoutId(R.layout.item)
                 .openPullRefresh()
                 .openLoadingMore()
-                .setOnBind { holder, _, entity ->
+                .setOnBind<ExampleBean> { holder, _, entity ->
                     holder.setText(R.id.tv_name, entity.name)
                     holder.setText(R.id.tv_age, entity.age.toString())
                 }

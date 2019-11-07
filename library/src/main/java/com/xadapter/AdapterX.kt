@@ -5,37 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XAdapter
 import com.xadapter.holder.XViewHolder
 
-@Suppress("UNCHECKED_CAST")
-fun <T> RecyclerView.adapter() = adapter as XAdapter<T>
-
-fun <T> RecyclerView.attachAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }.adapter<T>()
-
-//fun <T> RecyclerView.addHeader(view: View) = adapter<T>().addHeaderView(view)
-//
-//fun <T> RecyclerView.removeHeader(view: View) = adapter<T>().removeHeader(view)
-//
-//fun <T> RecyclerView.removeHeader(index: Int) = adapter<T>().removeHeader(index)
-//
-//fun <T> RecyclerView.addFooter(view: View) = adapter<T>().addFooterView(view)
-//
-//fun <T> RecyclerView.removeFooter(view: View) = adapter<T>().removeFooter(view)
-//
-//fun <T> RecyclerView.removeFooter(index: Int) = adapter<T>().removeFooter(index)
-//
-//fun <T> RecyclerView.addAll(data: List<T>) = adapter<T>().addAll(data)
-//
-//fun <T> RecyclerView.add(item: T) = adapter<T>().add(item)
-//
-//fun <T> RecyclerView.removeAll() = adapter<T>().removeAll()
-//
-//fun <T> RecyclerView.remove(position: Int) = adapter<T>().remove(position)
-//
-//fun <T> RecyclerView.previousItem(position: Int) = adapter<T>().previousItem(position)
-//
-//fun <T> RecyclerView.getItem(position: Int) = adapter<T>().getItem(position)
-//
-//fun <T> RecyclerView.removeAllNoItemView() = adapter<T>().removeAllNoItemView()
-
 fun <T> XAdapter<T>.addHeaderView(view: View) = apply { headerViewContainer.add(view) }
 
 fun <T> XAdapter<T>.addFooterView(view: View) = apply { footerViewContainer.add(view) }
@@ -52,11 +21,11 @@ fun <T> XAdapter<T>.openPullRefresh() = also { this.pullRefreshEnabled = true }
 
 fun <T> XAdapter<T>.openLoadingMore() = also { this.loadingMoreEnabled = true }
 
-fun <T> XAdapter<T>.setRefreshListener(action: () -> Unit) = also { this.xRefreshListener = action }
+fun <T> XAdapter<T>.setRefreshListener(action: (adapter: XAdapter<T>) -> Unit) = also { this.xRefreshListener = action }
 
 fun <T> XAdapter<T>.setRefreshState(status: Int) = also { refreshState = status }
 
-fun <T> XAdapter<T>.setLoadMoreListener(action: () -> Unit) = also { this.xLoadMoreListener = action }
+fun <T> XAdapter<T>.setLoadMoreListener(action: (adapter: XAdapter<T>) -> Unit) = also { this.xLoadMoreListener = action }
 
 fun <T> XAdapter<T>.setLoadMoreState(status: Int) = also { loadMoreState = status }
 
@@ -109,7 +78,7 @@ fun <T> XAdapter<T>.refresh(view: RecyclerView) = apply {
     if (pullRefreshEnabled) {
         refreshView?.state = XRefreshView.REFRESH
         refreshView?.onMove(refreshView?.measuredHeight?.toFloat() ?: 0F)
-        xRefreshListener?.invoke()
+        xRefreshListener?.invoke(this)
         loadMoreView?.state = XLoadMoreView.NORMAL
     }
 }
