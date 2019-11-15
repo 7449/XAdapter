@@ -15,6 +15,23 @@ import com.adapter.example.databinding.DatabindingLayoutBinding
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
 import com.xadapter.*
+import com.xadapter.recyclerview.adapter
+import com.xadapter.recyclerview.addAll
+import com.xadapter.recyclerview.addFooterView
+import com.xadapter.recyclerview.addHeaderView
+import com.xadapter.recyclerview.attachDataBindingAdapter
+import com.xadapter.recyclerview.customLoadMoreView
+import com.xadapter.recyclerview.customRefreshView
+import com.xadapter.recyclerview.openLoadingMore
+import com.xadapter.recyclerview.openPullRefresh
+import com.xadapter.recyclerview.setFooterListener
+import com.xadapter.recyclerview.setItemLayoutId
+import com.xadapter.recyclerview.setLoadMoreListener
+import com.xadapter.recyclerview.setOnItemClickListener
+import com.xadapter.recyclerview.setOnItemLongClickListener
+import com.xadapter.recyclerview.setRefreshListener
+import com.xadapter.recyclerview.setScrollLoadMoreItemCount
+import com.xadapter.setLoadMoreState
 
 /**
  * @author y

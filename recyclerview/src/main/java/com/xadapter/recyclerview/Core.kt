@@ -1,12 +1,13 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.xadapter
+package com.xadapter.recyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.xadapter.*
 import com.xadapter.adapter.XAdapter
 import com.xadapter.adapter.XDataBindingAdapter
 import com.xadapter.adapter.XMultiAdapter

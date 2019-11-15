@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.example.R
 import com.adapter.example.data.DataUtils
-import com.xadapter.*
 import com.xadapter.adapter.XMultiAdapter
+import com.xadapter.recyclerview.*
 import com.xadapter.simple.SimpleXMultiItem
 import com.xadapter.vh.getImageView
 import com.xadapter.vh.setText

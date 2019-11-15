@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
-import com.xadapter.*
+import com.xadapter.XLoadMoreView
+import com.xadapter.XRefreshView
 import com.xadapter.adapter.XAdapter
+import com.xadapter.recyclerview.*
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
