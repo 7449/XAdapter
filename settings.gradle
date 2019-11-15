@@ -1,1 +1,1 @@
-include ':app', ':library', ':viewholder', ':recyclerview', ':multi'
+include ':app', ':library', ':viewholder', ':recyclerview', ':multi', ':databinding'

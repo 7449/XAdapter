@@ -23,12 +23,12 @@ import com.xadapter.vh.superViewHolder
 open class XAdapter<T> : XBaseAdapter<T>() {
 
     companion object {
-        internal const val TYPE_ITEM = -1
-        internal const val TYPE_REFRESH_HEADER = 0
-        internal const val TYPE_LOAD_MORE_FOOTER = 1
+        const val TYPE_ITEM = -1
+        const val TYPE_REFRESH_HEADER = 0
+        const val TYPE_LOAD_MORE_FOOTER = 1
     }
 
-    internal var recyclerView: RecyclerView? = null
+    var recyclerView: RecyclerView? = null
         set(value) {
             if (value == null) {
                 return
@@ -42,7 +42,7 @@ open class XAdapter<T> : XBaseAdapter<T>() {
             }
         }
 
-    internal var scrollListener: XScrollListener? = null
+    var scrollListener: XScrollListener? = null
         private set
         get() {
             if (field == null) {

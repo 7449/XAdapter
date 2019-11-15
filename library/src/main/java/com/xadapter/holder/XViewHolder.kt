@@ -5,7 +5,7 @@ package com.xadapter.holder
 import com.xadapter.adapter.XAdapter
 import com.xadapter.vh.XViewHolder
 
-internal fun <T> XViewHolder.viewHolderClick(adapter: XAdapter<T>): XViewHolder {
+fun <T> XViewHolder.viewHolderClick(adapter: XAdapter<T>): XViewHolder {
     itemView.setOnClickListener { view ->
         adapter.onXItemClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
@@ -14,7 +14,7 @@ internal fun <T> XViewHolder.viewHolderClick(adapter: XAdapter<T>): XViewHolder 
     return this
 }
 
-internal fun <T> XViewHolder.viewHolderLongClick(adapter: XAdapter<T>) {
+fun <T> XViewHolder.viewHolderLongClick(adapter: XAdapter<T>) {
     itemView.setOnLongClickListener { view ->
         val invoke = adapter.onXItemLongClickListener?.invoke(view,
                 adapter.currentItemPosition(layoutPosition),
@@ -23,7 +23,7 @@ internal fun <T> XViewHolder.viewHolderLongClick(adapter: XAdapter<T>) {
     }
 }
 
-internal fun <T> XAdapter<T>.currentItemPosition(position: Int): Int {
+fun <T> XAdapter<T>.currentItemPosition(position: Int): Int {
     var mPos = position
     if (pullRefreshEnabled) {
         mPos -= 1

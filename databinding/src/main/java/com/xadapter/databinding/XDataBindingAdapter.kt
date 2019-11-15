@@ -1,4 +1,4 @@
-package com.xadapter.adapter
+package com.xadapter.databinding
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
+import com.xadapter.adapter.XAdapter
 import com.xadapter.holder.*
 import com.xadapter.vh.XDataBindingHolder
 import com.xadapter.vh.XViewHolder

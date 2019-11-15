@@ -9,19 +9,22 @@ android {
         minSdkVersion 14
         targetSdkVersion 29
     }
+    dataBinding {
+        enabled = true
+    }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-multi"]
+        kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-databinding"]
     }
 }
 //version = "0.0.1"
 //group = "com.ydevelop"
 //androidArtifact {
-//    artifactId = "rv-adapter-multi"
+//    artifactId = "rv-adapter-databinding"
 //    javadoc = false
 //}
 //publish {
 //    userOrg = 'ydevelop'
-//    desc = 'this is XAdapter Multi Layout'
+//    desc = 'this is XAdapter databinding Layout'
 //    website = 'https://github.com/7449/XAdapter'
 //}
 dependencies {

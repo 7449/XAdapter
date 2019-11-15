@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 /**
  * by y on 2016/11/15
  */
-internal class XScrollListener(private val scrollBottom: () -> Unit) : RecyclerView.OnScrollListener() {
+class XScrollListener(private val scrollBottom: () -> Unit) : RecyclerView.OnScrollListener() {
 
     companion object {
         const val NO_MANAGER = -1

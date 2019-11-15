@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.*
 import com.xadapter.adapter.XAdapter
-import com.xadapter.adapter.XDataBindingAdapter
+import com.xadapter.databinding.XDataBindingAdapter
+import com.xadapter.databinding.XDataBindingAdapterExecutePendingBindingsFactory
 import com.xadapter.multi.*
 import com.xadapter.vh.XViewHolder
 

@@ -1,6 +1,4 @@
-package com.xadapter
-
-import com.xadapter.adapter.XDataBindingAdapter
+package com.xadapter.databinding
 
 fun <T> XDataBindingAdapterExecutePendingBindingsFactory(variableId: Int): XDataBindingAdapter<T> = XDataBindingAdapter(variableId, true)
 

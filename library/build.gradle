@@ -9,9 +9,6 @@ android {
         minSdkVersion 14
         targetSdkVersion 29
     }
-    dataBinding {
-        enabled = true
-    }
     compileOptions {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter"]
     }
