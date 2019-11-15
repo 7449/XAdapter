@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.xadapter.listener.XMultiCallBack
 import com.xadapter.manager.AppBarStateChangeListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.vh.XViewHolder
@@ -24,32 +23,6 @@ abstract class XBaseAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     var onXItemLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
 
-}
-
-/**
- * 接管[XMultiAdapter]在[GridLayoutManager]下的显示效果
- */
-internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnAttachedToRecyclerView(recyclerView: RecyclerView) {
-    val manager = recyclerView.layoutManager
-    if (manager is GridLayoutManager) {
-        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return gridLayoutManagerSpanSize?.invoke(getItemViewType(position), manager, position)
-                        ?: 0
-            }
-        }
-    }
-}
-
-/**
- * 接管[XMultiAdapter]在[StaggeredGridLayoutManager]下的显示效果
- */
-internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
-    val layoutParams = viewHolder.itemView.layoutParams
-    if (layoutParams is StaggeredGridLayoutManager.LayoutParams) {
-        layoutParams.isFullSpan = staggeredGridLayoutManagerFullSpan?.invoke(getItemViewType(viewHolder.layoutPosition))
-                ?: false
-    }
 }
 
 /**

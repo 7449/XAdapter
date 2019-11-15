@@ -31,5 +31,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':library')
+    implementation project(':multi')
     implementation project(':recyclerview')
 }

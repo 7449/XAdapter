@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: "guru.stefma.bintrayrelease"
+apply plugin: "guru.stefma.bintrayrelease"
 apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
@@ -10,23 +10,23 @@ android {
         targetSdkVersion 29
     }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-recyclerview"]
+        kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-multi"]
     }
 }
-//version = "0.0.1"
-//group = "com.ydevelop"
-//androidArtifact {
-//    artifactId = "rv-adapter-recyclerview"
-//    javadoc = false
-//}
-//publish {
-//    userOrg = 'ydevelop'
-//    desc = 'this is XAdapter recyclerview core'
-//    website = 'https://github.com/7449/XAdapter'
-//}
+version = "0.0.1"
+group = "com.ydevelop"
+androidArtifact {
+    artifactId = "rv-adapter-multi"
+    javadoc = false
+}
+publish {
+    userOrg = 'ydevelop'
+    desc = 'this is XAdapter Multi Layout'
+    website = 'https://github.com/7449/XAdapter'
+}
 dependencies {
     compileOnly project(':library')
-    compileOnly project(':multi')
+    compileOnly project(':viewholder')
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

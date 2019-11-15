@@ -1,9 +1,9 @@
-package com.xadapter
+package com.xadapter.multi
 
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
-import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.listener.XMultiCallBack
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.vh.XViewHolder
 
 fun <T : XMultiCallBack> XMultiAdapter(): XMultiAdapter<T> = XMultiAdapter(ArrayList())
@@ -29,3 +29,23 @@ fun <T : XMultiCallBack> XMultiAdapter<T>.remove(position: Int) = also { mMultiD
 fun <T : XMultiCallBack> XMultiAdapter<T>.addAll(t: List<T>) = also { mMultiData.addAll(t) }.notifyDataSetChanged()
 
 fun <T : XMultiCallBack> XMultiAdapter<T>.add(t: T) = also { mMultiData.add(t) }.notifyDataSetChanged()
+
+internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+    val manager = recyclerView.layoutManager
+    if (manager is GridLayoutManager) {
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return gridLayoutManagerSpanSize?.invoke(getItemViewType(position), manager, position)
+                        ?: 0
+            }
+        }
+    }
+}
+
+internal fun <T : XMultiCallBack> XMultiAdapter<T>.internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
+    val layoutParams = viewHolder.itemView.layoutParams
+    if (layoutParams is StaggeredGridLayoutManager.LayoutParams) {
+        layoutParams.isFullSpan = staggeredGridLayoutManagerFullSpan?.invoke(getItemViewType(viewHolder.layoutPosition))
+                ?: false
+    }
+}

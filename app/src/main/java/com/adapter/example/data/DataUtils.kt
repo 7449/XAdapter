@@ -2,7 +2,7 @@ package com.adapter.example.data
 
 import com.adapter.example.R
 import com.adapter.example.activity.MultipleItemActivity
-import com.xadapter.simple.SimpleXMultiItem
+import com.xadapter.multi.SimpleXMultiItem
 
 /**
  * by y on 2016/11/17

@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.*
 import com.xadapter.adapter.XAdapter
 import com.xadapter.adapter.XDataBindingAdapter
-import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.listener.XMultiCallBack
+import com.xadapter.multi.*
 import com.xadapter.vh.XViewHolder
 
 fun <T> RecyclerView.adapter() = adapter as XAdapter<T>

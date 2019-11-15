@@ -1,10 +1,9 @@
-package com.xadapter.adapter
+package com.xadapter.multi
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.xadapter.getItem
-import com.xadapter.listener.XMultiCallBack
+import com.xadapter.adapter.XBaseAdapter
 import com.xadapter.vh.XViewHolder
 import com.xadapter.vh.superViewHolder
 
