@@ -18,7 +18,7 @@ class RefreshView(context: Context) : XRefreshView(context, R.layout.layout_refr
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation
 
-    public override fun initView() {
+    override fun initView() {
         tv_tips.text = "下拉刷新"
         tv_tips.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
         initAnimation()

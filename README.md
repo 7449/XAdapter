@@ -1,18 +1,14 @@
 # XAdapter
+
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
-
-Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/12/Android_XAdapter/)
-
-# Screenshots
-
-![](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
-
-[https://github.com/7449/XAdapter/blob/master/xadapter.gif](https://github.com/7449/XAdapter/blob/master/xadapter.gif)
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
     
 ### multi 
 
@@ -31,61 +27,99 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
     implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
     implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
 
-onXBind
+### sample
 
-Achieve data display
-
-        adapter.onXBindListener = { holder, position, entity ->
+    xAdapter
+            .setItemLayoutId(layoutId)
+            .customRefreshView(View)
+            .customLoadMoreView(View)
+            .openLoadingMore()
+            .openPullRefresh()
+            .setScrollLoadMoreItemCount(2)
+            .addHeaderView(View)
+            .addFooterView(View)
+            .setOnBind { holder, position, entity ->
+            }
+            .setOnItemClickListener { view, position, entity ->
+            }
+            .setOnItemLongClickListener { view, position, entity ->
+                true
+            }
+            .setRefreshListener {
+            }
+            .setLoadMoreListener {
+            }
+            .addAll(mainBeen)
             
-        }
+### recyclerview core sample
 
-## pull to refresh and load more
+    recyclerView
+            .linearLayoutManager()
+            .attachAdapter<Entity>()
+            .setItemLayoutId(layoutId)
+            .customRefreshView(View)
+            .customLoadMoreView(View)
+            .openLoadingMore()
+            .openPullRefresh()
+            .setScrollLoadMoreItemCount(2)
+            .addHeaderView(View)
+            .addFooterView(View)
+            .setOnBind<Entity> { holder, position, entity ->
+                holder.setText(R.id.tv_name, entity.name)
+                holder.setText(R.id.tv_age, entity.age.toString() + "")
+            }
+            .setOnItemClickListener<Entity> { view, position, entity ->
+            }
+            .setOnItemLongClickListener<Entity> { view, position, entity ->
+                true
+            }
+            .setRefreshListener {
+            }
+            .setLoadMoreListener {
+            }
+            .addAll(mainBeen)
 
-The default is not open, if necessary, please manually open, and addRecyclerView
+#### pull to refresh and load more
 
-        adapter.xRefreshListener = {
+    xAdapter.openLoadingMore()
+            .openPullRefresh()
+            .setRefreshListener {
+            }
+            .setLoadMoreListener {
+            }
+    //
+    .customRefreshView(View)
+    .customLoadMoreView(View)
+    //
+    it.setRefreshState(int) // NORMAL READY REFRESH SUCCESS ERROR
+    it.setLoadMoreState(int) // NORMAL LOAD SUCCESS NO_MORE ERROR
 
-        }
-        adapter.xLoadMoreListener = {
-            
-        }
-
-When the drop-down refresh is complete
-
-It is up to the user to choose whether the load fails or is successful
-
->xRecyclerViewAdapter.refreshState = XRefreshView.SUCCESS
-
-When the pull-up is complete
-
-It is up to the user to choose whether the load fails or is successful
-
->xRecyclerViewAdapter.loadMoreState = XLoadMoreView.NOMORE
-
-### addHeader addFooter
-
-    xRecyclerViewAdapter
-     .addHeaderView(LayoutInflater.from(this).inflate(R.layout.item_header_1, (ViewGroup) findViewById(android.R.id.content), false))
-     .addFooterView(LayoutInflater.from(this).inflate(R.layout.item_footer_1, (ViewGroup) findViewById(android.R.id.content), false))
-		 
 ### MultipleAdapter
 
-see [multi](https://github.com/7449/XAdapter/tree/master/library/src/main/java/com/xadapter/adapter/XMultiAdapter.kt)
+    recyclerView
+            .attachMultiAdapter(XMultiAdapter(initData()))
+            .multiSetItemLayoutId { viewType ->
+                when (viewType) {
+                    // return layoutId
+                }
+            }
+            .multiSetBind<SimpleXMultiItem> { holder, entity, itemViewType, _ ->
+            }
+            .multiGridLayoutManagerSpanSize { itemViewType, manager, _ ->
+            }
+            .multiStaggeredGridLayoutManagerFullSpan {
+            }
+            .multiSetOnItemClickListener<SimpleXMultiItem> { view, _, entity ->
+            }
+            .multiSetOnItemLongClickListener<SimpleXMultiItem> { view, _, entity ->
+                true
+            }
 
-#### RefreshView 
+#### CustomRefreshView 
 
-    class RefreshView : XRefreshView {
+    class RefreshView(context: Context) : XRefreshView(context, layoutId) {
     
-        constructor(context: Context) : super(context)
-    
-        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    
-        constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-    
-        public override fun initView() {
-        }
-    
-        override fun getLayoutId(): Int {
+        override fun initView() {
         }
     
         override fun onStart() {
@@ -107,20 +141,11 @@ see [multi](https://github.com/7449/XAdapter/tree/master/library/src/main/java/c
         }
     }
 
-#### LoadMoreView
+#### CustomLoadMoreView
 
-    class LoadMoreView : XLoadMoreView {
-    
-        constructor(context: Context) : super(context)
-    
-        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    
-        constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    class LoadMoreView(context: Context) : XLoadMoreView(context, layoutId) {
     
         override fun initView() {
-        }
-    
-        override fun getLayoutId(): Int {
         }
     
         override fun onStart() {
@@ -141,21 +166,3 @@ see [multi](https://github.com/7449/XAdapter/tree/master/library/src/main/java/c
         override fun onNormal() {
         }
     }
-
-
-License
---
-    Copyright (C) 2016 yuebigmeow@gamil.com
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
