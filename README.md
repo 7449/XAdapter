@@ -11,8 +11,25 @@ Blog:[https://7449.github.io/Android_XAdapter/](https://7449.github.io/2016/11/1
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.5'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
     implementation 'com.google.android.material:material:1.0.0'
+    
+### multi 
+
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.1'
+
+### databinding
+
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
+    
+### recyclerview core
+
+    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.1'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
 
 onXBind
 

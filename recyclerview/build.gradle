@@ -25,8 +25,8 @@ android {
 //    website = 'https://github.com/7449/XAdapter'
 //}
 dependencies {
-    compileOnly project(':library')
-    compileOnly project(':databinding')
+    compileOnly 'com.ydevelop:rv-adapter:0.0.9.8.6'
+    compileOnly 'com.ydevelop:rv-adapter-databinding:0.0.1'
     compileOnly 'com.ydevelop:rv-adapter-multi:0.0.1'
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
