@@ -1,28 +1,40 @@
-@file:Suppress("FunctionName", "CAST_NEVER_SUCCEEDS")
+package com.xadapter
 
-package com.xadapter.adapter
-
-import android.view.View
 import android.view.ViewParent
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import com.xadapter.adapter.XAdapter
 import com.xadapter.manager.AppBarStateChangeListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.vh.XViewHolder
 
-/**
- * @author y
- * @create 2019/3/15
- */
-abstract class XBaseAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
+fun <T> XViewHolder.viewHolderClick(adapter: XAdapter<T>): XViewHolder {
+    itemView.setOnClickListener { view ->
+        adapter.onXItemClickListener?.invoke(view,
+                adapter.currentItemPosition(layoutPosition),
+                adapter.dataContainer[adapter.currentItemPosition(layoutPosition)])
+    }
+    return this
+}
 
-    var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
+fun <T> XViewHolder.viewHolderLongClick(adapter: XAdapter<T>) {
+    itemView.setOnLongClickListener { view ->
+        val invoke = adapter.onXItemLongClickListener?.invoke(view,
+                adapter.currentItemPosition(layoutPosition),
+                adapter.dataContainer[adapter.currentItemPosition(layoutPosition)]) ?: false
+        invoke
+    }
+}
 
-    var onXItemLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
-
+fun <T> XAdapter<T>.currentItemPosition(position: Int): Int {
+    var mPos = position
+    if (pullRefreshEnabled) {
+        mPos -= 1
+    }
+    return mPos - headerViewContainer.size
 }
 
 /**

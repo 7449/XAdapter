@@ -14,10 +14,10 @@ import com.adapter.example.data.ExampleBean
 import com.adapter.example.databinding.DatabindingLayoutBinding
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
 import com.xadapter.databinding.XDataBindingAdapterFactory
 import com.xadapter.recyclerview.*
+import com.xadapter.refresh.XLoadMoreView
+import com.xadapter.refresh.XRefreshView
 import com.xadapter.setLoadMoreState
 import com.xadapter.setRefreshState
 

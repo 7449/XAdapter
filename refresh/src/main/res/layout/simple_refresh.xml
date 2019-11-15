@@ -22,7 +22,7 @@
             android:layout_toLeftOf="@+id/tv_tips"
             android:visibility="invisible" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/iv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_toLeftOf="@+id/tv_tips"
             android:background="@drawable/ic_refresh_action" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/tv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

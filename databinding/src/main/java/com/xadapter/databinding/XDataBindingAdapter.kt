@@ -7,10 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XAdapter
-import com.xadapter.holder.*
+import com.xadapter.currentItemPosition
 import com.xadapter.vh.XDataBindingHolder
 import com.xadapter.vh.XViewHolder
 import com.xadapter.vh.superViewHolder
+import com.xadapter.viewHolderClick
+import com.xadapter.viewHolderLongClick
 
 /**
  * @author y

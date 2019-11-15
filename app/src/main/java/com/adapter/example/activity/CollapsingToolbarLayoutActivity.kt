@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
 import com.xadapter.adapter.XAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
+import com.xadapter.refresh.XLoadMoreView
+import com.xadapter.refresh.XRefreshView
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.activity_collapsing_toolbar_layout.*
 import java.util.*

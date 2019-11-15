@@ -12,6 +12,8 @@ import com.xadapter.adapter.XAdapter
 import com.xadapter.databinding.XDataBindingAdapter
 import com.xadapter.databinding.XDataBindingAdapterExecutePendingBindingsFactory
 import com.xadapter.multi.*
+import com.xadapter.refresh.XLoadMoreView
+import com.xadapter.refresh.XRefreshView
 import com.xadapter.vh.XViewHolder
 
 fun <T> RecyclerView.adapter() = adapter as XAdapter<T>

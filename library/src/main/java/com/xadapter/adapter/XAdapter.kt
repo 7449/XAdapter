@@ -5,28 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
-import com.xadapter.holder.currentItemPosition
-import com.xadapter.holder.viewHolderClick
-import com.xadapter.holder.viewHolderLongClick
+import com.xadapter.*
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
-import com.xadapter.simple.SimpleLoadMore
-import com.xadapter.simple.SimpleRefresh
+import com.xadapter.refresh.XLoadMoreView
+import com.xadapter.refresh.XRefreshView
+import com.xadapter.refresh.simple.SimpleLoadMore
+import com.xadapter.refresh.simple.SimpleRefresh
 import com.xadapter.vh.XViewHolder
 import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2016/11/15
  */
-open class XAdapter<T> : XBaseAdapter<T>() {
+open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     companion object {
         const val TYPE_ITEM = -1
         const val TYPE_REFRESH_HEADER = 0
         const val TYPE_LOAD_MORE_FOOTER = 1
     }
+
+    var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
+
+    var onXItemLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
 
     var recyclerView: RecyclerView? = null
         set(value) {

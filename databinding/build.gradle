@@ -29,7 +29,7 @@ android {
 //}
 dependencies {
     compileOnly project(':library')
-    compileOnly project(':viewholder')
+    compileOnly 'com.ydevelop:rv-adapter-viewholder:0.0.1'
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

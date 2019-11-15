@@ -11,9 +11,9 @@ import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
 import com.adapter.example.view.LoadMoreView
 import com.adapter.example.view.RefreshView
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
 import com.xadapter.adapter.XAdapter
+import com.xadapter.refresh.XLoadMoreView
+import com.xadapter.refresh.XRefreshView
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*

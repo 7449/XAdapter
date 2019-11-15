@@ -2,8 +2,8 @@ package com.xadapter.manager
 
 import android.view.MotionEvent
 import android.view.View
-import com.xadapter.XLoadMoreView
-import com.xadapter.XRefreshView
+import com.xadapter.refresh.XLoadMoreView
+import com.xadapter.refresh.XRefreshView
 
 /**
  * by y on 2016/11/15

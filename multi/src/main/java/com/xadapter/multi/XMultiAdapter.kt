@@ -1,16 +1,20 @@
 package com.xadapter.multi
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.xadapter.adapter.XBaseAdapter
 import com.xadapter.vh.XViewHolder
 import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2017/3/9
  */
-class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : XBaseAdapter<T>() {
+class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : RecyclerView.Adapter<XViewHolder>() {
+
+    var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
+
+    var onXItemLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
 
     lateinit var itemLayoutId: ((itemViewType: Int) -> Int)
 

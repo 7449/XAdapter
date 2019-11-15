@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.adapter.example.R
-import com.xadapter.XLoadMoreView
+import com.xadapter.refresh.XLoadMoreView
 import kotlinx.android.synthetic.main.layout_loadmore.view.*
 
 /**

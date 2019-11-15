@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.adapter.example.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.xadapter.XLoadMoreView
 import com.xadapter.recyclerview.*
+import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.vh.getContext
 import com.xadapter.vh.getImageView
 import com.xadapter.vh.setText

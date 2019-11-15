@@ -1,6 +1,6 @@
 @file:Suppress("LeakingThis")
 
-package com.xadapter
+package com.xadapter.refresh
 
 import android.animation.ValueAnimator
 import android.content.Context

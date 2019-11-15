@@ -1,10 +1,10 @@
-package com.xadapter.simple
+package com.xadapter.refresh.simple
 
 import android.content.Context
 import android.graphics.Color
 import android.view.View
-import com.xadapter.R
-import com.xadapter.XLoadMoreView
+import com.xadapter.refresh.R
+import com.xadapter.refresh.XLoadMoreView
 import kotlinx.android.synthetic.main.simple_load_more.view.*
 
 /**

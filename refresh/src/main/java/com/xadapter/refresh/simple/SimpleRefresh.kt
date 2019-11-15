@@ -1,12 +1,12 @@
-package com.xadapter.simple
+package com.xadapter.refresh.simple
 
 import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import com.xadapter.R
-import com.xadapter.XRefreshView
+import com.xadapter.refresh.R
+import com.xadapter.refresh.XRefreshView
 import kotlinx.android.synthetic.main.simple_refresh.view.*
 
 /**

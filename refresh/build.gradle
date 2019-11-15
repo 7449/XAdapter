@@ -9,25 +9,21 @@ android {
         minSdkVersion 14
         targetSdkVersion 29
     }
-    dataBinding {
-        enabled = true
-    }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-vh"]
+        kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-refresh"]
     }
 }
 //version = "0.0.1"
 //group = "com.ydevelop"
 //androidArtifact {
-//    artifactId = "rv-adapter-viewholder"
+//    artifactId = "rv-adapter-refresh"
 //    javadoc = false
 //}
 //publish {
 //    userOrg = 'ydevelop'
-//    desc = 'this is XAdapter ViewHolder'
+//    desc = 'this is XAdapter refresh Layout'
 //    website = 'https://github.com/7449/XAdapter'
 //}
 dependencies {
-    compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

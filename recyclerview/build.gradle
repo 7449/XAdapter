@@ -26,8 +26,8 @@ android {
 //}
 dependencies {
     compileOnly project(':library')
-    compileOnly project(':multi')
     compileOnly project(':databinding')
+    compileOnly 'com.ydevelop:rv-adapter-multi:0.0.1'
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
