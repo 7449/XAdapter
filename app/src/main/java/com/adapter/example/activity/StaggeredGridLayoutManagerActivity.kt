@@ -9,6 +9,7 @@ import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
 import com.xadapter.*
 import com.xadapter.adapter.XAdapter
+import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 

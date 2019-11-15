@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "guru.stefma.bintrayrelease"
+//apply plugin: "guru.stefma.bintrayrelease"
 apply plugin: 'kotlin-kapt'
-
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -17,18 +16,19 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter"]
     }
 }
-version = "0.0.9.8.5"
-group = "com.ydevelop"
-androidArtifact {
-    artifactId = "rv-adapter"
-    javadoc = false
-}
-publish {
-    userOrg = 'ydevelop'
-    desc = 'this is XAdapter'
-    website = 'https://github.com/7449/XAdapter'
-}
+//version = "0.0.9.8.5"
+//group = "com.ydevelop"
+//androidArtifact {
+//    artifactId = "rv-adapter"
+//    javadoc = false
+//}
+//publish {
+//    userOrg = 'ydevelop'
+//    desc = 'this is XAdapter'
+//    website = 'https://github.com/7449/XAdapter'
+//}
 dependencies {
+    api 'com.ydevelop:rv-adapter-viewholder:0.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     compileOnly 'com.google.android.material:material:1.0.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

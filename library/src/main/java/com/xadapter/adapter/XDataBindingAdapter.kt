@@ -7,6 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.holder.*
+import com.xadapter.vh.XDataBindingHolder
+import com.xadapter.vh.XViewHolder
+import com.xadapter.vh.superViewHolder
 
 /**
  * @author y

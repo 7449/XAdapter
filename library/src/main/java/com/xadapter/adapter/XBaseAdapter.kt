@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.XMultiCallBack
 import com.xadapter.manager.AppBarStateChangeListener
 import com.xadapter.manager.XTouchListener
+import com.xadapter.vh.XViewHolder
 
 /**
  * @author y

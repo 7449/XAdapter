@@ -3,8 +3,8 @@ package com.xadapter
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xadapter.adapter.XMultiAdapter
-import com.xadapter.holder.XViewHolder
 import com.xadapter.listener.XMultiCallBack
+import com.xadapter.vh.XViewHolder
 
 fun <T : XMultiCallBack> XMultiAdapter(): XMultiAdapter<T> = XMultiAdapter(ArrayList())
 

@@ -14,7 +14,7 @@ import com.adapter.example.view.RefreshView
 import com.xadapter.XLoadMoreView
 import com.xadapter.XRefreshView
 import com.xadapter.adapter.XAdapter
-import com.xadapter.setText
+import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.recyclerview_layout.*
 import java.util.*
 

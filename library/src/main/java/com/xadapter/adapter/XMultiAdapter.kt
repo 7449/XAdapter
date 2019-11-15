@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.getItem
-import com.xadapter.holder.XViewHolder
-import com.xadapter.holder.superViewHolder
 import com.xadapter.listener.XMultiCallBack
+import com.xadapter.vh.XViewHolder
+import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2017/3/9

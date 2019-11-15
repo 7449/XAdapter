@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.XLoadMoreView
 import com.xadapter.XRefreshView
-import com.xadapter.holder.*
+import com.xadapter.holder.currentItemPosition
+import com.xadapter.holder.viewHolderClick
+import com.xadapter.holder.viewHolderLongClick
 import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.simple.SimpleLoadMore
 import com.xadapter.simple.SimpleRefresh
+import com.xadapter.vh.XViewHolder
+import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2016/11/15

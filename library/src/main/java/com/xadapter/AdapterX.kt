@@ -3,7 +3,7 @@ package com.xadapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XAdapter
-import com.xadapter.holder.XViewHolder
+import com.xadapter.vh.XViewHolder
 
 fun <T> XAdapter<T>.addHeaderView(view: View) = apply { headerViewContainer.add(view) }
 

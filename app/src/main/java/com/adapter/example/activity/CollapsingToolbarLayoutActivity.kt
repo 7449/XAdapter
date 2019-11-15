@@ -12,7 +12,7 @@ import com.xadapter.XRefreshView
 import com.xadapter.adapter.XAdapter
 import com.xadapter.addFooterView
 import com.xadapter.addHeaderView
-import com.xadapter.setText
+import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.activity_collapsing_toolbar_layout.*
 import java.util.*
 
