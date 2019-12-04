@@ -2,7 +2,6 @@ package com.xadapter.vh
 
 import android.view.View
 import android.widget.*
-import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 
 fun <T : View> XViewHolder.findById(id: Int) = getView<T>(id)
@@ -41,6 +40,6 @@ fun XViewHolder.getEditText(id: Int) = findById<EditText>(id)
 
 fun XViewHolder.setText(id: Int, charSequence: CharSequence) = run { getTextView(id).text = charSequence }
 
-fun XViewHolder.setTextColor(id: Int, @ColorRes color: Int) = run { getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color)) }
+fun XViewHolder.setTextColor(id: Int, color: Int) = run { getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color)) }
 
 fun XViewHolder.setTextSize(id: Int, size: Float) = run { getTextView(id).textSize = size }

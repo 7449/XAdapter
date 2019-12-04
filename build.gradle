@@ -14,7 +14,12 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/ydevelop/maven' }
         mavenCentral()
     }
+}
+ext {
+    compileSdkVersion = 29
+    minSdkVersion = 14
+    targetSdkVersion = 29
+    recyclerviewVersion = "1.0.0"
 }

@@ -75,8 +75,8 @@ internal fun <T> XAdapter<T>.internalOnViewAttachedToWindow(viewHolder: Recycler
                 break
             }
         }
-        if (appBarLayout != null && touchListener is XTouchListener) {
-            appBarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+        if (touchListener is XTouchListener) {
+            appBarLayout?.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
                 public override fun onStateChanged(appBarLayout: AppBarLayout, state: Int) {
                     (touchListener as XTouchListener).state = state
                 }

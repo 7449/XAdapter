@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-//apply plugin: "guru.stefma.bintrayrelease"
+apply plugin: "guru.stefma.bintrayrelease"
 apply plugin: 'kotlin-kapt'
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
     dataBinding {
         enabled = true
@@ -16,20 +15,19 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-databinding"]
     }
 }
-//version = "0.0.1"
-//group = "com.ydevelop"
-//androidArtifact {
-//    artifactId = "rv-adapter-databinding"
-//    javadoc = false
-//}
-//publish {
-//    userOrg = 'ydevelop'
-//    desc = 'this is XAdapter databinding Layout'
-//    website = 'https://github.com/7449/XAdapter'
-//}
+version = "0.0.1"
+group = "com.ydevelop"
+androidArtifact {
+    artifactId = "rv-adapter-databinding"
+    javadoc = false
+}
+publish {
+    userOrg = 'ydevelop'
+    desc = 'this is XAdapter databinding Layout'
+    website = 'https://github.com/7449/XAdapter'
+}
 dependencies {
-    compileOnly 'com.ydevelop:rv-adapter:0.0.9.8.6'
-    compileOnly 'com.ydevelop:rv-adapter-viewholder:0.0.1'
-    compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
+    compileOnly project(path: ':adapter')
+    compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

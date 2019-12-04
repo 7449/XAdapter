@@ -2,6 +2,18 @@
 
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
 
+ViewHolder:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-viewholder/images/download.svg)
+
+refresh:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-refresh/images/download.svg)
+
+adapter:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter/images/download.svg)
+
+databinding:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-databinding/images/download.svg)
+
+multi:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-multi/images/download.svg)
+
+recyclerview:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-recyclerview/images/download.svg)
+
 ### gradle
 
     implementation 'com.google.android.material:material:1.0.0'

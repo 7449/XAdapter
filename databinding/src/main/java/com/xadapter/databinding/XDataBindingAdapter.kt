@@ -1,6 +1,5 @@
 package com.xadapter.databinding
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -28,7 +27,6 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             mData.addAll(value)
         }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
         if (recyclerView == null) {
             recyclerView = parent as RecyclerView

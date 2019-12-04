@@ -1,29 +1,28 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: "guru.stefma.bintrayrelease"
-apply plugin: 'kotlin-kapt'
+apply plugin: "guru.stefma.bintrayrelease"
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
     compileOptions {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-refresh"]
     }
 }
-//version = "0.0.1"
-//group = "com.ydevelop"
-//androidArtifact {
-//    artifactId = "rv-adapter-refresh"
-//    javadoc = false
-//}
-//publish {
-//    userOrg = 'ydevelop'
-//    desc = 'this is XAdapter refresh Layout'
-//    website = 'https://github.com/7449/XAdapter'
-//}
+version = "0.0.1"
+group = "com.ydevelop"
+androidArtifact {
+    artifactId = "rv-adapter-refresh"
+    javadoc = false
+}
+publish {
+    userOrg = 'ydevelop'
+    desc = 'this is XAdapter refresh Layout'
+    website = 'https://github.com/7449/XAdapter'
+}
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
