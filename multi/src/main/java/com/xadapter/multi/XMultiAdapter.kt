@@ -37,18 +37,21 @@ class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : Recycl
     override fun onViewAttachedToWindow(holder: XViewHolder) = internalOnViewAttachedToWindow(holder)
 
     private fun <T : XMultiCallBack> XViewHolder.multiViewHolderClick(xMultiAdapter: XMultiAdapter<T>): XViewHolder {
-        itemView.setOnClickListener {
-            if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
-            xMultiAdapter.onXItemClickListener?.invoke(it, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+        xMultiAdapter.onXItemClickListener?.let { onXItemClickListener ->
+            itemView.setOnClickListener {
+                if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
+                onXItemClickListener.invoke(it, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+            }
         }
         return this
     }
 
     private fun <T : XMultiCallBack> XViewHolder.multiViewHolderLongClick(xMultiAdapter: XMultiAdapter<T>) {
-        itemView.setOnLongClickListener {
-            if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
-            return@setOnLongClickListener xMultiAdapter.onXItemLongClickListener?.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
-                    ?: false
+        xMultiAdapter.onXItemLongClickListener?.let { onXItemLongClickListener ->
+            itemView.setOnLongClickListener {
+                if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
+                onXItemLongClickListener.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+            }
         }
     }
 }

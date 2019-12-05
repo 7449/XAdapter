@@ -14,6 +14,8 @@ multi:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-multi/image
 
 recyclerview:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-recyclerview/images/download.svg)
 
+material:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-material/images/download.svg)
+
 ### gradle
 
     implementation 'com.google.android.material:material:1.0.0'

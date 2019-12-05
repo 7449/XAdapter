@@ -43,3 +43,5 @@ fun XViewHolder.setText(id: Int, charSequence: CharSequence) = run { getTextView
 fun XViewHolder.setTextColor(id: Int, color: Int) = run { getTextView(id).setTextColor(ContextCompat.getColor(getContext(), color)) }
 
 fun XViewHolder.setTextSize(id: Int, size: Float) = run { getTextView(id).textSize = size }
+
+fun XViewHolder.setProgress(id: Int, progress: Int) = run { getProgressBar(id).progress = progress }

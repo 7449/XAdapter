@@ -10,8 +10,8 @@ import com.xadapter.manager.XScrollListener
 import com.xadapter.manager.XTouchListener
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
-import com.xadapter.refresh.simple.SimpleLoadMore
-import com.xadapter.refresh.simple.SimpleRefresh
+import com.xadapter.refresh.simple.SimpleLoadMoreView
+import com.xadapter.refresh.simple.SimpleRefreshView
 import com.xadapter.vh.XViewHolder
 import com.xadapter.vh.superViewHolder
 
@@ -37,10 +37,10 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             }
             field = value
             if (pullRefreshEnabled && refreshView == null) {
-                refreshView = SimpleRefresh(value.context)
+                refreshView = SimpleRefreshView(value.context)
             }
             if (loadingMoreEnabled && loadMoreView == null) {
-                loadMoreView = SimpleLoadMore(value.context)
+                loadMoreView = SimpleLoadMoreView(value.context)
             }
         }
 
@@ -62,12 +62,15 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     open var dataContainer: ArrayList<T> = ArrayList()
 
+    var appbarCallback: (() -> Boolean)? = null
+
     var touchListener: View.OnTouchListener? = null
         private set
         get() {
             refreshView?.let {
                 if (field == null) {
-                    field = XTouchListener(it, loadMoreView) { onRefresh() }
+                    field = XTouchListener(appbarCallback
+                            ?: { true }, it, loadMoreView) { onRefresh() }
                 }
             }
             return field

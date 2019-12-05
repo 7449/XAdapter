@@ -12,11 +12,11 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/simple_load_more_progressbar_right"
         android:layout_marginRight="@dimen/simple_load_more_progressbar_right"
-        android:layout_toStartOf="@+id/tv_tips"
-        android:layout_toLeftOf="@+id/tv_tips" />
+        android:layout_toStartOf="@+id/tvTips"
+        android:layout_toLeftOf="@+id/tvTips" />
 
     <TextView
-        android:id="@+id/tv_tips"
+        android:id="@+id/tvTips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

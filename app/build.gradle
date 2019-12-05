@@ -26,8 +26,11 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-refresh:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-material:0.0.1'
     implementation project(path: ':recyclerview')
-    implementation project(path: ':multi')
     implementation project(path: ':databinding')
     implementation project(path: ':adapter')
 }

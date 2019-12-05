@@ -18,23 +18,23 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/simple_refresh_progressbar_right"
             android:layout_marginRight="@dimen/simple_refresh_progressbar_right"
-            android:layout_toStartOf="@+id/tv_tips"
-            android:layout_toLeftOf="@+id/tv_tips"
+            android:layout_toStartOf="@+id/tvTips"
+            android:layout_toLeftOf="@+id/tvTips"
             android:visibility="invisible" />
 
         <ImageView
-            android:id="@+id/iv_tips"
+            android:id="@+id/ivTips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/simple_refresh_progressbar_right"
             android:layout_marginRight="@dimen/simple_refresh_progressbar_right"
-            android:layout_toStartOf="@+id/tv_tips"
-            android:layout_toLeftOf="@+id/tv_tips"
+            android:layout_toStartOf="@+id/tvTips"
+            android:layout_toLeftOf="@+id/tvTips"
             android:background="@drawable/ic_refresh_action" />
 
         <TextView
-            android:id="@+id/tv_tips"
+            android:id="@+id/tvTips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

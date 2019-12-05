@@ -12,14 +12,14 @@ import kotlinx.android.synthetic.main.simple_refresh.view.*
 /**
  * by y on 2016/11/16
  */
-class SimpleRefresh(context: Context) : XRefreshView(context, R.layout.simple_refresh) {
+class SimpleRefreshView(context: Context) : XRefreshView(context, R.layout.simple_refresh) {
 
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation
 
     public override fun initView() {
-        tv_tips.setTextColor(Color.BLACK)
-        tv_tips.text = context.getString(R.string.refresh_more_init)
+        tvTips.setTextColor(Color.BLACK)
+        tvTips.text = context.getString(R.string.refresh_more_init)
         initAnimation()
     }
 
@@ -33,47 +33,47 @@ class SimpleRefresh(context: Context) : XRefreshView(context, R.layout.simple_re
     }
 
     override fun onStart() {
-        iv_tips.clearAnimation()
-        iv_tips.visibility = View.VISIBLE
+        ivTips.clearAnimation()
+        ivTips.visibility = View.VISIBLE
         progressbar.visibility = View.INVISIBLE
-        tv_tips.text = context.getString(R.string.refresh_more_start)
+        tvTips.text = context.getString(R.string.refresh_more_start)
     }
 
     override fun onReady() {
-        iv_tips.startAnimation(mRotateUpAnim)
+        ivTips.startAnimation(mRotateUpAnim)
         progressbar.visibility = View.INVISIBLE
-        iv_tips.visibility = View.VISIBLE
-        tv_tips.text = context.getString(R.string.refresh_more_ready)
+        ivTips.visibility = View.VISIBLE
+        tvTips.text = context.getString(R.string.refresh_more_ready)
     }
 
     override fun onRefresh() {
         progressbar.visibility = View.VISIBLE
-        iv_tips.visibility = View.INVISIBLE
-        tv_tips.text = context.getString(R.string.refresh_more_refresh)
+        ivTips.visibility = View.INVISIBLE
+        tvTips.text = context.getString(R.string.refresh_more_refresh)
     }
 
     override fun onSuccess() {
         progressbar.visibility = View.INVISIBLE
-        iv_tips.visibility = View.INVISIBLE
-        iv_tips.clearAnimation()
-        tv_tips.text = context.getString(R.string.refresh_more_success)
+        ivTips.visibility = View.INVISIBLE
+        ivTips.clearAnimation()
+        tvTips.text = context.getString(R.string.refresh_more_success)
     }
 
     override fun onError() {
         progressbar.visibility = View.INVISIBLE
-        iv_tips.visibility = View.INVISIBLE
-        iv_tips.clearAnimation()
-        tv_tips.text = context.getString(R.string.refresh_more_error)
+        ivTips.visibility = View.INVISIBLE
+        ivTips.clearAnimation()
+        tvTips.text = context.getString(R.string.refresh_more_error)
     }
 
     override fun onNormal() {
         if (state == READY) {
-            iv_tips.startAnimation(mRotateDownAnim)
+            ivTips.startAnimation(mRotateDownAnim)
         } else {
-            iv_tips.clearAnimation()
+            ivTips.clearAnimation()
         }
-        iv_tips.visibility = View.VISIBLE
+        ivTips.visibility = View.VISIBLE
         progressbar.visibility = View.INVISIBLE
-        tv_tips.text = context.getString(R.string.refresh_more_normal)
+        tvTips.text = context.getString(R.string.refresh_more_normal)
     }
 }

@@ -1,5 +1,6 @@
 package com.xadapter.manager
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import com.xadapter.refresh.XLoadMoreView
@@ -9,16 +10,21 @@ import com.xadapter.refresh.XRefreshView
  * by y on 2016/11/15
  */
 internal class XTouchListener(
+        private val appBarCallBack: () -> Boolean,
         private val refreshView: XRefreshView,
         private val loadMoreView: XLoadMoreView?,
         private val refreshInterface: () -> Unit) : View.OnTouchListener {
 
+    companion object {
+        private const val DAMP = 3
+    }
+
     private var rawY = -1f
-    var state: Int = AppBarStateChangeListener.EXPANDED
 
     private val isTop: Boolean
         get() = refreshView.parent != null
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         if (refreshView.state == XRefreshView.REFRESH || loadMoreView?.state == XLoadMoreView.LOAD) {
             return false
@@ -31,7 +37,7 @@ internal class XTouchListener(
             MotionEvent.ACTION_MOVE -> {
                 val deltaY = motionEvent.rawY - rawY
                 rawY = motionEvent.rawY
-                if (isTop && state == AppBarStateChangeListener.EXPANDED) {
+                if (isTop && appBarCallBack.invoke()) {
                     refreshView.onMove(deltaY / DAMP)
                     if (refreshView.visibleHeight > 0 && refreshView.state < XRefreshView.SUCCESS) {
                         return true
@@ -40,7 +46,7 @@ internal class XTouchListener(
             }
             else -> {
                 rawY = -1f
-                if (isTop && state == AppBarStateChangeListener.EXPANDED) {
+                if (isTop && appBarCallBack.invoke()) {
                     if (refreshView.releaseAction()) {
                         refreshInterface()
                     }
@@ -48,9 +54,5 @@ internal class XTouchListener(
             }
         }
         return false
-    }
-
-    companion object {
-        private const val DAMP = 3
     }
 }

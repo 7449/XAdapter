@@ -1,21 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: "guru.stefma.bintrayrelease"
-apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
-    dataBinding {
-        enabled = true
-    }
     compileOptions {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-vh"]
     }
 }
-version = "0.0.1"
+version = "0.0.2"
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-viewholder"
