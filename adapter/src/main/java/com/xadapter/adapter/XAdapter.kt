@@ -60,12 +60,12 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     var scrollLoadMoreItemCount = 1
         set(value) {
             field = value
-            if (scrollListener is XScrollListener) {
-                (scrollListener as XScrollListener).scrollItemCount = value
+            if (onScrollListener is XScrollListener) {
+                (onScrollListener as XScrollListener).scrollItemCount = value
             }
         }
 
-    var scrollListener: RecyclerView.OnScrollListener? = null
+    var onScrollListener: RecyclerView.OnScrollListener? = null
         get() {
             if (field == null) {
                 field = XScrollListener { onScrollBottom() }.apply { scrollItemCount = scrollLoadMoreItemCount }
@@ -73,11 +73,11 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             return field
         }
 
-    var touchListener: View.OnTouchListener? = null
+    private var onTouchListener: View.OnTouchListener? = null
         get() {
             if (field == null) {
                 field = XTouchListener(xAppbarCallback
-                        ?: { true }, refreshView, if (isLoadMoreViewInit()) loadMoreView else null) { onRefresh() }
+                        ?: { true }, { if (isLoadMoreViewInit()) loadMoreView.state == XLoadMoreView.LOAD else false }, refreshView) { onRefresh() }
             }
             return field
         }
@@ -93,14 +93,14 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
                 if (!isRefreshViewInit()) {
                     refreshView = SimpleRefreshView(value.context)
                 }
-                field?.setOnTouchListener(touchListener)
+                field?.setOnTouchListener(onTouchListener)
             }
             if (loadingMoreEnabled) {
                 if (!isLoadMoreViewInit()) {
                     loadMoreView = SimpleLoadMoreView(value.context)
                     loadMoreView.setOnClickListener { xFooterListener?.invoke(it, this) }
                 }
-                field?.addOnScrollListener(scrollListener
+                field?.addOnScrollListener(onScrollListener
                         ?: throw KotlinNullPointerException("scrollListener == null"))
             }
         }
@@ -154,9 +154,9 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     fun isLoadMoreType(position: Int) = loadingMoreEnabled && dataContainer.isNotEmpty() && position == itemCount - 1
 
-    private fun isRefreshViewInit() = ::refreshView.isInitialized
+    fun isRefreshViewInit() = ::refreshView.isInitialized
 
-    private fun isLoadMoreViewInit() = ::loadMoreView.isInitialized
+    fun isLoadMoreViewInit() = ::loadMoreView.isInitialized
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) = internalOnAttachedToRecyclerView(recyclerView)
 
@@ -176,9 +176,6 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     }
 
     open fun onRefresh() {
-        if (isLoadMoreViewInit()) {
-            loadMoreView.state = XLoadMoreView.NORMAL
-        }
         xRefreshListener?.invoke(this)
     }
 }

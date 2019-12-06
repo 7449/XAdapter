@@ -20,25 +20,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.GridLayoutManagerActivity"
+            android:name=".page.CustomActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.LinearLayoutManagerActivity"
+            android:name=".page.SwipeRefreshActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.StaggeredGridLayoutManagerActivity"
+            android:name=".page.SampleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".net.NetWorkActivity"
+            android:name=".page.GridLayoutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CollapsingToolbarLayoutActivity"
+            android:name=".page.LinearLayoutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MultipleItemActivity"
+            android:name=".page.StaggeredGridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.DataBindingActivity"
+            android:name=".page.NetWorkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.CollapsingToolbarActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.MultipleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.DataBindingActivity"
             android:screenOrientation="portrait" />
     </application>
 

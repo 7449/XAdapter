@@ -18,28 +18,39 @@ material:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-material
 
 ### gradle
 
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
-    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.1'
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.7'
+    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-material:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-refresh:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.2'
     
 ### multi 
 
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.2'
 
 ### databinding
 
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.2'
+    implementation 'com.ydevelop:rv-adapter:0.0.9.8.7'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.2'
     
 ### recyclerview core
 
-    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.1'
-    implementation 'com.ydevelop:rv-adapter:0.0.9.8.6'
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.1'
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.2'
+    
+### appbar
+
+    implementation 'com.ydevelop:rv-adapter-material:0.0.1'
+    
+    
+    fun <T> XAdapter<T>.supportAppbar(appBarLayout: AppBarLayout) = also {
+        val appBarStateChangeListener = AppBarStateChangeListener()
+        appBarLayout.addOnOffsetChangedListener(appBarStateChangeListener)
+        xAppbarCallback = { appBarStateChangeListener.currentState == AppBarStateChangeListener.EXPANDED }
+    }
 
 ### sample
 

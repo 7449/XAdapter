@@ -67,6 +67,12 @@ fun RecyclerView.setItemLayoutId(layoutId: Int) = also {
     }
 }
 
+fun RecyclerView.customScrollListener(onScrollListener: RecyclerView.OnScrollListener) = also {
+    if (checkAdapter()) {
+        adapter<Any>().customScrollListener(onScrollListener)
+    }
+}
+
 fun RecyclerView.customRefreshView(view: XRefreshView) = also {
     if (checkAdapter()) {
         adapter<Any>().customRefreshView(view)
@@ -148,6 +154,10 @@ fun <T> RecyclerView.setOnItemLongClickListener(action: (view: View, position: I
 fun <T> RecyclerView.getItem(position: Int): T = adapter<T>().getItem(position)
 
 fun <T> RecyclerView.previousItem(position: Int): T = adapter<T>().previousItem(position)
+
+fun RecyclerView.getHeaderView(position: Int) = adapter<Any>().getHeaderView(position)
+
+fun RecyclerView.getFooterView(position: Int) = adapter<Any>().getFooterView(position)
 
 fun RecyclerView.addAll(data: List<Any>) {
     if (checkAdapter()) {

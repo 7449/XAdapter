@@ -9,13 +9,19 @@ import com.xadapter.vh.XViewHolder
 
 fun <T> XAdapter<T>.addHeaderView(view: View) = apply { headerViewContainer.add(view) }
 
+fun XAdapter<Any>.getHeaderView(position: Int): View? = headerViewContainer[position]
+
 fun <T> XAdapter<T>.addFooterView(view: View) = apply { footerViewContainer.add(view) }
+
+fun XAdapter<Any>.getFooterView(position: Int): View? = footerViewContainer[position]
 
 fun <T> XAdapter<T>.setItemLayoutId(layoutId: Int) = also { this.itemLayoutId = layoutId }
 
 fun <T> XAdapter<T>.customRefreshView(view: XRefreshView) = also { this.refreshView = view }
 
 fun <T> XAdapter<T>.customLoadMoreView(view: XLoadMoreView) = also { this.loadMoreView = view }
+
+fun <T> XAdapter<T>.customScrollListener(onScrollListener: RecyclerView.OnScrollListener) = also { this.onScrollListener = onScrollListener }
 
 fun <T> XAdapter<T>.setScrollLoadMoreItemCount(count: Int) = also { this.scrollLoadMoreItemCount = count }
 

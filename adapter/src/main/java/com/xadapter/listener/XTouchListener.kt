@@ -3,7 +3,6 @@ package com.xadapter.listener
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
 
 /**
@@ -11,8 +10,8 @@ import com.xadapter.refresh.XRefreshView
  */
 internal class XTouchListener(
         private val appBarCallBack: () -> Boolean,
+        private val loadMoreCallback: () -> Boolean,
         private val refreshView: XRefreshView,
-        private val loadMoreView: XLoadMoreView?,
         private val refreshInterface: () -> Unit) : View.OnTouchListener {
 
     companion object {
@@ -26,7 +25,7 @@ internal class XTouchListener(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (refreshView.state == XRefreshView.REFRESH || loadMoreView?.state == XLoadMoreView.LOAD) {
+        if (refreshView.state == XRefreshView.REFRESH || loadMoreCallback.invoke()) {
             return false
         }
         if (rawY == -1f) {

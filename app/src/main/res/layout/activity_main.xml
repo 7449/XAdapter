@@ -10,52 +10,73 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/sample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/network"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NetWork"
+            android:text="@string/network"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/LinearLayout"
+            android:id="@+id/swiperefreshlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LinearLayoutManager"
+            android:text="@string/swiperefreshlayout"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/GridLayout"
+            android:id="@+id/custom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GridLayoutManager"
+            android:text="@string/customlistener"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/StaggeredGridLayout"
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="StaggeredGridLayoutManager"
+            android:text="@string/linearlayoutmanager"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gridlayoutmanager"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/staggeredGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/staggeredgridlayoutmanager"
             android:textAllCaps="false" />
 
         <Button
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CollapsingToolbarLayout"
+            android:text="@string/collapsingtoolbarlayout"
             android:textAllCaps="false" />
 
         <Button
             android:id="@+id/multiple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MultiAdapter"
+            android:text="@string/multiadapter"
             android:textAllCaps="false" />
 
         <Button
             android:id="@+id/databinding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DataBinding"
+            android:text="@string/databinding"
             android:textAllCaps="false" />
 
     </LinearLayout>
