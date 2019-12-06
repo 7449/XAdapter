@@ -7,5 +7,5 @@ import com.xadapter.material.AppBarStateChangeListener
 fun <T> XAdapter<T>.supportAppbar(appBarLayout: AppBarLayout) = also {
     val appBarStateChangeListener = AppBarStateChangeListener()
     appBarLayout.addOnOffsetChangedListener(appBarStateChangeListener)
-    appbarCallback = { appBarStateChangeListener.currentState == AppBarStateChangeListener.EXPANDED }
+    xAppbarCallback = { appBarStateChangeListener.currentState == AppBarStateChangeListener.EXPANDED }
 }

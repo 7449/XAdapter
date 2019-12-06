@@ -31,7 +31,7 @@ fun <T> XAdapter<T>.setLoadMoreListener(action: (adapter: XAdapter<T>) -> Unit) 
 
 fun <T> XAdapter<T>.setLoadMoreState(status: Int) = also { loadMoreState = status }
 
-fun <T> XAdapter<T>.setFooterListener(action: (view: View, adapter: XAdapter<T>) -> Unit) = also { this.onXFooterListener = action }
+fun <T> XAdapter<T>.setFooterListener(action: (view: View, adapter: XAdapter<T>) -> Unit) = also { this.xFooterListener = action }
 
 fun <T> XAdapter<T>.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also { this.onXBindListener = action }
 
@@ -78,9 +78,9 @@ fun <T> XAdapter<T>.removeAllNotItemView() {
 fun <T> XAdapter<T>.refresh(view: RecyclerView) = apply {
     recyclerView = view
     if (pullRefreshEnabled) {
-        refreshView?.state = XRefreshView.REFRESH
-        refreshView?.onMove(refreshView?.measuredHeight?.toFloat() ?: 0F)
+        refreshView.state = XRefreshView.REFRESH
+        refreshView.onMove(refreshView.measuredHeight.toFloat())
         xRefreshListener?.invoke(this)
-        loadMoreView?.state = XLoadMoreView.NORMAL
+        loadMoreView.state = XLoadMoreView.NORMAL
     }
 }

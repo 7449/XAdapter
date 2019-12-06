@@ -1,4 +1,4 @@
-package com.xadapter.manager
+package com.xadapter.listener
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 /**
  * by y on 2016/11/15
  */
-class XScrollListener(private val scrollBottom: () -> Unit) : RecyclerView.OnScrollListener() {
+internal class XScrollListener(private val scrollBottom: () -> Unit) : RecyclerView.OnScrollListener() {
 
     companion object {
         const val NO_MANAGER = -1

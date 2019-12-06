@@ -12,8 +12,6 @@ import com.adapter.example.R
 import com.adapter.example.data.DataUtils
 import com.adapter.example.data.ExampleBean
 import com.adapter.example.databinding.DatabindingLayoutBinding
-import com.adapter.example.view.LoadMoreView
-import com.adapter.example.view.RefreshView
 import com.xadapter.databinding.XDataBindingAdapterFactory
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
@@ -38,8 +36,6 @@ class DataBindingActivity : AppCompatActivity() {
         binding.recyclerView
                 .attachDataBindingAdapter(XDataBindingAdapterFactory<ExampleBean>(BR.entity))
                 .setItemLayoutId(R.layout.item_databinding)
-                .customLoadMoreView(LoadMoreView(applicationContext))
-                .customRefreshView(RefreshView(applicationContext))
                 .setScrollLoadMoreItemCount(10)
                 .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_1, findViewById(android.R.id.content), false))
                 .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.item_header_2, findViewById(android.R.id.content), false))

@@ -1,4 +1,4 @@
-package com.xadapter.manager
+package com.xadapter.listener
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent

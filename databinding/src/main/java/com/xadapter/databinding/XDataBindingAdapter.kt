@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
-import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XAdapter
 import com.xadapter.currentItemPosition
 import com.xadapter.vh.XViewHolder
-import com.xadapter.vh.superViewHolder
 import com.xadapter.viewHolderClick
 import com.xadapter.viewHolderLongClick
 
@@ -26,33 +24,8 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             mData.addAll(value)
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
-        if (recyclerView == null) {
-            recyclerView = parent as RecyclerView
-        }
-        if (headerViewType.contains(viewType)) {
-            return superViewHolder(headerViewContainer[viewType / adapterViewType])
-        }
-        if (footerViewType.contains(viewType)) {
-            return superViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
-        }
-        val viewHolder = XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).apply { viewHolderClick(this@XDataBindingAdapter).viewHolderLongClick(this@XDataBindingAdapter) }
-        return when (viewType) {
-            TYPE_REFRESH_HEADER -> {
-                refreshView?.let {
-                    recyclerView?.setOnTouchListener(touchListener)
-                    XViewHolder(it)
-                } ?: throw NullPointerException("detect refreshView is null")
-            }
-            TYPE_LOAD_MORE_FOOTER -> {
-                loadMoreView?.let { it ->
-                    it.setOnClickListener { v -> onXFooterListener?.invoke(v, this) }
-                    scrollListener?.let { recyclerView?.addOnScrollListener(it) }
-                    XViewHolder(it)
-                } ?: throw NullPointerException("detect loadMoreView is null")
-            }
-            else -> viewHolder
-        }
+    override fun defaultViewHolder(parent: ViewGroup): XViewHolder {
+        return XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).apply { viewHolderClick(this@XDataBindingAdapter).viewHolderLongClick(this@XDataBindingAdapter) }
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
@@ -60,9 +33,8 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
             return
         }
         val pos = currentItemPosition(position)
-        val t = dataContainer[pos] ?: return
         holder as XDataBindingHolder
-        holder.viewDataBinding.setVariable(variableId, t)
+        holder.viewDataBinding.setVariable(variableId, dataContainer[pos])
         if (executePendingBindings) {
             holder.viewDataBinding.executePendingBindings()
         }

@@ -31,9 +31,6 @@ fun <T> XAdapter<T>.currentItemPosition(position: Int): Int {
     return mPos - headerViewContainer.size
 }
 
-/**
- * 接管[XAdapter]在[GridLayoutManager]下的显示效果
- */
 internal fun <T> XAdapter<T>.internalOnAttachedToRecyclerView(recyclerView: RecyclerView) {
     val manager = recyclerView.layoutManager
     if (manager is GridLayoutManager) {
@@ -43,9 +40,6 @@ internal fun <T> XAdapter<T>.internalOnAttachedToRecyclerView(recyclerView: Recy
     }
 }
 
-/**
- * 接管[XAdapter]在[StaggeredGridLayoutManager]下的显示效果
- */
 internal fun <T> XAdapter<T>.internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
     viewHolder.itemView.layoutParams?.let {
         if (it is StaggeredGridLayoutManager.LayoutParams) {
@@ -54,9 +48,6 @@ internal fun <T> XAdapter<T>.internalOnViewAttachedToWindow(viewHolder: Recycler
     }
 }
 
-/**
- * [XAdapter]的 viewType
- */
 internal fun <T> XAdapter<T>.internalGetItemViewType(position: Int): Int {
     var mPos = position
     if (isRefreshHeaderType(mPos)) {
@@ -85,9 +76,6 @@ internal fun <T> XAdapter<T>.internalGetItemViewType(position: Int): Int {
     return XAdapter.TYPE_ITEM
 }
 
-/**
- * [XAdapter]的 总数据个数
- */
 internal fun <T> XAdapter<T>.dataSize(): Int {
     return dataContainer.size + if ((loadingMoreEnabled && dataContainer.isNotEmpty()) && pullRefreshEnabled) {
         2
