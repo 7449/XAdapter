@@ -17,7 +17,7 @@ class SimpleRefreshView(context: Context) : XRefreshView(context, R.layout.simpl
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation
 
-    public override fun initView() {
+    override fun initView() {
         tvTips.setTextColor(Color.BLACK)
         tvTips.text = context.getString(R.string.refresh_more_init)
         initAnimation()

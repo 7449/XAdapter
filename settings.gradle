@@ -1,1 +1,1 @@
-include ':app', ':adapter', ':viewholder', ':recyclerview', ':multi', ':databinding', ':refresh', ':material'
+include ':app', ':adapter', ':viewholder', ':recyclerview', ':multi', ':databinding', ':refresh', ':material', ':refresh_extensions'

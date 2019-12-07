@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.simple_load_more.view.*
  */
 class SimpleLoadMoreView(context: Context) : XLoadMoreView(context, R.layout.simple_load_more) {
 
-    public override fun initView() {
+    override fun initView() {
         tvTips.setTextColor(Color.BLACK)
         progressbar.visibility = View.GONE
         tvTips.text = context.getString(R.string.load_more_init)

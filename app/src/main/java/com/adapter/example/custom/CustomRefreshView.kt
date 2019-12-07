@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.layout_refresh.view.*
 /**
  * by y on 2017/6/21.
  */
-class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layout_refresh) {
+class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layout_avloading_refresh) {
 
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation

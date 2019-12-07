@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sample</string>
+    <string name="app_name">XAdapterSample</string>
     <string name="emptyView">没有数据</string>
     <string name="network">NetWork</string>
     <string name="linearlayoutmanager">LinearLayoutManager</string>
@@ -12,4 +12,5 @@
     <string name="swiperefreshlayout">SwipeRefreshLayout</string>
     <string name="sample">Sample</string>
     <string name="tips">tips</string>
+    <string name="avloadingindicatorview">AVLoadingIndicatorView</string>
 </resources>

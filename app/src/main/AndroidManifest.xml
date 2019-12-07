@@ -20,6 +20,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".page.AVLoadingActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".page.CustomActivity"
             android:screenOrientation="portrait" />
         <activity
