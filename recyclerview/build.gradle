@@ -11,7 +11,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-recyclerview"]
     }
 }
-version = "0.0.2"
+println "recyclerViewVersion:" + recyclerViewVersion
+version = recyclerViewVersion
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-recyclerview"
@@ -23,12 +24,23 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    api 'com.ydevelop:rv-adapter:0.0.9.8.7'
-    api 'com.ydevelop:rv-adapter-databinding:0.0.2'
-    api 'com.ydevelop:rv-adapter-material:0.0.1'
-    api 'com.ydevelop:rv-adapter-viewholder:0.0.2'
-    api 'com.ydevelop:rv-adapter-refresh:0.0.2'
-    api 'com.ydevelop:rv-adapter-multi:0.0.2'
+    if (publishType == recyclerviewType) {
+        println project.getName() + ":依赖maven"
+        api "com.ydevelop:rv-adapter:$adapterVersion"
+        api "com.ydevelop:rv-adapter-databinding:$databindingVerison"
+        api "com.ydevelop:rv-adapter-material:$materialVersion"
+        api "com.ydevelop:rv-adapter-viewholder$viewholderVersion"
+        api "com.ydevelop:rv-adapter-refresh:$refreshVersion"
+        api "com.ydevelop:rv-adapter-multi:$multiVersion"
+    } else {
+        println project.getName() + ":依赖library"
+        api project(path: ':adapter')
+        api project(path: ':databinding')
+        api project(path: ':material')
+        api project(path: ':viewholder')
+        api project(path: ':refresh')
+        api project(path: ':multi')
+    }
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

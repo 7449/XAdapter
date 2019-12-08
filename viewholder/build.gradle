@@ -11,7 +11,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-vh"]
     }
 }
-version = "0.0.2"
+println "viewholderVersion:" + viewholderVersion
+version = viewholderVersion
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-viewholder"

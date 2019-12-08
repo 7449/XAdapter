@@ -15,7 +15,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-databinding"]
     }
 }
-version = "0.0.2"
+println "databindingVerison:" + databindingVerison
+version = databindingVerison
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-databinding"
@@ -27,10 +28,16 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
+    if (publishType == databindingType) {
+        println project.getName() + ":依赖maven"
+        compileOnly "com.ydevelop:rv-adapter:$adapterVersion"
+        compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
+    } else {
+        println project.getName() + ":依赖library"
+        compileOnly project(path: ':viewholder')
+        compileOnly project(path: ':adapter')
+    }
     implementation 'androidx.annotation:annotation:1.1.0'
-//    compileOnly project(path: ':adapter')
-    compileOnly 'com.ydevelop:rv-adapter:0.0.9.8.7'
-    compileOnly 'com.ydevelop:rv-adapter-viewholder:0.0.2'
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

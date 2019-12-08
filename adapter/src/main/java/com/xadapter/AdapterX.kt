@@ -17,6 +17,8 @@ fun XAdapter<Any>.getFooterView(position: Int): View? = footerViewContainer[posi
 
 fun <T> XAdapter<T>.setItemLayoutId(layoutId: Int) = also { this.itemLayoutId = layoutId }
 
+fun <T> XAdapter<T>.setEmptyView(emptyView: View) = also { this.emptyView = emptyView }
+
 fun <T> XAdapter<T>.customRefreshView(view: XRefreshView) = also { this.refreshView = view }
 
 fun <T> XAdapter<T>.customLoadMoreView(view: XLoadMoreView) = also { this.loadMoreView = view }

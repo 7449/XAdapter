@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.layout_loadmore.view.*
 /**
  * by y on 2017/6/21.
  */
-class CustomLoadMoreView(context: Context) : XLoadMoreView(context, R.layout.layout_avloading_load_more) {
+class CustomLoadMoreView(context: Context) : XLoadMoreView(context, R.layout.layout_loadmore) {
 
     override fun initView() {
         tips.text = "CustomLoadMoreView"

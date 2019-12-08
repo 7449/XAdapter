@@ -28,9 +28,7 @@ class CustomActivity : BaseActivity(R.layout.activity_custom, "CustomSample") {
                 .attachAdapter<SampleEntity>()
                 .customRefreshView(CustomRefreshView(applicationContext))
                 .customLoadMoreView(CustomLoadMoreView(applicationContext))
-                .customScrollListener(CustomOnScrollListener {
-                    recyclerView.adapter<SampleEntity>().onScrollBottom()
-                })
+                .customScrollListener(CustomOnScrollListener())
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openLoadingMore()
                 .openPullRefresh()

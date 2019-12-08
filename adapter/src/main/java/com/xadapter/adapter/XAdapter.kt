@@ -36,6 +36,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     val footerViewContainer = ArrayList<View>()
     val headerViewType = ArrayList<Int>()
     val footerViewType = ArrayList<Int>()
+    var emptyView: View? = null
 
     open var dataContainer: ArrayList<T> = ArrayList()
 

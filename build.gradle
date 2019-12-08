@@ -23,4 +23,13 @@ ext {
     minSdkVersion = 14
     targetSdkVersion = 29
     recyclerviewVersion = "1.1.0"
+
+    adapterVersion = "0.0.9.8.7"
+    databindingVerison = "0.0.2"
+    materialVersion = "0.0.1"
+    multiVersion = "0.0.2"
+    recyclerViewVersion = "0.0.2"
+    refreshVersion = "0.0.2"
+    refresh_extensionsVersion = "0.0.1"
+    viewholderVersion = "0.0.2"
 }

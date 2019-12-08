@@ -4,8 +4,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.xadapter.adapter.XAdapter
 
-class CustomOnScrollListener(private val scrollBottom: () -> Unit) : RecyclerView.OnScrollListener() {
+class CustomOnScrollListener : RecyclerView.OnScrollListener() {
 
     companion object {
         const val NO_MANAGER = -1
@@ -39,7 +40,7 @@ class CustomOnScrollListener(private val scrollBottom: () -> Unit) : RecyclerVie
         val totalItemCount = layoutManager?.itemCount ?: 0
         if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition >= totalItemCount - 1) {
             Toast.makeText(recyclerView.context, "CustomOnScrollListener", Toast.LENGTH_SHORT).show()
-            scrollBottom.invoke()
+            (recyclerView.adapter as XAdapter<*>).onScrollBottom()
         }
     }
 

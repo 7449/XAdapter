@@ -11,7 +11,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-material"]
     }
 }
-version = "0.0.1"
+println "materialVersion:" + materialVersion
+version = materialVersion
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-material"

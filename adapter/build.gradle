@@ -12,7 +12,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter"]
     }
 }
-version = "0.0.9.8.7"
+println "adapterVersion:" + adapterVersion
+version = adapterVersion
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter"
@@ -24,10 +25,15 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-//    compileOnly project(path: ':viewholder')
-//    compileOnly project(path: ':refresh')
-    compileOnly 'com.ydevelop:rv-adapter-viewholder:0.0.2'
-    compileOnly 'com.ydevelop:rv-adapter-refresh:0.0.2'
+    if (publishType == adapterType) {
+        println project.getName() + ":依赖maven"
+        compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
+        compileOnly "com.ydevelop:rv-adapter-refresh:$refreshVersion"
+    } else {
+        println project.getName() + ":依赖library"
+        compileOnly project(path: ':viewholder')
+        compileOnly project(path: ':refresh')
+    }
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

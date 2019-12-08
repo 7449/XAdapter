@@ -11,7 +11,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-multi"]
     }
 }
-version = "0.0.2"
+println "multiVersion:" + multiVersion
+version = multiVersion
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-multi"
@@ -23,8 +24,13 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-//    compileOnly project(path: ':viewholder')
-    compileOnly 'com.ydevelop:rv-adapter-viewholder:0.0.2'
+    if (publishType == multiType) {
+        println project.getName() + ":依赖maven"
+        compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
+    } else {
+        println project.getName() + ":依赖library"
+        compileOnly project(path: ':viewholder')
+    }
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

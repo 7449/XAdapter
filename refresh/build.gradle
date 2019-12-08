@@ -12,7 +12,8 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter-refresh"]
     }
 }
-version = "0.0.2"
+println "refreshVersion:" + refreshVersion
+version = refreshVersion
 group = "com.ydevelop"
 androidArtifact {
     artifactId = "rv-adapter-refresh"
