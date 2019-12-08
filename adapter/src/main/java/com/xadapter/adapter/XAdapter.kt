@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.*
 import com.xadapter.listener.XScrollListener
@@ -24,6 +25,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         const val TYPE_ITEM = -1
         const val TYPE_REFRESH_HEADER = 0
         const val TYPE_LOAD_MORE_FOOTER = 1
+        const val TYPE_EMPTY = 2
     }
 
     var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
@@ -37,8 +39,16 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     val headerViewType = ArrayList<Int>()
     val footerViewType = ArrayList<Int>()
     var emptyView: View? = null
+        set(value) {
+            value?.let {
+                field = it
+                it.setOnClickListener { view -> onEmptyViewClickListener?.invoke(view) }
+            }
+        }
 
     open var dataContainer: ArrayList<T> = ArrayList()
+
+    var onEmptyViewClickListener: ((view: View) -> Unit)? = null
 
     var xAppbarCallback: (() -> Boolean)? = null
 
@@ -116,6 +126,11 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         get() = refreshView.state
         set(value) {
             refreshView.refreshState(value)
+            if (dataContainer.isEmpty() && headerViewContainer.isEmpty() && footerViewContainer.isEmpty()) {
+                emptyView?.visibility = View.VISIBLE
+            } else {
+                emptyView?.visibility = View.GONE
+            }
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
@@ -131,6 +146,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         return when (viewType) {
             TYPE_REFRESH_HEADER -> XViewHolder(refreshView)
             TYPE_LOAD_MORE_FOOTER -> XViewHolder(loadMoreView)
+            TYPE_EMPTY -> XViewHolder(emptyView ?: FrameLayout(parent.context))
             else -> defaultViewHolder(parent)
         }
     }
@@ -145,7 +161,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     override fun getItemViewType(position: Int) = internalGetItemViewType(position)
 
-    override fun getItemCount() = dataSize() + footerViewContainer.size + headerViewContainer.size
+    override fun getItemCount() = getAdapterItemCount()
 
     fun isRefreshHeaderType(position: Int) = pullRefreshEnabled && position == 0
 
@@ -168,7 +184,8 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     }
 
     open fun onScrollBottom() {
-        if ((isRefreshViewInit() && refreshView.state == XRefreshView.REFRESH)
+        if (dataContainer.isEmpty()
+                || (isRefreshViewInit() && refreshView.state == XRefreshView.REFRESH)
                 || loadMoreView.state == XLoadMoreView.LOAD) {
             return
         }
@@ -177,6 +194,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     }
 
     open fun onRefresh() {
+        emptyView?.visibility = View.GONE
         xRefreshListener?.invoke(this)
     }
 }

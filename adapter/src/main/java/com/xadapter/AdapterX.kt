@@ -43,6 +43,8 @@ fun <T> XAdapter<T>.setFooterListener(action: (view: View, adapter: XAdapter<T>)
 
 fun <T> XAdapter<T>.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also { this.onXBindListener = action }
 
+fun <T> XAdapter<T>.setOnEmptyViewClickListener(action: (view: View) -> Unit) = also { this.onEmptyViewClickListener = action }
+
 fun <T> XAdapter<T>.setOnItemClickListener(action: (view: View, position: Int, entity: T) -> Unit) = also { onXItemClickListener = action }
 
 fun <T> XAdapter<T>.setOnItemLongClickListener(action: (view: View, position: Int, entity: T) -> Boolean) = also { onXItemLongClickListener = action }

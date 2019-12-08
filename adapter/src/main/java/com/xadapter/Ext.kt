@@ -73,7 +73,17 @@ internal fun <T> XAdapter<T>.internalGetItemViewType(position: Int): Int {
         }
         return mPos * adapterViewType
     }
+    if (dataContainer.isEmpty() && headerViewContainer.isEmpty() && footerViewContainer.isEmpty()) {
+        return XAdapter.TYPE_EMPTY
+    }
     return XAdapter.TYPE_ITEM
+}
+
+internal fun <T> XAdapter<T>.getAdapterItemCount(): Int {
+    if (footerViewContainer.isEmpty() && headerViewContainer.isEmpty() && dataContainer.isEmpty()) {
+        return if (pullRefreshEnabled) 2 else 1
+    }
+    return dataSize() + footerViewContainer.size + headerViewContainer.size
 }
 
 internal fun <T> XAdapter<T>.dataSize(): Int {

@@ -26,6 +26,7 @@ class MainActivity : BaseActivity(R.layout.activity_main, "Sample", false) {
         custom.setOnClickListener { startActivity(CustomActivity::class.java) }
         swiperefreshlayout.setOnClickListener { startActivity(SwipeRefreshActivity::class.java) }
         avloadingindicatorview.setOnClickListener { startActivity(AVLoadingActivity::class.java) }
+        empty.setOnClickListener { startActivity(EmptyActivity::class.java) }
     }
 
     private fun startActivity(clz: Class<*>) {

@@ -67,6 +67,12 @@ fun RecyclerView.setItemLayoutId(layoutId: Int) = also {
     }
 }
 
+fun RecyclerView.setEmptyView(view: View) = also {
+    if (checkAdapter()) {
+        adapter<Any>().setEmptyView(view)
+    }
+}
+
 fun RecyclerView.customScrollListener(onScrollListener: RecyclerView.OnScrollListener) = also {
     if (checkAdapter()) {
         adapter<Any>().customScrollListener(onScrollListener)
@@ -136,6 +142,12 @@ fun RecyclerView.setFooterListener(action: (view: View, adapter: XAdapter<*>) ->
 fun <T> RecyclerView.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also {
     if (checkAdapter()) {
         adapter<T>().setOnBind(action)
+    }
+}
+
+fun RecyclerView.setOnEmptyViewClickListener(action: (view: View) -> Unit) = also {
+    if (checkAdapter()) {
+        adapter<Any>().setOnEmptyViewClickListener(action)
     }
 }
 

@@ -13,4 +13,5 @@
     <string name="sample">Sample</string>
     <string name="tips">tips</string>
     <string name="avloadingindicatorview">AVLoadingIndicatorView</string>
+    <string name="emptyview">EmptyView</string>
 </resources>
