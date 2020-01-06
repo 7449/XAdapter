@@ -4,50 +4,13 @@ package com.xadapter.recyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.*
 import com.xadapter.adapter.XAdapter
-import com.xadapter.databinding.XDataBindingAdapter
-import com.xadapter.databinding.XDataBindingAdapterExecutePendingBindingsFactory
 import com.xadapter.multi.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
 import com.xadapter.vh.XViewHolder
-
-fun <T> RecyclerView.adapter() = adapter as XAdapter<T>
-
-fun <T> RecyclerView.dataBindingAdapter() = adapter as XDataBindingAdapter<T>
-
-fun <T : XMultiCallBack> RecyclerView.multiAdapter() = adapter as XMultiAdapter<T>
-
-fun <T> RecyclerView.attachAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }
-
-fun <T> RecyclerView.attachAdapter() = attachAdapter(XAdapter<T>())
-
-fun <T> RecyclerView.attachDataBindingAdapter(adapter: XDataBindingAdapter<T>) = also { setAdapter(adapter) }
-
-fun <T> RecyclerView.attachDataBindingAdapter(variableId: Int) = attachDataBindingAdapter(XDataBindingAdapterExecutePendingBindingsFactory<T>(variableId))
-
-fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter(adapter: XMultiAdapter<T>) = also { setAdapter(adapter) }
-
-fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter(array: ArrayList<T> = ArrayList()) = attachMultiAdapter(XMultiAdapter(array))
-
-
-fun RecyclerView.linearLayoutManager() = also { layoutManager = LinearLayoutManager(this.context) }
-
-fun RecyclerView.gridLayoutManager(spanCount: Int = 2) = also { layoutManager = GridLayoutManager(this.context, spanCount) }
-
-fun RecyclerView.staggeredGridLayoutManager(spanCount: Int, orientation: Int) = also { layoutManager = StaggeredGridLayoutManager(spanCount, orientation) }
-
-fun RecyclerView.horizontalStaggeredGridLayoutManager(spanCount: Int) = also { layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL) }
-
-fun RecyclerView.orientationStaggeredGridLayoutManager(spanCount: Int) = also { layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL) }
-
-fun RecyclerView.checkAdapter(): Boolean = adapter != null && adapter is XAdapter<*>
-
-fun RecyclerView.checkMultiAdapter(): Boolean = adapter != null && adapter is XMultiAdapter<*>
 
 fun RecyclerView.addHeaderView(view: View) = also {
     if (checkAdapter()) {
