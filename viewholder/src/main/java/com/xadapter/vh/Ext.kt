@@ -1,3 +1,5 @@
+@file:JvmName("XViewHolderUtils")
+
 package com.xadapter.vh
 
 import android.graphics.Bitmap
@@ -7,7 +9,7 @@ import android.widget.*
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 
-fun <T : View> XViewHolder.findById(@IdRes id: Int) = getView<T>(id)
+inline fun <reified T : View> XViewHolder.findById(@IdRes id: Int) = getView<T>(id)
 
 fun XViewHolder.getContext() = itemView.context
         ?: throw  KotlinNullPointerException("context == null")
