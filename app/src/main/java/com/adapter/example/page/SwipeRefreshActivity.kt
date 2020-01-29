@@ -8,7 +8,6 @@ import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.setLoadMoreState
 import com.xadapter.vh.getContext
 import com.xadapter.vh.getImageView
 import com.xadapter.vh.setText

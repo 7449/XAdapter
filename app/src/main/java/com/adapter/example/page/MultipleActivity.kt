@@ -23,6 +23,7 @@ class MultipleActivity : BaseActivity(R.layout.activity_multiple, "MultipleAdapt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         recyclerView
                 .linearLayoutManager()
                 .attachMultiAdapter(XMultiAdapter(JsonUtils.multipleList))

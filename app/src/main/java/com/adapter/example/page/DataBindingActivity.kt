@@ -12,7 +12,7 @@ import com.adapter.example.R
 import com.adapter.example.databinding.ActivityDatabindingBinding
 import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
-import com.xadapter.databinding.XDataBindingAdapterFactory
+import com.xadapter.databinding.XDataBindingAdapter
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
@@ -34,17 +34,17 @@ class DataBindingActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.layoutManager = LinearLayoutManager(this)
         binding.recyclerView
-                .attachDataBindingAdapter(XDataBindingAdapterFactory<SampleEntity>(BR.entity))
+                .attachDataBindingAdapter(XDataBindingAdapter<SampleEntity>(BR.entity))
                 .setItemLayoutId(R.layout.item_databinding)
                 .setScrollLoadMoreItemCount(10)
+                .openPullRefresh()
+                .openLoadingMore()
                 .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false))
                 .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_2, findViewById(android.R.id.content), false))
                 .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_3, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_2, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_3, findViewById(android.R.id.content), false))
-                .openPullRefresh()
-                .openLoadingMore()
                 .setOnItemClickListener<SampleEntity> { _, position, _ ->
                     Toast.makeText(baseContext, "position:$position", Toast.LENGTH_SHORT).show()
                 }

@@ -64,14 +64,14 @@ internal fun <T> XAdapter<T>.internalGetItemViewType(position: Int): Int {
         if (!headerViewType.contains(headerType)) {
             headerViewType.add(headerType)
         }
-        return mPos * adapterViewType
+        return headerType
     }
     if (isFooterType(mPos)) {
         val footerType = mPos * adapterViewType
         if (!footerViewType.contains(footerType)) {
             footerViewType.add(footerType)
         }
-        return mPos * adapterViewType
+        return footerType
     }
     if (dataContainer.isEmpty() && headerViewContainer.isEmpty() && footerViewContainer.isEmpty()) {
         return XAdapter.TYPE_EMPTY

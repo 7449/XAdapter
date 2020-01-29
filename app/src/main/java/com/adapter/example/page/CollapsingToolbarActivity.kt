@@ -7,7 +7,6 @@ import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.adapter.example.supportAppbar
 import com.bumptech.glide.Glide
-import com.xadapter.addAll
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView

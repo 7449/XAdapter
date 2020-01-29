@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+
 package com.xadapter.adapter
 
 import android.annotation.SuppressLint
@@ -23,14 +25,16 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     companion object {
         const val TYPE_ITEM = -1
-        const val TYPE_REFRESH_HEADER = 0
-        const val TYPE_LOAD_MORE_FOOTER = 1
-        const val TYPE_EMPTY = 2
+        const val TYPE_REFRESH_HEADER = -2
+        const val TYPE_LOAD_MORE_FOOTER = -3
+        const val TYPE_EMPTY = -4
     }
 
     var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
 
     var onXItemLongClickListener: ((view: View, position: Int, entity: T) -> Boolean)? = null
+
+    var onEmptyViewClickListener: ((view: View) -> Unit)? = null
 
     var itemLayoutId = View.NO_ID
     val adapterViewType = 100000
@@ -47,8 +51,6 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         }
 
     open var dataContainer: ArrayList<T> = ArrayList()
-
-    var onEmptyViewClickListener: ((view: View) -> Unit)? = null
 
     var xAppbarCallback: (() -> Boolean)? = null
 
@@ -196,5 +198,93 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     open fun onRefresh() {
         emptyView?.visibility = View.GONE
         xRefreshListener?.invoke(this)
+    }
+
+    fun addHeaderView(view: View) = apply { headerViewContainer.add(view) }
+
+    fun getHeaderView(position: Int): View? = headerViewContainer[position]
+
+    fun addFooterView(view: View) = apply { footerViewContainer.add(view) }
+
+    fun getFooterView(position: Int): View? = footerViewContainer[position]
+
+    fun setItemLayoutId(layoutId: Int) = also { this.itemLayoutId = layoutId }
+
+    fun setEmptyView(emptyView: View) = also { this.emptyView = emptyView }
+
+    fun customRefreshView(view: XRefreshView) = also { this.refreshView = view }
+
+    fun customLoadMoreView(view: XLoadMoreView) = also { this.loadMoreView = view }
+
+    fun customScrollListener(onScrollListener: RecyclerView.OnScrollListener) = also { this.onScrollListener = onScrollListener }
+
+    fun setScrollLoadMoreItemCount(count: Int) = also { this.scrollLoadMoreItemCount = count }
+
+    fun openPullRefresh() = also { this.pullRefreshEnabled = true }
+
+    fun openLoadingMore() = also { this.loadingMoreEnabled = true }
+
+    fun setRefreshListener(action: (adapter: XAdapter<T>) -> Unit) = also { this.xRefreshListener = action }
+
+    fun setRefreshState(status: Int) = also { refreshState = status }
+
+    fun setLoadMoreListener(action: (adapter: XAdapter<T>) -> Unit) = also { this.xLoadMoreListener = action }
+
+    fun setLoadMoreState(status: Int) = also { loadMoreState = status }
+
+    fun setFooterListener(action: (view: View, adapter: XAdapter<T>) -> Unit) = also { this.xFooterListener = action }
+
+    fun setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also { this.onXBindListener = action }
+
+    fun setOnEmptyViewClickListener(action: (view: View) -> Unit) = also { this.onEmptyViewClickListener = action }
+
+    fun setOnItemClickListener(action: (view: View, position: Int, entity: T) -> Unit) = also { onXItemClickListener = action }
+
+    fun setOnItemLongClickListener(action: (view: View, position: Int, entity: T) -> Boolean) = also { onXItemLongClickListener = action }
+
+    fun getItem(position: Int): T = dataContainer[position]
+
+    fun addAll(data: List<T>) = also { dataContainer.addAll(data) }.notifyDataSetChanged()
+
+    fun add(data: T) = also { dataContainer.add(data) }.notifyDataSetChanged()
+
+    fun removeAll() = also { dataContainer.clear() }.notifyDataSetChanged()
+
+    fun remove(position: Int) = also { dataContainer.removeAt(position) }.notifyDataSetChanged()
+
+    fun previousItem(position: Int): T = if (position == 0) dataContainer[0] else dataContainer[position - 1]
+
+    fun removeHeader(index: Int) = also { headerViewContainer.removeAt(index) }.also { headerViewType.removeAt(if (index == 0) 0 else index / adapterViewType) }.notifyDataSetChanged()
+
+    fun removeHeader(view: View) {
+        val indexOf = headerViewContainer.indexOf(view)
+        if (indexOf == -1) return
+        removeHeader(indexOf)
+    }
+
+    fun removeFooter(index: Int) = also { footerViewContainer.removeAt(index) }.also { footerViewType.removeAt(if (index == 0) 0 else index / adapterViewType) }.notifyDataSetChanged()
+
+    fun removeFooter(view: View) {
+        val indexOf = footerViewContainer.indexOf(view)
+        if (indexOf == -1) return
+        removeFooter(indexOf)
+    }
+
+    fun removeAllNotItemView() {
+        headerViewType.clear()
+        footerViewType.clear()
+        headerViewContainer.clear()
+        footerViewContainer.clear()
+        notifyDataSetChanged()
+    }
+
+    fun refresh(view: RecyclerView) = also {
+        recyclerView = view
+        if (pullRefreshEnabled) {
+            refreshView.state = XRefreshView.REFRESH
+            refreshView.onMove(refreshView.measuredHeight.toFloat())
+            xRefreshListener?.invoke(this)
+            loadMoreView.state = XLoadMoreView.NORMAL
+        }
     }
 }

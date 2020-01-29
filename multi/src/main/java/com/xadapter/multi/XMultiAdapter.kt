@@ -4,13 +4,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xadapter.vh.XViewHolder
 import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2017/3/9
  */
-class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : RecyclerView.Adapter<XViewHolder>() {
+class XMultiAdapter<T : XMultiCallBack>(private val multiData: MutableList<T> = ArrayList()) : RecyclerView.Adapter<XViewHolder>() {
 
     var onXItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
 
@@ -30,17 +31,39 @@ class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : Recycl
 
     override fun getItemViewType(position: Int): Int = getItem(position).itemType
 
-    override fun getItemCount(): Int = mMultiData.size
+    override fun getItemCount(): Int = multiData.size
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) = internalOnAttachedToRecyclerView(recyclerView)
 
     override fun onViewAttachedToWindow(holder: XViewHolder) = internalOnViewAttachedToWindow(holder)
 
+    fun getItem(position: Int): T = multiData[position]
+
+    fun setItemLayoutId(action: (itemViewType: Int) -> Int) = also { this.itemLayoutId = action }
+
+    fun setMultiBind(action: (holder: XViewHolder, entity: T, itemViewType: Int, position: Int) -> Unit) = also { this.xMultiBind = action }
+
+    fun gridLayoutManagerSpanSize(action: (itemViewType: Int, manager: GridLayoutManager, position: Int) -> Int) = also { gridLayoutManagerSpanSize = action }
+
+    fun staggeredGridLayoutManagerFullSpan(action: (itemViewType: Int) -> Boolean) = also { staggeredGridLayoutManagerFullSpan = action }
+
+    fun setOnItemClickListener(action: (view: View, position: Int, entity: T) -> Unit) = also { onXItemClickListener = action }
+
+    fun setOnItemLongClickListener(action: (view: View, position: Int, entity: T) -> Boolean) = also { onXItemLongClickListener = action }
+
+    fun removeAll() = also { multiData.clear() }.notifyDataSetChanged()
+
+    fun remove(position: Int) = also { multiData.removeAt(position) }.also { notifyItemRemoved(position) }.notifyItemRangeChanged(position, itemCount)
+
+    fun addAll(t: List<T>) = also { multiData.addAll(t) }.notifyDataSetChanged()
+
+    fun add(t: T) = also { multiData.add(t) }.notifyDataSetChanged()
+
     private fun <T : XMultiCallBack> XViewHolder.multiViewHolderClick(xMultiAdapter: XMultiAdapter<T>): XViewHolder {
         xMultiAdapter.onXItemClickListener?.let { onXItemClickListener ->
             itemView.setOnClickListener {
-                if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
-                onXItemClickListener.invoke(it, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+                if (xMultiAdapter.multiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnClickListener
+                onXItemClickListener.invoke(it, layoutPosition, xMultiAdapter.multiData[layoutPosition])
             }
         }
         return this
@@ -49,9 +72,29 @@ class XMultiAdapter<T : XMultiCallBack>(val mMultiData: MutableList<T>) : Recycl
     private fun <T : XMultiCallBack> XViewHolder.multiViewHolderLongClick(xMultiAdapter: XMultiAdapter<T>) {
         xMultiAdapter.onXItemLongClickListener?.let { onXItemLongClickListener ->
             itemView.setOnLongClickListener {
-                if (xMultiAdapter.mMultiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
-                onXItemLongClickListener.invoke(itemView, layoutPosition, xMultiAdapter.mMultiData[layoutPosition])
+                if (xMultiAdapter.multiData[layoutPosition].position == XMultiCallBack.NO_CLICK_POSITION) return@setOnLongClickListener false
+                onXItemLongClickListener.invoke(itemView, layoutPosition, xMultiAdapter.multiData[layoutPosition])
             }
+        }
+    }
+
+    private fun internalOnAttachedToRecyclerView(recyclerView: RecyclerView) {
+        val manager = recyclerView.layoutManager
+        if (manager is GridLayoutManager) {
+            manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return gridLayoutManagerSpanSize?.invoke(getItemViewType(position), manager, position)
+                            ?: 0
+                }
+            }
+        }
+    }
+
+    private fun internalOnViewAttachedToWindow(viewHolder: RecyclerView.ViewHolder) {
+        val layoutParams = viewHolder.itemView.layoutParams
+        if (layoutParams is StaggeredGridLayoutManager.LayoutParams) {
+            layoutParams.isFullSpan = staggeredGridLayoutManagerFullSpan?.invoke(getItemViewType(viewHolder.layoutPosition))
+                    ?: false
         }
     }
 }

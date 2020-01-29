@@ -10,8 +10,6 @@ import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
-import com.xadapter.setLoadMoreState
-import com.xadapter.setRefreshState
 import com.xadapter.vh.getContext
 import com.xadapter.vh.getImageView
 import com.xadapter.vh.setText

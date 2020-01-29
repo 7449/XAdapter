@@ -5,7 +5,6 @@ package com.xadapter.recyclerview
 import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.adapter.XAdapter
 import com.xadapter.databinding.XDataBindingAdapter
-import com.xadapter.databinding.XDataBindingAdapterExecutePendingBindingsFactory
 import com.xadapter.multi.XMultiAdapter
 import com.xadapter.multi.XMultiCallBack
 
@@ -37,7 +36,7 @@ fun <T> RecyclerView.attachAdapter(adapter: XAdapter<T>) = also { setAdapter(ada
 /**
  * Init [XDataBindingAdapter]
  */
-fun <T> RecyclerView.attachDataBindingAdapter(variableId: Int) = attachDataBindingAdapter(XDataBindingAdapterExecutePendingBindingsFactory<T>(variableId))
+fun <T> RecyclerView.attachDataBindingAdapter(variableId: Int) = attachDataBindingAdapter(XDataBindingAdapter<T>(variableId))
 
 /**
  * Init [XDataBindingAdapter]
@@ -47,7 +46,7 @@ fun <T> RecyclerView.attachDataBindingAdapter(adapter: XDataBindingAdapter<T>) =
 /**
  * Init [XMultiAdapter]
  */
-fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter(array: ArrayList<T> = ArrayList()) = attachMultiAdapter(XMultiAdapter(array))
+fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter() = attachMultiAdapter(XMultiAdapter<T>())
 
 /**
  * Init [XMultiAdapter]

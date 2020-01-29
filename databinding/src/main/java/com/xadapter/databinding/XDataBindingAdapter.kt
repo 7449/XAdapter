@@ -14,7 +14,7 @@ import com.xadapter.viewHolderLongClick
  * @author y
  * @create 2018/12/25
  */
-open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean) : XAdapter<T>() {
+open class XDataBindingAdapter<T>(private val variableId: Int, private val executePendingBindings: Boolean = true) : XAdapter<T>() {
 
     var mData: ObservableArrayList<T> = ObservableArrayList()
 

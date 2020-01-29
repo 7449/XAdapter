@@ -28,19 +28,16 @@ dependencies {
         println project.getName() + ":依赖maven"
         api "com.ydevelop:rv-adapter:$adapterVersion"
         api "com.ydevelop:rv-adapter-databinding:$databindingVerison"
-        api "com.ydevelop:rv-adapter-material:$materialVersion"
-        api "com.ydevelop:rv-adapter-viewholder$viewholderVersion"
-        api "com.ydevelop:rv-adapter-refresh:$refreshVersion"
         api "com.ydevelop:rv-adapter-multi:$multiVersion"
     } else {
         println project.getName() + ":依赖library"
         api project(path: ':adapter')
         api project(path: ':databinding')
-        api project(path: ':material')
-        api project(path: ':viewholder')
-        api project(path: ':refresh')
         api project(path: ':multi')
     }
-    compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "com.ydevelop:rv-adapter-refresh:$refreshVersion"
+    api "com.ydevelop:rv-adapter-material:$materialVersion"
+    api "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
+    api "androidx.recyclerview:recyclerview:$recyclerviewVersion"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

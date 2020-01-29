@@ -25,15 +25,8 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    if (publishType == adapterType) {
-        println project.getName() + ":依赖maven"
-        compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
-        compileOnly "com.ydevelop:rv-adapter-refresh:$refreshVersion"
-    } else {
-        println project.getName() + ":依赖library"
-        compileOnly project(path: ':viewholder')
-        compileOnly project(path: ':refresh')
-    }
+    compileOnly "com.ydevelop:rv-adapter-refresh:$refreshVersion"
+    compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

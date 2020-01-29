@@ -14,8 +14,6 @@ import com.xadapter.refresh.extensions.AVLoadingIndicatorLoadMoreView
 import com.xadapter.refresh.extensions.AVLoadingIndicatorRefreshView
 import com.xadapter.refresh.extensions.AVType
 import com.xadapter.refresh.extensions.getIndicator
-import com.xadapter.setLoadMoreState
-import com.xadapter.setRefreshState
 import com.xadapter.vh.getContext
 import com.xadapter.vh.getImageView
 import com.xadapter.vh.setText
