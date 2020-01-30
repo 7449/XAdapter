@@ -7,10 +7,7 @@ import com.adapter.example.R
 import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
-import com.xadapter.recyclerview.convertAdapter
-import com.xadapter.recyclerview.fixedSize
-import com.xadapter.recyclerview.getHeaderView
-import com.xadapter.recyclerview.linearLayoutManager
+import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
 import com.xadapter.vh.getContext
@@ -25,43 +22,47 @@ class LinearLayoutActivity : BaseActivity(R.layout.activity_linear_manager, "Lin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         recyclerView
                 .linearLayoutManager()
                 .fixedSize()
-                .convertAdapter<SampleEntity>()
-                .setItemLayoutId(R.layout.layout_json_item)
-                .openLoadingMore()
-                .openPullRefresh()
-                .setScrollLoadMoreItemCount(2)
-                .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false))
-                .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_2, findViewById(android.R.id.content), false))
-                .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_3, findViewById(android.R.id.content), false))
-                .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false))
-                .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_2, findViewById(android.R.id.content), false))
-                .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_3, findViewById(android.R.id.content), false))
-                .setOnBind { holder, _, entity ->
-                    Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
-                    holder.setText(R.id.title, entity.title)
-                }
-                .setOnItemClickListener { _, position, _ ->
-                    Toast.makeText(baseContext, "position:  $position", Toast.LENGTH_SHORT).show()
-                }
-                .setOnItemLongClickListener { _, _, _ ->
-                    Toast.makeText(baseContext, "onLongClick", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                .setRefreshListener {
-                    this@LinearLayoutActivity.recyclerView.postDelayed({
-                        it.setRefreshState(XRefreshView.SUCCESS)
-                    }, 1500)
-                }
-                .setLoadMoreListener {
-                    this@LinearLayoutActivity.recyclerView.postDelayed({
-                        it.setLoadMoreState(XLoadMoreView.ERROR)
-                    }, 1500)
+                .setAdapter<SampleEntity> {
+                    loadingMore = true
+                    pullRefresh = true
+                    itemLayoutId = R.layout.layout_json_item
+                    addHeaderViews(
+                            LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false),
+                            LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_2, findViewById(android.R.id.content), false),
+                            LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_3, findViewById(android.R.id.content), false)
+                    )
+                    addFooterViews(
+                            LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false),
+                            LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_2, findViewById(android.R.id.content), false),
+                            LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_3, findViewById(android.R.id.content), false)
+                    )
+                    onBind { holder, position, entity ->
+                        Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
+                        holder.setText(R.id.title, entity.title)
+                    }
+                    onItemLongClickListener { view, position, entity ->
+                        Toast.makeText(baseContext, "onLongClick", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    onItemClickListener { view, position, entity ->
+                        Toast.makeText(baseContext, "position:  $position", Toast.LENGTH_SHORT).show()
+                    }
+                    refreshListener {
+                        this@LinearLayoutActivity.recyclerView.postDelayed({
+                            it.setRefreshState(XRefreshView.SUCCESS)
+                        }, 1500)
+                    }
+                    loadMoreListener {
+                        this@LinearLayoutActivity.recyclerView.postDelayed({
+                            it.setLoadMoreState(XLoadMoreView.ERROR)
+                        }, 1500)
+                    }
                 }
                 .addAll(JsonUtils.jsonList)
-
         recyclerView.getHeaderView(0)?.setOnClickListener {
             Toast.makeText(baseContext, "HeaderView", Toast.LENGTH_SHORT).show()
         }

@@ -90,8 +90,6 @@ material:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-material
             .addHeaderView(View)
             .addFooterView(View)
             .setOnBind<Entity> { holder, position, entity ->
-                holder.setText(R.id.tv_name, entity.name)
-                holder.setText(R.id.tv_age, entity.age.toString() + "")
             }
             .setOnItemClickListener<Entity> { view, position, entity ->
             }
@@ -103,6 +101,35 @@ material:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-material
             .setLoadMoreListener {
             }
             .addAll(mainBeen)
+            
+####### recyclerview core sample 
+
+    recyclerView
+            .linearLayoutManager()
+            .fixedSize()
+            .setAdapter<Entity> {
+                loadingMore = true
+                pullRefresh = true
+                itemLayoutId = layoutId
+                addHeaderViews(
+                        view...
+                )
+                addFooterViews(
+                        view...
+                )
+                onBind { holder, position, entity ->
+                }
+                onItemLongClickListener { view, position, entity ->
+                    true
+                }
+                onItemClickListener { view, position, entity ->
+                }
+                refreshListener {
+                }
+                loadMoreListener {
+                }
+            }
+            .addAll(JsonUtils.jsonList)
 
 #### pull to refresh and load more
 
