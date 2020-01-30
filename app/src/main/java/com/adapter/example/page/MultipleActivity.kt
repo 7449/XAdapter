@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.widget.Toast
 import com.adapter.example.R
 import com.adapter.example.json.JsonUtils
-import com.xadapter.multi.SimpleXMultiItem
 import com.xadapter.multi.XMultiAdapter
-import com.xadapter.recyclerview.*
+import com.xadapter.recyclerview.convertMultiAdapter
+import com.xadapter.recyclerview.linearLayoutManager
 import com.xadapter.vh.getImageView
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.layout_recyclerview.*
@@ -26,14 +26,14 @@ class MultipleActivity : BaseActivity(R.layout.activity_multiple, "MultipleAdapt
 
         recyclerView
                 .linearLayoutManager()
-                .attachMultiAdapter(XMultiAdapter(JsonUtils.multipleList))
-                .multiSetItemLayoutId { viewType ->
+                .convertMultiAdapter(XMultiAdapter(JsonUtils.multipleList))
+                .setItemLayoutId { viewType ->
                     when (viewType) {
                         TYPE_LINE -> R.layout.item_line_adapter
                         else -> R.layout.item_multi_adapter
                     }
                 }
-                .multiSetBind<SimpleXMultiItem> { holder, entity, itemViewType, _ ->
+                .setMultiBind { holder, entity, itemViewType, _ ->
                     when (itemViewType) {
                         TYPE_ITEM -> {
                             holder.setText(R.id.tv_message, entity.message)
@@ -41,20 +41,20 @@ class MultipleActivity : BaseActivity(R.layout.activity_multiple, "MultipleAdapt
                         }
                     }
                 }
-                .multiGridLayoutManagerSpanSize { itemViewType, manager, _ ->
+                .gridLayoutManagerSpanSize { itemViewType, manager, _ ->
                     if (itemViewType != TYPE_ITEM) {
                         manager.spanCount
                     } else {
                         1
                     }
                 }
-                .multiStaggeredGridLayoutManagerFullSpan {
+                .staggeredGridLayoutManagerFullSpan {
                     it != TYPE_ITEM
                 }
-                .multiSetOnItemClickListener<SimpleXMultiItem> { view, _, entity ->
+                .setOnItemClickListener { view, _, entity ->
                     Toast.makeText(view.context, "当前 position:  " + entity.itemMultiPosition + "  " + entity.message, Toast.LENGTH_SHORT).show()
                 }
-                .multiSetOnItemLongClickListener<SimpleXMultiItem> { view, _, entity ->
+                .setOnItemLongClickListener { view, _, entity ->
                     Toast.makeText(view.context, "当前内容  = " + entity.message, Toast.LENGTH_SHORT).show()
                     true
                 }

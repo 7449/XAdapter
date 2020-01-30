@@ -54,6 +54,36 @@ fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter() = attachMultiAdapter(
 fun <T : XMultiCallBack> RecyclerView.attachMultiAdapter(adapter: XMultiAdapter<T>) = also { setAdapter(adapter) }
 
 /**
+ * Init [XAdapter]
+ */
+fun <T> RecyclerView.convertAdapter() = convertAdapter(XAdapter<T>())
+
+/**
+ * Init [XAdapter]
+ */
+fun <T> RecyclerView.convertAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }.adapter<T>()
+
+/**
+ * Init [XDataBindingAdapter]
+ */
+fun <T> RecyclerView.convertDataBindingAdapter(variableId: Int) = convertDataBindingAdapter(XDataBindingAdapter<T>(variableId))
+
+/**
+ * Init [XDataBindingAdapter]
+ */
+fun <T> RecyclerView.convertDataBindingAdapter(adapter: XDataBindingAdapter<T>) = also { setAdapter(adapter) }.dataBindingAdapter<T>()
+
+/**
+ * Init [XMultiAdapter]
+ */
+fun <T : XMultiCallBack> RecyclerView.convertMultiAdapter() = convertMultiAdapter(XMultiAdapter<T>())
+
+/**
+ * Init [XMultiAdapter]
+ */
+fun <T : XMultiCallBack> RecyclerView.convertMultiAdapter(adapter: XMultiAdapter<T>) = also { setAdapter(adapter) }.multiAdapter<T>()
+
+/**
  * check [XAdapter]
  */
 fun RecyclerView.checkAdapter(): Boolean = adapter != null && adapter is XAdapter<*>

@@ -7,7 +7,10 @@ import com.adapter.example.R
 import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
-import com.xadapter.recyclerview.*
+import com.xadapter.recyclerview.convertAdapter
+import com.xadapter.recyclerview.fixedSize
+import com.xadapter.recyclerview.getHeaderView
+import com.xadapter.recyclerview.linearLayoutManager
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
 import com.xadapter.vh.getContext
@@ -24,7 +27,8 @@ class LinearLayoutActivity : BaseActivity(R.layout.activity_linear_manager, "Lin
         super.onCreate(savedInstanceState)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .fixedSize()
+                .convertAdapter<SampleEntity>()
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openLoadingMore()
                 .openPullRefresh()
@@ -35,14 +39,14 @@ class LinearLayoutActivity : BaseActivity(R.layout.activity_linear_manager, "Lin
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_2, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_3, findViewById(android.R.id.content), false))
-                .setOnBind<SampleEntity> { holder, _, entity ->
+                .setOnBind { holder, _, entity ->
                     Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
                     holder.setText(R.id.title, entity.title)
                 }
-                .setOnItemClickListener<SampleEntity> { _, position, _ ->
+                .setOnItemClickListener { _, position, _ ->
                     Toast.makeText(baseContext, "position:  $position", Toast.LENGTH_SHORT).show()
                 }
-                .setOnItemLongClickListener<SampleEntity> { _, _, _ ->
+                .setOnItemLongClickListener { _, _, _ ->
                     Toast.makeText(baseContext, "onLongClick", Toast.LENGTH_SHORT).show()
                     true
                 }
