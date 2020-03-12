@@ -1,3 +1,7 @@
+# 
+
+[JetBrains](https://www.jetbrains.com/?from=XAdapter)
+
 # XAdapter
 
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
