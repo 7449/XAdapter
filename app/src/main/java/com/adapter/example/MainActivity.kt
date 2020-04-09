@@ -3,8 +3,8 @@ package com.adapter.example
 import android.content.Intent
 import android.os.Bundle
 import com.adapter.example.page.*
+import io.reactivex.network.DefaultRxNetOption
 import io.reactivex.network.RxNetWork
-import io.reactivex.network.SimpleRxNetOptionFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,7 +13,10 @@ class MainActivity : BaseActivity(R.layout.activity_main, "Sample", false) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        RxNetWork.initialization(SimpleRxNetOptionFactory("https://news-at.zhihu.com/api/4/", GsonConverterFactory.create()))
+        RxNetWork.initialization(DefaultRxNetOption(
+                baseUrl = "https://news-at.zhihu.com/api/4/",
+                converterFactory = GsonConverterFactory.create()
+        ))
 
         sample.setOnClickListener { startActivity(SampleActivity::class.java) }
         network.setOnClickListener { startActivity(NetWorkActivity::class.java) }

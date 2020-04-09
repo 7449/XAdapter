@@ -14,8 +14,8 @@ import com.xadapter.refresh.extensions.AVLoadingIndicatorLoadMoreView
 import com.xadapter.refresh.extensions.AVLoadingIndicatorRefreshView
 import com.xadapter.refresh.extensions.AVType
 import com.xadapter.refresh.extensions.getIndicator
-import com.xadapter.vh.getContext
-import com.xadapter.vh.getImageView
+import com.xadapter.vh.context
+import com.xadapter.vh.imageView
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
@@ -37,7 +37,7 @@ class AVLoadingActivity : BaseActivity(R.layout.activity_avloading_indicator, "A
                 .addHeaderView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false))
                 .setOnBind<SampleEntity> { holder, _, entity ->
-                    Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
+                    Glide.with(holder.context).load(entity.image).into(holder.imageView(R.id.image))
                     holder.setText(R.id.title, entity.title)
                 }
                 .setRefreshListener {

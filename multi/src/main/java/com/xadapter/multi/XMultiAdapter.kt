@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.xadapter.vh.LayoutViewHolder
 import com.xadapter.vh.XViewHolder
-import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2017/3/9
@@ -25,7 +25,7 @@ class XMultiAdapter<T : XMultiCallBack>(private val multiData: MutableList<T> = 
 
     var staggeredGridLayoutManagerFullSpan: ((itemViewType: Int) -> Boolean)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder = superViewHolder(parent, itemLayoutId(viewType)).apply { multiViewHolderClick(this@XMultiAdapter).multiViewHolderLongClick(this@XMultiAdapter) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder = LayoutViewHolder(parent, itemLayoutId(viewType)).apply { multiViewHolderClick(this@XMultiAdapter).multiViewHolderLongClick(this@XMultiAdapter) }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) = xMultiBind(holder, getItem(position), getItemViewType(position), position)
 

@@ -10,9 +10,7 @@ import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
-import com.xadapter.vh.getContext
-import com.xadapter.vh.getImageView
-import com.xadapter.vh.setText
+import com.xadapter.vh.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 /**
@@ -41,7 +39,7 @@ class LinearLayoutActivity : BaseActivity(R.layout.activity_linear_manager, "Lin
                             LayoutInflater.from(applicationContext).inflate(R.layout.adapter_footer_3, findViewById(android.R.id.content), false)
                     )
                     onBind { holder, position, entity ->
-                        Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
+                        Glide.with(holder.context).load(entity.image).into(holder.imageView(R.id.image))
                         holder.setText(R.id.title, entity.title)
                     }
                     onItemLongClickListener { view, position, entity ->

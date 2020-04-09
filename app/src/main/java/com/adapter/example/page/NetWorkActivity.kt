@@ -7,21 +7,18 @@ import com.adapter.example.json.StoriesEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.vh.getContext
-import com.xadapter.vh.getImageView
+import com.xadapter.vh.context
+import com.xadapter.vh.imageView
 import com.xadapter.vh.setText
 import io.reactivex.Observable
-import io.reactivex.network.RxNetWork
-import io.reactivex.network.RxNetWorkListener
-import io.reactivex.network.cancelTag
-import io.reactivex.network.getApi
+import io.reactivex.network.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 import retrofit2.http.GET
 
 /**
  * by y on 2016/11/17
  */
-class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample"), RxNetWorkListener<StoriesEntity> {
+class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample"), RxRequestCallback<StoriesEntity> {
 
     interface ZLService {
         @GET("news/latest")
@@ -40,9 +37,9 @@ class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample")
                 .setItemLayoutId(R.layout.layout_json_item)
                 .setOnBind<SampleEntity> { holder, _, entity ->
                     Glide
-                            .with(holder.getContext())
+                            .with(holder.context)
                             .load(entity.image)
-                            .into(holder.getImageView(R.id.image))
+                            .into(holder.imageView(R.id.image))
                     holder.setText(R.id.title, entity.title)
                 }
                 .setRefreshListener {
@@ -62,11 +59,11 @@ class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample")
     }
 
     private fun netWork() {
-        RxNetWork
-                .observable(ZLService::class.java)
+        ZLService::class.java
+                .create()
                 .getList()
-                .cancelTag(javaClass.simpleName)
-                .getApi(javaClass.simpleName, this)
+                .cancel(javaClass.simpleName)
+                .request(javaClass.simpleName, this)
     }
 
     override fun onNetWorkStart() {
@@ -97,6 +94,6 @@ class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample")
 
     override fun onDestroy() {
         super.onDestroy()
-        RxNetWork.cancelTag(javaClass.simpleName)
+        RxNetWork.instance.cancel(javaClass.simpleName)
     }
 }

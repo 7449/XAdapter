@@ -8,9 +8,7 @@ import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.vh.getContext
-import com.xadapter.vh.getImageView
-import com.xadapter.vh.setText
+import com.xadapter.vh.*
 import kotlinx.android.synthetic.main.activity_swipe_refresh.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
@@ -25,7 +23,7 @@ class SwipeRefreshActivity : BaseActivity(R.layout.activity_swipe_refresh, "Swip
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openLoadingMore()
                 .setOnBind<SampleEntity> { holder, _, entity ->
-                    Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
+                    Glide.with(holder.context).load(entity.image).into(holder.imageView(R.id.image))
                     holder.setText(R.id.title, entity.title)
                 }
                 .setLoadMoreListener {

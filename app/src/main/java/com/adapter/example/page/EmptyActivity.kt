@@ -10,8 +10,8 @@ import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
-import com.xadapter.vh.getContext
-import com.xadapter.vh.getImageView
+import com.xadapter.vh.context
+import com.xadapter.vh.imageView
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
@@ -27,7 +27,7 @@ class EmptyActivity : BaseActivity(R.layout.activity_empty, "EmptyAdapter") {
                 .setEmptyView(CustomEmptyView(applicationContext))
                 .setItemLayoutId(R.layout.layout_json_item)
                 .setOnBind<SampleEntity> { holder, _, entity ->
-                    Glide.with(holder.getContext()).load(entity.image).into(holder.getImageView(R.id.image))
+                    Glide.with(holder.context).load(entity.image).into(holder.imageView(R.id.image))
                     holder.setText(R.id.title, entity.title)
                 }
                 .setRefreshListener {

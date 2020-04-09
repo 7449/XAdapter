@@ -12,7 +12,6 @@ android {
         kotlinOptions.freeCompilerArgs += ['-module-name', "com.ydevelop.rv-adapter"]
     }
 }
-println "adapterVersion:" + adapterVersion
 version = adapterVersion
 group = "com.ydevelop"
 androidArtifact {

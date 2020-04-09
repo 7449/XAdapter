@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0-alpha03'
+        classpath 'com.android.tools.build:gradle:4.1.0-alpha04'
         classpath "guru.stefma.bintrayrelease:bintrayrelease:1.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -14,20 +14,20 @@ allprojects {
     repositories {
         google()
         jcenter()
-        mavenCentral()
     }
 }
 ext {
     compileSdkVersion = 29
     minSdkVersion = 14
     targetSdkVersion = 29
-    recyclerviewVersion = "1.1.0"
+    recyclerviewVersion = "1.2.0-alpha02"
+    googleMaterialVersion = "1.2.0-alpha05"
 
-    adapterVersion = "0.0.9.8.9"
-    databindingVerison = "0.0.3"
+    adapterVersion = "0.1.0"
+    databindingVerison = "0.0.4"
     materialVersion = "0.0.1"
-    multiVersion = "0.0.3"
-    recyclerViewVersion = "0.0.3"
+    multiVersion = "0.0.4"
+    recyclerViewVersion = "0.0.4"
     refreshVersion = "0.0.2"
-    viewholderVersion = "0.0.3"
+    viewholderVersion = "0.0.4"
 }

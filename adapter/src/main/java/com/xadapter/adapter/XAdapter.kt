@@ -16,7 +16,6 @@ import com.xadapter.refresh.XRefreshView
 import com.xadapter.refresh.simple.SimpleLoadMoreView
 import com.xadapter.refresh.simple.SimpleRefreshView
 import com.xadapter.vh.XViewHolder
-import com.xadapter.vh.superViewHolder
 
 /**
  * by y on 2016/11/15
@@ -140,10 +139,10 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             recyclerView = parent as RecyclerView
         }
         if (headerViewType.contains(viewType)) {
-            return superViewHolder(headerViewContainer[viewType / adapterViewType])
+            return XViewHolder(headerViewContainer[viewType / adapterViewType])
         }
         if (footerViewType.contains(viewType)) {
-            return superViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
+            return XViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
         return when (viewType) {
             TYPE_REFRESH_HEADER -> XViewHolder(refreshView)

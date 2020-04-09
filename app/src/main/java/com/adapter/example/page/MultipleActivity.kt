@@ -7,7 +7,7 @@ import com.adapter.example.json.JsonUtils
 import com.xadapter.multi.XMultiAdapter
 import com.xadapter.recyclerview.convertMultiAdapter
 import com.xadapter.recyclerview.linearLayoutManager
-import com.xadapter.vh.getImageView
+import com.xadapter.vh.imageView
 import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
@@ -37,7 +37,7 @@ class MultipleActivity : BaseActivity(R.layout.activity_multiple, "MultipleAdapt
                     when (itemViewType) {
                         TYPE_ITEM -> {
                             holder.setText(R.id.tv_message, entity.message)
-                            holder.getImageView(R.id.iv_icon).setImageResource(entity.icon)
+                            holder.imageView(R.id.iv_icon).setImageResource(entity.icon)
                         }
                     }
                 }

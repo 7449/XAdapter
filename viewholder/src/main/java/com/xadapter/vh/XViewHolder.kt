@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.xadapter.vh
 
 import android.util.SparseArray
@@ -11,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-fun superViewHolder(parent: ViewGroup, layoutId: Int) = XViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
+class LayoutViewHolder(parent: ViewGroup, layoutId: Int) : XViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
 
-fun superViewHolder(view: View) = XViewHolder(view)
-
-fun <T : View> XViewHolder.getView(@IdRes id: Int): T {
+@Suppress("UNCHECKED_CAST")
+fun <T : View> XViewHolder.findViewById(@IdRes id: Int): T {
     var viewSparseArray: SparseArray<View>? = itemView.tag as SparseArray<View>?
     if (null == viewSparseArray) {
         viewSparseArray = SparseArray()
