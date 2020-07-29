@@ -8,15 +8,11 @@ import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.refresh.XRefreshView
+import com.xadapter.refresh.Callback
 import com.xadapter.refresh.extensions.AVLoadingIndicatorLoadMoreView
 import com.xadapter.refresh.extensions.AVLoadingIndicatorRefreshView
 import com.xadapter.refresh.extensions.AVType
 import com.xadapter.refresh.extensions.getIndicator
-import com.xadapter.vh.context
-import com.xadapter.vh.imageView
-import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 /**
@@ -42,12 +38,12 @@ class AVLoadingActivity : BaseActivity(R.layout.activity_avloading_indicator, "A
                 }
                 .setRefreshListener {
                     this@AVLoadingActivity.recyclerView.postDelayed({
-                        it.setRefreshState(XRefreshView.SUCCESS)
+                        it.setRefreshState(Callback.SUCCESS)
                     }, 1500)
                 }
                 .setLoadMoreListener {
                     this@AVLoadingActivity.recyclerView.postDelayed({
-                        it.setLoadMoreState(XLoadMoreView.ERROR)
+                        it.setLoadMoreState(Callback.ERROR)
                     }, 1500)
                 }
                 .addAll(JsonUtils.jsonList)

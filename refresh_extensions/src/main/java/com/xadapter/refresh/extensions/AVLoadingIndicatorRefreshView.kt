@@ -6,6 +6,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import com.wang.avi.Indicator
+import com.xadapter.refresh.Callback.Companion.READY
 import com.xadapter.refresh.XRefreshView
 import kotlinx.android.synthetic.main.layout_avloading_refresh.view.*
 import java.util.*

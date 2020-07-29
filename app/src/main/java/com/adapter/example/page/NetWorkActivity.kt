@@ -6,10 +6,7 @@ import com.adapter.example.json.SampleEntity
 import com.adapter.example.json.StoriesEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.vh.context
-import com.xadapter.vh.imageView
-import com.xadapter.vh.setText
+import com.xadapter.refresh.Callback
 import io.reactivex.Observable
 import io.reactivex.network.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
@@ -52,7 +49,7 @@ class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample")
                         netWork()
                         ++page
                     } else {
-                        recyclerView.setLoadMoreState(XLoadMoreView.NO_MORE)
+                        recyclerView.setLoadMoreState(Callback.NO_MORE)
                     }
                 }
                 .refresh()
@@ -68,23 +65,23 @@ class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample")
 
     override fun onNetWorkStart() {
         if (page != 0) {
-            recyclerView.setLoadMoreState(XLoadMoreView.LOAD)
+            recyclerView.setLoadMoreState(Callback.LOAD)
         }
     }
 
-    override fun onNetWorkError(e: Throwable) {
+    override fun onNetWorkError(throwable: Throwable) {
         if (page == 0) {
-            recyclerView.setRefreshState(XLoadMoreView.ERROR)
+            recyclerView.setRefreshState(Callback.ERROR)
         } else {
-            recyclerView.setLoadMoreState(XLoadMoreView.ERROR)
+            recyclerView.setLoadMoreState(Callback.ERROR)
         }
     }
 
     override fun onNetWorkComplete() {
         if (page == 0) {
-            recyclerView.setRefreshState(XLoadMoreView.SUCCESS)
+            recyclerView.setRefreshState(Callback.SUCCESS)
         } else {
-            recyclerView.setLoadMoreState(XLoadMoreView.SUCCESS)
+            recyclerView.setLoadMoreState(Callback.SUCCESS)
         }
     }
 

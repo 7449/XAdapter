@@ -6,28 +6,21 @@ import android.widget.FrameLayout
 
 abstract class XLoadMoreView(context: Context, layoutId: Int) : FrameLayout(context) {
 
-    companion object {
-        const val NORMAL = -1
-        const val LOAD = 0
-        const val SUCCESS = 1
-        const val NO_MORE = 2
-        const val ERROR = 3
-    }
 
     private var loadMoreView: View = View.inflate(context, layoutId, null)
 
-    var state: Int = NORMAL
+    var state: Int = Callback.NORMAL
         set(state) {
             if (state == field) {
                 return
             }
             onStart()
             when (state) {
-                LOAD -> onLoad()
-                NO_MORE -> onNoMore()
-                SUCCESS -> onSuccess()
-                ERROR -> onError()
-                NORMAL -> onNormal()
+                Callback.LOAD -> onLoad()
+                Callback.NO_MORE -> onNoMore()
+                Callback.SUCCESS -> onSuccess()
+                Callback.ERROR -> onError()
+                Callback.NORMAL -> onNormal()
             }
             field = state
         }

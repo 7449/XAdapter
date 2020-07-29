@@ -8,9 +8,7 @@ import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.adapter.XAdapter
 import com.xadapter.recyclerview.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.refresh.XRefreshView
-import com.xadapter.vh.*
+import com.xadapter.refresh.Callback
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 /**
@@ -31,10 +29,10 @@ class GridLayoutActivity : BaseActivity(R.layout.activity_grid_manager, "GridLay
                     holder.setText(R.id.title, entity.title)
                 }
                 .setRefreshListener {
-                    this@GridLayoutActivity.recyclerView.postDelayed({ recyclerView.setRefreshState(XRefreshView.SUCCESS) }, 1500)
+                    this@GridLayoutActivity.recyclerView.postDelayed({ recyclerView.setRefreshState(Callback.SUCCESS) }, 1500)
                 }
                 .setLoadMoreListener {
-                    this@GridLayoutActivity.recyclerView.postDelayed({ recyclerView.setLoadMoreState(XLoadMoreView.NO_MORE) }, 1500)
+                    this@GridLayoutActivity.recyclerView.postDelayed({ recyclerView.setLoadMoreState(Callback.NO_MORE) }, 1500)
                 }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(this).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false))

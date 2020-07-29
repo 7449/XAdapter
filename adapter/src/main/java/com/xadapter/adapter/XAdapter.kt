@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xadapter.*
 import com.xadapter.listener.XScrollListener
 import com.xadapter.listener.XTouchListener
+import com.xadapter.refresh.Callback
 import com.xadapter.refresh.XLoadMoreView
 import com.xadapter.refresh.XRefreshView
 import com.xadapter.refresh.simple.SimpleLoadMoreView
@@ -89,7 +90,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         get() {
             if (field == null) {
                 field = XTouchListener(xAppbarCallback
-                        ?: { true }, { if (isLoadMoreViewInit()) loadMoreView.state == XLoadMoreView.LOAD else false }, refreshView) { onRefresh() }
+                        ?: { true }, { if (isLoadMoreViewInit()) loadMoreView.state == Callback.LOAD else false }, refreshView) { onRefresh() }
             }
             return field
         }
@@ -186,11 +187,11 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     open fun onScrollBottom() {
         if (dataContainer.isEmpty()
-                || (isRefreshViewInit() && refreshView.state == XRefreshView.REFRESH)
-                || loadMoreView.state == XLoadMoreView.LOAD) {
+                || (isRefreshViewInit() && refreshView.state == Callback.REFRESH)
+                || loadMoreView.state == Callback.LOAD) {
             return
         }
-        loadMoreView.state = XLoadMoreView.LOAD
+        loadMoreView.state = Callback.LOAD
         xLoadMoreListener?.invoke(this)
     }
 
@@ -280,10 +281,10 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     fun refresh(view: RecyclerView) = also {
         recyclerView = view
         if (pullRefreshEnabled) {
-            refreshView.state = XRefreshView.REFRESH
+            refreshView.state = Callback.REFRESH
             refreshView.onMove(refreshView.measuredHeight.toFloat())
             xRefreshListener?.invoke(this)
-            loadMoreView.state = XLoadMoreView.NORMAL
+            loadMoreView.state = Callback.NORMAL
         }
     }
 }

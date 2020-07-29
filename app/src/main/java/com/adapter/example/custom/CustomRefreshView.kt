@@ -6,6 +6,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
 import com.adapter.example.R
+import com.xadapter.refresh.Callback.Companion.READY
 import com.xadapter.refresh.XRefreshView
 import kotlinx.android.synthetic.main.layout_refresh.view.*
 

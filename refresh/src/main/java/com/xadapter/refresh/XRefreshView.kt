@@ -7,30 +7,23 @@ import android.widget.FrameLayout
 
 abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context) {
 
-    companion object {
-        const val NORMAL = 0
-        const val READY = 1
-        const val REFRESH = 2
-        const val SUCCESS = 3
-        const val ERROR = 4
-    }
 
     private var refreshView: View = View.inflate(context, layoutId, null)
     private var mMeasuredHeight: Int = 0
     private val animator: ValueAnimator = ValueAnimator.ofInt().setDuration(300)
 
-    var state: Int = NORMAL
+    var state: Int = Callback.NORMAL
         set(state) {
             if (state == field) {
                 return
             }
             onStart()
             when (state) {
-                NORMAL -> onNormal()
-                READY -> onReady()
-                REFRESH -> onRefresh()
-                SUCCESS -> onSuccess()
-                ERROR -> onError()
+                Callback.NORMAL -> onNormal()
+                Callback.READY -> onReady()
+                Callback.REFRESH -> onRefresh()
+                Callback.SUCCESS -> onSuccess()
+                Callback.ERROR -> onError()
             }
             field = state
         }
@@ -41,7 +34,7 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         }
         private set(height) {
             if (height == 0) {
-                state = NORMAL
+                state = Callback.NORMAL
             }
             val lp = refreshView.layoutParams
             lp.height = if (height < 0) 0 else height
@@ -65,20 +58,20 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
     fun onMove(delta: Float) {
         if (visibleHeight > 0 || delta > 0) {
             visibleHeight += delta.toInt()
-            if (state < REFRESH) {
-                state = if (visibleHeight > mMeasuredHeight) READY else NORMAL
+            if (state < Callback.REFRESH) {
+                state = if (visibleHeight > mMeasuredHeight) Callback.READY else Callback.NORMAL
             }
         }
     }
 
     fun releaseAction(): Boolean {
         var isOnRefresh = false
-        if (visibleHeight > mMeasuredHeight && state < REFRESH) {
-            state = REFRESH
+        if (visibleHeight > mMeasuredHeight && state < Callback.REFRESH) {
+            state = Callback.REFRESH
             isOnRefresh = true
         }
         var destHeight = 0
-        if (state == REFRESH) {
+        if (state == Callback.REFRESH) {
             destHeight = mMeasuredHeight
         }
         smoothScrollTo(destHeight)

@@ -23,10 +23,17 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    api "com.ydevelop:rv-adapter:$adapterVersion"
-    api "com.ydevelop:rv-adapter-databinding:$databindingVerison"
-    api "com.ydevelop:rv-adapter-multi:$multiVersion"
-    api "com.ydevelop:rv-adapter-refresh:$refreshVersion"
+    api project(path: ':adapter')
+    api project(path: ':databinding')
+    api project(path: ':multi')
+    api project(path: ':refresh')
+//    api project(path: ':material')
+//    api project(path: ':viewholder')
+
+//    api "com.ydevelop:rv-adapter:$adapterVersion"
+//    api "com.ydevelop:rv-adapter-databinding:$databindingVerison"
+//    api "com.ydevelop:rv-adapter-multi:$multiVersion"
+//    api "com.ydevelop:rv-adapter-refresh:$refreshVersion"
     api "com.ydevelop:rv-adapter-material:$materialVersion"
     api "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
     api "androidx.recyclerview:recyclerview:$recyclerviewVersion"

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import com.xadapter.refresh.Callback
 import com.xadapter.refresh.R
 import com.xadapter.refresh.XRefreshView
 import kotlinx.android.synthetic.main.simple_refresh.view.*
@@ -67,7 +68,7 @@ class SimpleRefreshView(context: Context) : XRefreshView(context, R.layout.simpl
     }
 
     override fun onNormal() {
-        if (state == READY) {
+        if (state == Callback.READY) {
             ivTips.startAnimation(mRotateDownAnim)
         } else {
             ivTips.clearAnimation()

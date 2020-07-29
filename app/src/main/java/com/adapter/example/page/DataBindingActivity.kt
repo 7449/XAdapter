@@ -16,8 +16,7 @@ import com.xadapter.databinding.XDataBindingAdapter
 import com.xadapter.recyclerview.convertDataBindingAdapter
 import com.xadapter.recyclerview.setLoadMoreState
 import com.xadapter.recyclerview.setRefreshState
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.refresh.XRefreshView
+import com.xadapter.refresh.Callback
 import kotlinx.android.synthetic.main.activity_databinding.*
 
 /**
@@ -56,12 +55,12 @@ class DataBindingActivity : AppCompatActivity() {
                 }
                 .setRefreshListener {
                     binding.recyclerView.postDelayed({
-                        binding.recyclerView.setRefreshState(XRefreshView.SUCCESS)
+                        binding.recyclerView.setRefreshState(Callback.SUCCESS)
                     }, 4000)
                 }
                 .setLoadMoreListener {
                     binding.recyclerView.postDelayed({
-                        binding.recyclerView.setLoadMoreState(XLoadMoreView.ERROR)
+                        binding.recyclerView.setLoadMoreState(Callback.ERROR)
                     }, 4000)
                 }
                 .setFooterListener { _, adapter ->

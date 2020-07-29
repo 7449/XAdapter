@@ -1,7 +1,6 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package com.xadapter.vh
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.SparseArray
@@ -12,6 +11,10 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 
 open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    val context: Context
+        get() = itemView.context
+
     fun viewById(id: Int) = findViewById<View>(id)
     fun recyclerView(id: Int) = findViewById<RecyclerView>(id)
     fun relativeLayout(id: Int) = findViewById<RelativeLayout>(id)
@@ -45,14 +48,14 @@ open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun setEnabled(viewId: Int, isEnabled: Boolean) = also { viewById(viewId).isEnabled = isEnabled }
     fun setClickable(viewId: Int, isEnabled: Boolean) = also { viewById(viewId).isClickable = isEnabled }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T : View> findViewById(id: Int): T {
         return if (itemView.tag !is SparseArray<*>) {
             itemView.tag = SparseArray<View>()
             findViewById(id)
         } else {
             val sparseArray = itemView.tag as SparseArray<View>
-            sparseArray[id] as T? ?: itemView.findViewById<T>(id).apply { sparseArray.put(id, this) }
+            sparseArray[id] as T?
+                    ?: itemView.findViewById<T>(id).apply { sparseArray.put(id, this) }
         }
     }
 }

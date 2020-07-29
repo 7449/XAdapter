@@ -7,8 +7,6 @@ import com.adapter.example.json.JsonUtils
 import com.xadapter.multi.XMultiAdapter
 import com.xadapter.recyclerview.convertMultiAdapter
 import com.xadapter.recyclerview.linearLayoutManager
-import com.xadapter.vh.imageView
-import com.xadapter.vh.setText
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 /**

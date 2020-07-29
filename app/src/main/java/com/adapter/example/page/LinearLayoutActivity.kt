@@ -8,9 +8,7 @@ import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.refresh.XRefreshView
-import com.xadapter.vh.*
+import com.xadapter.refresh.Callback
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 /**
@@ -51,12 +49,12 @@ class LinearLayoutActivity : BaseActivity(R.layout.activity_linear_manager, "Lin
                     }
                     refreshListener {
                         this@LinearLayoutActivity.recyclerView.postDelayed({
-                            it.setRefreshState(XRefreshView.SUCCESS)
+                            it.setRefreshState(Callback.SUCCESS)
                         }, 1500)
                     }
                     loadMoreListener {
                         this@LinearLayoutActivity.recyclerView.postDelayed({
-                            it.setLoadMoreState(XLoadMoreView.ERROR)
+                            it.setLoadMoreState(Callback.ERROR)
                         }, 1500)
                     }
                 }

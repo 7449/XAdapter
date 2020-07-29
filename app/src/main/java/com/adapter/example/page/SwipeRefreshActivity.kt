@@ -7,8 +7,7 @@ import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.vh.*
+import com.xadapter.refresh.Callback
 import kotlinx.android.synthetic.main.activity_swipe_refresh.*
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
@@ -28,7 +27,7 @@ class SwipeRefreshActivity : BaseActivity(R.layout.activity_swipe_refresh, "Swip
                 }
                 .setLoadMoreListener {
                     this@SwipeRefreshActivity.recyclerView.postDelayed({
-                        it.setLoadMoreState(XLoadMoreView.ERROR)
+                        it.setLoadMoreState(Callback.ERROR)
                     }, 1500)
                 }
         swipeRefresh.post { onRefresh() }
@@ -39,7 +38,7 @@ class SwipeRefreshActivity : BaseActivity(R.layout.activity_swipe_refresh, "Swip
     }
 
     override fun onRefresh() {
-        if (recyclerView.adapter<SampleEntity>().isLoadMoreViewInit() && recyclerView.adapter<SampleEntity>().loadMoreState == XLoadMoreView.LOAD) {
+        if (recyclerView.adapter<SampleEntity>().isLoadMoreViewInit() && recyclerView.adapter<SampleEntity>().loadMoreState == Callback.LOAD) {
             return
         }
         swipeRefresh.isRefreshing = true

@@ -8,11 +8,7 @@ import com.adapter.example.json.JsonUtils
 import com.adapter.example.json.SampleEntity
 import com.bumptech.glide.Glide
 import com.xadapter.recyclerview.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.refresh.XRefreshView
-import com.xadapter.vh.context
-import com.xadapter.vh.imageView
-import com.xadapter.vh.setText
+import com.xadapter.refresh.Callback
 import kotlinx.android.synthetic.main.layout_recyclerview.*
 
 class EmptyActivity : BaseActivity(R.layout.activity_empty, "EmptyAdapter") {
@@ -32,14 +28,14 @@ class EmptyActivity : BaseActivity(R.layout.activity_empty, "EmptyAdapter") {
                 }
                 .setRefreshListener {
                     this@EmptyActivity.recyclerView.postDelayed({
-                        it.setRefreshState(XRefreshView.SUCCESS)
+                        it.setRefreshState(Callback.SUCCESS)
                         recyclerView.removeAll()
                         recyclerView.addAll(JsonUtils.jsonList)
                     }, 1500)
                 }
                 .setLoadMoreListener {
                     this@EmptyActivity.recyclerView.postDelayed({
-                        it.setLoadMoreState(XLoadMoreView.ERROR)
+                        it.setLoadMoreState(Callback.ERROR)
                     }, 1500)
                 }
                 .setOnEmptyViewClickListener {

@@ -27,7 +27,9 @@ publish {
     website = 'https://github.com/7449/XAdapter'
 }
 dependencies {
-    compileOnly "com.ydevelop:rv-adapter:$adapterVersion"
+    compileOnly project(path: ':adapter')
+//    compileOnly project(path: ':viewholder')
+//    compileOnly "com.ydevelop:rv-adapter:$adapterVersion"
     compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
