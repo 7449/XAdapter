@@ -26,7 +26,7 @@ internal class XTouchListener(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (refreshView.state == Callback.REFRESH || loadMoreCallback.invoke()) {
+        if (refreshView.isRefresh || loadMoreCallback.invoke()) {
             return false
         }
         if (rawY == -1f) {
@@ -39,7 +39,7 @@ internal class XTouchListener(
                 rawY = motionEvent.rawY
                 if (isTop && appBarCallBack.invoke()) {
                     refreshView.onMove(deltaY / DAMP)
-                    if (refreshView.visibleHeight > 0 && refreshView.state < Callback.SUCCESS) {
+                    if (refreshView.visibleHeight > 0 && refreshView.currentState < Callback.SUCCESS) {
                         return true
                     }
                 }

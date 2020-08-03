@@ -30,6 +30,4 @@ ext {
     recyclerViewVersion = "0.0.4"
     refreshVersion = "0.0.2"
     viewholderVersion = "0.0.5"
-
-    aviVersion = "2.1.3"
 }

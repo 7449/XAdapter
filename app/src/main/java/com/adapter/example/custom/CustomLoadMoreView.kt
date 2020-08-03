@@ -10,12 +10,14 @@ import kotlinx.android.synthetic.main.layout_loadmore.view.*
 /**
  * by y on 2017/6/21.
  */
-class CustomLoadMoreView(context: Context) : XLoadMoreView(context, R.layout.layout_loadmore) {
+class CustomLoadMoreView(context: Context) : XLoadMoreView(context) {
 
-    override fun initView() {
+    init {
+        addView(View.inflate(context, R.layout.layout_loadmore, null))
         tips.text = "CustomLoadMoreView"
         progressbar.visibility = View.GONE
         tips.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 
     override fun onStart() {

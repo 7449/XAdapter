@@ -90,7 +90,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         get() {
             if (field == null) {
                 field = XTouchListener(xAppbarCallback
-                        ?: { true }, { if (isLoadMoreViewInit()) loadMoreView.state == Callback.LOAD else false }, refreshView) { onRefresh() }
+                        ?: { true }, { if (isLoadMoreViewInit()) loadMoreView.isLoading else false }, refreshView) { onRefresh() }
             }
             return field
         }
@@ -119,13 +119,13 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         }
 
     var loadMoreState: Int
-        get() = loadMoreView.state
+        get() = loadMoreView.currentState
         set(value) {
-            loadMoreView.state = value
+            loadMoreView.onChange(value)
         }
 
     var refreshState: Int
-        get() = refreshView.state
+        get() = refreshView.currentState
         set(value) {
             refreshView.refreshState(value)
             if (dataContainer.isEmpty() && headerViewContainer.isEmpty() && footerViewContainer.isEmpty()) {
@@ -187,11 +187,11 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     open fun onScrollBottom() {
         if (dataContainer.isEmpty()
-                || (isRefreshViewInit() && refreshView.state == Callback.REFRESH)
-                || loadMoreView.state == Callback.LOAD) {
+                || (isRefreshViewInit() && refreshView.isRefresh)
+                || loadMoreView.isLoading) {
             return
         }
-        loadMoreView.state = Callback.LOAD
+        loadMoreView.onChange(Callback.LOAD)
         xLoadMoreListener?.invoke(this)
     }
 
@@ -281,10 +281,10 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     fun refresh(view: RecyclerView) = also {
         recyclerView = view
         if (pullRefreshEnabled) {
-            refreshView.state = Callback.REFRESH
+            refreshView.onChange(Callback.REFRESH)
             refreshView.onMove(refreshView.measuredHeight.toFloat())
             xRefreshListener?.invoke(this)
-            loadMoreView.state = Callback.NORMAL
+            loadMoreView.onChange(Callback.NORMAL)
         }
     }
 }

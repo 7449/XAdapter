@@ -12,7 +12,6 @@
     <string name="swiperefreshlayout">SwipeRefreshLayout</string>
     <string name="sample">Sample</string>
     <string name="tips">tips</string>
-    <string name="avloadingindicatorview">AVLoadingIndicatorView</string>
     <string name="emptyview">EmptyView</string>
     <string name="mergeadapter">MergeAdapter</string>
 </resources>

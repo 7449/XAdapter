@@ -7,7 +7,6 @@ interface Callback {
         const val REFRESH = 2
         const val SUCCESS = 3
         const val ERROR = 4
-
         const val LOAD = 5
         const val NO_MORE = 6
     }

@@ -5,28 +5,30 @@ import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 
-abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context) {
+abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context), XRefreshCallback {
 
-
-    private var refreshView: View = View.inflate(context, layoutId, null)
-    private var mMeasuredHeight: Int = 0
+    private val refreshView: View = View.inflate(context, layoutId, null)
     private val animator: ValueAnimator = ValueAnimator.ofInt().setDuration(300)
+    private var mMeasuredHeight: Int = 0
+    private var state: Int = Callback.NORMAL
 
-    var state: Int = Callback.NORMAL
-        set(state) {
-            if (state == field) {
-                return
-            }
-            onStart()
-            when (state) {
-                Callback.NORMAL -> onNormal()
-                Callback.READY -> onReady()
-                Callback.REFRESH -> onRefresh()
-                Callback.SUCCESS -> onSuccess()
-                Callback.ERROR -> onError()
-            }
-            field = state
+    override fun onChange(state: Int) {
+        if (state == this.state) {
+            return
         }
+        onStart()
+        when (state) {
+            Callback.NORMAL -> onNormal()
+            Callback.READY -> onReady()
+            Callback.REFRESH -> onRefresh()
+            Callback.SUCCESS -> onSuccess()
+            Callback.ERROR -> onError()
+        }
+        this.state = state
+    }
+
+    override val currentState: Int
+        get() = state
 
     var visibleHeight: Int
         get() {
@@ -34,7 +36,7 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         }
         private set(height) {
             if (height == 0) {
-                state = Callback.NORMAL
+                onChange(Callback.NORMAL)
             }
             val lp = refreshView.layoutParams
             lp.height = if (height < 0) 0 else height
@@ -44,14 +46,13 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
     init {
         addView(refreshView, LayoutParams(LayoutParams.MATCH_PARENT, 0))
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        initView()
         measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         mMeasuredHeight = measuredHeight
         animator.addUpdateListener { animation -> visibleHeight = animation.animatedValue as Int }
     }
 
     fun refreshState(mState: Int) {
-        state = mState
+        onChange(mState)
         postDelayed({ smoothScrollTo(0) }, 200)
     }
 
@@ -59,7 +60,7 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         if (visibleHeight > 0 || delta > 0) {
             visibleHeight += delta.toInt()
             if (state < Callback.REFRESH) {
-                state = if (visibleHeight > mMeasuredHeight) Callback.READY else Callback.NORMAL
+                onChange(if (visibleHeight > mMeasuredHeight) Callback.READY else Callback.NORMAL)
             }
         }
     }
@@ -67,11 +68,11 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
     fun releaseAction(): Boolean {
         var isOnRefresh = false
         if (visibleHeight > mMeasuredHeight && state < Callback.REFRESH) {
-            state = Callback.REFRESH
+            onChange(Callback.REFRESH)
             isOnRefresh = true
         }
         var destHeight = 0
-        if (state == Callback.REFRESH) {
+        if (isRefresh) {
             destHeight = mMeasuredHeight
         }
         smoothScrollTo(destHeight)
@@ -82,13 +83,4 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         animator.setIntValues(visibleHeight, destHeight)
         animator.start()
     }
-
-    protected abstract fun initView()
-    protected abstract fun onStart()
-    protected abstract fun onNormal()
-    protected abstract fun onReady()
-    protected abstract fun onRefresh()
-    protected abstract fun onSuccess()
-    protected abstract fun onError()
-
 }

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import com.xadapter.refresh.Callback
 import com.xadapter.refresh.R
 import com.xadapter.refresh.XRefreshView
 import kotlinx.android.synthetic.main.simple_refresh.view.*
@@ -18,7 +17,7 @@ class SimpleRefreshView(context: Context) : XRefreshView(context, R.layout.simpl
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation
 
-    override fun initView() {
+    init {
         tvTips.setTextColor(Color.BLACK)
         tvTips.text = context.getString(R.string.refresh_more_init)
         initAnimation()
@@ -68,7 +67,7 @@ class SimpleRefreshView(context: Context) : XRefreshView(context, R.layout.simpl
     }
 
     override fun onNormal() {
-        if (state == Callback.READY) {
+        if (isReady) {
             ivTips.startAnimation(mRotateDownAnim)
         } else {
             ivTips.clearAnimation()

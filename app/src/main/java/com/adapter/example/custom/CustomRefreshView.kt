@@ -6,7 +6,6 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
 import com.adapter.example.R
-import com.xadapter.refresh.Callback.Companion.READY
 import com.xadapter.refresh.XRefreshView
 import kotlinx.android.synthetic.main.layout_refresh.view.*
 
@@ -18,7 +17,7 @@ class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layou
     private lateinit var mRotateUpAnim: Animation
     private lateinit var mRotateDownAnim: Animation
 
-    override fun initView() {
+    init {
         tips.text = "CustomRefreshView"
         tips.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
         initAnimation()
@@ -40,7 +39,7 @@ class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layou
     }
 
     override fun onNormal() {
-        if (state == READY) {
+        if (isReady) {
             ivTips.startAnimation(mRotateDownAnim)
         } else {
             ivTips.clearAnimation()
