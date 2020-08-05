@@ -38,7 +38,7 @@ class SwipeRefreshActivity : BaseActivity(R.layout.activity_swipe_refresh, "Swip
     }
 
     override fun onRefresh() {
-        if (recyclerView.adapter<SampleEntity>().isLoadMoreViewInit() && recyclerView.adapter<SampleEntity>().loadMoreState == Callback.LOAD) {
+        if (recyclerView.adapter<SampleEntity>().loadMoreState == Callback.LOAD) {
             return
         }
         swipeRefresh.isRefreshing = true

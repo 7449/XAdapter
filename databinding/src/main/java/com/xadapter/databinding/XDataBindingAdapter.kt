@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import com.xadapter.adapter.XAdapter
-import com.xadapter.currentItemPosition
 import com.xadapter.vh.XViewHolder
-import com.xadapter.viewHolderClick
-import com.xadapter.viewHolderLongClick
 
 /**
  * @author y

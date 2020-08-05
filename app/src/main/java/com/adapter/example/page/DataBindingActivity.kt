@@ -63,9 +63,6 @@ class DataBindingActivity : AppCompatActivity() {
                         binding.recyclerView.setLoadMoreState(Callback.ERROR)
                     }, 4000)
                 }
-                .setFooterListener { _, adapter ->
-                    Toast.makeText(baseContext, adapter.loadMoreState.toString(), Toast.LENGTH_SHORT).show()
-                }
                 .addAll(JsonUtils.jsonList)
     }
 

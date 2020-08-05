@@ -4,6 +4,7 @@ import android.view.View
 
 interface Callback {
     companion object {
+        const val NULL = -1
         const val NORMAL = 0
         const val READY = 1
         const val REFRESH = 2

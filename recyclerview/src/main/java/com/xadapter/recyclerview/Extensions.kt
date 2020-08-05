@@ -56,8 +56,8 @@ class AdapterExtensionsDSL<T> {
 
     internal fun build(): RecyclerView.Adapter<XViewHolder> {
         val xAdapter = XAdapter<T>()
-        xAdapter.loadingMoreEnabled = loadingMore
-        xAdapter.pullRefreshEnabled = pullRefresh
+        xAdapter.loadMore(loadingMore)
+        xAdapter.pullRefresh(pullRefresh)
         xAdapter.itemLayoutId = itemLayoutId
         xAdapter.scrollLoadMoreItemCount = scrollLoadMoreItemCount
         headerViews.forEach { xAdapter.addHeaderView(it) }

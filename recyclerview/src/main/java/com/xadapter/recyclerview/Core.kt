@@ -95,12 +95,6 @@ fun RecyclerView.setLoadMoreState(status: Int) = also {
     }
 }
 
-fun RecyclerView.setFooterListener(action: (view: View, adapter: XAdapter<*>) -> Unit) = also {
-    if (checkAdapter()) {
-        adapter<Any>().setFooterListener(action)
-    }
-}
-
 fun <T> RecyclerView.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also {
     if (checkAdapter()) {
         adapter<T>().setOnBind(action)
@@ -120,8 +114,6 @@ fun <T> RecyclerView.setOnItemLongClickListener(action: (view: View, position: I
 }
 
 fun <T> RecyclerView.getItem(position: Int): T = adapter<T>().getItem(position)
-
-fun <T> RecyclerView.previousItem(position: Int): T = adapter<T>().previousItem(position)
 
 fun RecyclerView.getHeaderView(position: Int) = adapter<Any>().getHeaderView(position)
 
