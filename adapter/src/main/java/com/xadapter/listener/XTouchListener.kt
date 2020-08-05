@@ -38,7 +38,7 @@ internal class XTouchListener(
                 val deltaY = motionEvent.rawY - rawY
                 rawY = motionEvent.rawY
                 if (isTop && appBarCallBack.invoke()) {
-                    refreshView.onMove(deltaY / DAMP)
+                    refreshView.onChangeMoveHeight((deltaY / DAMP).toInt())
                     if (refreshView.visibleHeight > 0 && refreshView.currentState < Callback.SUCCESS) {
                         return true
                     }
@@ -47,7 +47,7 @@ internal class XTouchListener(
             else -> {
                 rawY = -1f
                 if (isTop && appBarCallBack.invoke()) {
-                    if (refreshView.releaseAction()) {
+                    if (refreshView.isReleaseAction) {
                         refreshInterface()
                     }
                 }

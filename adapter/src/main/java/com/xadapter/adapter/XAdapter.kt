@@ -127,7 +127,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     var refreshState: Int
         get() = refreshView.currentState
         set(value) {
-            refreshView.refreshState(value)
+            refreshView.onChange(value)
             if (dataContainer.isEmpty() && headerViewContainer.isEmpty() && footerViewContainer.isEmpty()) {
                 emptyView?.visibility = View.VISIBLE
             } else {
@@ -282,7 +282,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         recyclerView = view
         if (pullRefreshEnabled) {
             refreshView.onChange(Callback.REFRESH)
-            refreshView.onMove(refreshView.measuredHeight.toFloat())
+            refreshView.onChangeMoveHeight(refreshView.measuredHeight)
             xRefreshListener?.invoke(this)
             loadMoreView.onChange(Callback.NORMAL)
         }

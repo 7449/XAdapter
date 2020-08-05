@@ -15,7 +15,6 @@ interface XLoadMoreCallback : Callback {
 
     fun onChange(state: Int)
     fun onNormal()
-    fun onStart()
     fun onLoad()
     fun onSuccess()
     fun onError()

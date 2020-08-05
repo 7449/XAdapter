@@ -11,7 +11,6 @@ abstract class XLoadMoreView(context: Context) : FrameLayout(context), XLoadMore
         if (state == this.state) {
             return
         }
-        onStart()
         when (state) {
             Callback.NORMAL -> onNormal()
             Callback.LOAD -> onLoad()

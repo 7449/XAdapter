@@ -13,7 +13,7 @@ fun <T> XAdapter<T>.supportAppbar(appBarLayout: AppBarLayout) = also {
     xAppbarCallback = { appBarStateChangeListener.currentState == AppBarStateChangeListener.EXPANDED }
 }
 
-@BindingAdapter("app:imageUrl")
+@BindingAdapter("imageUrl")
 fun loadImage(imageView: ImageView, url: String) {
     Glide.with(imageView.context).load(url).into(imageView)
 }

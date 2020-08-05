@@ -20,11 +20,6 @@ class SimpleLoadMoreView(context: Context) : XLoadMoreView(context) {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 
-    override fun onStart() {
-        progressbar.visibility = View.GONE
-        tvTips.text = context.getString(R.string.load_more_start)
-    }
-
     override fun onLoad() {
         progressbar.visibility = View.VISIBLE
         tvTips.text = context.getString(R.string.load_more_load)

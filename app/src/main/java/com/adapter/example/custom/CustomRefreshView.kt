@@ -14,39 +14,20 @@ import kotlinx.android.synthetic.main.layout_refresh.view.*
  */
 class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layout_refresh) {
 
-    private lateinit var mRotateUpAnim: Animation
-    private lateinit var mRotateDownAnim: Animation
+    private val mRotateUpAnim: Animation = RotateAnimation(0.0f, -180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+    private val mRotateDownAnim: Animation = RotateAnimation(-180.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
     init {
-        tips.text = "CustomRefreshView"
         tips.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+        tips.text = "下拉立即刷新"
         initAnimation()
     }
 
     private fun initAnimation() {
-        mRotateUpAnim = RotateAnimation(0.0f, -180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
         mRotateUpAnim.duration = 180
         mRotateUpAnim.fillAfter = true
-        mRotateDownAnim = RotateAnimation(-180.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
         mRotateDownAnim.duration = 180
         mRotateDownAnim.fillAfter = true
-    }
-
-    override fun onStart() {
-        ivTips.clearAnimation()
-        ivTips.visibility = View.VISIBLE
-        progressbar.visibility = View.INVISIBLE
-    }
-
-    override fun onNormal() {
-        if (isReady) {
-            ivTips.startAnimation(mRotateDownAnim)
-        } else {
-            ivTips.clearAnimation()
-        }
-        ivTips.visibility = View.VISIBLE
-        progressbar.visibility = View.INVISIBLE
-        tips.text = "CustomRefreshView"
     }
 
     override fun onReady() {
@@ -58,6 +39,7 @@ class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layou
 
     override fun onRefresh() {
         progressbar.visibility = View.VISIBLE
+        ivTips.clearAnimation()
         ivTips.visibility = View.INVISIBLE
         tips.text = "正在刷新..."
     }
@@ -74,5 +56,16 @@ class CustomRefreshView(context: Context) : XRefreshView(context, R.layout.layou
         ivTips.visibility = View.INVISIBLE
         ivTips.clearAnimation()
         tips.text = "刷新失败"
+    }
+
+    override fun onNormal() {
+        if (isReady) {
+            ivTips.startAnimation(mRotateDownAnim)
+        } else {
+            ivTips.clearAnimation()
+        }
+        ivTips.visibility = View.VISIBLE
+        progressbar.visibility = View.INVISIBLE
+        tips.text = "下拉立即刷新"
     }
 }
