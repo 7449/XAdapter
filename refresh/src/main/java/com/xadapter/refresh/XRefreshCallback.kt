@@ -1,9 +1,12 @@
 package com.xadapter.refresh
 
+import android.view.ViewParent
+
 interface XRefreshCallback : Callback {
     val currentState: Int
     val visibleHeight: Int
     val isReleaseAction: Boolean
+    val refreshParent: ViewParent?
     val isNormal: Boolean
         get() = currentState == Callback.NORMAL
     val isReady: Boolean

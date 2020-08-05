@@ -3,8 +3,7 @@ package com.xadapter.listener
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import com.xadapter.refresh.Callback
-import com.xadapter.refresh.XRefreshView
+import com.xadapter.refresh.XRefreshCallback
 
 /**
  * by y on 2016/11/15
@@ -12,8 +11,9 @@ import com.xadapter.refresh.XRefreshView
 internal class XTouchListener(
         private val appBarCallBack: () -> Boolean,
         private val loadMoreCallback: () -> Boolean,
-        private val refreshView: XRefreshView,
-        private val refreshInterface: () -> Unit) : View.OnTouchListener {
+        private val refreshCallback: XRefreshCallback,
+        private val refreshInterface: () -> Unit
+) : View.OnTouchListener {
 
     companion object {
         private const val DAMP = 3
@@ -22,11 +22,11 @@ internal class XTouchListener(
     private var rawY = -1f
 
     private val isTop: Boolean
-        get() = refreshView.parent != null
+        get() = refreshCallback.refreshParent != null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (refreshView.isRefresh || loadMoreCallback.invoke()) {
+        if (refreshCallback.isRefresh || loadMoreCallback.invoke()) {
             return false
         }
         if (rawY == -1f) {
@@ -38,8 +38,8 @@ internal class XTouchListener(
                 val deltaY = motionEvent.rawY - rawY
                 rawY = motionEvent.rawY
                 if (isTop && appBarCallBack.invoke()) {
-                    refreshView.onChangeMoveHeight((deltaY / DAMP).toInt())
-                    if (refreshView.visibleHeight > 0 && refreshView.currentState < Callback.SUCCESS) {
+                    refreshCallback.onChangeMoveHeight((deltaY / DAMP).toInt())
+                    if (refreshCallback.visibleHeight > 0 && refreshCallback.isBegin) {
                         return true
                     }
                 }
@@ -47,7 +47,7 @@ internal class XTouchListener(
             else -> {
                 rawY = -1f
                 if (isTop && appBarCallBack.invoke()) {
-                    if (refreshView.isReleaseAction) {
+                    if (refreshCallback.isReleaseAction) {
                         refreshInterface()
                     }
                 }

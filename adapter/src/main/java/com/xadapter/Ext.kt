@@ -51,10 +51,10 @@ internal fun <T> XAdapter<T>.internalOnViewAttachedToWindow(viewHolder: Recycler
 internal fun <T> XAdapter<T>.internalGetItemViewType(position: Int): Int {
     var mPos = position
     if (isRefreshHeaderType(mPos)) {
-        return XAdapter.TYPE_REFRESH_HEADER
+        return XAdapter.TYPE_REFRESH
     }
     if (isLoadMoreType(mPos)) {
-        return XAdapter.TYPE_LOAD_MORE_FOOTER
+        return XAdapter.TYPE_LOAD_MORE
     }
     if (pullRefreshEnabled) {
         mPos -= 1

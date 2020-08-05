@@ -17,8 +17,8 @@ class AdapterExtensionsDSL<T> {
     var pullRefresh = false
     var itemLayoutId = View.NO_ID
     var scrollLoadMoreItemCount = 1
-    var headerViews: ArrayList<View> = ArrayList()
-    var footerViews: ArrayList<View> = ArrayList()
+    val headerViews: ArrayList<View> = ArrayList()
+    val footerViews: ArrayList<View> = ArrayList()
 
     lateinit var onBind: (holder: XViewHolder, position: Int, entity: T) -> Unit
     var onItemClickListener: ((view: View, position: Int, entity: T) -> Unit)? = null
@@ -62,11 +62,11 @@ class AdapterExtensionsDSL<T> {
         xAdapter.scrollLoadMoreItemCount = scrollLoadMoreItemCount
         headerViews.forEach { xAdapter.addHeaderView(it) }
         footerViews.forEach { xAdapter.addFooterView(it) }
-        xAdapter.onXBindListener = onBind
-        xAdapter.onXItemClickListener = onItemClickListener
-        xAdapter.onXItemLongClickListener = onItemLongClickListener
-        xAdapter.xRefreshListener = xRefreshListener
-        xAdapter.xLoadMoreListener = xLoadMoreListener
+        xAdapter.setOnBind(onBind)
+        onItemClickListener?.let { xAdapter.setOnItemClickListener(it) }
+        onItemLongClickListener?.let { xAdapter.setOnItemLongClickListener(it) }
+        xRefreshListener?.let { xAdapter.setRefreshListener(it) }
+        xLoadMoreListener?.let { xAdapter.setLoadMoreListener(it) }
         return xAdapter
     }
 }

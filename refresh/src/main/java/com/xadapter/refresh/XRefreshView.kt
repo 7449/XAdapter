@@ -3,6 +3,7 @@ package com.xadapter.refresh
 import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
+import android.view.ViewParent
 import android.widget.FrameLayout
 
 abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context), XRefreshCallback {
@@ -17,6 +18,12 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
 
     override val visibleHeight: Int
         get() = refreshView.layoutParams.height
+
+    override val refreshParent: ViewParent?
+        get() = refreshView.parent
+
+    override val xRootView: View
+        get() = this
 
     override val isReleaseAction: Boolean
         get() {
@@ -77,4 +84,5 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
         initHeight = measuredHeight
         animator.addUpdateListener { animation -> onChangeHeight(animation.animatedValue as Int) }
     }
+
 }

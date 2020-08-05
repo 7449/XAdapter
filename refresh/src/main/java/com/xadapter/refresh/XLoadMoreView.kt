@@ -1,6 +1,7 @@
 package com.xadapter.refresh
 
 import android.content.Context
+import android.view.View
 import android.widget.FrameLayout
 
 abstract class XLoadMoreView(context: Context) : FrameLayout(context), XLoadMoreCallback {
@@ -23,4 +24,7 @@ abstract class XLoadMoreView(context: Context) : FrameLayout(context), XLoadMore
 
     override val currentState: Int
         get() = state
+
+    override val xRootView: View
+        get() = this
 }

@@ -5,11 +5,10 @@ package com.xadapter.recyclerview
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.xadapter.*
 import com.xadapter.adapter.XAdapter
-import com.xadapter.multi.*
-import com.xadapter.refresh.XLoadMoreView
-import com.xadapter.refresh.XRefreshView
+import com.xadapter.multi.XMultiCallBack
+import com.xadapter.refresh.XLoadMoreCallback
+import com.xadapter.refresh.XRefreshCallback
 import com.xadapter.vh.XViewHolder
 
 fun RecyclerView.addHeaderView(view: View) = also {
@@ -42,15 +41,15 @@ fun RecyclerView.customScrollListener(onScrollListener: RecyclerView.OnScrollLis
     }
 }
 
-fun RecyclerView.customRefreshView(view: XRefreshView) = also {
+fun RecyclerView.customRefreshCallback(callback: XRefreshCallback) = also {
     if (checkAdapter()) {
-        adapter<Any>().customRefreshView(view)
+        adapter<Any>().customRefreshCallback(callback)
     }
 }
 
-fun RecyclerView.customLoadMoreView(view: XLoadMoreView) = also {
+fun RecyclerView.customLoadMoreCallback(callback: XLoadMoreCallback) = also {
     if (checkAdapter()) {
-        adapter<Any>().customLoadMoreView(view)
+        adapter<Any>().customLoadMoreCallback(callback)
     }
 }
 
@@ -105,12 +104,6 @@ fun RecyclerView.setFooterListener(action: (view: View, adapter: XAdapter<*>) ->
 fun <T> RecyclerView.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also {
     if (checkAdapter()) {
         adapter<T>().setOnBind(action)
-    }
-}
-
-fun RecyclerView.setOnEmptyViewClickListener(action: (view: View) -> Unit) = also {
-    if (checkAdapter()) {
-        adapter<Any>().setOnEmptyViewClickListener(action)
     }
 }
 
@@ -182,9 +175,9 @@ fun RecyclerView.removeFooter(view: View) {
     }
 }
 
-fun RecyclerView.removeAllNotItemView() {
+fun RecyclerView.removeAllNotItemViews() {
     if (checkAdapter()) {
-        adapter<Any>().removeAllNotItemView()
+        adapter<Any>().removeAllNotItemViews()
     }
 }
 

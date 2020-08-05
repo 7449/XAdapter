@@ -38,9 +38,6 @@ class EmptyActivity : BaseActivity(R.layout.activity_empty, "EmptyAdapter") {
                         it.setLoadMoreState(Callback.ERROR)
                     }, 1500)
                 }
-                .setOnEmptyViewClickListener {
-                    Toast.makeText(baseContext, "EmptyView", Toast.LENGTH_SHORT).show()
-                }
                 .addAll(ArrayList())
     }
 

@@ -1,5 +1,7 @@
 package com.xadapter.refresh
 
+import android.view.View
+
 interface Callback {
     companion object {
         const val NORMAL = 0
@@ -10,4 +12,6 @@ interface Callback {
         const val LOAD = 5
         const val NO_MORE = 6
     }
+
+    val xRootView: View
 }

@@ -18,7 +18,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
 
     var mData: ObservableArrayList<T> = ObservableArrayList()
 
-    override var dataContainer: ArrayList<T>
+    override var dataContainer: MutableList<T>
         get() = mData
         set(value) {
             mData.addAll(value)
