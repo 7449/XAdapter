@@ -75,7 +75,9 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         get() {
             if (field == null) {
                 field = XTouchListener(xAppbarCallback
-                        ?: { true }, { xLoadMoreCallback?.isLoading ?: false }, xRefreshCallback.requireAny()) { onRefresh() }
+                        ?: { true }, {
+                    xLoadMoreCallback?.isLoading ?: false
+                }, xRefreshCallback.requireAny()) { onRefresh() }
             }
             return field
         }
@@ -138,7 +140,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     override fun onViewAttachedToWindow(holder: XViewHolder) = viewAttachedToWindow(holder)
 
     open fun defaultViewHolder(parent: ViewGroup): XViewHolder {
-        return XViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)).apply { viewHolderClick(this@XAdapter).viewHolderLongClick(this@XAdapter) }
+        return XViewHolder(LayoutInflater.from(parent.context).inflate(itemLayoutId, parent, false)).viewHolderClick().viewHolderLongClick()
     }
 
     open fun onScrollBottom() {
@@ -255,21 +257,22 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
         xLoadMoreCallback?.onChange(Callback.NORMAL)
     }
 
-    fun <T> XViewHolder.viewHolderClick(adapter: XAdapter<T>): XViewHolder {
-        adapter.onXItemClickListener?.let { onXItemClickListener ->
+    protected fun XViewHolder.viewHolderClick(): XViewHolder {
+        onXItemClickListener?.let { onXItemClickListener ->
             itemView.setOnClickListener { view ->
-                onXItemClickListener.invoke(view, adapter.currentItemPosition(layoutPosition), adapter.dataContainer[adapter.currentItemPosition(layoutPosition)])
+                onXItemClickListener.invoke(view, currentItemPosition(layoutPosition), dataContainer[currentItemPosition(layoutPosition)])
             }
         }
         return this
     }
 
-    fun <T> XViewHolder.viewHolderLongClick(adapter: XAdapter<T>) {
-        adapter.onXItemLongClickListener?.let { onXItemLongClickListener ->
+    protected fun XViewHolder.viewHolderLongClick(): XViewHolder {
+        onXItemLongClickListener?.let { onXItemLongClickListener ->
             itemView.setOnLongClickListener { view ->
-                onXItemLongClickListener.invoke(view, adapter.currentItemPosition(layoutPosition), adapter.dataContainer[adapter.currentItemPosition(layoutPosition)])
+                onXItemLongClickListener.invoke(view, currentItemPosition(layoutPosition), dataContainer[currentItemPosition(layoutPosition)])
             }
         }
+        return this
     }
 
     protected fun currentItemPosition(position: Int): Int {

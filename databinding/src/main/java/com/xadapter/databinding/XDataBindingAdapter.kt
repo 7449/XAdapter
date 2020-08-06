@@ -22,7 +22,7 @@ open class XDataBindingAdapter<T>(private val variableId: Int, private val execu
         }
 
     override fun defaultViewHolder(parent: ViewGroup): XViewHolder {
-        return XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).apply { viewHolderClick(this@XDataBindingAdapter).viewHolderLongClick(this@XDataBindingAdapter) }
+        return XDataBindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayoutId, parent, false)).viewHolderClick().viewHolderLongClick()
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {

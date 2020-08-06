@@ -1,8 +1,0 @@
-include ':app'
-include ':adapter'
-include ':recyclerview'
-include ':multi'
-include ':databinding'
-include ':refresh'
-//include ':material'
-//include ':viewholder'
