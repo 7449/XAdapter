@@ -28,9 +28,9 @@ publish {
 }
 dependencies {
     compileOnly project(path: ':adapter')
-//    compileOnly project(path: ':viewholder')
+    compileOnly project(path: ':viewholder')
 //    compileOnly "com.ydevelop:rv-adapter:$adapterVersion"
-    compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
+//    compileOnly "com.ydevelop:rv-adapter-viewholder:$viewholderVersion"
     compileOnly "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    private val idsTag = -1
+
     val context: Context
         get() = itemView.context
 
@@ -49,11 +51,12 @@ open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun setClickable(viewId: Int, isEnabled: Boolean) = also { viewById(viewId).isClickable = isEnabled }
 
     fun <T : View> findViewById(id: Int): T {
-        return if (itemView.tag !is SparseArray<*>) {
-            itemView.tag = SparseArray<View>()
+        val tag = itemView.getTag(idsTag)
+        return if (tag !is SparseArray<*>) {
+            itemView.setTag(idsTag, SparseArray<View>())
             findViewById(id)
         } else {
-            val sparseArray = itemView.tag as SparseArray<View>
+            val sparseArray = tag as SparseArray<View>
             sparseArray[id] as T?
                     ?: itemView.findViewById<T>(id).apply { sparseArray.put(id, this) }
         }

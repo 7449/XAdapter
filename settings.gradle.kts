@@ -4,5 +4,6 @@ include(":app",
         ":multi",
         ":databinding",
         ":refresh",
-        ":viewholder",
-        ":material")
+//        ":material",
+        ":viewholder"
+)

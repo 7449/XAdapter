@@ -29,5 +29,5 @@ ext {
     multiVersion = "0.0.4"
     recyclerViewVersion = "0.0.4"
     refreshVersion = "0.0.2"
-    viewholderVersion = "0.0.5"
+    viewholderVersion = "0.0.6"
 }
