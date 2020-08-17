@@ -26,8 +26,8 @@ ext {
     adapterVersion = "0.1.0"
     databindingVerison = "0.0.4"
     materialVersion = "0.0.2"
-    multiVersion = "0.0.4"
+    multiVersion = "0.0.5"
     recyclerViewVersion = "0.0.4"
-    refreshVersion = "0.0.2"
+    refreshVersion = "0.0.3"
     viewholderVersion = "0.0.6"
 }

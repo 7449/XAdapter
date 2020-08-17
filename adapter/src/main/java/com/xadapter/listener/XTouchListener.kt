@@ -46,10 +46,8 @@ internal class XTouchListener(
             }
             else -> {
                 rawY = -1f
-                if (isTop && appBarCallBack.invoke()) {
-                    if (refreshCallback.isReleaseAction) {
-                        refreshInterface()
-                    }
+                if (isTop && appBarCallBack.invoke() && refreshCallback.isReleaseAction) {
+                    refreshInterface()
                 }
             }
         }
