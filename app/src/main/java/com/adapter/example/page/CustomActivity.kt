@@ -19,7 +19,7 @@ class CustomActivity : BaseActivity(R.layout.activity_custom, "CustomSample") {
         super.onCreate(savedInstanceState)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .customRefreshCallback(CustomRefreshView(applicationContext))
                 .customLoadMoreCallback(CustomLoadMoreView(applicationContext))
                 .customScrollListener(CustomOnScrollListener())

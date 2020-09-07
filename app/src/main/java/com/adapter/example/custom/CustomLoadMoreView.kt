@@ -22,22 +22,22 @@ class CustomLoadMoreView(context: Context) : XLoadMoreView(context) {
 
     override fun onLoad() {
         progressbar.visibility = View.VISIBLE
-        tips.text = "正在加载..."
+        tips.text = "Custom:正在加载..."
     }
 
     override fun onNoMore() {
         progressbar.visibility = View.GONE
-        tips.text = "没有数据了"
+        tips.text = "Custom:没有数据了"
     }
 
     override fun onSuccess() {
         progressbar.visibility = View.GONE
-        tips.text = "加载成功"
+        tips.text = "Custom:加载成功"
     }
 
     override fun onError() {
         progressbar.visibility = View.GONE
-        tips.text = "加载失败"
+        tips.text = "Custom:加载失败"
     }
 
     override fun onNormal() {

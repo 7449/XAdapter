@@ -22,32 +22,32 @@ material:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-material
 
 ### gradle
 
-    implementation 'com.ydevelop:rv-adapter:0.1.0'
-    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.4'
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.4'
-    implementation 'com.ydevelop:rv-adapter-material:0.0.1'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.4'
-    implementation 'com.ydevelop:rv-adapter-refresh:0.0.2'
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.4'
+    implementation 'com.ydevelop:rv-adapter:0.1.1'
+    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.5'
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.5'
+    implementation 'com.ydevelop:rv-adapter-material:0.0.2'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.6'
+    implementation 'com.ydevelop:rv-adapter-refresh:0.0.3'
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.5'
     
 ### multi 
 
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.4'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.4'
+    implementation 'com.ydevelop:rv-adapter-multi:0.0.5'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.6'
 
 ### databinding
 
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.4'
-    implementation 'com.ydevelop:rv-adapter:0.1.0'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.4'
+    implementation 'com.ydevelop:rv-adapter-databinding:0.0.5'
+    implementation 'com.ydevelop:rv-adapter:0.1.1'
+    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.6'
     
 ### recyclerview core
 
-    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.4'
+    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.5'
     
 ### appbar
 
-    implementation 'com.ydevelop:rv-adapter-material:0.0.1'
+    implementation 'com.ydevelop:rv-adapter-material:0.0.2'
     
     
     fun <T> XAdapter<T>.supportAppbar(appBarLayout: AppBarLayout) = also {

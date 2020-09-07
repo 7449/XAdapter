@@ -17,7 +17,7 @@ class CollapsingToolbarActivity : BaseActivity(R.layout.activity_collapsing_tool
         super.onCreate(savedInstanceState)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openPullRefresh()
                 .openLoadingMore()
@@ -33,7 +33,7 @@ class CollapsingToolbarActivity : BaseActivity(R.layout.activity_collapsing_tool
                 }
                 .addHeaderView(LayoutInflater.from(this).inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false))
                 .addFooterView(LayoutInflater.from(this).inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false))
-                .adapter<SampleEntity>()
+                .xAdapter<SampleEntity>()
                 .supportAppbar(appbar)
                 .addAll(JsonUtils.jsonList)
     }

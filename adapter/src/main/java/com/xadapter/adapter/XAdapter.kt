@@ -55,14 +55,6 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     private var xRefreshCallback: XRefreshCallback? = null
     private var xLoadMoreCallback: XLoadMoreCallback? = null
 
-    var scrollLoadMoreItemCount = 1
-        set(value) {
-            field = value
-            if (onScrollListener is XScrollListener) {
-                (onScrollListener as XScrollListener).scrollItemCount = value
-            }
-        }
-
     var onScrollListener: RecyclerView.OnScrollListener? = null
         get() {
             if (field == null) {
@@ -71,16 +63,21 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             return field
         }
 
-    private var onTouchListener: View.OnTouchListener? = null
-        get() {
-            if (field == null) {
-                field = XTouchListener(xAppbarCallback
-                        ?: { true }, {
-                    xLoadMoreCallback?.isLoading ?: false
-                }, xRefreshCallback.requireAny()) { onRefresh() }
+    var scrollLoadMoreItemCount = 1
+        set(value) {
+            field = value
+            if (onScrollListener is XScrollListener) {
+                (onScrollListener as XScrollListener).scrollItemCount = value
             }
-            return field
         }
+
+    private val onTouchListener: View.OnTouchListener by lazy {
+        XTouchListener(
+                xAppbarCallback ?: { true },
+                { xLoadMoreCallback?.isLoading ?: false },
+                xRefreshCallback.requireAny()
+        ) { onRefresh() }
+    }
 
     var recyclerView: RecyclerView? = null
         @SuppressLint("ClickableViewAccessibility")
@@ -90,12 +87,16 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             }
             field = value
             if (pullRefreshEnabled) {
-                xRefreshCallback = SimpleRefreshView(value.context)
-                field?.setOnTouchListener(onTouchListener)
+                if (xRefreshCallback == null) {
+                    xRefreshCallback = SimpleRefreshView(value.context)
+                }
+                value.setOnTouchListener(onTouchListener)
             }
             if (loadingMoreEnabled) {
-                xLoadMoreCallback = SimpleLoadMoreView(value.context)
-                field?.addOnScrollListener(onScrollListener.requireAny())
+                if (xLoadMoreCallback == null) {
+                    xLoadMoreCallback = SimpleLoadMoreView(value.context)
+                }
+                value.addOnScrollListener(onScrollListener.requireAny())
             }
         }
 

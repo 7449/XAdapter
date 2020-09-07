@@ -13,169 +13,169 @@ import com.xadapter.vh.XViewHolder
 
 fun RecyclerView.addHeaderView(view: View) = also {
     if (checkAdapter()) {
-        adapter<Any>().addHeaderView(view)
+        xAdapter<Any>().addHeaderView(view)
     }
 }
 
 fun RecyclerView.addFooterView(view: View) = also {
     if (checkAdapter()) {
-        adapter<Any>().addFooterView(view)
+        xAdapter<Any>().addFooterView(view)
     }
 }
 
 fun RecyclerView.setItemLayoutId(layoutId: Int) = also {
     if (checkAdapter()) {
-        adapter<Any>().setItemLayoutId(layoutId)
+        xAdapter<Any>().setItemLayoutId(layoutId)
     }
 }
 
 fun RecyclerView.setEmptyView(view: View) = also {
     if (checkAdapter()) {
-        adapter<Any>().setEmptyView(view)
+        xAdapter<Any>().setEmptyView(view)
     }
 }
 
 fun RecyclerView.customScrollListener(onScrollListener: RecyclerView.OnScrollListener) = also {
     if (checkAdapter()) {
-        adapter<Any>().customScrollListener(onScrollListener)
+        xAdapter<Any>().customScrollListener(onScrollListener)
     }
 }
 
 fun RecyclerView.customRefreshCallback(callback: XRefreshCallback) = also {
     if (checkAdapter()) {
-        adapter<Any>().customRefreshCallback(callback)
+        xAdapter<Any>().customRefreshCallback(callback)
     }
 }
 
 fun RecyclerView.customLoadMoreCallback(callback: XLoadMoreCallback) = also {
     if (checkAdapter()) {
-        adapter<Any>().customLoadMoreCallback(callback)
+        xAdapter<Any>().customLoadMoreCallback(callback)
     }
 }
 
 fun RecyclerView.setScrollLoadMoreItemCount(count: Int) = also {
     if (checkAdapter()) {
-        adapter<Any>().setScrollLoadMoreItemCount(count)
+        xAdapter<Any>().setScrollLoadMoreItemCount(count)
     }
 }
 
 fun RecyclerView.openPullRefresh() = also {
     if (checkAdapter()) {
-        adapter<Any>().openPullRefresh()
+        xAdapter<Any>().openPullRefresh()
     }
 }
 
 fun RecyclerView.openLoadingMore() = also {
     if (checkAdapter()) {
-        adapter<Any>().openLoadingMore()
+        xAdapter<Any>().openLoadingMore()
     }
 }
 
 fun RecyclerView.setRefreshListener(action: (adapter: XAdapter<*>) -> Unit) = also {
     if (checkAdapter()) {
-        adapter<Any>().setRefreshListener(action)
+        xAdapter<Any>().setRefreshListener(action)
     }
 }
 
 fun RecyclerView.setRefreshState(status: Int) = also {
     if (checkAdapter()) {
-        adapter<Any>().setRefreshState(status)
+        xAdapter<Any>().setRefreshState(status)
     }
 }
 
 fun RecyclerView.setLoadMoreListener(action: (adapter: XAdapter<*>) -> Unit) = also {
     if (checkAdapter()) {
-        adapter<Any>().setLoadMoreListener(action)
+        xAdapter<Any>().setLoadMoreListener(action)
     }
 }
 
 fun RecyclerView.setLoadMoreState(status: Int) = also {
     if (checkAdapter()) {
-        adapter<Any>().setLoadMoreState(status)
+        xAdapter<Any>().setLoadMoreState(status)
     }
 }
 
 fun <T> RecyclerView.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) = also {
     if (checkAdapter()) {
-        adapter<T>().setOnBind(action)
+        xAdapter<T>().setOnBind(action)
     }
 }
 
 fun <T> RecyclerView.setOnItemClickListener(action: (view: View, position: Int, entity: T) -> Unit) = also {
     if (checkAdapter()) {
-        adapter<T>().setOnItemClickListener(action)
+        xAdapter<T>().setOnItemClickListener(action)
     }
 }
 
 fun <T> RecyclerView.setOnItemLongClickListener(action: (view: View, position: Int, entity: T) -> Boolean) = also {
     if (checkAdapter()) {
-        adapter<T>().setOnItemLongClickListener(action)
+        xAdapter<T>().setOnItemLongClickListener(action)
     }
 }
 
-fun <T> RecyclerView.getItem(position: Int): T = adapter<T>().getItem(position)
+fun <T> RecyclerView.getItem(position: Int): T = xAdapter<T>().getItem(position)
 
-fun RecyclerView.getHeaderView(position: Int) = adapter<Any>().getHeaderView(position)
+fun RecyclerView.getHeaderView(position: Int) = xAdapter<Any>().getHeaderView(position)
 
-fun RecyclerView.getFooterView(position: Int) = adapter<Any>().getFooterView(position)
+fun RecyclerView.getFooterView(position: Int) = xAdapter<Any>().getFooterView(position)
 
 fun RecyclerView.addAll(data: List<Any>) {
     if (checkAdapter()) {
-        adapter<Any>().addAll(data)
+        xAdapter<Any>().addAll(data)
     }
 }
 
 fun RecyclerView.add(data: Any) {
     if (checkAdapter()) {
-        adapter<Any>().add(data)
+        xAdapter<Any>().add(data)
     }
 }
 
 fun RecyclerView.removeAll() {
     if (checkAdapter()) {
-        adapter<Any>().removeAll()
+        xAdapter<Any>().removeAll()
     }
 }
 
 fun RecyclerView.remove(position: Int) {
     if (checkAdapter()) {
-        adapter<Any>().remove(position)
+        xAdapter<Any>().remove(position)
     }
 }
 
 fun RecyclerView.removeHeader(index: Int) {
     if (checkAdapter()) {
-        adapter<Any>().removeHeader(index)
+        xAdapter<Any>().removeHeader(index)
     }
 }
 
 fun RecyclerView.removeHeader(view: View) {
     if (checkAdapter()) {
-        adapter<Any>().removeHeader(view)
+        xAdapter<Any>().removeHeader(view)
     }
 }
 
 fun RecyclerView.removeFooter(index: Int) {
     if (checkAdapter()) {
-        adapter<Any>().removeFooter(index)
+        xAdapter<Any>().removeFooter(index)
     }
 }
 
 fun RecyclerView.removeFooter(view: View) {
     if (checkAdapter()) {
-        adapter<Any>().removeFooter(view)
+        xAdapter<Any>().removeFooter(view)
     }
 }
 
 fun RecyclerView.removeAllNotItemViews() {
     if (checkAdapter()) {
-        adapter<Any>().removeAllNotItemViews()
+        xAdapter<Any>().removeAllNotItemViews()
     }
 }
 
 fun RecyclerView.refresh() {
     if (checkAdapter()) {
-        adapter<Any>().refresh(this)
+        xAdapter<Any>().refresh(this)
     }
 }
 

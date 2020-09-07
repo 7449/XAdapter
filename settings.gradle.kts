@@ -1,8 +1,8 @@
 include(
         ":app",
-        ":adapter",
-        ":recyclerview",
-        ":databinding"
+//        ":adapter",
+        ":recyclerview"
+//        ":databinding"
 //        ":refresh"
 //        ":multi"
 //        ":material"

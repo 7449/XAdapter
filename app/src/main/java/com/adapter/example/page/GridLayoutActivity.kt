@@ -20,7 +20,7 @@ class GridLayoutActivity : BaseActivity(R.layout.activity_grid_manager, "GridLay
         super.onCreate(savedInstanceState)
         recyclerView
                 .gridLayoutManager(2)
-                .attachAdapter(XAdapter<SampleEntity>())
+                .attachXAdapter(XAdapter<SampleEntity>())
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openPullRefresh()
                 .openLoadingMore()

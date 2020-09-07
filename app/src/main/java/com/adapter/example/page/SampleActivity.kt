@@ -14,7 +14,7 @@ class SampleActivity : BaseActivity(R.layout.activity_sample, "SampleAdapter") {
         super.onCreate(savedInstanceState)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .setItemLayoutId(R.layout.layout_json_item)
                 .setOnBind<SampleEntity> { holder, _, entity ->
                     Glide.with(holder.context).load(entity.image).into(holder.imageView(R.id.image))

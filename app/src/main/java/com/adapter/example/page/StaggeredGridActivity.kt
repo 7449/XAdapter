@@ -19,7 +19,7 @@ class StaggeredGridActivity : BaseActivity(R.layout.activity_staggered_manager, 
         super.onCreate(savedInstanceState)
         recyclerView
                 .staggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openLoadingMore()
                 .setOnBind<SampleEntity> { holder, _, entity ->

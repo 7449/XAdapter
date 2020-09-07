@@ -18,7 +18,7 @@ class SwipeRefreshActivity : BaseActivity(R.layout.activity_swipe_refresh, "Swip
         swipeRefresh.setOnRefreshListener(this)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .setItemLayoutId(R.layout.layout_json_item)
                 .openLoadingMore()
                 .setOnBind<SampleEntity> { holder, _, entity ->
@@ -38,7 +38,7 @@ class SwipeRefreshActivity : BaseActivity(R.layout.activity_swipe_refresh, "Swip
     }
 
     override fun onRefresh() {
-        if (recyclerView.adapter<SampleEntity>().loadMoreState == Callback.LOAD) {
+        if (recyclerView.xAdapter<SampleEntity>().loadMoreState == Callback.LOAD) {
             return
         }
         swipeRefresh.isRefreshing = true

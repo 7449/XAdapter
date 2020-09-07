@@ -1,7 +1,6 @@
 package com.adapter.example.page
 
 import android.os.Bundle
-import android.widget.Toast
 import com.adapter.example.R
 import com.adapter.example.custom.CustomEmptyView
 import com.adapter.example.json.JsonUtils
@@ -17,7 +16,7 @@ class EmptyActivity : BaseActivity(R.layout.activity_empty, "EmptyAdapter") {
         super.onCreate(savedInstanceState)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .openPullRefresh()
                 .openLoadingMore()
                 .setEmptyView(CustomEmptyView(applicationContext))

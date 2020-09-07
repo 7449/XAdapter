@@ -11,7 +11,7 @@ import com.xadapter.multi.XMultiCallBack
 /**
  * get [XAdapter]
  */
-fun <T> RecyclerView.adapter() = adapter as XAdapter<T>
+fun <T> RecyclerView.xAdapter() = adapter as XAdapter<T>
 
 /**
  * get [XDataBindingAdapter]
@@ -26,12 +26,12 @@ fun <T : XMultiCallBack> RecyclerView.multiAdapter() = adapter as XMultiAdapter<
 /**
  * Init [XAdapter]
  */
-fun <T> RecyclerView.attachAdapter() = attachAdapter(XAdapter<T>())
+fun <T> RecyclerView.attachXAdapter() = attachXAdapter(XAdapter<T>())
 
 /**
  * Init [XAdapter]
  */
-fun <T> RecyclerView.attachAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }
+fun <T> RecyclerView.attachXAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }
 
 /**
  * Init [XDataBindingAdapter]
@@ -61,7 +61,7 @@ fun <T> RecyclerView.convertAdapter() = convertAdapter(XAdapter<T>())
 /**
  * Init [XAdapter]
  */
-fun <T> RecyclerView.convertAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }.adapter<T>()
+fun <T> RecyclerView.convertAdapter(adapter: XAdapter<T>) = also { setAdapter(adapter) }.xAdapter<T>()
 
 /**
  * Init [XDataBindingAdapter]

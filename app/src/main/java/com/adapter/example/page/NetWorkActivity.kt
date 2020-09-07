@@ -28,7 +28,7 @@ class NetWorkActivity : BaseActivity(R.layout.activity_network, "NetWorkSample")
         super.onCreate(savedInstanceState)
         recyclerView
                 .linearLayoutManager()
-                .attachAdapter<SampleEntity>()
+                .attachXAdapter<SampleEntity>()
                 .openLoadingMore()
                 .openPullRefresh()
                 .setItemLayoutId(R.layout.layout_json_item)
