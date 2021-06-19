@@ -1,10 +1,11 @@
 include(
-        ":app",
-//        ":adapter",
-        ":recyclerview"
-//        ":databinding"
-//        ":refresh"
-//        ":multi"
-//        ":material"
-//        ":viewholder"
+    ":sample",
+    ":Adapter",
+    ":RecyclerView",
+    ":DataBinding",
+    ":Layout",
+    ":Multiple",
+    ":Material",
+    ":ViewHolder"
 )
+include(":ViewBinding")

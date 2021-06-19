@@ -7,11 +7,16 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
+    buildFeatures {
+        viewBinding = true
+    }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.7449.XAdapter.ViewHolder"]
+        kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.7449.XAdapter.ViewBinding"]
     }
 }
 dependencies {
+    compileOnly project(path: ':Adapter')
+    compileOnly project(path: ':ViewHolder')
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

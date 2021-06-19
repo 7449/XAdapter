@@ -1,60 +1,8 @@
-# 
-
-[JetBrains](https://www.jetbrains.com/?from=XAdapter)
-
 # XAdapter
 
 Support for the pull-down refresh loading and the addition of multiple header and footer RecyclerViewAdapter
 
-ViewHolder:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-viewholder/images/download.svg)
-
-refresh:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-refresh/images/download.svg)
-
-adapter:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter/images/download.svg)
-
-databinding:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-databinding/images/download.svg)
-
-multi:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-multi/images/download.svg)
-
-recyclerview:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-recyclerview/images/download.svg)
-
-material:![](https://api.bintray.com/packages/ydevelop/maven/rv-adapter-material/images/download.svg)
-
 ### gradle
-
-    implementation 'com.ydevelop:rv-adapter:0.1.1'
-    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.5'
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.5'
-    implementation 'com.ydevelop:rv-adapter-material:0.0.2'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.6'
-    implementation 'com.ydevelop:rv-adapter-refresh:0.0.3'
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.5'
-    
-### multi 
-
-    implementation 'com.ydevelop:rv-adapter-multi:0.0.5'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.6'
-
-### databinding
-
-    implementation 'com.ydevelop:rv-adapter-databinding:0.0.5'
-    implementation 'com.ydevelop:rv-adapter:0.1.1'
-    implementation 'com.ydevelop:rv-adapter-viewholder:0.0.6'
-    
-### recyclerview core
-
-    implementation 'com.ydevelop:rv-adapter-recyclerview:0.0.5'
-    
-### appbar
-
-    implementation 'com.ydevelop:rv-adapter-material:0.0.2'
-    
-    
-    fun <T> XAdapter<T>.supportAppbar(appBarLayout: AppBarLayout) = also {
-        val appBarStateChangeListener = AppBarStateChangeListener()
-        appBarLayout.addOnOffsetChangedListener(appBarStateChangeListener)
-        xAppbarCallback = { appBarStateChangeListener.currentState == AppBarStateChangeListener.EXPANDED }
-    }
 
 ### sample
 

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -7,11 +8,16 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
+    buildFeatures {
+        dataBinding = true
+    }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.7449.XAdapter.ViewHolder"]
+        kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.7449.XAdapter.DataBinding"]
     }
 }
 dependencies {
+    compileOnly project(path: ':Adapter')
+    compileOnly project(path: ':ViewHolder')
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

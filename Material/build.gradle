@@ -8,10 +8,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
     compileOptions {
-        kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.7449.XAdapter.ViewHolder"]
+        kotlinOptions.freeCompilerArgs += ['-module-name', "com.github.7449.XAdapter.Material"]
     }
 }
 dependencies {
-    implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
+    implementation "com.google.android.material:material:$googleMaterialVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
