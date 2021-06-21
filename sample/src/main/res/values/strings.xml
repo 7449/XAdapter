@@ -8,10 +8,8 @@
     <string name="collapsingtoolbarlayout">CollapsingToolbarLayout</string>
     <string name="multiadapter">MultiAdapter</string>
     <string name="databinding">DataBinding</string>
-    <string name="customlistener">CustomListener</string>
     <string name="swiperefreshlayout">SwipeRefreshLayout</string>
     <string name="sample">Sample</string>
     <string name="tips">tips</string>
     <string name="emptyview">EmptyView</string>
-    <string name="mergeadapter">MergeAdapter</string>
 </resources>

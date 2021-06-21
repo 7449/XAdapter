@@ -32,13 +32,6 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/custom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/customlistener"
-            android:textAllCaps="false" />
-
-        <Button
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,11 +80,5 @@
             android:text="@string/emptyview"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/merge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/mergeadapter"
-            android:textAllCaps="false" />
     </LinearLayout>
 </ScrollView>

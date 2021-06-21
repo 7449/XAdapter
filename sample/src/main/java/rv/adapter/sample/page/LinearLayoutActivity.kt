@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import rv.adapter.layout.LayoutStatus
-import rv.adapter.layout.XLoadMoreStatus
-import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityLinearManagerBinding
@@ -94,7 +92,7 @@ class LinearLayoutActivity :
                 }
             }
             .addAll(JsonUtils.jsonList)
-        viewBinding.include.recyclerView.getHeaderView(0)?.setOnClickListener {
+        viewBinding.include.recyclerView.getHeaderView(0).setOnClickListener {
             Toast.makeText(baseContext, "HeaderView", Toast.LENGTH_SHORT).show()
         }
     }

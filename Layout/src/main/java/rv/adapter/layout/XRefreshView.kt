@@ -32,7 +32,7 @@ abstract class XRefreshView @JvmOverloads constructor(
         get() = childView.layoutParams.height
 
     override val refreshParent: ViewParent?
-        get() = childView.parent
+        get() = parent
 
     override val xRootView: View
         get() = this
@@ -46,6 +46,12 @@ abstract class XRefreshView @JvmOverloads constructor(
             return isRefresh
         }
 
+    override fun onStartRefresh() {
+        onChanged(LayoutStatus.REFRESH)
+        animator.setIntValues(1, initHeight)
+        animator.start()
+    }
+
     override fun onChanged(status: LayoutStatus) {
         super.onChanged(status)
         if (isDone) {
@@ -54,7 +60,7 @@ abstract class XRefreshView @JvmOverloads constructor(
     }
 
     override fun onChangedHeight(height: Int) {
-        if (visibleHeight < 0 && height < 0) {
+        if (visibleHeight < 0 || height < 0) {
             return
         }
         onChangedHeights(visibleHeight + height)

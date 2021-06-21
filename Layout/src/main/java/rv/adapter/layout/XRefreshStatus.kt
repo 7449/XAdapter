@@ -49,6 +49,8 @@ interface XRefreshStatus {
         this.status = status
     }
 
+    fun onStartRefresh()
+
     fun onChangedHeight(height: Int)
 
     fun onNormal()

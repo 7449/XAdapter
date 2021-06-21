@@ -23,9 +23,6 @@
             android:name=".page.EmptyActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".page.CustomActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".page.SwipeRefreshActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -51,9 +48,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".page.DataBindingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".page.MergeActivity"
             android:screenOrientation="portrait" />
     </application>
 

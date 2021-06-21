@@ -33,10 +33,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main, "
         viewBinding.collapsingToolbar.setOnClickListener { startActivity(CollapsingToolbarActivity::class.java) }
         viewBinding.multiple.setOnClickListener { startActivity(MultipleActivity::class.java) }
         viewBinding.databinding.setOnClickListener { startActivity(DataBindingActivity::class.java) }
-        viewBinding.custom.setOnClickListener { startActivity(CustomActivity::class.java) }
         viewBinding.swiperefreshlayout.setOnClickListener { startActivity(SwipeRefreshActivity::class.java) }
         viewBinding.empty.setOnClickListener { startActivity(EmptyActivity::class.java) }
-        viewBinding.merge.setOnClickListener { startActivity(MergeActivity::class.java) }
     }
 
     private fun startActivity(clz: Class<*>) {

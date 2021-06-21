@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import com.bumptech.glide.Glide
 import rv.adapter.layout.LayoutStatus
-import rv.adapter.layout.XLoadMoreStatus
-import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityCollapsingToolbarBinding

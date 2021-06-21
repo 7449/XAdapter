@@ -7,8 +7,6 @@ import io.reactivex.Observable
 import io.reactivex.network.*
 import retrofit2.http.GET
 import rv.adapter.layout.LayoutStatus
-import rv.adapter.layout.XLoadMoreStatus
-import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityNetworkBinding
@@ -61,7 +59,7 @@ class NetWorkActivity :
                     viewBinding.include.recyclerView.setLoadMoreStatus(LayoutStatus.NO_MORE)
                 }
             }
-            .refresh()
+            .refresh(viewBinding.include.recyclerView)
     }
 
     private fun netWork() {

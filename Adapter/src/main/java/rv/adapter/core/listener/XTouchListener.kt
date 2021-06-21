@@ -9,9 +9,9 @@ import rv.adapter.layout.XRefreshStatus
  * by y on 2016/11/15
  */
 internal class XTouchListener(
+    private val refreshStatus: XRefreshStatus,
     private val appBarCallBack: () -> Boolean,
     private val loadMoreCallback: () -> Boolean,
-    private val refreshStatus: XRefreshStatus,
     private val refreshInterface: () -> Unit
 ) : View.OnTouchListener {
 
@@ -53,4 +53,5 @@ internal class XTouchListener(
         }
         return false
     }
+
 }

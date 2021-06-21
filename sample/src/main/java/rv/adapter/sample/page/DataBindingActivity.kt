@@ -11,8 +11,6 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
 import rv.adapter.data.binding.XDataBindingAdapter
 import rv.adapter.layout.LayoutStatus
-import rv.adapter.layout.XLoadMoreStatus
-import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.convertDataBindingAdapter
 import rv.adapter.recyclerview.setLoadMoreStatus
 import rv.adapter.recyclerview.setRefreshStatus

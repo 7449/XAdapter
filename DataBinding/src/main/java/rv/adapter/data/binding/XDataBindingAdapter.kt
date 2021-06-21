@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
+import rv.adapter.core.ItemTypes
 import rv.adapter.core.XAdapter
 import rv.adapter.view.holder.XViewHolder
 
@@ -16,7 +17,7 @@ open class XDataBindingAdapter<T>(
     private val executePendingBindings: Boolean = true
 ) : XAdapter<T>() {
 
-    var mData: ObservableArrayList<T> = ObservableArrayList()
+    private val mData: ObservableArrayList<T> = ObservableArrayList()
 
     override var dataContainer: MutableList<T>
         get() = mData
@@ -24,11 +25,11 @@ open class XDataBindingAdapter<T>(
             mData.addAll(value)
         }
 
-    override fun defaultViewHolder(parent: ViewGroup): XViewHolder {
+    override fun itemViewHolder(parent: ViewGroup): XViewHolder {
         return XDataBindingHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                itemLayoutId,
+                layoutId,
                 parent,
                 false
             )
@@ -36,12 +37,12 @@ open class XDataBindingAdapter<T>(
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
-        if (getItemViewType(position) != TYPE_ITEM) {
+        if (getItemViewType(position) != ItemTypes.ITEM.type) {
             return
         }
         val pos = currentItemPosition(position)
         holder as XDataBindingHolder
-        holder.viewDataBinding.setVariable(variableId, dataContainer[pos])
+        holder.viewDataBinding.setVariable(variableId, mData[pos])
         if (executePendingBindings) {
             holder.viewDataBinding.executePendingBindings()
         }

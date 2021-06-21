@@ -11,11 +11,9 @@ import rv.adapter.core.XAdapter
 import rv.adapter.material.AppBarStateChangeListener
 
 fun <T> XAdapter<T>.supportAppbar(appBarLayout: AppBarLayout) = also {
-    val appBarStateChangeListener =
-        AppBarStateChangeListener()
-    appBarLayout.addOnOffsetChangedListener(appBarStateChangeListener)
-    xAppbarCallback =
-        { appBarStateChangeListener.currentState == AppBarStateChangeListener.EXPANDED }
+    val listener = AppBarStateChangeListener()
+    appBarLayout.addOnOffsetChangedListener(listener)
+    setAppbarCallback { listener.currentState == AppBarStateChangeListener.EXPANDED }
 }
 
 @BindingAdapter("imageUrl")

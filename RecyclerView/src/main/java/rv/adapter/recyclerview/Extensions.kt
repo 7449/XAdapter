@@ -58,11 +58,11 @@ class AdapterExtensionsDSL<T> {
         val xAdapter = XAdapter<T>()
         xAdapter.loadMore(loadingMore)
         xAdapter.pullRefresh(pullRefresh)
-        xAdapter.itemLayoutId = itemLayoutId
-        xAdapter.scrollLoadMoreItemCount = scrollLoadMoreItemCount
+        xAdapter.setItemLayoutId(itemLayoutId)
+        xAdapter.setScrollLoadMoreItemCount(scrollLoadMoreItemCount)
         headerViews.forEach { xAdapter.addHeaderView(it) }
         footerViews.forEach { xAdapter.addFooterView(it) }
-        xAdapter.setOnBind(onBind)
+        xAdapter.bindItem(onBind)
         onItemClickListener?.let { xAdapter.setOnItemClickListener(it) }
         onItemLongClickListener?.let { xAdapter.setOnItemLongClickListener(it) }
         xRefreshListener?.let { xAdapter.setRefreshListener(it) }

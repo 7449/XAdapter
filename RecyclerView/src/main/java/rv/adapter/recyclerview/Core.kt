@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rv.adapter.core.XAdapter
 import rv.adapter.layout.LayoutStatus
-import rv.adapter.layout.XLoadMoreStatus
-import rv.adapter.layout.XRefreshStatus
 import rv.adapter.multiple.XMultiCallBack
 import rv.adapter.view.holder.XViewHolder
 
@@ -33,24 +31,6 @@ fun RecyclerView.setItemLayoutId(layoutId: Int) = also {
 fun RecyclerView.setEmptyView(view: View) = also {
     if (checkAdapter()) {
         xAdapter<Any>().setEmptyView(view)
-    }
-}
-
-fun RecyclerView.customScrollListener(onScrollListener: RecyclerView.OnScrollListener) = also {
-    if (checkAdapter()) {
-        xAdapter<Any>().customScrollListener(onScrollListener)
-    }
-}
-
-fun RecyclerView.customRefreshCallback(status: XRefreshStatus) = also {
-    if (checkAdapter()) {
-        xAdapter<Any>().customRefreshCallback(status)
-    }
-}
-
-fun RecyclerView.customLoadMoreCallback(status: XLoadMoreStatus) = also {
-    if (checkAdapter()) {
-        xAdapter<Any>().customLoadMoreCallback(status)
     }
 }
 
@@ -99,7 +79,7 @@ fun RecyclerView.setLoadMoreStatus(status: LayoutStatus) = also {
 fun <T> RecyclerView.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) =
     also {
         if (checkAdapter()) {
-            xAdapter<T>().setOnBind(action)
+            xAdapter<T>().bindItem(action)
         }
     }
 
@@ -171,15 +151,15 @@ fun RecyclerView.removeFooter(view: View) {
     }
 }
 
-fun RecyclerView.removeAllNotItemViews() {
+fun RecyclerView.removeAllNoItemViews() {
     if (checkAdapter()) {
-        xAdapter<Any>().removeAllNotItemViews()
+        xAdapter<Any>().removeAllNoItemViews()
     }
 }
 
-fun RecyclerView.refresh() {
+fun RecyclerView.refresh(view: RecyclerView) {
     if (checkAdapter()) {
-        xAdapter<Any>().refresh(this)
+        xAdapter<Any>().refresh(view)
     }
 }
 
