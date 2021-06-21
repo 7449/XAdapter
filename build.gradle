@@ -20,7 +20,7 @@ allprojects {
 }
 ext {
     compileSdkVersion = 30
-    minSdkVersion = 14
+    minSdkVersion = 19
     targetSdkVersion = 30
     recyclerviewVersion = "1.2.1"
     googleMaterialVersion = "1.3.0"

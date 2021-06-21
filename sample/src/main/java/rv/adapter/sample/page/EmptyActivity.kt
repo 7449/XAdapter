@@ -3,7 +3,9 @@ package rv.adapter.sample.page
 import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.custom.CustomEmptyView
@@ -32,14 +34,14 @@ class EmptyActivity : BaseActivity<ActivityEmptyBinding>(R.layout.activity_empty
             }
             .setRefreshListener {
                 this@EmptyActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setRefreshState(Callback.SUCCESS)
+                    it.setRefreshStatus(LayoutStatus.SUCCESS)
                     viewBinding.include.recyclerView.removeAll()
                     viewBinding.include.recyclerView.addAll(JsonUtils.jsonList)
                 }, 1500)
             }
             .setLoadMoreListener {
                 this@EmptyActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setLoadMoreState(Callback.ERROR)
+                    it.setLoadMoreStatus(LayoutStatus.ERROR)
                 }, 1500)
             }
             .addAll(ArrayList())

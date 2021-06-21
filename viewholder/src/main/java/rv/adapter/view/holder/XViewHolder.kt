@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
+
 package rv.adapter.view.holder
 
 import android.content.Context
@@ -65,7 +67,7 @@ open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun setClickable(viewId: Int, isEnabled: Boolean) =
         also { viewById(viewId).isClickable = isEnabled }
 
-    private fun <T : View> findViewById(id: Int): T {
+    fun <T : View> findViewById(id: Int): T {
         val tag = itemView.getTag(idsTag)
         return if (tag !is SparseArray<*>) {
             itemView.setTag(idsTag, SparseArray<View>())
@@ -76,5 +78,4 @@ open class XViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 ?: itemView.findViewById<T>(id).apply { sparseArray.put(id, this) }
         }
     }
-
 }

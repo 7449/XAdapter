@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityLinearManagerBinding
@@ -82,12 +84,12 @@ class LinearLayoutActivity :
                 }
                 refreshListener {
                     this@LinearLayoutActivity.viewBinding.include.recyclerView.postDelayed({
-                        it.setRefreshState(Callback.SUCCESS)
+                        it.setRefreshStatus(LayoutStatus.SUCCESS)
                     }, 1500)
                 }
                 loadMoreListener {
                     this@LinearLayoutActivity.viewBinding.include.recyclerView.postDelayed({
-                        it.setLoadMoreState(Callback.ERROR)
+                        it.setLoadMoreStatus(LayoutStatus.ERROR)
                     }, 1500)
                 }
             }

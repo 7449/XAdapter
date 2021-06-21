@@ -6,7 +6,9 @@ import com.bumptech.glide.Glide
 import io.reactivex.Observable
 import io.reactivex.network.*
 import retrofit2.http.GET
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityNetworkBinding
@@ -56,7 +58,7 @@ class NetWorkActivity :
                     netWork()
                     ++page
                 } else {
-                    viewBinding.include.recyclerView.setLoadMoreState(Callback.NO_MORE)
+                    viewBinding.include.recyclerView.setLoadMoreStatus(LayoutStatus.NO_MORE)
                 }
             }
             .refresh()
@@ -72,23 +74,23 @@ class NetWorkActivity :
 
     override fun onNetWorkStart() {
         if (page != 0) {
-            viewBinding.include.recyclerView.setLoadMoreState(Callback.LOAD)
+            viewBinding.include.recyclerView.setLoadMoreStatus(LayoutStatus.LOAD)
         }
     }
 
     override fun onNetWorkError(throwable: Throwable) {
         if (page == 0) {
-            viewBinding.include.recyclerView.setRefreshState(Callback.ERROR)
+            viewBinding.include.recyclerView.setRefreshStatus(LayoutStatus.ERROR)
         } else {
-            viewBinding.include.recyclerView.setLoadMoreState(Callback.ERROR)
+            viewBinding.include.recyclerView.setLoadMoreStatus(LayoutStatus.ERROR)
         }
     }
 
     override fun onNetWorkComplete() {
         if (page == 0) {
-            viewBinding.include.recyclerView.setRefreshState(Callback.SUCCESS)
+            viewBinding.include.recyclerView.setRefreshStatus(LayoutStatus.SUCCESS)
         } else {
-            viewBinding.include.recyclerView.setLoadMoreState(Callback.SUCCESS)
+            viewBinding.include.recyclerView.setLoadMoreStatus(LayoutStatus.SUCCESS)
         }
     }
 

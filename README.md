@@ -95,8 +95,6 @@ Support for the pull-down refresh loading and the addition of multiple header an
     .customRefreshView(View)
     .customLoadMoreView(View)
     //
-    it.setRefreshState(int) // NORMAL READY REFRESH SUCCESS ERROR
-    it.setLoadMoreState(int) // NORMAL LOAD SUCCESS NO_MORE ERROR
 
 ### MultipleAdapter
 

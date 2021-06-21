@@ -6,8 +6,9 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rv.adapter.core.XAdapter
-import rv.adapter.layout.XLoadMoreCallback
-import rv.adapter.layout.XRefreshCallback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.multiple.XMultiCallBack
 import rv.adapter.view.holder.XViewHolder
 
@@ -41,15 +42,15 @@ fun RecyclerView.customScrollListener(onScrollListener: RecyclerView.OnScrollLis
     }
 }
 
-fun RecyclerView.customRefreshCallback(callback: XRefreshCallback) = also {
+fun RecyclerView.customRefreshCallback(status: XRefreshStatus) = also {
     if (checkAdapter()) {
-        xAdapter<Any>().customRefreshCallback(callback)
+        xAdapter<Any>().customRefreshCallback(status)
     }
 }
 
-fun RecyclerView.customLoadMoreCallback(callback: XLoadMoreCallback) = also {
+fun RecyclerView.customLoadMoreCallback(status: XLoadMoreStatus) = also {
     if (checkAdapter()) {
-        xAdapter<Any>().customLoadMoreCallback(callback)
+        xAdapter<Any>().customLoadMoreCallback(status)
     }
 }
 
@@ -77,9 +78,9 @@ fun RecyclerView.setRefreshListener(action: (adapter: XAdapter<*>) -> Unit) = al
     }
 }
 
-fun RecyclerView.setRefreshState(status: Int) = also {
+fun RecyclerView.setRefreshStatus(status: LayoutStatus) = also {
     if (checkAdapter()) {
-        xAdapter<Any>().setRefreshState(status)
+        xAdapter<Any>().setRefreshStatus(status)
     }
 }
 
@@ -89,9 +90,9 @@ fun RecyclerView.setLoadMoreListener(action: (adapter: XAdapter<*>) -> Unit) = a
     }
 }
 
-fun RecyclerView.setLoadMoreState(status: Int) = also {
+fun RecyclerView.setLoadMoreStatus(status: LayoutStatus) = also {
     if (checkAdapter()) {
-        xAdapter<Any>().setLoadMoreState(status)
+        xAdapter<Any>().setLoadMoreStatus(status)
     }
 }
 

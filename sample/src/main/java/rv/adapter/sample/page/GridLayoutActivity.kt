@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import com.bumptech.glide.Glide
 import rv.adapter.core.XAdapter
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityGridManagerBinding
@@ -38,15 +40,15 @@ class GridLayoutActivity : BaseActivity<ActivityGridManagerBinding>(
             }
             .setRefreshListener {
                 this@GridLayoutActivity.viewBinding.include.recyclerView.postDelayed({
-                    viewBinding.include.recyclerView.setRefreshState(
-                        Callback.SUCCESS
+                    viewBinding.include.recyclerView.setRefreshStatus(
+                        LayoutStatus.SUCCESS
                     )
                 }, 1500)
             }
             .setLoadMoreListener {
                 this@GridLayoutActivity.viewBinding.include.recyclerView.postDelayed({
-                    viewBinding.include.recyclerView.setLoadMoreState(
-                        Callback.NO_MORE
+                    viewBinding.include.recyclerView.setLoadMoreStatus(
+                        LayoutStatus.NO_MORE
                     )
                 }, 1500)
             }

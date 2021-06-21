@@ -1,30 +1,16 @@
 package rv.adapter.layout
 
 import android.content.Context
+import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 
-abstract class XLoadMoreView(context: Context) : FrameLayout(context), XLoadMoreCallback {
-
-    private var state: Int = Callback.NORMAL
-
-    override fun onChange(state: Int) {
-        if (state == this.state) {
-            return
-        }
-        when (state) {
-            Callback.NORMAL -> onNormal()
-            Callback.LOAD -> onLoad()
-            Callback.SUCCESS -> onSuccess()
-            Callback.ERROR -> onError()
-            Callback.NO_MORE -> onNoMore()
-        }
-        this.state = state
-    }
-
-    override val currentState: Int
-        get() = state
-
+abstract class XLoadMoreView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr), XLoadMoreStatus {
+    override var status: LayoutStatus = LayoutStatus.NORMAL
     override val xRootView: View
         get() = this
 }

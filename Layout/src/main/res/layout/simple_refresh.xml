@@ -12,29 +12,29 @@
         tools:ignore="UselessParent">
 
         <ProgressBar
-            android:id="@+id/progressbar"
+            android:id="@+id/progressBar"
             android:layout_width="@dimen/simple_refresh_progressbar"
             android:layout_height="@dimen/simple_refresh_progressbar"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/simple_refresh_progressbar_right"
             android:layout_marginRight="@dimen/simple_refresh_progressbar_right"
-            android:layout_toStartOf="@+id/tvTips"
-            android:layout_toLeftOf="@+id/tvTips"
+            android:layout_toStartOf="@+id/show"
+            android:layout_toLeftOf="@+id/show"
             android:visibility="invisible" />
 
         <ImageView
-            android:id="@+id/ivTips"
+            android:id="@+id/action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/simple_refresh_progressbar_right"
             android:layout_marginRight="@dimen/simple_refresh_progressbar_right"
-            android:layout_toStartOf="@+id/tvTips"
-            android:layout_toLeftOf="@+id/tvTips"
+            android:layout_toStartOf="@+id/show"
+            android:layout_toLeftOf="@+id/show"
             android:background="@drawable/ic_refresh_action" />
 
         <TextView
-            android:id="@+id/tvTips"
+            android:id="@+id/show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
-import rv.adapter.sample.custom.CustomLoadMoreView
 import rv.adapter.sample.custom.CustomOnScrollListener
-import rv.adapter.sample.custom.CustomRefreshView
 import rv.adapter.sample.databinding.ActivityCustomBinding
 import rv.adapter.sample.json.JsonUtils
 import rv.adapter.sample.json.SampleEntity
@@ -26,8 +24,6 @@ class CustomActivity :
         viewBinding.include.recyclerView
             .linearLayoutManager()
             .attachXAdapter<SampleEntity>()
-            .customRefreshCallback(CustomRefreshView(applicationContext))
-            .customLoadMoreCallback(CustomLoadMoreView(applicationContext))
             .customScrollListener(CustomOnScrollListener())
             .setItemLayoutId(R.layout.layout_json_item)
             .openLoadingMore()
@@ -45,12 +41,12 @@ class CustomActivity :
             }
             .setRefreshListener {
                 this@CustomActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setRefreshState(Callback.SUCCESS)
+                    it.setRefreshStatus(LayoutStatus.SUCCESS)
                 }, 1500)
             }
             .setLoadMoreListener {
                 this@CustomActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setLoadMoreState(Callback.ERROR)
+                    it.setLoadMoreStatus(LayoutStatus.ERROR)
                 }, 1500)
             }
             .addAll(JsonUtils.jsonList)

@@ -2,26 +2,37 @@ package rv.adapter.layout
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.util.AttributeSet
 import android.view.View
 import android.view.ViewParent
 import android.widget.FrameLayout
+import kotlin.math.max
 
-abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(context),
-    XRefreshCallback {
+abstract class XRefreshView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr), XRefreshStatus {
 
-    private val refreshView: View = View.inflate(context, layoutId, null)
     private val animator: ValueAnimator = ValueAnimator.ofInt().setDuration(300)
-    private var initHeight: Int = 0
-    private var state: Int = Callback.NORMAL
+    private val childView by lazy { getChildAt(0) }
+    private val initHeight by lazy {
+        measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        measuredHeight
+    }
 
-    override val currentState: Int
-        get() = state
+    init {
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        animator.addUpdateListener { animation -> onChangedHeights(animation.animatedValue as Int) }
+    }
+
+    override var status: LayoutStatus = LayoutStatus.NORMAL
 
     override val visibleHeight: Int
-        get() = refreshView.layoutParams.height
+        get() = childView.layoutParams.height
 
     override val refreshParent: ViewParent?
-        get() = refreshView.parent
+        get() = childView.parent
 
     override val xRootView: View
         get() = this
@@ -29,61 +40,42 @@ abstract class XRefreshView(context: Context, layoutId: Int) : FrameLayout(conte
     override val isReleaseAction: Boolean
         get() {
             if (isReady) {
-                onChange(Callback.REFRESH)
+                onChanged(LayoutStatus.REFRESH)
             }
             smoothScrollTo(if (isRefresh) initHeight else 0)
             return isRefresh
         }
 
-    override fun onChange(state: Int) {
-        if (state == this.state) {
-            return
-        }
-        when (state) {
-            Callback.NORMAL -> onNormal()
-            Callback.READY -> onReady()
-            Callback.REFRESH -> onRefresh()
-            Callback.SUCCESS -> onSuccess()
-            Callback.ERROR -> onError()
-        }
-        this.state = state
+    override fun onChanged(status: LayoutStatus) {
+        super.onChanged(status)
         if (isDone) {
             postDelayed({ smoothScrollTo(0) }, 200)
         }
     }
 
-    override fun onChangeHeight(value: Int) {
-        val lastValue = if (value <= 0) 0 else value
-        if (lastValue == 0) {
-            onChange(Callback.NORMAL)
-        }
-        val lp = refreshView.layoutParams
-        lp.height = lastValue
-        refreshView.layoutParams = refreshView.layoutParams
-    }
-
-    override fun onChangeMoveHeight(value: Int) {
-        if (visibleHeight < 0 && value < 0) {
+    override fun onChangedHeight(height: Int) {
+        if (visibleHeight < 0 && height < 0) {
             return
         }
-        onChangeHeight(visibleHeight + value)
+        onChangedHeights(visibleHeight + height)
         if (isBegin) {
-            onChange(if (visibleHeight > initHeight) Callback.READY else Callback.NORMAL)
+            onChanged(if (visibleHeight > initHeight) LayoutStatus.READY else LayoutStatus.NORMAL)
         }
+    }
+
+    private fun onChangedHeights(height: Int) {
+        val lastValue = max(0, height)
+        if (lastValue == 0) {
+            onChanged(LayoutStatus.NORMAL)
+        }
+        val lp = childView.layoutParams
+        lp.height = lastValue
+        childView.layoutParams = lp
     }
 
     private fun smoothScrollTo(destHeight: Int) {
         animator.setIntValues(visibleHeight, destHeight)
         animator.start()
-    }
-
-    init {
-        @Suppress("LeakingThis")
-        addView(refreshView, LayoutParams(LayoutParams.MATCH_PARENT, 0))
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        initHeight = measuredHeight
-        animator.addUpdateListener { animation -> onChangeHeight(animation.animatedValue as Int) }
     }
 
 }

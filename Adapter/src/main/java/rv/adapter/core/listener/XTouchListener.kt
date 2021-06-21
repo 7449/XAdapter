@@ -3,7 +3,7 @@ package rv.adapter.core.listener
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import rv.adapter.layout.XRefreshCallback
+import rv.adapter.layout.XRefreshStatus
 
 /**
  * by y on 2016/11/15
@@ -11,7 +11,7 @@ import rv.adapter.layout.XRefreshCallback
 internal class XTouchListener(
     private val appBarCallBack: () -> Boolean,
     private val loadMoreCallback: () -> Boolean,
-    private val refreshCallback: XRefreshCallback,
+    private val refreshStatus: XRefreshStatus,
     private val refreshInterface: () -> Unit
 ) : View.OnTouchListener {
 
@@ -22,11 +22,11 @@ internal class XTouchListener(
     private var rawY = -1f
 
     private val isTop: Boolean
-        get() = refreshCallback.refreshParent != null
+        get() = refreshStatus.refreshParent != null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (refreshCallback.isRefresh || loadMoreCallback.invoke()) {
+        if (refreshStatus.isRefresh || loadMoreCallback.invoke()) {
             return false
         }
         if (rawY == -1f) {
@@ -38,15 +38,15 @@ internal class XTouchListener(
                 val deltaY = motionEvent.rawY - rawY
                 rawY = motionEvent.rawY
                 if (isTop && appBarCallBack.invoke()) {
-                    refreshCallback.onChangeMoveHeight((deltaY / DAMP).toInt())
-                    if (refreshCallback.visibleHeight > 0 && refreshCallback.isBegin) {
+                    refreshStatus.onChangedHeight((deltaY / DAMP).toInt())
+                    if (refreshStatus.visibleHeight > 0 && refreshStatus.isBegin) {
                         return true
                     }
                 }
             }
             else -> {
                 rawY = -1f
-                if (isTop && appBarCallBack.invoke() && refreshCallback.isReleaseAction) {
+                if (isTop && appBarCallBack.invoke() && refreshStatus.isReleaseAction) {
                     refreshInterface()
                 }
             }

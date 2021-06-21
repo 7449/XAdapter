@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="simple_refresh_progressbar_right">20dp</dimen>
+    <dimen name="simple_refresh_progressbar_right">10dp</dimen>
     <dimen name="simple_refresh_progressbar">25dp</dimen>
     <dimen name="simple_refresh_padding">10dp</dimen>
-    <dimen name="simple_load_more_progressbar_right">20dp</dimen>
+    <dimen name="simple_refresh_height">56dp</dimen>
+    <dimen name="simple_load_more_height">40dp</dimen>
+    <dimen name="simple_load_more_progressbar_right">10dp</dimen>
     <dimen name="simple_load_more_progressbar">25dp</dimen>
     <dimen name="simple_load_more_padding">10dp</dimen>
-    <dimen name="simple_refresh_height">56dp</dimen>
 </resources>

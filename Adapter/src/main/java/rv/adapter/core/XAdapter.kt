@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import rv.adapter.core.listener.XScrollListener
 import rv.adapter.core.listener.XTouchListener
-import rv.adapter.layout.Callback
-import rv.adapter.layout.XLoadMoreCallback
-import rv.adapter.layout.XRefreshCallback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.layout.simple.SimpleLoadMoreView
 import rv.adapter.layout.simple.SimpleRefreshView
 import rv.adapter.view.holder.XViewHolder
@@ -53,8 +53,8 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     private var pullRefreshEnabled = false
     private var loadingMoreEnabled = false
 
-    private var xRefreshCallback: XRefreshCallback? = null
-    private var xLoadMoreCallback: XLoadMoreCallback? = null
+    private var xRefreshStatus: XRefreshStatus? = null
+    private var xLoadMoreStatus: XLoadMoreStatus? = null
 
     var onScrollListener: RecyclerView.OnScrollListener? = null
         get() {
@@ -77,8 +77,8 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     private val onTouchListener: View.OnTouchListener by lazy {
         XTouchListener(
             xAppbarCallback ?: { true },
-            { xLoadMoreCallback?.isLoading ?: false },
-            xRefreshCallback.requireAny()
+            { xLoadMoreStatus?.isLoad ?: false },
+            xRefreshStatus.requireAny()
         ) { onRefresh() }
     }
 
@@ -90,24 +90,24 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             }
             field = value
             if (pullRefreshEnabled) {
-                if (xRefreshCallback == null) {
-                    xRefreshCallback = SimpleRefreshView(value.context)
+                if (xRefreshStatus == null) {
+                    xRefreshStatus = SimpleRefreshView(value.context)
                 }
                 value.setOnTouchListener(onTouchListener)
             }
             if (loadingMoreEnabled) {
-                if (xLoadMoreCallback == null) {
-                    xLoadMoreCallback = SimpleLoadMoreView(value.context)
+                if (xLoadMoreStatus == null) {
+                    xLoadMoreStatus = SimpleLoadMoreView(value.context)
                 }
                 value.addOnScrollListener(onScrollListener.requireAny())
             }
         }
 
-    val loadMoreState: Int
-        get() = xLoadMoreCallback?.currentState ?: Callback.NULL
+    val loadMoreStatus: LayoutStatus
+        get() = xLoadMoreStatus?.status ?: LayoutStatus.NORMAL
 
-    val refreshState: Int
-        get() = xRefreshCallback?.currentState ?: Callback.NULL
+    val refreshStatus: LayoutStatus
+        get() = xRefreshStatus?.status ?: LayoutStatus.NORMAL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
         if (recyclerView == null) {
@@ -120,8 +120,8 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
             return XViewHolder(footerViewContainer[viewType / adapterViewType - dataContainer.size - headerViewContainer.size])
         }
         return when (viewType) {
-            TYPE_REFRESH -> XViewHolder(xRefreshCallback.requireAny<XRefreshCallback>().xRootView)
-            TYPE_LOAD_MORE -> XViewHolder(xLoadMoreCallback.requireAny<XLoadMoreCallback>().xRootView)
+            TYPE_REFRESH -> XViewHolder(xRefreshStatus.requireAny<XRefreshStatus>().xRootView)
+            TYPE_LOAD_MORE -> XViewHolder(xLoadMoreStatus.requireAny<XLoadMoreStatus>().xRootView)
             TYPE_EMPTY -> XViewHolder(emptyView ?: FrameLayout(parent.context))
             else -> defaultViewHolder(parent)
         }
@@ -151,10 +151,10 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     }
 
     open fun onScrollBottom() {
-        if (dataContainer.isEmpty() || xRefreshCallback?.isRefresh == true || xLoadMoreCallback?.isLoading == true) {
+        if (dataContainer.isEmpty() || xRefreshStatus?.isRefresh == true || xLoadMoreStatus?.isLoad == true) {
             return
         }
-        xLoadMoreCallback?.onChange(Callback.LOAD)
+        xLoadMoreStatus?.onChanged(LayoutStatus.LOAD)
         xLoadMoreListener?.invoke(this)
     }
 
@@ -182,11 +182,11 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
 
     fun setEmptyView(emptyView: View) = also { this.emptyView = emptyView }
 
-    fun customRefreshCallback(callback: XRefreshCallback) =
-        also { this.xRefreshCallback = callback }
+    fun customRefreshCallback(status: XRefreshStatus) =
+        also { this.xRefreshStatus = status }
 
-    fun customLoadMoreCallback(callback: XLoadMoreCallback) =
-        also { this.xLoadMoreCallback = callback }
+    fun customLoadMoreCallback(status: XLoadMoreStatus) =
+        also { this.xLoadMoreStatus = status }
 
     fun customScrollListener(onScrollListener: RecyclerView.OnScrollListener) =
         also { this.onScrollListener = onScrollListener }
@@ -204,8 +204,8 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     fun setRefreshListener(action: (adapter: XAdapter<T>) -> Unit) =
         also { this.xRefreshListener = action }
 
-    fun setRefreshState(state: Int) = also {
-        xRefreshCallback?.onChange(state)
+    fun setRefreshStatus(status: LayoutStatus) = also {
+        xRefreshStatus?.onChanged(status)
         if (dataContainer.isEmpty() && headerViewContainer.isEmpty() && footerViewContainer.isEmpty()) {
             emptyView?.visibility = View.VISIBLE
         } else {
@@ -216,7 +216,7 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     fun setLoadMoreListener(action: (adapter: XAdapter<T>) -> Unit) =
         also { this.xLoadMoreListener = action }
 
-    fun setLoadMoreState(state: Int) = also { xLoadMoreCallback?.onChange(state) }
+    fun setLoadMoreStatus(status: LayoutStatus) = also { xLoadMoreStatus?.onChanged(status) }
 
     fun setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) =
         also { this.onXBindListener = action }
@@ -268,12 +268,12 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>() {
     fun refresh(view: RecyclerView) = also {
         openPullRefresh()
         recyclerView = view
-        xRefreshCallback?.let {
-            it.onChange(Callback.REFRESH)
-            it.onChangeMoveHeight(it.xRootView.measuredHeight)
+        xRefreshStatus?.let {
+            it.onChanged(LayoutStatus.REFRESH)
+            it.onChangedHeight(it.xRootView.measuredHeight)
             xRefreshListener?.invoke(this)
         }
-        xLoadMoreCallback?.onChange(Callback.NORMAL)
+        xLoadMoreStatus?.onChanged(LayoutStatus.NORMAL)
     }
 
     protected fun XViewHolder.viewHolderClick(): XViewHolder {

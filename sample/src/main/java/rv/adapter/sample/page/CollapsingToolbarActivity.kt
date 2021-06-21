@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import com.bumptech.glide.Glide
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityCollapsingToolbarBinding
@@ -36,15 +38,15 @@ class CollapsingToolbarActivity :
             }
             .setRefreshListener {
                 this@CollapsingToolbarActivity.viewBinding.recyclerView.postDelayed({
-                    viewBinding.recyclerView.setRefreshState(
-                        Callback.SUCCESS
+                    viewBinding.recyclerView.setRefreshStatus(
+                        LayoutStatus.SUCCESS
                     )
                 }, 1500)
             }
             .setLoadMoreListener {
                 this@CollapsingToolbarActivity.viewBinding.recyclerView.postDelayed({
-                    viewBinding.recyclerView.setLoadMoreState(
-                        Callback.NO_MORE
+                    viewBinding.recyclerView.setLoadMoreStatus(
+                        LayoutStatus.NO_MORE
                     )
                 }, 1500)
             }

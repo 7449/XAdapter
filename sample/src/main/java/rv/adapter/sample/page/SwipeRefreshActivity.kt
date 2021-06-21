@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
 import rv.adapter.recyclerview.*
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivitySwipeRefreshBinding
@@ -35,7 +35,7 @@ class SwipeRefreshActivity : BaseActivity<ActivitySwipeRefreshBinding>(
             }
             .setLoadMoreListener {
                 this@SwipeRefreshActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setLoadMoreState(Callback.ERROR)
+                    it.setLoadMoreStatus(LayoutStatus.ERROR)
                 }, 1500)
             }
         viewBinding.swipeRefresh.post { onRefresh() }
@@ -46,7 +46,7 @@ class SwipeRefreshActivity : BaseActivity<ActivitySwipeRefreshBinding>(
     }
 
     override fun onRefresh() {
-        if (viewBinding.include.recyclerView.xAdapter<SampleEntity>().loadMoreState == Callback.LOAD) {
+        if (viewBinding.include.recyclerView.xAdapter<SampleEntity>().loadMoreStatus == LayoutStatus.LOAD) {
             return
         }
         viewBinding.swipeRefresh.isRefreshing = true

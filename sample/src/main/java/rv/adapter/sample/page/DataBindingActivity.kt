@@ -10,10 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.LinearLayoutManager
 import rv.adapter.data.binding.XDataBindingAdapter
-import rv.adapter.layout.Callback
+import rv.adapter.layout.LayoutStatus
+import rv.adapter.layout.XLoadMoreStatus
+import rv.adapter.layout.XRefreshStatus
 import rv.adapter.recyclerview.convertDataBindingAdapter
-import rv.adapter.recyclerview.setLoadMoreState
-import rv.adapter.recyclerview.setRefreshState
+import rv.adapter.recyclerview.setLoadMoreStatus
+import rv.adapter.recyclerview.setRefreshStatus
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityDatabindingBinding
 import rv.adapter.sample.json.JsonUtils
@@ -73,12 +75,12 @@ class DataBindingActivity : AppCompatActivity() {
             }
             .setRefreshListener {
                 binding.recyclerView.postDelayed({
-                    binding.recyclerView.setRefreshState(Callback.SUCCESS)
+                    binding.recyclerView.setRefreshStatus(LayoutStatus.SUCCESS)
                 }, 4000)
             }
             .setLoadMoreListener {
                 binding.recyclerView.postDelayed({
-                    binding.recyclerView.setLoadMoreState(Callback.ERROR)
+                    binding.recyclerView.setLoadMoreStatus(LayoutStatus.ERROR)
                 }, 4000)
             }
             .addAll(JsonUtils.jsonList)
