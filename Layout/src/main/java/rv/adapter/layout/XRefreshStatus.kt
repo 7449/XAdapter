@@ -1,11 +1,11 @@
 package rv.adapter.layout
 
-import android.view.View
+import android.view.ViewGroup
 import android.view.ViewParent
 
 interface XRefreshStatus {
 
-    val xRootView: View
+    val xRootView: ViewGroup
 
     var status: LayoutStatus
 

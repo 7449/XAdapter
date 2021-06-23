@@ -18,7 +18,11 @@ internal class XScrollListener(private val scrollBottom: () -> Unit) :
 
     private var layoutManagerType: Int = NO_MANAGER
     private var lastVisibleItemPosition: Int = 0
-    var scrollItemCount: Int = 1
+    private var scrollItemCount: Int = 1
+
+    fun updateScrollItemCount(value: Int) {
+        this.scrollItemCount = value
+    }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)

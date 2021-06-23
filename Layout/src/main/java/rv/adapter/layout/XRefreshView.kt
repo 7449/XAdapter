@@ -3,7 +3,7 @@ package rv.adapter.layout
 import android.animation.ValueAnimator
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
+import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.FrameLayout
 import kotlin.math.max
@@ -34,7 +34,7 @@ abstract class XRefreshView @JvmOverloads constructor(
     override val refreshParent: ViewParent?
         get() = parent
 
-    override val xRootView: View
+    override val xRootView: ViewGroup
         get() = this
 
     override val isReleaseAction: Boolean

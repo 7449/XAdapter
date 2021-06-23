@@ -1,10 +1,10 @@
 package rv.adapter.data.binding
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
-import rv.adapter.core.ItemTypes
 import rv.adapter.core.XAdapter
 import rv.adapter.view.holder.XViewHolder
 
@@ -25,7 +25,12 @@ open class XDataBindingAdapter<T>(
             mData.addAll(value)
         }
 
-    override fun itemViewHolder(parent: ViewGroup): XViewHolder {
+    override fun createItemViewHolder(
+        parent: ViewGroup,
+        layoutId: Int,
+        click: ((view: View, position: Int, entity: T) -> Unit)?,
+        longClick: ((view: View, position: Int, entity: T) -> Boolean)?
+    ): XViewHolder {
         return XDataBindingHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -33,14 +38,17 @@ open class XDataBindingAdapter<T>(
                 parent,
                 false
             )
-        ).viewHolderClick().viewHolderLongClick()
+        ).apply {
+            clickListener(this, click)
+            longClickListener(this, longClick)
+        }
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
-        if (getItemViewType(position) != ItemTypes.ITEM.type) {
+        if (!isItem(position)) {
             return
         }
-        val pos = currentItemPosition(position)
+        val pos = currentPosition(position)
         holder as XDataBindingHolder
         holder.viewDataBinding.setVariable(variableId, mData[pos])
         if (executePendingBindings) {

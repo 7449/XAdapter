@@ -159,7 +159,7 @@ fun RecyclerView.removeAllNoItemViews() {
 
 fun RecyclerView.refresh(view: RecyclerView) {
     if (checkAdapter()) {
-        xAdapter<Any>().refresh(view)
+        xAdapter<Any>().autoRefresh(view)
     }
 }
 

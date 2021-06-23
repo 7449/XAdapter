@@ -1,10 +1,10 @@
 package rv.adapter.layout
 
-import android.view.View
+import android.view.ViewGroup
 
 interface XLoadMoreStatus {
 
-    val xRootView: View
+    val xRootView: ViewGroup
 
     var status: LayoutStatus
 

@@ -9,8 +9,8 @@ import rv.adapter.layout.XRefreshStatus
  * by y on 2016/11/15
  */
 internal class XTouchListener(
-    private val refreshStatus: XRefreshStatus,
-    private val appBarCallBack: () -> Boolean,
+    private val refreshStatus: () -> XRefreshStatus?,
+    private val appBar: () -> Boolean,
     private val loadMoreCallback: () -> Boolean,
     private val refreshInterface: () -> Unit
 ) : View.OnTouchListener {
@@ -22,11 +22,12 @@ internal class XTouchListener(
     private var rawY = -1f
 
     private val isTop: Boolean
-        get() = refreshStatus.refreshParent != null
+        get() = refreshStatus.invoke()?.refreshParent != null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        if (refreshStatus.isRefresh || loadMoreCallback.invoke()) {
+        val refreshView = refreshStatus.invoke()
+        if (refreshView == null || refreshView.isRefresh || loadMoreCallback.invoke()) {
             return false
         }
         if (rawY == -1f) {
@@ -37,16 +38,16 @@ internal class XTouchListener(
             MotionEvent.ACTION_MOVE -> {
                 val deltaY = motionEvent.rawY - rawY
                 rawY = motionEvent.rawY
-                if (isTop && appBarCallBack.invoke()) {
-                    refreshStatus.onChangedHeight((deltaY / DAMP).toInt())
-                    if (refreshStatus.visibleHeight > 0 && refreshStatus.isBegin) {
+                if (isTop && appBar.invoke()) {
+                    refreshView.onChangedHeight((deltaY / DAMP).toInt())
+                    if (refreshView.visibleHeight > 0 && refreshView.isBegin) {
                         return true
                     }
                 }
             }
             else -> {
                 rawY = -1f
-                if (isTop && appBarCallBack.invoke() && refreshStatus.isReleaseAction) {
+                if (isTop && appBar.invoke() && refreshView.isReleaseAction) {
                     refreshInterface()
                 }
             }
