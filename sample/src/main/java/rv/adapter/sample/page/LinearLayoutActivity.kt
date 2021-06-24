@@ -87,7 +87,7 @@ class LinearLayoutActivity :
                 }
                 loadMoreListener {
                     this@LinearLayoutActivity.viewBinding.include.recyclerView.postDelayed({
-                        it.setLoadMoreStatus(LayoutStatus.ERROR)
+                        it.setLoadingMoreStatus(LayoutStatus.ERROR)
                     }, 1500)
                 }
             }

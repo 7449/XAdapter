@@ -66,13 +66,13 @@ fun RecyclerView.setRefreshStatus(status: LayoutStatus) = also {
 
 fun RecyclerView.setLoadMoreListener(action: (adapter: XAdapter<*>) -> Unit) = also {
     if (checkAdapter()) {
-        xAdapter<Any>().setLoadMoreListener(action)
+        xAdapter<Any>().setLoadingMoreListener(action)
     }
 }
 
 fun RecyclerView.setLoadMoreStatus(status: LayoutStatus) = also {
     if (checkAdapter()) {
-        xAdapter<Any>().setLoadMoreStatus(status)
+        xAdapter<Any>().setLoadingMoreStatus(status)
     }
 }
 

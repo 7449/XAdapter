@@ -3,10 +3,12 @@
 package rv.adapter.recyclerview
 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import rv.adapter.core.XAdapter
 import rv.adapter.data.binding.XDataBindingAdapter
 import rv.adapter.multiple.XMultiAdapter
 import rv.adapter.multiple.XMultiCallBack
+import rv.adapter.view.binding.XViewBindingAdapter
 
 /**
  * get [XAdapter]
@@ -17,6 +19,11 @@ fun <T> RecyclerView.xAdapter() = adapter as XAdapter<T>
  * get [XDataBindingAdapter]
  */
 fun <T> RecyclerView.dataBindingAdapter() = adapter as XDataBindingAdapter<T>
+
+/**
+ * get [XViewBindingAdapter]
+ */
+fun <T, VB : ViewBinding> RecyclerView.viewBindingAdapter() = adapter as XViewBindingAdapter<T, VB>
 
 /**
  * get [XMultiAdapter]
@@ -78,6 +85,12 @@ fun <T> RecyclerView.convertDataBindingAdapter(variableId: Int) =
  */
 fun <T> RecyclerView.convertDataBindingAdapter(adapter: XDataBindingAdapter<T>) =
     also { setAdapter(adapter) }.dataBindingAdapter<T>()
+
+/**
+ * Init [XDataBindingAdapter]
+ */
+fun <T, VB : ViewBinding> RecyclerView.convertViewBindingAdapter(adapter: XViewBindingAdapter<T, VB>) =
+    also { setAdapter(adapter) }.viewBindingAdapter<T, VB>()
 
 /**
  * Init [XMultiAdapter]

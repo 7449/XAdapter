@@ -49,6 +49,9 @@
         <activity
             android:name=".page.DataBindingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".page.ViewBindingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
     <uses-permission

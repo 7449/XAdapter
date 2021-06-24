@@ -76,7 +76,7 @@ class DataBindingActivity : AppCompatActivity() {
                     binding.recyclerView.setRefreshStatus(LayoutStatus.SUCCESS)
                 }, 4000)
             }
-            .setLoadMoreListener {
+            .setLoadingMoreListener {
                 binding.recyclerView.postDelayed({
                     binding.recyclerView.setLoadMoreStatus(LayoutStatus.ERROR)
                 }, 4000)

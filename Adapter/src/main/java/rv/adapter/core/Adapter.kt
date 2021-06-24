@@ -15,6 +15,7 @@ import rv.adapter.layout.simple.SimpleLoadMoreView
 import rv.adapter.layout.simple.SimpleRefreshView
 import rv.adapter.view.holder.XViewHolder
 
+@SuppressLint("ClickableViewAccessibility")
 interface Adapter<T> {
 
     /**
@@ -28,14 +29,9 @@ interface Adapter<T> {
     val items: MutableList<T>
 
     /**
-     * 布局Id
-     */
-    val layoutId: Int
-
-    /**
      * 获取HeaderView
      */
-    val headerItems: ArrayList<View>
+    val headerViews: ArrayList<View>
 
     /**
      * HeaderView ViewType
@@ -45,7 +41,7 @@ interface Adapter<T> {
     /**
      * 获取FooterView
      */
-    val footerItems: ArrayList<View>
+    val footerViews: ArrayList<View>
 
     /**
      * FooterView ViewType
@@ -55,7 +51,7 @@ interface Adapter<T> {
     /**
      * 是否开启了下拉刷新
      */
-    val isPull: Boolean
+    val isPullRefresh: Boolean
 
     /**
      * 是否正在刷新
@@ -70,17 +66,17 @@ interface Adapter<T> {
     /**
      * 是否开启了上拉加载
      */
-    val isLoadMore: Boolean
+    val isLoadingMore: Boolean
 
     /**
      * 是否正在加载
      */
-    val isLoad: Boolean
+    val isLoading: Boolean
 
     /**
      * 当前加载状态
      */
-    val loadMoreStatus: LayoutStatus
+    val loadingMoreStatus: LayoutStatus
 
     /**
      * 默认的ViewType
@@ -91,21 +87,21 @@ interface Adapter<T> {
     /**
      * 总的Items.size
      */
-    fun adapterItemCount(): Int {
-        if (footerItems.isEmpty() && headerItems.isEmpty() && items.isEmpty()) {
+    fun finalItemCount(): Int {
+        if (footerViews.isEmpty() && headerViews.isEmpty() && items.isEmpty()) {
             // 2 refresh + empty ; 1 empty
-            return if (isPull) 2 else 1
+            return if (isPullRefresh) 2 else 1
         }
-        return items.size + if ((isLoadMore && items.isNotEmpty()) && isPull) {
+        return items.size + if ((isLoadingMore && items.isNotEmpty()) && isPullRefresh) {
             // load and refresh
             2
-        } else if ((isLoadMore && items.isNotEmpty()) || isPull) {
+        } else if ((isLoadingMore && items.isNotEmpty()) || isPullRefresh) {
             // refresh
             1
         } else {
             // nothing
             0
-        } + footerItems.size + headerItems.size
+        } + footerViews.size + headerViews.size
     }
 
     /**
@@ -113,39 +109,39 @@ interface Adapter<T> {
      * false 不是
      * true 是
      */
-    fun isItem(position: Int): Boolean {
-        return itemViewType(position) == ItemTypes.ITEM.type
+    fun isItemViewType(position: Int): Boolean {
+        return finalItemViewType(position) == ItemTypes.ITEM.type
     }
 
     /**
      * 获取ViewType
      */
-    fun itemViewType(position: Int): Int {
+    fun finalItemViewType(position: Int): Int {
         var mPos = position
-        if (isRefreshHeaderType(mPos)) {
+        if (isRefreshViewType(mPos)) {
             return ItemTypes.REFRESH.type
         }
-        if (isLoadMoreType(mPos)) {
+        if (isLoadingMoreViewType(mPos)) {
             return ItemTypes.LOAD_MORE.type
         }
-        if (isPull) {
+        if (isPullRefresh) {
             mPos -= 1
         }
-        if (isHeaderType(mPos)) {
+        if (isHeaderViewType(mPos)) {
             val headerType = mPos * adapterViewType
             if (!headerTypes.contains(headerType)) {
                 headerTypes.add(headerType)
             }
             return headerType
         }
-        if (isFooterType(mPos)) {
+        if (isFooterViewType(mPos)) {
             val footerType = mPos * adapterViewType
             if (!footerTypes.contains(footerType)) {
                 footerTypes.add(footerType)
             }
             return footerType
         }
-        if (isEmptyType(mPos)) {
+        if (isEmptyViewType(mPos)) {
             return ItemTypes.EMPTY.type
         }
         return ItemTypes.ITEM.type
@@ -156,59 +152,59 @@ interface Adapter<T> {
      */
     fun currentPosition(position: Int): Int {
         var mPos = position
-        if (isPull) {
+        if (isPullRefresh) {
             mPos -= 1
         }
-        return mPos - headerItems.size
+        return mPos - headerViews.size
     }
 
     /**
      * 是否为头部刷新ViewType
      */
-    fun isRefreshHeaderType(position: Int): Boolean {
-        return isPull && position == 0
+    fun isRefreshViewType(position: Int): Boolean {
+        return isPullRefresh && position == 0
     }
 
     /**
      * 是否为尾部刷新ViewType
      */
-    fun isLoadMoreType(position: Int): Boolean {
-        return isLoadMore && items.isNotEmpty() && position == adapter.itemCount - 1
+    fun isLoadingMoreViewType(position: Int): Boolean {
+        return isLoadingMore && items.isNotEmpty() && position == adapter.itemCount - 1
     }
 
     /**
      * 是否为HeaderView ViewType
      */
-    fun isHeaderType(position: Int): Boolean {
-        return headerItems.isNotEmpty() && position < headerItems.size
+    fun isHeaderViewType(position: Int): Boolean {
+        return headerViews.isNotEmpty() && position < headerViews.size
     }
 
     /**
      * 是否为FooterView ViewType
      */
-    fun isFooterType(position: Int): Boolean {
-        return footerItems.isNotEmpty() && position >= items.size + headerItems.size
+    fun isFooterViewType(position: Int): Boolean {
+        return footerViews.isNotEmpty() && position >= items.size + headerViews.size
     }
 
     /**
      * 是否为EmptyView ViewType
      */
-    fun isEmptyType(position: Int): Boolean {
-        return items.isEmpty() && headerItems.isEmpty() && footerItems.isEmpty()
+    fun isEmptyViewType(position: Int): Boolean {
+        return items.isEmpty() && headerViews.isEmpty() && footerViews.isEmpty()
     }
 
     /**
      * 获取HeaderView ViewHolder
      */
     fun createHeaderViewHolder(viewType: Int): XViewHolder {
-        return XViewHolder(headerItems[viewType / adapterViewType])
+        return XViewHolder(headerViews[viewType / adapterViewType])
     }
 
     /**
      * 获取FooterView ViewHolder
      */
     fun createFooterViewHolder(viewType: Int): XViewHolder {
-        return XViewHolder(footerItems[viewType / adapterViewType - items.size - headerItems.size])
+        return XViewHolder(footerViews[viewType / adapterViewType - items.size - headerViews.size])
     }
 
     /**
@@ -228,14 +224,14 @@ interface Adapter<T> {
     /**
      * 获取LoadMoreView
      */
-    fun createLoadMoreView(parent: ViewGroup): XLoadMoreStatus {
+    fun createLoadingMoreView(parent: ViewGroup): XLoadMoreStatus {
         return SimpleLoadMoreView(parent.context)
     }
 
     /**
      * 获取LoadMore ViewHolder
      */
-    fun createLoadViewHolder(parent: ViewGroup, status: XLoadMoreStatus): XViewHolder {
+    fun createLoadingViewHolder(parent: ViewGroup, status: XLoadMoreStatus): XViewHolder {
         return XViewHolder(status.xRootView)
     }
 
@@ -258,15 +254,15 @@ interface Adapter<T> {
         return XViewHolder(
             LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
         ).apply {
-            clickListener(this, click)
-            longClickListener(this, longClick)
+            setOnClickListener(this, click)
+            setOnLongClickListener(this, longClick)
         }
     }
 
     /**
      * 点击事件
      */
-    fun clickListener(
+    fun setOnClickListener(
         holder: XViewHolder,
         action: ((view: View, position: Int, entity: T) -> Unit)?
     ): XViewHolder {
@@ -285,7 +281,7 @@ interface Adapter<T> {
     /**
      * 长按事件
      */
-    fun longClickListener(
+    fun setOnLongClickListener(
         holder: XViewHolder,
         action: ((view: View, position: Int, entity: T) -> Boolean)?
     ): XViewHolder {
@@ -304,7 +300,6 @@ interface Adapter<T> {
     /**
      * 注册滑动和触摸
      */
-    @SuppressLint("ClickableViewAccessibility")
     fun registerListener(
         view: RecyclerView,
         onScrollListener: RecyclerView.OnScrollListener,
@@ -318,7 +313,6 @@ interface Adapter<T> {
     /**
      * 取消注册滑动和触摸
      */
-    @SuppressLint("ClickableViewAccessibility")
     fun unregisterListener(
         view: RecyclerView,
         onScrollListener: RecyclerView.OnScrollListener
@@ -335,7 +329,7 @@ interface Adapter<T> {
         if (manager is GridLayoutManager) {
             manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int =
-                    if (adapter.getItemViewType(position) != ItemTypes.ITEM.type)
+                    if (!isItemViewType(position))
                         manager.spanCount
                     else
                         1
@@ -349,8 +343,7 @@ interface Adapter<T> {
     fun attachedToWindow(viewHolder: RecyclerView.ViewHolder) {
         viewHolder.itemView.layoutParams?.let {
             if (it is StaggeredGridLayoutManager.LayoutParams) {
-                it.isFullSpan =
-                    adapter.getItemViewType(viewHolder.layoutPosition) != ItemTypes.ITEM.type
+                it.isFullSpan = !isItemViewType(viewHolder.bindingAdapterPosition)
             }
         }
     }

@@ -39,18 +39,18 @@ open class XDataBindingAdapter<T>(
                 false
             )
         ).apply {
-            clickListener(this, click)
-            longClickListener(this, longClick)
+            setOnClickListener(this, click)
+            setOnLongClickListener(this, longClick)
         }
     }
 
     override fun onBindViewHolder(holder: XViewHolder, position: Int) {
-        if (!isItem(position)) {
+        if (!isItemViewType(position)) {
             return
         }
         val pos = currentPosition(position)
         holder as XDataBindingHolder
-        holder.viewDataBinding.setVariable(variableId, mData[pos])
+        holder.viewDataBinding.setVariable(variableId, getItem(pos))
         if (executePendingBindings) {
             holder.viewDataBinding.executePendingBindings()
         }

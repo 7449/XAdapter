@@ -20,18 +20,6 @@ interface AdapterAchieve<T> : AdapterApi<T> {
         }
     }
 
-    override fun setScrollLoadMoreItemCount(count: Int): XAdapter<T> {
-        return adapter.apply {
-            scrollLoadMoreItemCount = count
-        }
-    }
-
-    override fun setAppbarCallback(action: () -> Boolean): XAdapter<T> {
-        return adapter.apply {
-            appbarCallback = action
-        }
-    }
-
     override fun bindItem(action: (holder: XViewHolder, position: Int, entity: T) -> Unit): XAdapter<T> {
         return adapter.apply {
             bindListener = action
@@ -50,15 +38,21 @@ interface AdapterAchieve<T> : AdapterApi<T> {
         }
     }
 
+    override fun setAppbarListener(action: () -> Boolean): XAdapter<T> {
+        return adapter.apply {
+            appBarListener = action
+        }
+    }
+
     override fun setRefreshListener(action: (adapter: XAdapter<T>) -> Unit): XAdapter<T> {
         return adapter.apply {
             refreshListener = action
         }
     }
 
-    override fun setLoadMoreListener(action: (adapter: XAdapter<T>) -> Unit): XAdapter<T> {
+    override fun setLoadingMoreListener(action: (adapter: XAdapter<T>) -> Unit): XAdapter<T> {
         return adapter.apply {
-            loadMoreListener = action
+            loadingMoreListener = action
         }
     }
 
@@ -80,20 +74,40 @@ interface AdapterAchieve<T> : AdapterApi<T> {
         }
     }
 
-    override fun setLoadMoreView(view: XLoadMoreStatus): XAdapter<T> {
+    override fun setLoadingMoreView(view: XLoadMoreStatus): XAdapter<T> {
         return adapter.apply {
             xLoadMoreStatus = view
         }
+    }
+
+    override fun setScrollLoadMoreItemCount(count: Int): XAdapter<T> {
+        return adapter.apply {
+            scrollLoadMoreItemCount = count
+        }
+    }
+
+    override fun onRefresh() {
+        adapter.emptyView?.visibility = View.GONE
+        adapter.xLoadMoreStatus?.xRootView?.visibility = View.GONE
+        adapter.refreshListener?.invoke(adapter)
+    }
+
+    override fun onLoadingMore() {
+        if (items.isEmpty() || isRefresh || isLoading || !isLoadingMore) {
+            return
+        }
+        setLoadingMoreStatus(LayoutStatus.LOAD)
+        adapter.loadingMoreListener?.invoke(adapter)
     }
 
     override fun setRefreshStatus(status: LayoutStatus): XAdapter<T> {
         return adapter.apply {
             xRefreshStatus?.onChanged(status)
             if (xRefreshStatus?.isDone == true && loadingMoreEnabled) {
-                xLoadMoreStatus?.xRootView?.getChildAt(0)?.visibility = View.VISIBLE
-                xLoadMoreStatus?.onChanged(LayoutStatus.NORMAL)
+                xLoadMoreStatus?.xRootView?.visibility = View.VISIBLE
+                setLoadingMoreStatus(LayoutStatus.NORMAL)
             }
-            if (items.isEmpty() && headerItems.isEmpty() && footerItems.isEmpty()) {
+            if (items.isEmpty() && headerViews.isEmpty() && footerViews.isEmpty()) {
                 emptyView?.visibility = View.VISIBLE
             } else {
                 emptyView?.visibility = View.GONE
@@ -101,26 +115,10 @@ interface AdapterAchieve<T> : AdapterApi<T> {
         }
     }
 
-    override fun setLoadMoreStatus(status: LayoutStatus): XAdapter<T> {
+    override fun setLoadingMoreStatus(status: LayoutStatus): XAdapter<T> {
         return adapter.apply {
             xLoadMoreStatus?.onChanged(status)
         }
-    }
-
-    override fun onRefresh() {
-        adapter.emptyView?.visibility = View.GONE
-        if (isPull) {
-            adapter.xLoadMoreStatus?.xRootView?.getChildAt(0)?.visibility = View.GONE
-        }
-        adapter.refreshListener?.invoke(adapter)
-    }
-
-    override fun onLoadMore() {
-        if (items.isEmpty() || isRefresh || isLoad) {
-            return
-        }
-        adapter.xLoadMoreStatus?.onChanged(LayoutStatus.LOAD)
-        adapter.loadMoreListener?.invoke(adapter)
     }
 
 }

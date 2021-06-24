@@ -35,7 +35,7 @@ class SwipeRefreshActivity : BaseActivity<ActivitySwipeRefreshBinding>(
             }
             .setLoadMoreListener {
                 this@SwipeRefreshActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setLoadMoreStatus(LayoutStatus.ERROR)
+                    it.setLoadingMoreStatus(LayoutStatus.ERROR)
                 }, 1500)
             }
         viewBinding.swipeRefresh.post { onRefresh() }
@@ -46,7 +46,7 @@ class SwipeRefreshActivity : BaseActivity<ActivitySwipeRefreshBinding>(
     }
 
     override fun onRefresh() {
-        if (viewBinding.include.recyclerView.xAdapter<SampleEntity>().loadMoreStatus == LayoutStatus.LOAD) {
+        if (viewBinding.include.recyclerView.xAdapter<SampleEntity>().loadingMoreStatus == LayoutStatus.LOAD) {
             return
         }
         viewBinding.swipeRefresh.isRefreshing = true

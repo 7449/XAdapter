@@ -39,7 +39,7 @@ class EmptyActivity : BaseActivity<ActivityEmptyBinding>(R.layout.activity_empty
             }
             .setLoadMoreListener {
                 this@EmptyActivity.viewBinding.include.recyclerView.postDelayed({
-                    it.setLoadMoreStatus(LayoutStatus.ERROR)
+                    it.setLoadingMoreStatus(LayoutStatus.ERROR)
                 }, 1500)
             }
             .addAll(ArrayList())

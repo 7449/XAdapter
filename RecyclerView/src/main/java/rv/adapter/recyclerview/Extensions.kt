@@ -66,7 +66,7 @@ class AdapterExtensionsDSL<T> {
         onItemClickListener?.let { xAdapter.setOnItemClickListener(it) }
         onItemLongClickListener?.let { xAdapter.setOnItemLongClickListener(it) }
         xRefreshListener?.let { xAdapter.setRefreshListener(it) }
-        xLoadMoreListener?.let { xAdapter.setLoadMoreListener(it) }
+        xLoadMoreListener?.let { xAdapter.setLoadingMoreListener(it) }
         return xAdapter
     }
 }
