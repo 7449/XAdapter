@@ -10,13 +10,9 @@ import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityCollapsingToolbarBinding
 import rv.adapter.sample.json.JsonUtils
 import rv.adapter.sample.json.SampleEntity
-import rv.adapter.sample.supportAppbar
 
 class CollapsingToolbarActivity :
-    BaseActivity<ActivityCollapsingToolbarBinding>(
-        R.layout.activity_collapsing_toolbar,
-        "CollapsingToolbarSample"
-    ) {
+    BaseActivity<ActivityCollapsingToolbarBinding>(R.layout.activity_collapsing_toolbar) {
 
     override fun onCreateViewBinding(rootView: View): ActivityCollapsingToolbarBinding {
         return ActivityCollapsingToolbarBinding.bind(rootView)

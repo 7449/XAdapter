@@ -4,8 +4,7 @@ include(
     ":RecyclerView",
     ":DataBinding",
     ":Layout",
-    ":Multiple",
     ":Material",
-    ":ViewHolder"
+    ":ViewHolder",
+    ":ViewBinding"
 )
-include(":ViewBinding")

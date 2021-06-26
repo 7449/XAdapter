@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">XAdapterSample</string>
     <string name="emptyView">没有数据</string>
-    <string name="network">NetWork</string>
-    <string name="linearlayoutmanager">LinearLayoutManager</string>
     <string name="gridlayoutmanager">GridLayoutManager</string>
     <string name="staggeredgridlayoutmanager">StaggeredGridLayoutManager</string>
     <string name="collapsingtoolbarlayout">CollapsingToolbarLayout</string>
-    <string name="multiadapter">MultiAdapter</string>
     <string name="databinding">DataBinding</string>
     <string name="viewbinding">ViewBinding</string>
     <string name="swiperefreshlayout">SwipeRefreshLayout</string>
-    <string name="sample">Sample</string>
     <string name="tips">tips</string>
     <string name="emptyview">EmptyView</string>
 </resources>

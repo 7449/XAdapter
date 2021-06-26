@@ -239,7 +239,7 @@ interface Adapter<T> {
      * 获取EmptyView ViewHolder
      */
     fun createEmptyViewHolder(view: View?, parent: ViewGroup): XViewHolder {
-        return XViewHolder(view ?: FrameLayout(parent.context))
+        return XViewHolder((view ?: FrameLayout(parent.context)))
     }
 
     /**

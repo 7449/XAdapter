@@ -12,23 +12,14 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/simple_load_more_progressbar_right"
         android:layout_marginRight="@dimen/simple_load_more_progressbar_right"
-        android:layout_toStartOf="@id/include"
-        android:layout_toLeftOf="@+id/include" />
-
-    <View
-        android:id="@+id/include"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        android:layout_toStartOf="@id/show"
+        android:layout_toLeftOf="@+id/show" />
 
     <TextView
         android:id="@+id/show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/include"
-        android:layout_toRightOf="@+id/include"
+        android:layout_centerInParent="true"
         tools:ignore="RelativeOverlap"
         tools:text="LOAD" />
 

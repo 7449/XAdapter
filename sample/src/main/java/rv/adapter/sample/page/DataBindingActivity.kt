@@ -48,10 +48,6 @@ class DataBindingActivity : AppCompatActivity() {
                 LayoutInflater.from(applicationContext)
                     .inflate(R.layout.adapter_header_2, findViewById(android.R.id.content), false)
             )
-            .addHeaderView(
-                LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_header_3, findViewById(android.R.id.content), false)
-            )
             .addFooterView(
                 LayoutInflater.from(applicationContext)
                     .inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false)
@@ -59,10 +55,6 @@ class DataBindingActivity : AppCompatActivity() {
             .addFooterView(
                 LayoutInflater.from(applicationContext)
                     .inflate(R.layout.adapter_footer_2, findViewById(android.R.id.content), false)
-            )
-            .addFooterView(
-                LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_footer_3, findViewById(android.R.id.content), false)
             )
             .setOnItemClickListener { _, position, _ ->
                 Toast.makeText(baseContext, "position:$position", Toast.LENGTH_SHORT).show()

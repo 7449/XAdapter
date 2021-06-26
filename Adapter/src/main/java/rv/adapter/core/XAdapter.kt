@@ -84,7 +84,6 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>(), AdapterAchieve<T> 
             onScrollListener.updateScrollItemCount(value)
         }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): XViewHolder {
         if (headerTypes.contains(viewType)) {
             return createHeaderViewHolder(viewType)

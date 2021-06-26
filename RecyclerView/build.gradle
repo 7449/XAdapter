@@ -14,10 +14,11 @@ android {
 dependencies {
     compileOnly project(path: ':Layout')
     compileOnly project(path: ':Adapter')
-    compileOnly project(path: ':Multiple')
     compileOnly project(path: ':ViewHolder')
+    compileOnly project(path: ':Material')
     compileOnly project(path: ':DataBinding')
     compileOnly project(path: ':ViewBinding')
+    implementation "com.google.android.material:material:$googleMaterialVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

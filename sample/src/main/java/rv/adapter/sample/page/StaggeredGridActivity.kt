@@ -15,10 +15,7 @@ import rv.adapter.sample.json.SampleEntity
  * by y on 2016/11/17
  */
 class StaggeredGridActivity :
-    BaseActivity<ActivityStaggeredManagerBinding>(
-        R.layout.activity_staggered_manager,
-        "StaggeredGridLayoutManagerSample"
-    ) {
+    BaseActivity<ActivityStaggeredManagerBinding>(R.layout.activity_staggered_manager) {
 
     override fun onCreateViewBinding(rootView: View): ActivityStaggeredManagerBinding {
         return ActivityStaggeredManagerBinding.bind(rootView)

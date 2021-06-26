@@ -2,9 +2,6 @@ package rv.adapter.sample.json
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import rv.adapter.multiple.SimpleXMultiItem
-import rv.adapter.sample.R
-import rv.adapter.sample.page.MultipleActivity
 
 /**
  * by y on 2016/11/17
@@ -16,69 +13,5 @@ object JsonUtils {
 
     val jsonList: ArrayList<SampleEntity> =
         Gson().fromJson(json, object : TypeToken<ArrayList<SampleEntity>>() {}.type)
-
-    val multipleList = ArrayList<SimpleXMultiItem>().apply {
-        add(SimpleXMultiItem(itemMultiType = MultipleActivity.TYPE_LINE))
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 0,
-                message = "头像",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-        add(SimpleXMultiItem(itemMultiType = MultipleActivity.TYPE_LINE))
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 1,
-                message = "收藏",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 2,
-                message = "相册",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-        add(SimpleXMultiItem(itemMultiType = MultipleActivity.TYPE_LINE))
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 3,
-                message = "钱包",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 4,
-                message = "卡包",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-        add(SimpleXMultiItem(itemMultiType = MultipleActivity.TYPE_LINE))
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 5,
-                message = "表情",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-        add(SimpleXMultiItem(itemMultiType = MultipleActivity.TYPE_LINE))
-        add(
-            SimpleXMultiItem(
-                itemMultiType = MultipleActivity.TYPE_ITEM,
-                itemMultiPosition = 6,
-                message = "设置",
-                icon = R.mipmap.ic_launcher
-            )
-        )
-    }
 
 }

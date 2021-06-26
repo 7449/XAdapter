@@ -11,7 +11,6 @@ import rv.adapter.sample.viewBindingInflater
 
 abstract class BaseActivity<VB : ViewBinding>(
     private val layoutId: Int,
-    private val title: String = "",
     private val showBackIcon: Boolean = true
 ) : AppCompatActivity() {
 
@@ -26,7 +25,7 @@ abstract class BaseActivity<VB : ViewBinding>(
         setContentView(R.layout.activity_base)
         setSupportActionBar(viewBind.toolbar)
         viewBind.rootView.addView(View.inflate(this, layoutId, null))
-        viewBind.toolbar.title = title
+        viewBind.toolbar.title = javaClass.simpleName
         supportActionBar?.setDisplayHomeAsUpEnabled(showBackIcon)
     }
 

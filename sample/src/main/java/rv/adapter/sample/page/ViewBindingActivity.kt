@@ -6,7 +6,10 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import rv.adapter.layout.LayoutStatus
-import rv.adapter.recyclerview.*
+import rv.adapter.recyclerview.convertViewBindingAdapter
+import rv.adapter.recyclerview.linearLayoutManager
+import rv.adapter.recyclerview.setLoadMoreStatus
+import rv.adapter.recyclerview.setRefreshStatus
 import rv.adapter.sample.R
 import rv.adapter.sample.databinding.ActivityViewbindingBinding
 import rv.adapter.sample.databinding.LayoutJsonItemBinding
@@ -18,10 +21,7 @@ import rv.adapter.view.binding.XViewBindingAdapter
  * by y on 2016/11/17
  */
 class ViewBindingActivity :
-    BaseActivity<ActivityViewbindingBinding>(
-        R.layout.activity_linear_manager,
-        "ViewBindingSample"
-    ) {
+    BaseActivity<ActivityViewbindingBinding>(R.layout.activity_viewbinding) {
 
     override fun onCreateViewBinding(rootView: View): ActivityViewbindingBinding {
         return ActivityViewbindingBinding.bind(rootView)
@@ -29,10 +29,8 @@ class ViewBindingActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewBinding.include.recyclerView
             .linearLayoutManager()
-            .fixedSize()
             .convertViewBindingAdapter(XViewBindingAdapter<SampleEntity, LayoutJsonItemBinding>())
             .onCreateViewBinding {
                 LayoutJsonItemBinding.inflate(LayoutInflater.from(it.context), it, false)

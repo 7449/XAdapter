@@ -12,11 +12,3 @@ fun RecyclerView.gridLayoutManager(spanCount: Int = 2) =
 
 fun RecyclerView.staggeredGridLayoutManager(spanCount: Int, orientation: Int) =
     also { layoutManager = StaggeredGridLayoutManager(spanCount, orientation) }
-
-fun RecyclerView.horizontalStaggeredGridLayoutManager(spanCount: Int) = also {
-    layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.HORIZONTAL)
-}
-
-fun RecyclerView.orientationStaggeredGridLayoutManager(spanCount: Int) = also {
-    layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
-}

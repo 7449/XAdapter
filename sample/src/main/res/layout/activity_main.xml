@@ -11,31 +11,10 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/sample"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sample"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/network"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/network"
-            android:textAllCaps="false" />
-
-        <Button
             android:id="@+id/swiperefreshlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/swiperefreshlayout"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/linearlayoutmanager"
             android:textAllCaps="false" />
 
         <Button
@@ -57,13 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/collapsingtoolbarlayout"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/multiple"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/multiadapter"
             android:textAllCaps="false" />
 
         <Button

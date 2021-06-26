@@ -60,7 +60,7 @@ abstract class XRefreshView @JvmOverloads constructor(
     }
 
     override fun onChangedHeight(height: Int) {
-        if (visibleHeight < 0 || height < 0) {
+        if (visibleHeight < 0 && height < 0) {
             return
         }
         onChangedHeights(visibleHeight + height)

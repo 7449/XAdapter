@@ -15,10 +15,8 @@ import rv.adapter.sample.json.SampleEntity
 /**
  * by y on 2016/11/17
  */
-class GridLayoutActivity : BaseActivity<ActivityGridManagerBinding>(
-    R.layout.activity_grid_manager,
-    "GridLayoutManagerSample"
-) {
+class GridLayoutActivity :
+    BaseActivity<ActivityGridManagerBinding>(R.layout.activity_grid_manager) {
 
     override fun onCreateViewBinding(rootView: View): ActivityGridManagerBinding {
         return ActivityGridManagerBinding.bind(rootView)

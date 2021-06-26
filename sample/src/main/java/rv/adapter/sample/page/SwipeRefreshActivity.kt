@@ -11,10 +11,8 @@ import rv.adapter.sample.databinding.ActivitySwipeRefreshBinding
 import rv.adapter.sample.json.JsonUtils
 import rv.adapter.sample.json.SampleEntity
 
-class SwipeRefreshActivity : BaseActivity<ActivitySwipeRefreshBinding>(
-    R.layout.activity_swipe_refresh,
-    "SwipeRefreshSample"
-),
+class SwipeRefreshActivity :
+    BaseActivity<ActivitySwipeRefreshBinding>(R.layout.activity_swipe_refresh),
     SwipeRefreshLayout.OnRefreshListener {
 
     override fun onCreateViewBinding(rootView: View): ActivitySwipeRefreshBinding {
