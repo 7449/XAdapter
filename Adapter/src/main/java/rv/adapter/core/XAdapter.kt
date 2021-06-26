@@ -67,7 +67,6 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>(), AdapterAchieve<T> 
             { isLoading }) { onRefresh() }
 
     internal var itemLayoutId = View.NO_ID
-    internal var emptyView: View? = null
     internal var appBarListener: (() -> Boolean) = { true }
     internal var bindListener: ((holder: XViewHolder, position: Int, entity: T) -> Unit)? = null
     internal var pullRefreshEnabled = false
@@ -103,7 +102,6 @@ open class XAdapter<T> : RecyclerView.Adapter<XViewHolder>(), AdapterAchieve<T> 
                 parent,
                 checkNotNull(xLoadMoreStatus)
             )
-            ItemTypes.EMPTY.type -> createEmptyViewHolder(emptyView, parent)
             else -> createItemViewHolder(parent, itemLayoutId, clickListener, longClickListener)
         }
     }

@@ -3,7 +3,6 @@ package rv.adapter.sample.page
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -15,7 +14,7 @@ import rv.adapter.recyclerview.convertDataBindingAdapter
 import rv.adapter.recyclerview.setLoadMoreStatus
 import rv.adapter.recyclerview.setRefreshStatus
 import rv.adapter.sample.R
-import rv.adapter.sample.databinding.ActivityDatabindingBinding
+import rv.adapter.sample.databinding.ActivityDataBindingBinding
 import rv.adapter.sample.json.JsonUtils
 import rv.adapter.sample.json.SampleEntity
 
@@ -25,11 +24,11 @@ import rv.adapter.sample.json.SampleEntity
  */
 class DataBindingActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDatabindingBinding
+    private lateinit var binding: ActivityDataBindingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_databinding)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_data_binding)
         setSupportActionBar(findViewById(R.id.toolbar))
         findViewById<Toolbar>(R.id.toolbar).title = title
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -42,27 +41,12 @@ class DataBindingActivity : AppCompatActivity() {
             .openLoadingMore()
             .addHeaderView(
                 LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false)
-            )
-            .addHeaderView(
-                LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_header_2, findViewById(android.R.id.content), false)
+                    .inflate(R.layout.adapter_header, findViewById(android.R.id.content), false)
             )
             .addFooterView(
                 LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false)
+                    .inflate(R.layout.adapter_footer, findViewById(android.R.id.content), false)
             )
-            .addFooterView(
-                LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_footer_2, findViewById(android.R.id.content), false)
-            )
-            .setOnItemClickListener { _, position, _ ->
-                Toast.makeText(baseContext, "position:$position", Toast.LENGTH_SHORT).show()
-            }
-            .setOnItemLongClickListener { _, _, _ ->
-                Toast.makeText(baseContext, "onLongClick", Toast.LENGTH_SHORT).show()
-                true
-            }
             .setRefreshListener {
                 binding.recyclerView.postDelayed({
                     binding.recyclerView.setRefreshStatus(LayoutStatus.SUCCESS)

@@ -11,7 +11,6 @@ import rv.adapter.view.holder.XViewHolder
 interface AdapterApi<T> : Adapter<T> {
 
     fun setItemLayoutId(layoutId: Int): XAdapter<T>
-    fun setEmptyView(view: View): XAdapter<T>
     fun bindItem(action: (holder: XViewHolder, position: Int, entity: T) -> Unit): XAdapter<T>
     fun pullRefresh(switch: Boolean): XAdapter<T>
     fun loadMore(switch: Boolean): XAdapter<T>
@@ -89,38 +88,6 @@ interface AdapterApi<T> : Adapter<T> {
         if (isNotify) {
             adapter.notifyDataSetChanged()
         }
-    }
-
-    fun removeHeader(index: Int) = also {
-        headerViews.removeAt(index)
-        headerTypes.removeAt(if (index == 0) 0 else index / adapterViewType)
-        adapter.notifyDataSetChanged()
-    }
-
-    fun removeHeader(view: View) = also {
-        val indexOf = headerViews.indexOf(view)
-        if (indexOf == -1) return@also
-        removeHeader(indexOf)
-    }
-
-    fun removeFooter(index: Int) = also {
-        footerViews.removeAt(index)
-        footerTypes.removeAt(if (index == 0) 0 else index / adapterViewType)
-        adapter.notifyDataSetChanged()
-    }
-
-    fun removeFooter(view: View) = also {
-        val indexOf = footerViews.indexOf(view)
-        if (indexOf == -1) return@also
-        removeFooter(indexOf)
-    }
-
-    fun removeAllNoItemViews() {
-        headerTypes.clear()
-        footerTypes.clear()
-        headerViews.clear()
-        footerViews.clear()
-        adapter.notifyDataSetChanged()
     }
 
     fun autoRefresh(

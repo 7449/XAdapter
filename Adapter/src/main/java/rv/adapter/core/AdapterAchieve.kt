@@ -14,12 +14,6 @@ interface AdapterAchieve<T> : AdapterApi<T> {
         }
     }
 
-    override fun setEmptyView(view: View): XAdapter<T> {
-        return adapter.apply {
-            emptyView = view
-        }
-    }
-
     override fun bindItem(action: (holder: XViewHolder, position: Int, entity: T) -> Unit): XAdapter<T> {
         return adapter.apply {
             bindListener = action
@@ -87,7 +81,6 @@ interface AdapterAchieve<T> : AdapterApi<T> {
     }
 
     override fun onRefresh() {
-        adapter.emptyView?.visibility = View.GONE
         adapter.xLoadMoreStatus?.xRootView?.visibility = View.GONE
         adapter.refreshListener?.invoke(adapter)
     }
@@ -106,11 +99,6 @@ interface AdapterAchieve<T> : AdapterApi<T> {
             if (xRefreshStatus?.isDone == true && loadingMoreEnabled) {
                 xLoadMoreStatus?.xRootView?.visibility = View.VISIBLE
                 setLoadingMoreStatus(LayoutStatus.NORMAL)
-            }
-            if (items.isEmpty() && headerViews.isEmpty() && footerViews.isEmpty()) {
-                emptyView?.visibility = View.VISIBLE
-            } else {
-                emptyView?.visibility = View.GONE
             }
         }
     }

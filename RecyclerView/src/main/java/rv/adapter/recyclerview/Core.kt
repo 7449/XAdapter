@@ -26,12 +26,6 @@ fun RecyclerView.setItemLayoutId(layoutId: Int) = also {
     }
 }
 
-fun RecyclerView.setEmptyView(view: View) = also {
-    if (checkAdapter()) {
-        xAdapter<Any>().setEmptyView(view)
-    }
-}
-
 fun <T> RecyclerView.setOnBind(action: (holder: XViewHolder, position: Int, entity: T) -> Unit) =
     also {
         if (checkAdapter()) {
@@ -183,41 +177,10 @@ fun RecyclerView.remove(position: Int, isNotify: Boolean = true) {
     }
 }
 
-fun RecyclerView.removeHeader(index: Int) {
-    if (checkAdapter()) {
-        xAdapter<Any>().removeHeader(index)
-    }
-}
-
-fun RecyclerView.removeHeader(view: View) {
-    if (checkAdapter()) {
-        xAdapter<Any>().removeHeader(view)
-    }
-}
-
-fun RecyclerView.removeFooter(index: Int) {
-    if (checkAdapter()) {
-        xAdapter<Any>().removeFooter(index)
-    }
-}
-
-fun RecyclerView.removeFooter(view: View) {
-    if (checkAdapter()) {
-        xAdapter<Any>().removeFooter(view)
-    }
-}
-
-fun RecyclerView.removeAllNoItemViews() {
-    if (checkAdapter()) {
-        xAdapter<Any>().removeAllNoItemViews()
-    }
-}
-
-fun RecyclerView.refresh(
-    view: RecyclerView,
-    refreshView: XRefreshStatus = SimpleRefreshView(view.context)
+fun RecyclerView.autoRefresh(
+    refreshView: XRefreshStatus = SimpleRefreshView(context)
 ) {
     if (checkAdapter()) {
-        xAdapter<Any>().autoRefresh(view, refreshView)
+        xAdapter<Any>().autoRefresh(this, refreshView)
     }
 }

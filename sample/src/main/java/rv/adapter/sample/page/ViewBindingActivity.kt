@@ -11,7 +11,7 @@ import rv.adapter.recyclerview.linearLayoutManager
 import rv.adapter.recyclerview.setLoadMoreStatus
 import rv.adapter.recyclerview.setRefreshStatus
 import rv.adapter.sample.R
-import rv.adapter.sample.databinding.ActivityViewbindingBinding
+import rv.adapter.sample.databinding.ActivityViewBindingBinding
 import rv.adapter.sample.databinding.LayoutJsonItemBinding
 import rv.adapter.sample.json.JsonUtils
 import rv.adapter.sample.json.SampleEntity
@@ -21,10 +21,10 @@ import rv.adapter.view.binding.XViewBindingAdapter
  * by y on 2016/11/17
  */
 class ViewBindingActivity :
-    BaseActivity<ActivityViewbindingBinding>(R.layout.activity_viewbinding) {
+    BaseActivity<ActivityViewBindingBinding>(R.layout.activity_view_binding) {
 
-    override fun onCreateViewBinding(rootView: View): ActivityViewbindingBinding {
-        return ActivityViewbindingBinding.bind(rootView)
+    override fun onCreateViewBinding(rootView: View): ActivityViewBindingBinding {
+        return ActivityViewBindingBinding.bind(rootView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +44,11 @@ class ViewBindingActivity :
             .openLoadingMore()
             .addHeaderView(
                 LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_header_1, findViewById(android.R.id.content), false)
+                    .inflate(R.layout.adapter_header, findViewById(android.R.id.content), false)
             )
             .addFooterView(
                 LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.adapter_footer_1, findViewById(android.R.id.content), false)
+                    .inflate(R.layout.adapter_footer, findViewById(android.R.id.content), false)
             )
             .setOnItemClickListener { _, position, _ ->
                 Toast.makeText(baseContext, "position:$position", Toast.LENGTH_SHORT).show()

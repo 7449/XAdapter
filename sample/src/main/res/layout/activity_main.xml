@@ -1,63 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootViews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/rootViews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/swiperefreshlayout"
-            android:layout_width="match_parent"
+            android:id="@+id/data_binding"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/swiperefreshlayout"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="@string/data_binding"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/gridLayout"
-            android:layout_width="match_parent"
+            android:id="@+id/view_binding"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/gridlayoutmanager"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="@string/view_binding"
             android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/staggeredGridLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/staggeredgridlayoutmanager"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/collapsingToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/collapsingtoolbarlayout"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/databinding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/databinding"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/viewBinding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/viewbinding"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/emptyview"
-            android:textAllCaps="false" />
-
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/linear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="Linear"
+            android:textAllCaps="false"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/grid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="Grid"
+            android:textAllCaps="false"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/staggered"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="Staggered"
+            android:textAllCaps="false"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

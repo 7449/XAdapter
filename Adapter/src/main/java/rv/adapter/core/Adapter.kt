@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -88,10 +87,6 @@ interface Adapter<T> {
      * 总的Items.size
      */
     fun finalItemCount(): Int {
-        if (footerViews.isEmpty() && headerViews.isEmpty() && items.isEmpty()) {
-            // 2 refresh + empty ; 1 empty
-            return if (isPullRefresh) 2 else 1
-        }
         return items.size + if ((isLoadingMore && items.isNotEmpty()) && isPullRefresh) {
             // load and refresh
             2
@@ -141,9 +136,6 @@ interface Adapter<T> {
             }
             return footerType
         }
-        if (isEmptyViewType(mPos)) {
-            return ItemTypes.EMPTY.type
-        }
         return ItemTypes.ITEM.type
     }
 
@@ -187,13 +179,6 @@ interface Adapter<T> {
     }
 
     /**
-     * 是否为EmptyView ViewType
-     */
-    fun isEmptyViewType(position: Int): Boolean {
-        return items.isEmpty() && headerViews.isEmpty() && footerViews.isEmpty()
-    }
-
-    /**
      * 获取HeaderView ViewHolder
      */
     fun createHeaderViewHolder(viewType: Int): XViewHolder {
@@ -233,13 +218,6 @@ interface Adapter<T> {
      */
     fun createLoadingViewHolder(parent: ViewGroup, status: XLoadMoreStatus): XViewHolder {
         return XViewHolder(status.xRootView)
-    }
-
-    /**
-     * 获取EmptyView ViewHolder
-     */
-    fun createEmptyViewHolder(view: View?, parent: ViewGroup): XViewHolder {
-        return XViewHolder((view ?: FrameLayout(parent.context)))
     }
 
     /**

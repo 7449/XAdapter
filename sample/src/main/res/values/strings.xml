@@ -1,12 +1,5 @@
 <resources>
-    <string name="app_name">XAdapterSample</string>
-    <string name="emptyView">没有数据</string>
-    <string name="gridlayoutmanager">GridLayoutManager</string>
-    <string name="staggeredgridlayoutmanager">StaggeredGridLayoutManager</string>
-    <string name="collapsingtoolbarlayout">CollapsingToolbarLayout</string>
-    <string name="databinding">DataBinding</string>
-    <string name="viewbinding">ViewBinding</string>
-    <string name="swiperefreshlayout">SwipeRefreshLayout</string>
-    <string name="tips">tips</string>
-    <string name="emptyview">EmptyView</string>
+    <string name="app_name">XAdapter</string>
+    <string name="data_binding">DataBinding</string>
+    <string name="view_binding">ViewBinding</string>
 </resources>

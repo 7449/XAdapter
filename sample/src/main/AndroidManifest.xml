@@ -20,21 +20,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".page.EmptyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".page.SwipeRefreshActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".page.GridLayoutActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".page.StaggeredGridActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".page.CollapsingToolbarActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".page.DataBindingActivity"
             android:screenOrientation="portrait" />
         <activity
